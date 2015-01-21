@@ -1,0 +1,14 @@
+
+1.Install hid4java
+git clone https://github.com/bwallet/hid4java.git
+cd hid4java
+mvn clean install
+
+2.Compile and package bwallet-tools
+git clone https://github.com/bwallet/bwallet-tools.git
+cd bwallet-tools
+mvn package
+
+3.Usage
+mvn exec:java -Dexec.mainClass="com.bdx.bwallet.tools.Main" -Dexec.args="--cmd=update-firmware --firmware=C:\bwallet-1.2.1.bin.hex"
+java -jar target/bwallet-tools-0.0.1-SNAPSHOT-jar-with-dependencies.jar --cmd=update-firmware --firmware=C:\bwallet-1.2.1.bin.hex
