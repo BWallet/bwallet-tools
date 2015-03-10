@@ -9,6 +9,8 @@ import org.hid4java.HidDeviceInfo;
 import org.hid4java.HidException;
 import org.hid4java.HidServices;
 
+import com.google.protobuf.Message;
+
 public abstract class AbstractTool implements Tool {
 
 	private HidServices hidServices = null;
@@ -41,6 +43,9 @@ public abstract class AbstractTool implements Tool {
 			}
 		}
 		return devices;
+	}
+	
+	protected void handleMessage(HidDevice device, Message message) {
 	}
 	
 	protected void closeDevice(HidDevice device) {
