@@ -134,6 +134,10 @@ public class WalletService implements HidServicesListener {
         context.beginChangePINUseCase(remove);
     }
     
+    public void testScreen(int delayTime) {
+        context.beginTestScreenUseCase(delayTime);
+    }
+    
     /**
      * @return 32 bytes (256 bits) of entropy generated locally
      */

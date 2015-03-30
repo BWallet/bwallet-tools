@@ -209,6 +209,14 @@ public final class BWalletType {
      * <code>PAYTOSCRIPTHASH = 1;</code>
      */
     PAYTOSCRIPTHASH(1, 1),
+    /**
+     * <code>PAYTOMULTISIG = 2;</code>
+     */
+    PAYTOMULTISIG(2, 2),
+    /**
+     * <code>PAYTOOPRETURN = 3;</code>
+     */
+    PAYTOOPRETURN(3, 3),
     ;
 
     /**
@@ -219,6 +227,14 @@ public final class BWalletType {
      * <code>PAYTOSCRIPTHASH = 1;</code>
      */
     public static final int PAYTOSCRIPTHASH_VALUE = 1;
+    /**
+     * <code>PAYTOMULTISIG = 2;</code>
+     */
+    public static final int PAYTOMULTISIG_VALUE = 2;
+    /**
+     * <code>PAYTOOPRETURN = 3;</code>
+     */
+    public static final int PAYTOOPRETURN_VALUE = 3;
 
 
     public final int getNumber() { return value; }
@@ -227,6 +243,8 @@ public final class BWalletType {
       switch (value) {
         case 0: return PAYTOADDRESS;
         case 1: return PAYTOSCRIPTHASH;
+        case 2: return PAYTOMULTISIG;
+        case 3: return PAYTOOPRETURN;
         default: return null;
       }
     }
@@ -1591,6 +1609,798 @@ public final class BWalletType {
     // @@protoc_insertion_point(class_scope:HDNodeType)
   }
 
+  public interface HDNodePathTypeOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required .HDNodeType node = 1;
+    /**
+     * <code>required .HDNodeType node = 1;</code>
+     *
+     * <pre>
+     * BIP-32 node in deserialized form
+     * </pre>
+     */
+    boolean hasNode();
+    /**
+     * <code>required .HDNodeType node = 1;</code>
+     *
+     * <pre>
+     * BIP-32 node in deserialized form
+     * </pre>
+     */
+    com.bdx.bwallet.protobuf.BWalletType.HDNodeType getNode();
+    /**
+     * <code>required .HDNodeType node = 1;</code>
+     *
+     * <pre>
+     * BIP-32 node in deserialized form
+     * </pre>
+     */
+    com.bdx.bwallet.protobuf.BWalletType.HDNodeTypeOrBuilder getNodeOrBuilder();
+
+    // repeated uint32 address_n = 2;
+    /**
+     * <code>repeated uint32 address_n = 2;</code>
+     *
+     * <pre>
+     * BIP-32 path to derive the key from node
+     * </pre>
+     */
+    java.util.List<java.lang.Integer> getAddressNList();
+    /**
+     * <code>repeated uint32 address_n = 2;</code>
+     *
+     * <pre>
+     * BIP-32 path to derive the key from node
+     * </pre>
+     */
+    int getAddressNCount();
+    /**
+     * <code>repeated uint32 address_n = 2;</code>
+     *
+     * <pre>
+     * BIP-32 path to derive the key from node
+     * </pre>
+     */
+    int getAddressN(int index);
+  }
+  /**
+   * Protobuf type {@code HDNodePathType}
+   */
+  public static final class HDNodePathType extends
+      com.google.protobuf.GeneratedMessage
+      implements HDNodePathTypeOrBuilder {
+    // Use HDNodePathType.newBuilder() to construct.
+    private HDNodePathType(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private HDNodePathType(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final HDNodePathType defaultInstance;
+    public static HDNodePathType getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public HDNodePathType getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private HDNodePathType(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              com.bdx.bwallet.protobuf.BWalletType.HDNodeType.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000001) == 0x00000001)) {
+                subBuilder = node_.toBuilder();
+              }
+              node_ = input.readMessage(com.bdx.bwallet.protobuf.BWalletType.HDNodeType.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(node_);
+                node_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00000001;
+              break;
+            }
+            case 16: {
+              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+                addressN_ = new java.util.ArrayList<java.lang.Integer>();
+                mutable_bitField0_ |= 0x00000002;
+              }
+              addressN_.add(input.readUInt32());
+              break;
+            }
+            case 18: {
+              int length = input.readRawVarint32();
+              int limit = input.pushLimit(length);
+              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002) && input.getBytesUntilLimit() > 0) {
+                addressN_ = new java.util.ArrayList<java.lang.Integer>();
+                mutable_bitField0_ |= 0x00000002;
+              }
+              while (input.getBytesUntilLimit() > 0) {
+                addressN_.add(input.readUInt32());
+              }
+              input.popLimit(limit);
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+          addressN_ = java.util.Collections.unmodifiableList(addressN_);
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.bdx.bwallet.protobuf.BWalletType.internal_static_HDNodePathType_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.bdx.bwallet.protobuf.BWalletType.internal_static_HDNodePathType_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.bdx.bwallet.protobuf.BWalletType.HDNodePathType.class, com.bdx.bwallet.protobuf.BWalletType.HDNodePathType.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<HDNodePathType> PARSER =
+        new com.google.protobuf.AbstractParser<HDNodePathType>() {
+      public HDNodePathType parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new HDNodePathType(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<HDNodePathType> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required .HDNodeType node = 1;
+    public static final int NODE_FIELD_NUMBER = 1;
+    private com.bdx.bwallet.protobuf.BWalletType.HDNodeType node_;
+    /**
+     * <code>required .HDNodeType node = 1;</code>
+     *
+     * <pre>
+     * BIP-32 node in deserialized form
+     * </pre>
+     */
+    public boolean hasNode() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required .HDNodeType node = 1;</code>
+     *
+     * <pre>
+     * BIP-32 node in deserialized form
+     * </pre>
+     */
+    public com.bdx.bwallet.protobuf.BWalletType.HDNodeType getNode() {
+      return node_;
+    }
+    /**
+     * <code>required .HDNodeType node = 1;</code>
+     *
+     * <pre>
+     * BIP-32 node in deserialized form
+     * </pre>
+     */
+    public com.bdx.bwallet.protobuf.BWalletType.HDNodeTypeOrBuilder getNodeOrBuilder() {
+      return node_;
+    }
+
+    // repeated uint32 address_n = 2;
+    public static final int ADDRESS_N_FIELD_NUMBER = 2;
+    private java.util.List<java.lang.Integer> addressN_;
+    /**
+     * <code>repeated uint32 address_n = 2;</code>
+     *
+     * <pre>
+     * BIP-32 path to derive the key from node
+     * </pre>
+     */
+    public java.util.List<java.lang.Integer>
+        getAddressNList() {
+      return addressN_;
+    }
+    /**
+     * <code>repeated uint32 address_n = 2;</code>
+     *
+     * <pre>
+     * BIP-32 path to derive the key from node
+     * </pre>
+     */
+    public int getAddressNCount() {
+      return addressN_.size();
+    }
+    /**
+     * <code>repeated uint32 address_n = 2;</code>
+     *
+     * <pre>
+     * BIP-32 path to derive the key from node
+     * </pre>
+     */
+    public int getAddressN(int index) {
+      return addressN_.get(index);
+    }
+
+    private void initFields() {
+      node_ = com.bdx.bwallet.protobuf.BWalletType.HDNodeType.getDefaultInstance();
+      addressN_ = java.util.Collections.emptyList();
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasNode()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!getNode().isInitialized()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeMessage(1, node_);
+      }
+      for (int i = 0; i < addressN_.size(); i++) {
+        output.writeUInt32(2, addressN_.get(i));
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, node_);
+      }
+      {
+        int dataSize = 0;
+        for (int i = 0; i < addressN_.size(); i++) {
+          dataSize += com.google.protobuf.CodedOutputStream
+            .computeUInt32SizeNoTag(addressN_.get(i));
+        }
+        size += dataSize;
+        size += 1 * getAddressNList().size();
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.bdx.bwallet.protobuf.BWalletType.HDNodePathType parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.bdx.bwallet.protobuf.BWalletType.HDNodePathType parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.bdx.bwallet.protobuf.BWalletType.HDNodePathType parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.bdx.bwallet.protobuf.BWalletType.HDNodePathType parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.bdx.bwallet.protobuf.BWalletType.HDNodePathType parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.bdx.bwallet.protobuf.BWalletType.HDNodePathType parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.bdx.bwallet.protobuf.BWalletType.HDNodePathType parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.bdx.bwallet.protobuf.BWalletType.HDNodePathType parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.bdx.bwallet.protobuf.BWalletType.HDNodePathType parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.bdx.bwallet.protobuf.BWalletType.HDNodePathType parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.bdx.bwallet.protobuf.BWalletType.HDNodePathType prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code HDNodePathType}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.bdx.bwallet.protobuf.BWalletType.HDNodePathTypeOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.bdx.bwallet.protobuf.BWalletType.internal_static_HDNodePathType_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.bdx.bwallet.protobuf.BWalletType.internal_static_HDNodePathType_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.bdx.bwallet.protobuf.BWalletType.HDNodePathType.class, com.bdx.bwallet.protobuf.BWalletType.HDNodePathType.Builder.class);
+      }
+
+      // Construct using com.bdx.bwallet.protobuf.BWalletType.HDNodePathType.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getNodeFieldBuilder();
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        if (nodeBuilder_ == null) {
+          node_ = com.bdx.bwallet.protobuf.BWalletType.HDNodeType.getDefaultInstance();
+        } else {
+          nodeBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000001);
+        addressN_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000002);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.bdx.bwallet.protobuf.BWalletType.internal_static_HDNodePathType_descriptor;
+      }
+
+      public com.bdx.bwallet.protobuf.BWalletType.HDNodePathType getDefaultInstanceForType() {
+        return com.bdx.bwallet.protobuf.BWalletType.HDNodePathType.getDefaultInstance();
+      }
+
+      public com.bdx.bwallet.protobuf.BWalletType.HDNodePathType build() {
+        com.bdx.bwallet.protobuf.BWalletType.HDNodePathType result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.bdx.bwallet.protobuf.BWalletType.HDNodePathType buildPartial() {
+        com.bdx.bwallet.protobuf.BWalletType.HDNodePathType result = new com.bdx.bwallet.protobuf.BWalletType.HDNodePathType(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        if (nodeBuilder_ == null) {
+          result.node_ = node_;
+        } else {
+          result.node_ = nodeBuilder_.build();
+        }
+        if (((bitField0_ & 0x00000002) == 0x00000002)) {
+          addressN_ = java.util.Collections.unmodifiableList(addressN_);
+          bitField0_ = (bitField0_ & ~0x00000002);
+        }
+        result.addressN_ = addressN_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.bdx.bwallet.protobuf.BWalletType.HDNodePathType) {
+          return mergeFrom((com.bdx.bwallet.protobuf.BWalletType.HDNodePathType)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.bdx.bwallet.protobuf.BWalletType.HDNodePathType other) {
+        if (other == com.bdx.bwallet.protobuf.BWalletType.HDNodePathType.getDefaultInstance()) return this;
+        if (other.hasNode()) {
+          mergeNode(other.getNode());
+        }
+        if (!other.addressN_.isEmpty()) {
+          if (addressN_.isEmpty()) {
+            addressN_ = other.addressN_;
+            bitField0_ = (bitField0_ & ~0x00000002);
+          } else {
+            ensureAddressNIsMutable();
+            addressN_.addAll(other.addressN_);
+          }
+          onChanged();
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasNode()) {
+          
+          return false;
+        }
+        if (!getNode().isInitialized()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.bdx.bwallet.protobuf.BWalletType.HDNodePathType parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.bdx.bwallet.protobuf.BWalletType.HDNodePathType) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required .HDNodeType node = 1;
+      private com.bdx.bwallet.protobuf.BWalletType.HDNodeType node_ = com.bdx.bwallet.protobuf.BWalletType.HDNodeType.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          com.bdx.bwallet.protobuf.BWalletType.HDNodeType, com.bdx.bwallet.protobuf.BWalletType.HDNodeType.Builder, com.bdx.bwallet.protobuf.BWalletType.HDNodeTypeOrBuilder> nodeBuilder_;
+      /**
+       * <code>required .HDNodeType node = 1;</code>
+       *
+       * <pre>
+       * BIP-32 node in deserialized form
+       * </pre>
+       */
+      public boolean hasNode() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required .HDNodeType node = 1;</code>
+       *
+       * <pre>
+       * BIP-32 node in deserialized form
+       * </pre>
+       */
+      public com.bdx.bwallet.protobuf.BWalletType.HDNodeType getNode() {
+        if (nodeBuilder_ == null) {
+          return node_;
+        } else {
+          return nodeBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>required .HDNodeType node = 1;</code>
+       *
+       * <pre>
+       * BIP-32 node in deserialized form
+       * </pre>
+       */
+      public Builder setNode(com.bdx.bwallet.protobuf.BWalletType.HDNodeType value) {
+        if (nodeBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          node_ = value;
+          onChanged();
+        } else {
+          nodeBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000001;
+        return this;
+      }
+      /**
+       * <code>required .HDNodeType node = 1;</code>
+       *
+       * <pre>
+       * BIP-32 node in deserialized form
+       * </pre>
+       */
+      public Builder setNode(
+          com.bdx.bwallet.protobuf.BWalletType.HDNodeType.Builder builderForValue) {
+        if (nodeBuilder_ == null) {
+          node_ = builderForValue.build();
+          onChanged();
+        } else {
+          nodeBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000001;
+        return this;
+      }
+      /**
+       * <code>required .HDNodeType node = 1;</code>
+       *
+       * <pre>
+       * BIP-32 node in deserialized form
+       * </pre>
+       */
+      public Builder mergeNode(com.bdx.bwallet.protobuf.BWalletType.HDNodeType value) {
+        if (nodeBuilder_ == null) {
+          if (((bitField0_ & 0x00000001) == 0x00000001) &&
+              node_ != com.bdx.bwallet.protobuf.BWalletType.HDNodeType.getDefaultInstance()) {
+            node_ =
+              com.bdx.bwallet.protobuf.BWalletType.HDNodeType.newBuilder(node_).mergeFrom(value).buildPartial();
+          } else {
+            node_ = value;
+          }
+          onChanged();
+        } else {
+          nodeBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000001;
+        return this;
+      }
+      /**
+       * <code>required .HDNodeType node = 1;</code>
+       *
+       * <pre>
+       * BIP-32 node in deserialized form
+       * </pre>
+       */
+      public Builder clearNode() {
+        if (nodeBuilder_ == null) {
+          node_ = com.bdx.bwallet.protobuf.BWalletType.HDNodeType.getDefaultInstance();
+          onChanged();
+        } else {
+          nodeBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000001);
+        return this;
+      }
+      /**
+       * <code>required .HDNodeType node = 1;</code>
+       *
+       * <pre>
+       * BIP-32 node in deserialized form
+       * </pre>
+       */
+      public com.bdx.bwallet.protobuf.BWalletType.HDNodeType.Builder getNodeBuilder() {
+        bitField0_ |= 0x00000001;
+        onChanged();
+        return getNodeFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>required .HDNodeType node = 1;</code>
+       *
+       * <pre>
+       * BIP-32 node in deserialized form
+       * </pre>
+       */
+      public com.bdx.bwallet.protobuf.BWalletType.HDNodeTypeOrBuilder getNodeOrBuilder() {
+        if (nodeBuilder_ != null) {
+          return nodeBuilder_.getMessageOrBuilder();
+        } else {
+          return node_;
+        }
+      }
+      /**
+       * <code>required .HDNodeType node = 1;</code>
+       *
+       * <pre>
+       * BIP-32 node in deserialized form
+       * </pre>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          com.bdx.bwallet.protobuf.BWalletType.HDNodeType, com.bdx.bwallet.protobuf.BWalletType.HDNodeType.Builder, com.bdx.bwallet.protobuf.BWalletType.HDNodeTypeOrBuilder> 
+          getNodeFieldBuilder() {
+        if (nodeBuilder_ == null) {
+          nodeBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              com.bdx.bwallet.protobuf.BWalletType.HDNodeType, com.bdx.bwallet.protobuf.BWalletType.HDNodeType.Builder, com.bdx.bwallet.protobuf.BWalletType.HDNodeTypeOrBuilder>(
+                  node_,
+                  getParentForChildren(),
+                  isClean());
+          node_ = null;
+        }
+        return nodeBuilder_;
+      }
+
+      // repeated uint32 address_n = 2;
+      private java.util.List<java.lang.Integer> addressN_ = java.util.Collections.emptyList();
+      private void ensureAddressNIsMutable() {
+        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
+          addressN_ = new java.util.ArrayList<java.lang.Integer>(addressN_);
+          bitField0_ |= 0x00000002;
+         }
+      }
+      /**
+       * <code>repeated uint32 address_n = 2;</code>
+       *
+       * <pre>
+       * BIP-32 path to derive the key from node
+       * </pre>
+       */
+      public java.util.List<java.lang.Integer>
+          getAddressNList() {
+        return java.util.Collections.unmodifiableList(addressN_);
+      }
+      /**
+       * <code>repeated uint32 address_n = 2;</code>
+       *
+       * <pre>
+       * BIP-32 path to derive the key from node
+       * </pre>
+       */
+      public int getAddressNCount() {
+        return addressN_.size();
+      }
+      /**
+       * <code>repeated uint32 address_n = 2;</code>
+       *
+       * <pre>
+       * BIP-32 path to derive the key from node
+       * </pre>
+       */
+      public int getAddressN(int index) {
+        return addressN_.get(index);
+      }
+      /**
+       * <code>repeated uint32 address_n = 2;</code>
+       *
+       * <pre>
+       * BIP-32 path to derive the key from node
+       * </pre>
+       */
+      public Builder setAddressN(
+          int index, int value) {
+        ensureAddressNIsMutable();
+        addressN_.set(index, value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated uint32 address_n = 2;</code>
+       *
+       * <pre>
+       * BIP-32 path to derive the key from node
+       * </pre>
+       */
+      public Builder addAddressN(int value) {
+        ensureAddressNIsMutable();
+        addressN_.add(value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated uint32 address_n = 2;</code>
+       *
+       * <pre>
+       * BIP-32 path to derive the key from node
+       * </pre>
+       */
+      public Builder addAllAddressN(
+          java.lang.Iterable<? extends java.lang.Integer> values) {
+        ensureAddressNIsMutable();
+        super.addAll(values, addressN_);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated uint32 address_n = 2;</code>
+       *
+       * <pre>
+       * BIP-32 path to derive the key from node
+       * </pre>
+       */
+      public Builder clearAddressN() {
+        addressN_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000002);
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:HDNodePathType)
+    }
+
+    static {
+      defaultInstance = new HDNodePathType(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:HDNodePathType)
+  }
+
   public interface CoinTypeOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
@@ -1624,13 +2434,13 @@ public final class BWalletType {
     com.google.protobuf.ByteString
         getCoinShortcutBytes();
 
-    // optional uint32 address_type = 3;
+    // optional uint32 address_type = 3 [default = 0];
     /**
-     * <code>optional uint32 address_type = 3;</code>
+     * <code>optional uint32 address_type = 3 [default = 0];</code>
      */
     boolean hasAddressType();
     /**
-     * <code>optional uint32 address_type = 3;</code>
+     * <code>optional uint32 address_type = 3 [default = 0];</code>
      */
     int getAddressType();
 
@@ -1643,6 +2453,16 @@ public final class BWalletType {
      * <code>optional uint64 maxfee_kb = 4;</code>
      */
     long getMaxfeeKb();
+
+    // optional uint32 address_type_p2sh = 5 [default = 5];
+    /**
+     * <code>optional uint32 address_type_p2sh = 5 [default = 5];</code>
+     */
+    boolean hasAddressTypeP2Sh();
+    /**
+     * <code>optional uint32 address_type_p2sh = 5 [default = 5];</code>
+     */
+    int getAddressTypeP2Sh();
   }
   /**
    * Protobuf type {@code CoinType}
@@ -1719,6 +2539,11 @@ public final class BWalletType {
             case 32: {
               bitField0_ |= 0x00000008;
               maxfeeKb_ = input.readUInt64();
+              break;
+            }
+            case 40: {
+              bitField0_ |= 0x00000010;
+              addressTypeP2Sh_ = input.readUInt32();
               break;
             }
           }
@@ -1847,17 +2672,17 @@ public final class BWalletType {
       }
     }
 
-    // optional uint32 address_type = 3;
+    // optional uint32 address_type = 3 [default = 0];
     public static final int ADDRESS_TYPE_FIELD_NUMBER = 3;
     private int addressType_;
     /**
-     * <code>optional uint32 address_type = 3;</code>
+     * <code>optional uint32 address_type = 3 [default = 0];</code>
      */
     public boolean hasAddressType() {
       return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
-     * <code>optional uint32 address_type = 3;</code>
+     * <code>optional uint32 address_type = 3 [default = 0];</code>
      */
     public int getAddressType() {
       return addressType_;
@@ -1879,11 +2704,28 @@ public final class BWalletType {
       return maxfeeKb_;
     }
 
+    // optional uint32 address_type_p2sh = 5 [default = 5];
+    public static final int ADDRESS_TYPE_P2SH_FIELD_NUMBER = 5;
+    private int addressTypeP2Sh_;
+    /**
+     * <code>optional uint32 address_type_p2sh = 5 [default = 5];</code>
+     */
+    public boolean hasAddressTypeP2Sh() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>optional uint32 address_type_p2sh = 5 [default = 5];</code>
+     */
+    public int getAddressTypeP2Sh() {
+      return addressTypeP2Sh_;
+    }
+
     private void initFields() {
       coinName_ = "";
       coinShortcut_ = "";
       addressType_ = 0;
       maxfeeKb_ = 0L;
+      addressTypeP2Sh_ = 5;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -1909,6 +2751,9 @@ public final class BWalletType {
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         output.writeUInt64(4, maxfeeKb_);
       }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        output.writeUInt32(5, addressTypeP2Sh_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -1933,6 +2778,10 @@ public final class BWalletType {
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         size += com.google.protobuf.CodedOutputStream
           .computeUInt64Size(4, maxfeeKb_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(5, addressTypeP2Sh_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -2064,6 +2913,8 @@ public final class BWalletType {
         bitField0_ = (bitField0_ & ~0x00000004);
         maxfeeKb_ = 0L;
         bitField0_ = (bitField0_ & ~0x00000008);
+        addressTypeP2Sh_ = 5;
+        bitField0_ = (bitField0_ & ~0x00000010);
         return this;
       }
 
@@ -2108,6 +2959,10 @@ public final class BWalletType {
           to_bitField0_ |= 0x00000008;
         }
         result.maxfeeKb_ = maxfeeKb_;
+        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+          to_bitField0_ |= 0x00000010;
+        }
+        result.addressTypeP2Sh_ = addressTypeP2Sh_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -2139,6 +2994,9 @@ public final class BWalletType {
         }
         if (other.hasMaxfeeKb()) {
           setMaxfeeKb(other.getMaxfeeKb());
+        }
+        if (other.hasAddressTypeP2Sh()) {
+          setAddressTypeP2Sh(other.getAddressTypeP2Sh());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -2315,22 +3173,22 @@ public final class BWalletType {
         return this;
       }
 
-      // optional uint32 address_type = 3;
+      // optional uint32 address_type = 3 [default = 0];
       private int addressType_ ;
       /**
-       * <code>optional uint32 address_type = 3;</code>
+       * <code>optional uint32 address_type = 3 [default = 0];</code>
        */
       public boolean hasAddressType() {
         return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
-       * <code>optional uint32 address_type = 3;</code>
+       * <code>optional uint32 address_type = 3 [default = 0];</code>
        */
       public int getAddressType() {
         return addressType_;
       }
       /**
-       * <code>optional uint32 address_type = 3;</code>
+       * <code>optional uint32 address_type = 3 [default = 0];</code>
        */
       public Builder setAddressType(int value) {
         bitField0_ |= 0x00000004;
@@ -2339,7 +3197,7 @@ public final class BWalletType {
         return this;
       }
       /**
-       * <code>optional uint32 address_type = 3;</code>
+       * <code>optional uint32 address_type = 3 [default = 0];</code>
        */
       public Builder clearAddressType() {
         bitField0_ = (bitField0_ & ~0x00000004);
@@ -2381,6 +3239,39 @@ public final class BWalletType {
         return this;
       }
 
+      // optional uint32 address_type_p2sh = 5 [default = 5];
+      private int addressTypeP2Sh_ = 5;
+      /**
+       * <code>optional uint32 address_type_p2sh = 5 [default = 5];</code>
+       */
+      public boolean hasAddressTypeP2Sh() {
+        return ((bitField0_ & 0x00000010) == 0x00000010);
+      }
+      /**
+       * <code>optional uint32 address_type_p2sh = 5 [default = 5];</code>
+       */
+      public int getAddressTypeP2Sh() {
+        return addressTypeP2Sh_;
+      }
+      /**
+       * <code>optional uint32 address_type_p2sh = 5 [default = 5];</code>
+       */
+      public Builder setAddressTypeP2Sh(int value) {
+        bitField0_ |= 0x00000010;
+        addressTypeP2Sh_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional uint32 address_type_p2sh = 5 [default = 5];</code>
+       */
+      public Builder clearAddressTypeP2Sh() {
+        bitField0_ = (bitField0_ & ~0x00000010);
+        addressTypeP2Sh_ = 5;
+        onChanged();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:CoinType)
     }
 
@@ -2395,17 +3286,26 @@ public final class BWalletType {
   public interface MultisigRedeemScriptTypeOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
-    // repeated bytes pubkeys = 1;
+    // repeated .HDNodePathType pubkeys = 1;
     /**
-     * <code>repeated bytes pubkeys = 1;</code>
+     * <code>repeated .HDNodePathType pubkeys = 1;</code>
      *
      * <pre>
      * pubkeys from multisig address (sorted lexicographically)
      * </pre>
      */
-    java.util.List<com.google.protobuf.ByteString> getPubkeysList();
+    java.util.List<com.bdx.bwallet.protobuf.BWalletType.HDNodePathType> 
+        getPubkeysList();
     /**
-     * <code>repeated bytes pubkeys = 1;</code>
+     * <code>repeated .HDNodePathType pubkeys = 1;</code>
+     *
+     * <pre>
+     * pubkeys from multisig address (sorted lexicographically)
+     * </pre>
+     */
+    com.bdx.bwallet.protobuf.BWalletType.HDNodePathType getPubkeys(int index);
+    /**
+     * <code>repeated .HDNodePathType pubkeys = 1;</code>
      *
      * <pre>
      * pubkeys from multisig address (sorted lexicographically)
@@ -2413,13 +3313,23 @@ public final class BWalletType {
      */
     int getPubkeysCount();
     /**
-     * <code>repeated bytes pubkeys = 1;</code>
+     * <code>repeated .HDNodePathType pubkeys = 1;</code>
      *
      * <pre>
      * pubkeys from multisig address (sorted lexicographically)
      * </pre>
      */
-    com.google.protobuf.ByteString getPubkeys(int index);
+    java.util.List<? extends com.bdx.bwallet.protobuf.BWalletType.HDNodePathTypeOrBuilder> 
+        getPubkeysOrBuilderList();
+    /**
+     * <code>repeated .HDNodePathType pubkeys = 1;</code>
+     *
+     * <pre>
+     * pubkeys from multisig address (sorted lexicographically)
+     * </pre>
+     */
+    com.bdx.bwallet.protobuf.BWalletType.HDNodePathTypeOrBuilder getPubkeysOrBuilder(
+        int index);
 
     // repeated bytes signatures = 2;
     /**
@@ -2446,6 +3356,24 @@ public final class BWalletType {
      * </pre>
      */
     com.google.protobuf.ByteString getSignatures(int index);
+
+    // optional uint32 m = 3;
+    /**
+     * <code>optional uint32 m = 3;</code>
+     *
+     * <pre>
+     * "m" from n, how many valid signatures is necessary for spending
+     * </pre>
+     */
+    boolean hasM();
+    /**
+     * <code>optional uint32 m = 3;</code>
+     *
+     * <pre>
+     * "m" from n, how many valid signatures is necessary for spending
+     * </pre>
+     */
+    int getM();
   }
   /**
    * Protobuf type {@code MultisigRedeemScriptType}
@@ -2506,10 +3434,10 @@ public final class BWalletType {
             }
             case 10: {
               if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
-                pubkeys_ = new java.util.ArrayList<com.google.protobuf.ByteString>();
+                pubkeys_ = new java.util.ArrayList<com.bdx.bwallet.protobuf.BWalletType.HDNodePathType>();
                 mutable_bitField0_ |= 0x00000001;
               }
-              pubkeys_.add(input.readBytes());
+              pubkeys_.add(input.readMessage(com.bdx.bwallet.protobuf.BWalletType.HDNodePathType.PARSER, extensionRegistry));
               break;
             }
             case 18: {
@@ -2518,6 +3446,11 @@ public final class BWalletType {
                 mutable_bitField0_ |= 0x00000002;
               }
               signatures_.add(input.readBytes());
+              break;
+            }
+            case 24: {
+              bitField0_ |= 0x00000001;
+              m_ = input.readUInt32();
               break;
             }
           }
@@ -2565,22 +3498,33 @@ public final class BWalletType {
       return PARSER;
     }
 
-    // repeated bytes pubkeys = 1;
+    private int bitField0_;
+    // repeated .HDNodePathType pubkeys = 1;
     public static final int PUBKEYS_FIELD_NUMBER = 1;
-    private java.util.List<com.google.protobuf.ByteString> pubkeys_;
+    private java.util.List<com.bdx.bwallet.protobuf.BWalletType.HDNodePathType> pubkeys_;
     /**
-     * <code>repeated bytes pubkeys = 1;</code>
+     * <code>repeated .HDNodePathType pubkeys = 1;</code>
      *
      * <pre>
      * pubkeys from multisig address (sorted lexicographically)
      * </pre>
      */
-    public java.util.List<com.google.protobuf.ByteString>
-        getPubkeysList() {
+    public java.util.List<com.bdx.bwallet.protobuf.BWalletType.HDNodePathType> getPubkeysList() {
       return pubkeys_;
     }
     /**
-     * <code>repeated bytes pubkeys = 1;</code>
+     * <code>repeated .HDNodePathType pubkeys = 1;</code>
+     *
+     * <pre>
+     * pubkeys from multisig address (sorted lexicographically)
+     * </pre>
+     */
+    public java.util.List<? extends com.bdx.bwallet.protobuf.BWalletType.HDNodePathTypeOrBuilder> 
+        getPubkeysOrBuilderList() {
+      return pubkeys_;
+    }
+    /**
+     * <code>repeated .HDNodePathType pubkeys = 1;</code>
      *
      * <pre>
      * pubkeys from multisig address (sorted lexicographically)
@@ -2590,13 +3534,24 @@ public final class BWalletType {
       return pubkeys_.size();
     }
     /**
-     * <code>repeated bytes pubkeys = 1;</code>
+     * <code>repeated .HDNodePathType pubkeys = 1;</code>
      *
      * <pre>
      * pubkeys from multisig address (sorted lexicographically)
      * </pre>
      */
-    public com.google.protobuf.ByteString getPubkeys(int index) {
+    public com.bdx.bwallet.protobuf.BWalletType.HDNodePathType getPubkeys(int index) {
+      return pubkeys_.get(index);
+    }
+    /**
+     * <code>repeated .HDNodePathType pubkeys = 1;</code>
+     *
+     * <pre>
+     * pubkeys from multisig address (sorted lexicographically)
+     * </pre>
+     */
+    public com.bdx.bwallet.protobuf.BWalletType.HDNodePathTypeOrBuilder getPubkeysOrBuilder(
+        int index) {
       return pubkeys_.get(index);
     }
 
@@ -2635,15 +3590,46 @@ public final class BWalletType {
       return signatures_.get(index);
     }
 
+    // optional uint32 m = 3;
+    public static final int M_FIELD_NUMBER = 3;
+    private int m_;
+    /**
+     * <code>optional uint32 m = 3;</code>
+     *
+     * <pre>
+     * "m" from n, how many valid signatures is necessary for spending
+     * </pre>
+     */
+    public boolean hasM() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>optional uint32 m = 3;</code>
+     *
+     * <pre>
+     * "m" from n, how many valid signatures is necessary for spending
+     * </pre>
+     */
+    public int getM() {
+      return m_;
+    }
+
     private void initFields() {
       pubkeys_ = java.util.Collections.emptyList();
       signatures_ = java.util.Collections.emptyList();
+      m_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized != -1) return isInitialized == 1;
 
+      for (int i = 0; i < getPubkeysCount(); i++) {
+        if (!getPubkeys(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
       memoizedIsInitialized = 1;
       return true;
     }
@@ -2652,10 +3638,13 @@ public final class BWalletType {
                         throws java.io.IOException {
       getSerializedSize();
       for (int i = 0; i < pubkeys_.size(); i++) {
-        output.writeBytes(1, pubkeys_.get(i));
+        output.writeMessage(1, pubkeys_.get(i));
       }
       for (int i = 0; i < signatures_.size(); i++) {
         output.writeBytes(2, signatures_.get(i));
+      }
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeUInt32(3, m_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -2666,14 +3655,9 @@ public final class BWalletType {
       if (size != -1) return size;
 
       size = 0;
-      {
-        int dataSize = 0;
-        for (int i = 0; i < pubkeys_.size(); i++) {
-          dataSize += com.google.protobuf.CodedOutputStream
-            .computeBytesSizeNoTag(pubkeys_.get(i));
-        }
-        size += dataSize;
-        size += 1 * getPubkeysList().size();
+      for (int i = 0; i < pubkeys_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, pubkeys_.get(i));
       }
       {
         int dataSize = 0;
@@ -2683,6 +3667,10 @@ public final class BWalletType {
         }
         size += dataSize;
         size += 1 * getSignaturesList().size();
+      }
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(3, m_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -2798,6 +3786,7 @@ public final class BWalletType {
       }
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getPubkeysFieldBuilder();
         }
       }
       private static Builder create() {
@@ -2806,10 +3795,16 @@ public final class BWalletType {
 
       public Builder clear() {
         super.clear();
-        pubkeys_ = java.util.Collections.emptyList();
-        bitField0_ = (bitField0_ & ~0x00000001);
+        if (pubkeysBuilder_ == null) {
+          pubkeys_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+        } else {
+          pubkeysBuilder_.clear();
+        }
         signatures_ = java.util.Collections.emptyList();
         bitField0_ = (bitField0_ & ~0x00000002);
+        m_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000004);
         return this;
       }
 
@@ -2837,16 +3832,26 @@ public final class BWalletType {
       public com.bdx.bwallet.protobuf.BWalletType.MultisigRedeemScriptType buildPartial() {
         com.bdx.bwallet.protobuf.BWalletType.MultisigRedeemScriptType result = new com.bdx.bwallet.protobuf.BWalletType.MultisigRedeemScriptType(this);
         int from_bitField0_ = bitField0_;
-        if (((bitField0_ & 0x00000001) == 0x00000001)) {
-          pubkeys_ = java.util.Collections.unmodifiableList(pubkeys_);
-          bitField0_ = (bitField0_ & ~0x00000001);
+        int to_bitField0_ = 0;
+        if (pubkeysBuilder_ == null) {
+          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+            pubkeys_ = java.util.Collections.unmodifiableList(pubkeys_);
+            bitField0_ = (bitField0_ & ~0x00000001);
+          }
+          result.pubkeys_ = pubkeys_;
+        } else {
+          result.pubkeys_ = pubkeysBuilder_.build();
         }
-        result.pubkeys_ = pubkeys_;
         if (((bitField0_ & 0x00000002) == 0x00000002)) {
           signatures_ = java.util.Collections.unmodifiableList(signatures_);
           bitField0_ = (bitField0_ & ~0x00000002);
         }
         result.signatures_ = signatures_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.m_ = m_;
+        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
@@ -2862,15 +3867,31 @@ public final class BWalletType {
 
       public Builder mergeFrom(com.bdx.bwallet.protobuf.BWalletType.MultisigRedeemScriptType other) {
         if (other == com.bdx.bwallet.protobuf.BWalletType.MultisigRedeemScriptType.getDefaultInstance()) return this;
-        if (!other.pubkeys_.isEmpty()) {
-          if (pubkeys_.isEmpty()) {
-            pubkeys_ = other.pubkeys_;
-            bitField0_ = (bitField0_ & ~0x00000001);
-          } else {
-            ensurePubkeysIsMutable();
-            pubkeys_.addAll(other.pubkeys_);
+        if (pubkeysBuilder_ == null) {
+          if (!other.pubkeys_.isEmpty()) {
+            if (pubkeys_.isEmpty()) {
+              pubkeys_ = other.pubkeys_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+            } else {
+              ensurePubkeysIsMutable();
+              pubkeys_.addAll(other.pubkeys_);
+            }
+            onChanged();
           }
-          onChanged();
+        } else {
+          if (!other.pubkeys_.isEmpty()) {
+            if (pubkeysBuilder_.isEmpty()) {
+              pubkeysBuilder_.dispose();
+              pubkeysBuilder_ = null;
+              pubkeys_ = other.pubkeys_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+              pubkeysBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getPubkeysFieldBuilder() : null;
+            } else {
+              pubkeysBuilder_.addAllMessages(other.pubkeys_);
+            }
+          }
         }
         if (!other.signatures_.isEmpty()) {
           if (signatures_.isEmpty()) {
@@ -2882,11 +3903,20 @@ public final class BWalletType {
           }
           onChanged();
         }
+        if (other.hasM()) {
+          setM(other.getM());
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
 
       public final boolean isInitialized() {
+        for (int i = 0; i < getPubkeysCount(); i++) {
+          if (!getPubkeys(i).isInitialized()) {
+            
+            return false;
+          }
+        }
         return true;
       }
 
@@ -2909,104 +3939,316 @@ public final class BWalletType {
       }
       private int bitField0_;
 
-      // repeated bytes pubkeys = 1;
-      private java.util.List<com.google.protobuf.ByteString> pubkeys_ = java.util.Collections.emptyList();
+      // repeated .HDNodePathType pubkeys = 1;
+      private java.util.List<com.bdx.bwallet.protobuf.BWalletType.HDNodePathType> pubkeys_ =
+        java.util.Collections.emptyList();
       private void ensurePubkeysIsMutable() {
         if (!((bitField0_ & 0x00000001) == 0x00000001)) {
-          pubkeys_ = new java.util.ArrayList<com.google.protobuf.ByteString>(pubkeys_);
+          pubkeys_ = new java.util.ArrayList<com.bdx.bwallet.protobuf.BWalletType.HDNodePathType>(pubkeys_);
           bitField0_ |= 0x00000001;
          }
       }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.bdx.bwallet.protobuf.BWalletType.HDNodePathType, com.bdx.bwallet.protobuf.BWalletType.HDNodePathType.Builder, com.bdx.bwallet.protobuf.BWalletType.HDNodePathTypeOrBuilder> pubkeysBuilder_;
+
       /**
-       * <code>repeated bytes pubkeys = 1;</code>
+       * <code>repeated .HDNodePathType pubkeys = 1;</code>
        *
        * <pre>
        * pubkeys from multisig address (sorted lexicographically)
        * </pre>
        */
-      public java.util.List<com.google.protobuf.ByteString>
-          getPubkeysList() {
-        return java.util.Collections.unmodifiableList(pubkeys_);
+      public java.util.List<com.bdx.bwallet.protobuf.BWalletType.HDNodePathType> getPubkeysList() {
+        if (pubkeysBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(pubkeys_);
+        } else {
+          return pubkeysBuilder_.getMessageList();
+        }
       }
       /**
-       * <code>repeated bytes pubkeys = 1;</code>
+       * <code>repeated .HDNodePathType pubkeys = 1;</code>
        *
        * <pre>
        * pubkeys from multisig address (sorted lexicographically)
        * </pre>
        */
       public int getPubkeysCount() {
-        return pubkeys_.size();
+        if (pubkeysBuilder_ == null) {
+          return pubkeys_.size();
+        } else {
+          return pubkeysBuilder_.getCount();
+        }
       }
       /**
-       * <code>repeated bytes pubkeys = 1;</code>
+       * <code>repeated .HDNodePathType pubkeys = 1;</code>
        *
        * <pre>
        * pubkeys from multisig address (sorted lexicographically)
        * </pre>
        */
-      public com.google.protobuf.ByteString getPubkeys(int index) {
-        return pubkeys_.get(index);
+      public com.bdx.bwallet.protobuf.BWalletType.HDNodePathType getPubkeys(int index) {
+        if (pubkeysBuilder_ == null) {
+          return pubkeys_.get(index);
+        } else {
+          return pubkeysBuilder_.getMessage(index);
+        }
       }
       /**
-       * <code>repeated bytes pubkeys = 1;</code>
+       * <code>repeated .HDNodePathType pubkeys = 1;</code>
        *
        * <pre>
        * pubkeys from multisig address (sorted lexicographically)
        * </pre>
        */
       public Builder setPubkeys(
-          int index, com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  ensurePubkeysIsMutable();
-        pubkeys_.set(index, value);
-        onChanged();
+          int index, com.bdx.bwallet.protobuf.BWalletType.HDNodePathType value) {
+        if (pubkeysBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensurePubkeysIsMutable();
+          pubkeys_.set(index, value);
+          onChanged();
+        } else {
+          pubkeysBuilder_.setMessage(index, value);
+        }
         return this;
       }
       /**
-       * <code>repeated bytes pubkeys = 1;</code>
+       * <code>repeated .HDNodePathType pubkeys = 1;</code>
        *
        * <pre>
        * pubkeys from multisig address (sorted lexicographically)
        * </pre>
        */
-      public Builder addPubkeys(com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  ensurePubkeysIsMutable();
-        pubkeys_.add(value);
-        onChanged();
+      public Builder setPubkeys(
+          int index, com.bdx.bwallet.protobuf.BWalletType.HDNodePathType.Builder builderForValue) {
+        if (pubkeysBuilder_ == null) {
+          ensurePubkeysIsMutable();
+          pubkeys_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          pubkeysBuilder_.setMessage(index, builderForValue.build());
+        }
         return this;
       }
       /**
-       * <code>repeated bytes pubkeys = 1;</code>
+       * <code>repeated .HDNodePathType pubkeys = 1;</code>
+       *
+       * <pre>
+       * pubkeys from multisig address (sorted lexicographically)
+       * </pre>
+       */
+      public Builder addPubkeys(com.bdx.bwallet.protobuf.BWalletType.HDNodePathType value) {
+        if (pubkeysBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensurePubkeysIsMutable();
+          pubkeys_.add(value);
+          onChanged();
+        } else {
+          pubkeysBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .HDNodePathType pubkeys = 1;</code>
+       *
+       * <pre>
+       * pubkeys from multisig address (sorted lexicographically)
+       * </pre>
+       */
+      public Builder addPubkeys(
+          int index, com.bdx.bwallet.protobuf.BWalletType.HDNodePathType value) {
+        if (pubkeysBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensurePubkeysIsMutable();
+          pubkeys_.add(index, value);
+          onChanged();
+        } else {
+          pubkeysBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .HDNodePathType pubkeys = 1;</code>
+       *
+       * <pre>
+       * pubkeys from multisig address (sorted lexicographically)
+       * </pre>
+       */
+      public Builder addPubkeys(
+          com.bdx.bwallet.protobuf.BWalletType.HDNodePathType.Builder builderForValue) {
+        if (pubkeysBuilder_ == null) {
+          ensurePubkeysIsMutable();
+          pubkeys_.add(builderForValue.build());
+          onChanged();
+        } else {
+          pubkeysBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .HDNodePathType pubkeys = 1;</code>
+       *
+       * <pre>
+       * pubkeys from multisig address (sorted lexicographically)
+       * </pre>
+       */
+      public Builder addPubkeys(
+          int index, com.bdx.bwallet.protobuf.BWalletType.HDNodePathType.Builder builderForValue) {
+        if (pubkeysBuilder_ == null) {
+          ensurePubkeysIsMutable();
+          pubkeys_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          pubkeysBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .HDNodePathType pubkeys = 1;</code>
        *
        * <pre>
        * pubkeys from multisig address (sorted lexicographically)
        * </pre>
        */
       public Builder addAllPubkeys(
-          java.lang.Iterable<? extends com.google.protobuf.ByteString> values) {
-        ensurePubkeysIsMutable();
-        super.addAll(values, pubkeys_);
-        onChanged();
+          java.lang.Iterable<? extends com.bdx.bwallet.protobuf.BWalletType.HDNodePathType> values) {
+        if (pubkeysBuilder_ == null) {
+          ensurePubkeysIsMutable();
+          super.addAll(values, pubkeys_);
+          onChanged();
+        } else {
+          pubkeysBuilder_.addAllMessages(values);
+        }
         return this;
       }
       /**
-       * <code>repeated bytes pubkeys = 1;</code>
+       * <code>repeated .HDNodePathType pubkeys = 1;</code>
        *
        * <pre>
        * pubkeys from multisig address (sorted lexicographically)
        * </pre>
        */
       public Builder clearPubkeys() {
-        pubkeys_ = java.util.Collections.emptyList();
-        bitField0_ = (bitField0_ & ~0x00000001);
-        onChanged();
+        if (pubkeysBuilder_ == null) {
+          pubkeys_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+          onChanged();
+        } else {
+          pubkeysBuilder_.clear();
+        }
         return this;
+      }
+      /**
+       * <code>repeated .HDNodePathType pubkeys = 1;</code>
+       *
+       * <pre>
+       * pubkeys from multisig address (sorted lexicographically)
+       * </pre>
+       */
+      public Builder removePubkeys(int index) {
+        if (pubkeysBuilder_ == null) {
+          ensurePubkeysIsMutable();
+          pubkeys_.remove(index);
+          onChanged();
+        } else {
+          pubkeysBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .HDNodePathType pubkeys = 1;</code>
+       *
+       * <pre>
+       * pubkeys from multisig address (sorted lexicographically)
+       * </pre>
+       */
+      public com.bdx.bwallet.protobuf.BWalletType.HDNodePathType.Builder getPubkeysBuilder(
+          int index) {
+        return getPubkeysFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .HDNodePathType pubkeys = 1;</code>
+       *
+       * <pre>
+       * pubkeys from multisig address (sorted lexicographically)
+       * </pre>
+       */
+      public com.bdx.bwallet.protobuf.BWalletType.HDNodePathTypeOrBuilder getPubkeysOrBuilder(
+          int index) {
+        if (pubkeysBuilder_ == null) {
+          return pubkeys_.get(index);  } else {
+          return pubkeysBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .HDNodePathType pubkeys = 1;</code>
+       *
+       * <pre>
+       * pubkeys from multisig address (sorted lexicographically)
+       * </pre>
+       */
+      public java.util.List<? extends com.bdx.bwallet.protobuf.BWalletType.HDNodePathTypeOrBuilder> 
+           getPubkeysOrBuilderList() {
+        if (pubkeysBuilder_ != null) {
+          return pubkeysBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(pubkeys_);
+        }
+      }
+      /**
+       * <code>repeated .HDNodePathType pubkeys = 1;</code>
+       *
+       * <pre>
+       * pubkeys from multisig address (sorted lexicographically)
+       * </pre>
+       */
+      public com.bdx.bwallet.protobuf.BWalletType.HDNodePathType.Builder addPubkeysBuilder() {
+        return getPubkeysFieldBuilder().addBuilder(
+            com.bdx.bwallet.protobuf.BWalletType.HDNodePathType.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .HDNodePathType pubkeys = 1;</code>
+       *
+       * <pre>
+       * pubkeys from multisig address (sorted lexicographically)
+       * </pre>
+       */
+      public com.bdx.bwallet.protobuf.BWalletType.HDNodePathType.Builder addPubkeysBuilder(
+          int index) {
+        return getPubkeysFieldBuilder().addBuilder(
+            index, com.bdx.bwallet.protobuf.BWalletType.HDNodePathType.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .HDNodePathType pubkeys = 1;</code>
+       *
+       * <pre>
+       * pubkeys from multisig address (sorted lexicographically)
+       * </pre>
+       */
+      public java.util.List<com.bdx.bwallet.protobuf.BWalletType.HDNodePathType.Builder> 
+           getPubkeysBuilderList() {
+        return getPubkeysFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.bdx.bwallet.protobuf.BWalletType.HDNodePathType, com.bdx.bwallet.protobuf.BWalletType.HDNodePathType.Builder, com.bdx.bwallet.protobuf.BWalletType.HDNodePathTypeOrBuilder> 
+          getPubkeysFieldBuilder() {
+        if (pubkeysBuilder_ == null) {
+          pubkeysBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              com.bdx.bwallet.protobuf.BWalletType.HDNodePathType, com.bdx.bwallet.protobuf.BWalletType.HDNodePathType.Builder, com.bdx.bwallet.protobuf.BWalletType.HDNodePathTypeOrBuilder>(
+                  pubkeys_,
+                  ((bitField0_ & 0x00000001) == 0x00000001),
+                  getParentForChildren(),
+                  isClean());
+          pubkeys_ = null;
+        }
+        return pubkeysBuilder_;
       }
 
       // repeated bytes signatures = 2;
@@ -3105,6 +4347,55 @@ public final class BWalletType {
       public Builder clearSignatures() {
         signatures_ = java.util.Collections.emptyList();
         bitField0_ = (bitField0_ & ~0x00000002);
+        onChanged();
+        return this;
+      }
+
+      // optional uint32 m = 3;
+      private int m_ ;
+      /**
+       * <code>optional uint32 m = 3;</code>
+       *
+       * <pre>
+       * "m" from n, how many valid signatures is necessary for spending
+       * </pre>
+       */
+      public boolean hasM() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>optional uint32 m = 3;</code>
+       *
+       * <pre>
+       * "m" from n, how many valid signatures is necessary for spending
+       * </pre>
+       */
+      public int getM() {
+        return m_;
+      }
+      /**
+       * <code>optional uint32 m = 3;</code>
+       *
+       * <pre>
+       * "m" from n, how many valid signatures is necessary for spending
+       * </pre>
+       */
+      public Builder setM(int value) {
+        bitField0_ |= 0x00000004;
+        m_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional uint32 m = 3;</code>
+       *
+       * <pre>
+       * "m" from n, how many valid signatures is necessary for spending
+       * </pre>
+       */
+      public Builder clearM() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        m_ = 0;
         onChanged();
         return this;
       }
@@ -3642,6 +4933,12 @@ public final class BWalletType {
         memoizedIsInitialized = 0;
         return false;
       }
+      if (hasMultisig()) {
+        if (!getMultisig().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
       memoizedIsInitialized = 1;
       return true;
     }
@@ -3971,6 +5268,12 @@ public final class BWalletType {
         if (!hasPrevIndex()) {
           
           return false;
+        }
+        if (hasMultisig()) {
+          if (!getMultisig().isInitialized()) {
+            
+            return false;
+          }
         }
         return true;
       }
@@ -4597,6 +5900,50 @@ public final class BWalletType {
      * </pre>
      */
     com.bdx.bwallet.protobuf.BWalletType.OutputScriptType getScriptType();
+
+    // optional .MultisigRedeemScriptType multisig = 5;
+    /**
+     * <code>optional .MultisigRedeemScriptType multisig = 5;</code>
+     *
+     * <pre>
+     * defines multisig address; script_type must be PAYTOMULTISIG
+     * </pre>
+     */
+    boolean hasMultisig();
+    /**
+     * <code>optional .MultisigRedeemScriptType multisig = 5;</code>
+     *
+     * <pre>
+     * defines multisig address; script_type must be PAYTOMULTISIG
+     * </pre>
+     */
+    com.bdx.bwallet.protobuf.BWalletType.MultisigRedeemScriptType getMultisig();
+    /**
+     * <code>optional .MultisigRedeemScriptType multisig = 5;</code>
+     *
+     * <pre>
+     * defines multisig address; script_type must be PAYTOMULTISIG
+     * </pre>
+     */
+    com.bdx.bwallet.protobuf.BWalletType.MultisigRedeemScriptTypeOrBuilder getMultisigOrBuilder();
+
+    // optional bytes op_return_data = 6;
+    /**
+     * <code>optional bytes op_return_data = 6;</code>
+     *
+     * <pre>
+     * defines op_return data; script_type must be PAYTOOPRETURN, amount must be 0
+     * </pre>
+     */
+    boolean hasOpReturnData();
+    /**
+     * <code>optional bytes op_return_data = 6;</code>
+     *
+     * <pre>
+     * defines op_return data; script_type must be PAYTOOPRETURN, amount must be 0
+     * </pre>
+     */
+    com.google.protobuf.ByteString getOpReturnData();
   }
   /**
    * Protobuf type {@code TxOutputType}
@@ -4696,6 +6043,24 @@ public final class BWalletType {
                 bitField0_ |= 0x00000004;
                 scriptType_ = value;
               }
+              break;
+            }
+            case 42: {
+              com.bdx.bwallet.protobuf.BWalletType.MultisigRedeemScriptType.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000008) == 0x00000008)) {
+                subBuilder = multisig_.toBuilder();
+              }
+              multisig_ = input.readMessage(com.bdx.bwallet.protobuf.BWalletType.MultisigRedeemScriptType.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(multisig_);
+                multisig_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00000008;
+              break;
+            }
+            case 50: {
+              bitField0_ |= 0x00000010;
+              opReturnData_ = input.readBytes();
               break;
             }
           }
@@ -4879,11 +6244,71 @@ public final class BWalletType {
       return scriptType_;
     }
 
+    // optional .MultisigRedeemScriptType multisig = 5;
+    public static final int MULTISIG_FIELD_NUMBER = 5;
+    private com.bdx.bwallet.protobuf.BWalletType.MultisigRedeemScriptType multisig_;
+    /**
+     * <code>optional .MultisigRedeemScriptType multisig = 5;</code>
+     *
+     * <pre>
+     * defines multisig address; script_type must be PAYTOMULTISIG
+     * </pre>
+     */
+    public boolean hasMultisig() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>optional .MultisigRedeemScriptType multisig = 5;</code>
+     *
+     * <pre>
+     * defines multisig address; script_type must be PAYTOMULTISIG
+     * </pre>
+     */
+    public com.bdx.bwallet.protobuf.BWalletType.MultisigRedeemScriptType getMultisig() {
+      return multisig_;
+    }
+    /**
+     * <code>optional .MultisigRedeemScriptType multisig = 5;</code>
+     *
+     * <pre>
+     * defines multisig address; script_type must be PAYTOMULTISIG
+     * </pre>
+     */
+    public com.bdx.bwallet.protobuf.BWalletType.MultisigRedeemScriptTypeOrBuilder getMultisigOrBuilder() {
+      return multisig_;
+    }
+
+    // optional bytes op_return_data = 6;
+    public static final int OP_RETURN_DATA_FIELD_NUMBER = 6;
+    private com.google.protobuf.ByteString opReturnData_;
+    /**
+     * <code>optional bytes op_return_data = 6;</code>
+     *
+     * <pre>
+     * defines op_return data; script_type must be PAYTOOPRETURN, amount must be 0
+     * </pre>
+     */
+    public boolean hasOpReturnData() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>optional bytes op_return_data = 6;</code>
+     *
+     * <pre>
+     * defines op_return data; script_type must be PAYTOOPRETURN, amount must be 0
+     * </pre>
+     */
+    public com.google.protobuf.ByteString getOpReturnData() {
+      return opReturnData_;
+    }
+
     private void initFields() {
       address_ = "";
       addressN_ = java.util.Collections.emptyList();
       amount_ = 0L;
       scriptType_ = com.bdx.bwallet.protobuf.BWalletType.OutputScriptType.PAYTOADDRESS;
+      multisig_ = com.bdx.bwallet.protobuf.BWalletType.MultisigRedeemScriptType.getDefaultInstance();
+      opReturnData_ = com.google.protobuf.ByteString.EMPTY;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -4897,6 +6322,12 @@ public final class BWalletType {
       if (!hasScriptType()) {
         memoizedIsInitialized = 0;
         return false;
+      }
+      if (hasMultisig()) {
+        if (!getMultisig().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
       }
       memoizedIsInitialized = 1;
       return true;
@@ -4916,6 +6347,12 @@ public final class BWalletType {
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         output.writeEnum(4, scriptType_.getNumber());
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeMessage(5, multisig_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        output.writeBytes(6, opReturnData_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -4946,6 +6383,14 @@ public final class BWalletType {
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
           .computeEnumSize(4, scriptType_.getNumber());
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(5, multisig_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(6, opReturnData_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -5062,6 +6507,7 @@ public final class BWalletType {
       }
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getMultisigFieldBuilder();
         }
       }
       private static Builder create() {
@@ -5078,6 +6524,14 @@ public final class BWalletType {
         bitField0_ = (bitField0_ & ~0x00000004);
         scriptType_ = com.bdx.bwallet.protobuf.BWalletType.OutputScriptType.PAYTOADDRESS;
         bitField0_ = (bitField0_ & ~0x00000008);
+        if (multisigBuilder_ == null) {
+          multisig_ = com.bdx.bwallet.protobuf.BWalletType.MultisigRedeemScriptType.getDefaultInstance();
+        } else {
+          multisigBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000010);
+        opReturnData_ = com.google.protobuf.ByteString.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000020);
         return this;
       }
 
@@ -5123,6 +6577,18 @@ public final class BWalletType {
           to_bitField0_ |= 0x00000004;
         }
         result.scriptType_ = scriptType_;
+        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        if (multisigBuilder_ == null) {
+          result.multisig_ = multisig_;
+        } else {
+          result.multisig_ = multisigBuilder_.build();
+        }
+        if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
+          to_bitField0_ |= 0x00000010;
+        }
+        result.opReturnData_ = opReturnData_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -5160,6 +6626,12 @@ public final class BWalletType {
         if (other.hasScriptType()) {
           setScriptType(other.getScriptType());
         }
+        if (other.hasMultisig()) {
+          mergeMultisig(other.getMultisig());
+        }
+        if (other.hasOpReturnData()) {
+          setOpReturnData(other.getOpReturnData());
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
@@ -5172,6 +6644,12 @@ public final class BWalletType {
         if (!hasScriptType()) {
           
           return false;
+        }
+        if (hasMultisig()) {
+          if (!getMultisig().isInitialized()) {
+            
+            return false;
+          }
         }
         return true;
       }
@@ -5484,6 +6962,211 @@ public final class BWalletType {
       public Builder clearScriptType() {
         bitField0_ = (bitField0_ & ~0x00000008);
         scriptType_ = com.bdx.bwallet.protobuf.BWalletType.OutputScriptType.PAYTOADDRESS;
+        onChanged();
+        return this;
+      }
+
+      // optional .MultisigRedeemScriptType multisig = 5;
+      private com.bdx.bwallet.protobuf.BWalletType.MultisigRedeemScriptType multisig_ = com.bdx.bwallet.protobuf.BWalletType.MultisigRedeemScriptType.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          com.bdx.bwallet.protobuf.BWalletType.MultisigRedeemScriptType, com.bdx.bwallet.protobuf.BWalletType.MultisigRedeemScriptType.Builder, com.bdx.bwallet.protobuf.BWalletType.MultisigRedeemScriptTypeOrBuilder> multisigBuilder_;
+      /**
+       * <code>optional .MultisigRedeemScriptType multisig = 5;</code>
+       *
+       * <pre>
+       * defines multisig address; script_type must be PAYTOMULTISIG
+       * </pre>
+       */
+      public boolean hasMultisig() {
+        return ((bitField0_ & 0x00000010) == 0x00000010);
+      }
+      /**
+       * <code>optional .MultisigRedeemScriptType multisig = 5;</code>
+       *
+       * <pre>
+       * defines multisig address; script_type must be PAYTOMULTISIG
+       * </pre>
+       */
+      public com.bdx.bwallet.protobuf.BWalletType.MultisigRedeemScriptType getMultisig() {
+        if (multisigBuilder_ == null) {
+          return multisig_;
+        } else {
+          return multisigBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>optional .MultisigRedeemScriptType multisig = 5;</code>
+       *
+       * <pre>
+       * defines multisig address; script_type must be PAYTOMULTISIG
+       * </pre>
+       */
+      public Builder setMultisig(com.bdx.bwallet.protobuf.BWalletType.MultisigRedeemScriptType value) {
+        if (multisigBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          multisig_ = value;
+          onChanged();
+        } else {
+          multisigBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000010;
+        return this;
+      }
+      /**
+       * <code>optional .MultisigRedeemScriptType multisig = 5;</code>
+       *
+       * <pre>
+       * defines multisig address; script_type must be PAYTOMULTISIG
+       * </pre>
+       */
+      public Builder setMultisig(
+          com.bdx.bwallet.protobuf.BWalletType.MultisigRedeemScriptType.Builder builderForValue) {
+        if (multisigBuilder_ == null) {
+          multisig_ = builderForValue.build();
+          onChanged();
+        } else {
+          multisigBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000010;
+        return this;
+      }
+      /**
+       * <code>optional .MultisigRedeemScriptType multisig = 5;</code>
+       *
+       * <pre>
+       * defines multisig address; script_type must be PAYTOMULTISIG
+       * </pre>
+       */
+      public Builder mergeMultisig(com.bdx.bwallet.protobuf.BWalletType.MultisigRedeemScriptType value) {
+        if (multisigBuilder_ == null) {
+          if (((bitField0_ & 0x00000010) == 0x00000010) &&
+              multisig_ != com.bdx.bwallet.protobuf.BWalletType.MultisigRedeemScriptType.getDefaultInstance()) {
+            multisig_ =
+              com.bdx.bwallet.protobuf.BWalletType.MultisigRedeemScriptType.newBuilder(multisig_).mergeFrom(value).buildPartial();
+          } else {
+            multisig_ = value;
+          }
+          onChanged();
+        } else {
+          multisigBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000010;
+        return this;
+      }
+      /**
+       * <code>optional .MultisigRedeemScriptType multisig = 5;</code>
+       *
+       * <pre>
+       * defines multisig address; script_type must be PAYTOMULTISIG
+       * </pre>
+       */
+      public Builder clearMultisig() {
+        if (multisigBuilder_ == null) {
+          multisig_ = com.bdx.bwallet.protobuf.BWalletType.MultisigRedeemScriptType.getDefaultInstance();
+          onChanged();
+        } else {
+          multisigBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000010);
+        return this;
+      }
+      /**
+       * <code>optional .MultisigRedeemScriptType multisig = 5;</code>
+       *
+       * <pre>
+       * defines multisig address; script_type must be PAYTOMULTISIG
+       * </pre>
+       */
+      public com.bdx.bwallet.protobuf.BWalletType.MultisigRedeemScriptType.Builder getMultisigBuilder() {
+        bitField0_ |= 0x00000010;
+        onChanged();
+        return getMultisigFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .MultisigRedeemScriptType multisig = 5;</code>
+       *
+       * <pre>
+       * defines multisig address; script_type must be PAYTOMULTISIG
+       * </pre>
+       */
+      public com.bdx.bwallet.protobuf.BWalletType.MultisigRedeemScriptTypeOrBuilder getMultisigOrBuilder() {
+        if (multisigBuilder_ != null) {
+          return multisigBuilder_.getMessageOrBuilder();
+        } else {
+          return multisig_;
+        }
+      }
+      /**
+       * <code>optional .MultisigRedeemScriptType multisig = 5;</code>
+       *
+       * <pre>
+       * defines multisig address; script_type must be PAYTOMULTISIG
+       * </pre>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          com.bdx.bwallet.protobuf.BWalletType.MultisigRedeemScriptType, com.bdx.bwallet.protobuf.BWalletType.MultisigRedeemScriptType.Builder, com.bdx.bwallet.protobuf.BWalletType.MultisigRedeemScriptTypeOrBuilder> 
+          getMultisigFieldBuilder() {
+        if (multisigBuilder_ == null) {
+          multisigBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              com.bdx.bwallet.protobuf.BWalletType.MultisigRedeemScriptType, com.bdx.bwallet.protobuf.BWalletType.MultisigRedeemScriptType.Builder, com.bdx.bwallet.protobuf.BWalletType.MultisigRedeemScriptTypeOrBuilder>(
+                  multisig_,
+                  getParentForChildren(),
+                  isClean());
+          multisig_ = null;
+        }
+        return multisigBuilder_;
+      }
+
+      // optional bytes op_return_data = 6;
+      private com.google.protobuf.ByteString opReturnData_ = com.google.protobuf.ByteString.EMPTY;
+      /**
+       * <code>optional bytes op_return_data = 6;</code>
+       *
+       * <pre>
+       * defines op_return data; script_type must be PAYTOOPRETURN, amount must be 0
+       * </pre>
+       */
+      public boolean hasOpReturnData() {
+        return ((bitField0_ & 0x00000020) == 0x00000020);
+      }
+      /**
+       * <code>optional bytes op_return_data = 6;</code>
+       *
+       * <pre>
+       * defines op_return data; script_type must be PAYTOOPRETURN, amount must be 0
+       * </pre>
+       */
+      public com.google.protobuf.ByteString getOpReturnData() {
+        return opReturnData_;
+      }
+      /**
+       * <code>optional bytes op_return_data = 6;</code>
+       *
+       * <pre>
+       * defines op_return data; script_type must be PAYTOOPRETURN, amount must be 0
+       * </pre>
+       */
+      public Builder setOpReturnData(com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000020;
+        opReturnData_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional bytes op_return_data = 6;</code>
+       *
+       * <pre>
+       * defines op_return data; script_type must be PAYTOOPRETURN, amount must be 0
+       * </pre>
+       */
+      public Builder clearOpReturnData() {
+        bitField0_ = (bitField0_ & ~0x00000020);
+        opReturnData_ = getDefaultInstance().getOpReturnData();
         onChanged();
         return this;
       }
@@ -9008,6 +10691,1466 @@ public final class BWalletType {
     // @@protoc_insertion_point(class_scope:TxRequestSerializedType)
   }
 
+  public interface IdentityTypeOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // optional string proto = 1;
+    /**
+     * <code>optional string proto = 1;</code>
+     *
+     * <pre>
+     * proto part of URI
+     * </pre>
+     */
+    boolean hasProto();
+    /**
+     * <code>optional string proto = 1;</code>
+     *
+     * <pre>
+     * proto part of URI
+     * </pre>
+     */
+    java.lang.String getProto();
+    /**
+     * <code>optional string proto = 1;</code>
+     *
+     * <pre>
+     * proto part of URI
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getProtoBytes();
+
+    // optional string user = 2;
+    /**
+     * <code>optional string user = 2;</code>
+     *
+     * <pre>
+     * user part of URI
+     * </pre>
+     */
+    boolean hasUser();
+    /**
+     * <code>optional string user = 2;</code>
+     *
+     * <pre>
+     * user part of URI
+     * </pre>
+     */
+    java.lang.String getUser();
+    /**
+     * <code>optional string user = 2;</code>
+     *
+     * <pre>
+     * user part of URI
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getUserBytes();
+
+    // optional string host = 3;
+    /**
+     * <code>optional string host = 3;</code>
+     *
+     * <pre>
+     * host part of URI
+     * </pre>
+     */
+    boolean hasHost();
+    /**
+     * <code>optional string host = 3;</code>
+     *
+     * <pre>
+     * host part of URI
+     * </pre>
+     */
+    java.lang.String getHost();
+    /**
+     * <code>optional string host = 3;</code>
+     *
+     * <pre>
+     * host part of URI
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getHostBytes();
+
+    // optional string port = 4;
+    /**
+     * <code>optional string port = 4;</code>
+     *
+     * <pre>
+     * port part of URI
+     * </pre>
+     */
+    boolean hasPort();
+    /**
+     * <code>optional string port = 4;</code>
+     *
+     * <pre>
+     * port part of URI
+     * </pre>
+     */
+    java.lang.String getPort();
+    /**
+     * <code>optional string port = 4;</code>
+     *
+     * <pre>
+     * port part of URI
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getPortBytes();
+
+    // optional string path = 5;
+    /**
+     * <code>optional string path = 5;</code>
+     *
+     * <pre>
+     * path part of URI
+     * </pre>
+     */
+    boolean hasPath();
+    /**
+     * <code>optional string path = 5;</code>
+     *
+     * <pre>
+     * path part of URI
+     * </pre>
+     */
+    java.lang.String getPath();
+    /**
+     * <code>optional string path = 5;</code>
+     *
+     * <pre>
+     * path part of URI
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getPathBytes();
+
+    // optional uint32 index = 6 [default = 0];
+    /**
+     * <code>optional uint32 index = 6 [default = 0];</code>
+     *
+     * <pre>
+     * identity index
+     * </pre>
+     */
+    boolean hasIndex();
+    /**
+     * <code>optional uint32 index = 6 [default = 0];</code>
+     *
+     * <pre>
+     * identity index
+     * </pre>
+     */
+    int getIndex();
+  }
+  /**
+   * Protobuf type {@code IdentityType}
+   *
+   * <pre>
+   **
+   * Structure representing identity data
+   * @used_in IdentityType
+   * </pre>
+   */
+  public static final class IdentityType extends
+      com.google.protobuf.GeneratedMessage
+      implements IdentityTypeOrBuilder {
+    // Use IdentityType.newBuilder() to construct.
+    private IdentityType(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private IdentityType(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final IdentityType defaultInstance;
+    public static IdentityType getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public IdentityType getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private IdentityType(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              bitField0_ |= 0x00000001;
+              proto_ = input.readBytes();
+              break;
+            }
+            case 18: {
+              bitField0_ |= 0x00000002;
+              user_ = input.readBytes();
+              break;
+            }
+            case 26: {
+              bitField0_ |= 0x00000004;
+              host_ = input.readBytes();
+              break;
+            }
+            case 34: {
+              bitField0_ |= 0x00000008;
+              port_ = input.readBytes();
+              break;
+            }
+            case 42: {
+              bitField0_ |= 0x00000010;
+              path_ = input.readBytes();
+              break;
+            }
+            case 48: {
+              bitField0_ |= 0x00000020;
+              index_ = input.readUInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.bdx.bwallet.protobuf.BWalletType.internal_static_IdentityType_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.bdx.bwallet.protobuf.BWalletType.internal_static_IdentityType_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.bdx.bwallet.protobuf.BWalletType.IdentityType.class, com.bdx.bwallet.protobuf.BWalletType.IdentityType.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<IdentityType> PARSER =
+        new com.google.protobuf.AbstractParser<IdentityType>() {
+      public IdentityType parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new IdentityType(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<IdentityType> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // optional string proto = 1;
+    public static final int PROTO_FIELD_NUMBER = 1;
+    private java.lang.Object proto_;
+    /**
+     * <code>optional string proto = 1;</code>
+     *
+     * <pre>
+     * proto part of URI
+     * </pre>
+     */
+    public boolean hasProto() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>optional string proto = 1;</code>
+     *
+     * <pre>
+     * proto part of URI
+     * </pre>
+     */
+    public java.lang.String getProto() {
+      java.lang.Object ref = proto_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          proto_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string proto = 1;</code>
+     *
+     * <pre>
+     * proto part of URI
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getProtoBytes() {
+      java.lang.Object ref = proto_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        proto_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // optional string user = 2;
+    public static final int USER_FIELD_NUMBER = 2;
+    private java.lang.Object user_;
+    /**
+     * <code>optional string user = 2;</code>
+     *
+     * <pre>
+     * user part of URI
+     * </pre>
+     */
+    public boolean hasUser() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>optional string user = 2;</code>
+     *
+     * <pre>
+     * user part of URI
+     * </pre>
+     */
+    public java.lang.String getUser() {
+      java.lang.Object ref = user_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          user_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string user = 2;</code>
+     *
+     * <pre>
+     * user part of URI
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getUserBytes() {
+      java.lang.Object ref = user_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        user_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // optional string host = 3;
+    public static final int HOST_FIELD_NUMBER = 3;
+    private java.lang.Object host_;
+    /**
+     * <code>optional string host = 3;</code>
+     *
+     * <pre>
+     * host part of URI
+     * </pre>
+     */
+    public boolean hasHost() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>optional string host = 3;</code>
+     *
+     * <pre>
+     * host part of URI
+     * </pre>
+     */
+    public java.lang.String getHost() {
+      java.lang.Object ref = host_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          host_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string host = 3;</code>
+     *
+     * <pre>
+     * host part of URI
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getHostBytes() {
+      java.lang.Object ref = host_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        host_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // optional string port = 4;
+    public static final int PORT_FIELD_NUMBER = 4;
+    private java.lang.Object port_;
+    /**
+     * <code>optional string port = 4;</code>
+     *
+     * <pre>
+     * port part of URI
+     * </pre>
+     */
+    public boolean hasPort() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>optional string port = 4;</code>
+     *
+     * <pre>
+     * port part of URI
+     * </pre>
+     */
+    public java.lang.String getPort() {
+      java.lang.Object ref = port_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          port_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string port = 4;</code>
+     *
+     * <pre>
+     * port part of URI
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getPortBytes() {
+      java.lang.Object ref = port_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        port_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // optional string path = 5;
+    public static final int PATH_FIELD_NUMBER = 5;
+    private java.lang.Object path_;
+    /**
+     * <code>optional string path = 5;</code>
+     *
+     * <pre>
+     * path part of URI
+     * </pre>
+     */
+    public boolean hasPath() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>optional string path = 5;</code>
+     *
+     * <pre>
+     * path part of URI
+     * </pre>
+     */
+    public java.lang.String getPath() {
+      java.lang.Object ref = path_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          path_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string path = 5;</code>
+     *
+     * <pre>
+     * path part of URI
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getPathBytes() {
+      java.lang.Object ref = path_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        path_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // optional uint32 index = 6 [default = 0];
+    public static final int INDEX_FIELD_NUMBER = 6;
+    private int index_;
+    /**
+     * <code>optional uint32 index = 6 [default = 0];</code>
+     *
+     * <pre>
+     * identity index
+     * </pre>
+     */
+    public boolean hasIndex() {
+      return ((bitField0_ & 0x00000020) == 0x00000020);
+    }
+    /**
+     * <code>optional uint32 index = 6 [default = 0];</code>
+     *
+     * <pre>
+     * identity index
+     * </pre>
+     */
+    public int getIndex() {
+      return index_;
+    }
+
+    private void initFields() {
+      proto_ = "";
+      user_ = "";
+      host_ = "";
+      port_ = "";
+      path_ = "";
+      index_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeBytes(1, getProtoBytes());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeBytes(2, getUserBytes());
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeBytes(3, getHostBytes());
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeBytes(4, getPortBytes());
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        output.writeBytes(5, getPathBytes());
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        output.writeUInt32(6, index_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(1, getProtoBytes());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(2, getUserBytes());
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(3, getHostBytes());
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(4, getPortBytes());
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(5, getPathBytes());
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(6, index_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.bdx.bwallet.protobuf.BWalletType.IdentityType parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.bdx.bwallet.protobuf.BWalletType.IdentityType parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.bdx.bwallet.protobuf.BWalletType.IdentityType parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.bdx.bwallet.protobuf.BWalletType.IdentityType parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.bdx.bwallet.protobuf.BWalletType.IdentityType parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.bdx.bwallet.protobuf.BWalletType.IdentityType parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.bdx.bwallet.protobuf.BWalletType.IdentityType parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.bdx.bwallet.protobuf.BWalletType.IdentityType parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.bdx.bwallet.protobuf.BWalletType.IdentityType parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.bdx.bwallet.protobuf.BWalletType.IdentityType parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.bdx.bwallet.protobuf.BWalletType.IdentityType prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code IdentityType}
+     *
+     * <pre>
+     **
+     * Structure representing identity data
+     * @used_in IdentityType
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.bdx.bwallet.protobuf.BWalletType.IdentityTypeOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.bdx.bwallet.protobuf.BWalletType.internal_static_IdentityType_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.bdx.bwallet.protobuf.BWalletType.internal_static_IdentityType_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.bdx.bwallet.protobuf.BWalletType.IdentityType.class, com.bdx.bwallet.protobuf.BWalletType.IdentityType.Builder.class);
+      }
+
+      // Construct using com.bdx.bwallet.protobuf.BWalletType.IdentityType.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        proto_ = "";
+        bitField0_ = (bitField0_ & ~0x00000001);
+        user_ = "";
+        bitField0_ = (bitField0_ & ~0x00000002);
+        host_ = "";
+        bitField0_ = (bitField0_ & ~0x00000004);
+        port_ = "";
+        bitField0_ = (bitField0_ & ~0x00000008);
+        path_ = "";
+        bitField0_ = (bitField0_ & ~0x00000010);
+        index_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000020);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.bdx.bwallet.protobuf.BWalletType.internal_static_IdentityType_descriptor;
+      }
+
+      public com.bdx.bwallet.protobuf.BWalletType.IdentityType getDefaultInstanceForType() {
+        return com.bdx.bwallet.protobuf.BWalletType.IdentityType.getDefaultInstance();
+      }
+
+      public com.bdx.bwallet.protobuf.BWalletType.IdentityType build() {
+        com.bdx.bwallet.protobuf.BWalletType.IdentityType result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.bdx.bwallet.protobuf.BWalletType.IdentityType buildPartial() {
+        com.bdx.bwallet.protobuf.BWalletType.IdentityType result = new com.bdx.bwallet.protobuf.BWalletType.IdentityType(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.proto_ = proto_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.user_ = user_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.host_ = host_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.port_ = port_;
+        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+          to_bitField0_ |= 0x00000010;
+        }
+        result.path_ = path_;
+        if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
+          to_bitField0_ |= 0x00000020;
+        }
+        result.index_ = index_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.bdx.bwallet.protobuf.BWalletType.IdentityType) {
+          return mergeFrom((com.bdx.bwallet.protobuf.BWalletType.IdentityType)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.bdx.bwallet.protobuf.BWalletType.IdentityType other) {
+        if (other == com.bdx.bwallet.protobuf.BWalletType.IdentityType.getDefaultInstance()) return this;
+        if (other.hasProto()) {
+          bitField0_ |= 0x00000001;
+          proto_ = other.proto_;
+          onChanged();
+        }
+        if (other.hasUser()) {
+          bitField0_ |= 0x00000002;
+          user_ = other.user_;
+          onChanged();
+        }
+        if (other.hasHost()) {
+          bitField0_ |= 0x00000004;
+          host_ = other.host_;
+          onChanged();
+        }
+        if (other.hasPort()) {
+          bitField0_ |= 0x00000008;
+          port_ = other.port_;
+          onChanged();
+        }
+        if (other.hasPath()) {
+          bitField0_ |= 0x00000010;
+          path_ = other.path_;
+          onChanged();
+        }
+        if (other.hasIndex()) {
+          setIndex(other.getIndex());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.bdx.bwallet.protobuf.BWalletType.IdentityType parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.bdx.bwallet.protobuf.BWalletType.IdentityType) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // optional string proto = 1;
+      private java.lang.Object proto_ = "";
+      /**
+       * <code>optional string proto = 1;</code>
+       *
+       * <pre>
+       * proto part of URI
+       * </pre>
+       */
+      public boolean hasProto() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>optional string proto = 1;</code>
+       *
+       * <pre>
+       * proto part of URI
+       * </pre>
+       */
+      public java.lang.String getProto() {
+        java.lang.Object ref = proto_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          proto_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string proto = 1;</code>
+       *
+       * <pre>
+       * proto part of URI
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getProtoBytes() {
+        java.lang.Object ref = proto_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          proto_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string proto = 1;</code>
+       *
+       * <pre>
+       * proto part of URI
+       * </pre>
+       */
+      public Builder setProto(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        proto_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string proto = 1;</code>
+       *
+       * <pre>
+       * proto part of URI
+       * </pre>
+       */
+      public Builder clearProto() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        proto_ = getDefaultInstance().getProto();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string proto = 1;</code>
+       *
+       * <pre>
+       * proto part of URI
+       * </pre>
+       */
+      public Builder setProtoBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        proto_ = value;
+        onChanged();
+        return this;
+      }
+
+      // optional string user = 2;
+      private java.lang.Object user_ = "";
+      /**
+       * <code>optional string user = 2;</code>
+       *
+       * <pre>
+       * user part of URI
+       * </pre>
+       */
+      public boolean hasUser() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>optional string user = 2;</code>
+       *
+       * <pre>
+       * user part of URI
+       * </pre>
+       */
+      public java.lang.String getUser() {
+        java.lang.Object ref = user_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          user_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string user = 2;</code>
+       *
+       * <pre>
+       * user part of URI
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getUserBytes() {
+        java.lang.Object ref = user_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          user_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string user = 2;</code>
+       *
+       * <pre>
+       * user part of URI
+       * </pre>
+       */
+      public Builder setUser(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        user_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string user = 2;</code>
+       *
+       * <pre>
+       * user part of URI
+       * </pre>
+       */
+      public Builder clearUser() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        user_ = getDefaultInstance().getUser();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string user = 2;</code>
+       *
+       * <pre>
+       * user part of URI
+       * </pre>
+       */
+      public Builder setUserBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        user_ = value;
+        onChanged();
+        return this;
+      }
+
+      // optional string host = 3;
+      private java.lang.Object host_ = "";
+      /**
+       * <code>optional string host = 3;</code>
+       *
+       * <pre>
+       * host part of URI
+       * </pre>
+       */
+      public boolean hasHost() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>optional string host = 3;</code>
+       *
+       * <pre>
+       * host part of URI
+       * </pre>
+       */
+      public java.lang.String getHost() {
+        java.lang.Object ref = host_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          host_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string host = 3;</code>
+       *
+       * <pre>
+       * host part of URI
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getHostBytes() {
+        java.lang.Object ref = host_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          host_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string host = 3;</code>
+       *
+       * <pre>
+       * host part of URI
+       * </pre>
+       */
+      public Builder setHost(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000004;
+        host_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string host = 3;</code>
+       *
+       * <pre>
+       * host part of URI
+       * </pre>
+       */
+      public Builder clearHost() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        host_ = getDefaultInstance().getHost();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string host = 3;</code>
+       *
+       * <pre>
+       * host part of URI
+       * </pre>
+       */
+      public Builder setHostBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000004;
+        host_ = value;
+        onChanged();
+        return this;
+      }
+
+      // optional string port = 4;
+      private java.lang.Object port_ = "";
+      /**
+       * <code>optional string port = 4;</code>
+       *
+       * <pre>
+       * port part of URI
+       * </pre>
+       */
+      public boolean hasPort() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>optional string port = 4;</code>
+       *
+       * <pre>
+       * port part of URI
+       * </pre>
+       */
+      public java.lang.String getPort() {
+        java.lang.Object ref = port_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          port_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string port = 4;</code>
+       *
+       * <pre>
+       * port part of URI
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getPortBytes() {
+        java.lang.Object ref = port_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          port_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string port = 4;</code>
+       *
+       * <pre>
+       * port part of URI
+       * </pre>
+       */
+      public Builder setPort(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000008;
+        port_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string port = 4;</code>
+       *
+       * <pre>
+       * port part of URI
+       * </pre>
+       */
+      public Builder clearPort() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        port_ = getDefaultInstance().getPort();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string port = 4;</code>
+       *
+       * <pre>
+       * port part of URI
+       * </pre>
+       */
+      public Builder setPortBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000008;
+        port_ = value;
+        onChanged();
+        return this;
+      }
+
+      // optional string path = 5;
+      private java.lang.Object path_ = "";
+      /**
+       * <code>optional string path = 5;</code>
+       *
+       * <pre>
+       * path part of URI
+       * </pre>
+       */
+      public boolean hasPath() {
+        return ((bitField0_ & 0x00000010) == 0x00000010);
+      }
+      /**
+       * <code>optional string path = 5;</code>
+       *
+       * <pre>
+       * path part of URI
+       * </pre>
+       */
+      public java.lang.String getPath() {
+        java.lang.Object ref = path_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          path_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string path = 5;</code>
+       *
+       * <pre>
+       * path part of URI
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getPathBytes() {
+        java.lang.Object ref = path_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          path_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string path = 5;</code>
+       *
+       * <pre>
+       * path part of URI
+       * </pre>
+       */
+      public Builder setPath(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000010;
+        path_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string path = 5;</code>
+       *
+       * <pre>
+       * path part of URI
+       * </pre>
+       */
+      public Builder clearPath() {
+        bitField0_ = (bitField0_ & ~0x00000010);
+        path_ = getDefaultInstance().getPath();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string path = 5;</code>
+       *
+       * <pre>
+       * path part of URI
+       * </pre>
+       */
+      public Builder setPathBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000010;
+        path_ = value;
+        onChanged();
+        return this;
+      }
+
+      // optional uint32 index = 6 [default = 0];
+      private int index_ ;
+      /**
+       * <code>optional uint32 index = 6 [default = 0];</code>
+       *
+       * <pre>
+       * identity index
+       * </pre>
+       */
+      public boolean hasIndex() {
+        return ((bitField0_ & 0x00000020) == 0x00000020);
+      }
+      /**
+       * <code>optional uint32 index = 6 [default = 0];</code>
+       *
+       * <pre>
+       * identity index
+       * </pre>
+       */
+      public int getIndex() {
+        return index_;
+      }
+      /**
+       * <code>optional uint32 index = 6 [default = 0];</code>
+       *
+       * <pre>
+       * identity index
+       * </pre>
+       */
+      public Builder setIndex(int value) {
+        bitField0_ |= 0x00000020;
+        index_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional uint32 index = 6 [default = 0];</code>
+       *
+       * <pre>
+       * identity index
+       * </pre>
+       */
+      public Builder clearIndex() {
+        bitField0_ = (bitField0_ & ~0x00000020);
+        index_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:IdentityType)
+    }
+
+    static {
+      defaultInstance = new IdentityType(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:IdentityType)
+  }
+
   public static final int WIRE_IN_FIELD_NUMBER = 50002;
   /**
    * <code>extend .google.protobuf.EnumValueOptions { ... }</code>
@@ -9058,6 +12201,11 @@ public final class BWalletType {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_HDNodeType_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_HDNodePathType_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_HDNodePathType_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
     internal_static_CoinType_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
@@ -9097,6 +12245,11 @@ public final class BWalletType {
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_TxRequestSerializedType_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_IdentityType_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_IdentityType_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -9110,61 +12263,69 @@ public final class BWalletType {
       "r.proto\"\200\001\n\nHDNodeType\022\r\n\005depth\030\001 \002(\r\022\023\n" +
       "\013fingerprint\030\002 \002(\r\022\021\n\tchild_num\030\003 \002(\r\022\022\n" +
       "\nchain_code\030\004 \002(\014\022\023\n\013private_key\030\005 \001(\014\022\022" +
-      "\n\npublic_key\030\006 \001(\014\"]\n\010CoinType\022\021\n\tcoin_n" +
-      "ame\030\001 \001(\t\022\025\n\rcoin_shortcut\030\002 \001(\t\022\024\n\014addr" +
-      "ess_type\030\003 \001(\r\022\021\n\tmaxfee_kb\030\004 \001(\004\"?\n\030Mul" +
-      "tisigRedeemScriptType\022\017\n\007pubkeys\030\001 \003(\014\022\022" +
-      "\n\nsignatures\030\002 \003(\014\"\333\001\n\013TxInputType\022\021\n\tad" +
-      "dress_n\030\001 \003(\r\022\021\n\tprev_hash\030\002 \002(\014\022\022\n\nprev",
-      "_index\030\003 \002(\r\022\022\n\nscript_sig\030\004 \001(\014\022\034\n\010sequ" +
-      "ence\030\005 \001(\r:\n4294967295\0223\n\013script_type\030\006 " +
-      "\001(\0162\020.InputScriptType:\014SPENDADDRESS\022+\n\010m" +
-      "ultisig\030\007 \001(\0132\031.MultisigRedeemScriptType" +
-      "\"j\n\014TxOutputType\022\017\n\007address\030\001 \001(\t\022\021\n\tadd" +
-      "ress_n\030\002 \003(\r\022\016\n\006amount\030\003 \002(\004\022&\n\013script_t" +
-      "ype\030\004 \002(\0162\021.OutputScriptType\"8\n\017TxOutput" +
-      "BinType\022\016\n\006amount\030\001 \002(\004\022\025\n\rscript_pubkey" +
-      "\030\002 \002(\014\"\303\001\n\017TransactionType\022\017\n\007version\030\001 " +
-      "\001(\r\022\034\n\006inputs\030\002 \003(\0132\014.TxInputType\022%\n\013bin",
-      "_outputs\030\003 \003(\0132\020.TxOutputBinType\022\036\n\007outp" +
-      "uts\030\005 \003(\0132\r.TxOutputType\022\021\n\tlock_time\030\004 " +
-      "\001(\r\022\022\n\ninputs_cnt\030\006 \001(\r\022\023\n\013outputs_cnt\030\007" +
-      " \001(\r\">\n\024TxRequestDetailsType\022\025\n\rrequest_" +
-      "index\030\001 \001(\r\022\017\n\007tx_hash\030\002 \001(\014\"\\\n\027TxReques" +
-      "tSerializedType\022\027\n\017signature_index\030\001 \001(\r" +
-      "\022\021\n\tsignature\030\002 \001(\014\022\025\n\rserialized_tx\030\003 \001" +
-      "(\014*\315\002\n\013FailureType\022\035\n\031Failure_Unexpected" +
-      "Message\020\001\022\032\n\026Failure_ButtonExpected\020\002\022\027\n" +
-      "\023Failure_SyntaxError\020\003\022\033\n\027Failure_Action",
-      "Cancelled\020\004\022\027\n\023Failure_PinExpected\020\005\022\030\n\024" +
-      "Failure_PinCancelled\020\006\022\026\n\022Failure_PinInv" +
-      "alid\020\007\022\034\n\030Failure_InvalidSignature\020\010\022\021\n\r" +
-      "Failure_Other\020\t\022\032\n\026Failure_NotEnoughFund" +
-      "s\020\n\022\032\n\026Failure_NotInitialized\020\013\022\031\n\025Failu" +
-      "re_FirmwareError\020c*9\n\020OutputScriptType\022\020" +
-      "\n\014PAYTOADDRESS\020\000\022\023\n\017PAYTOSCRIPTHASH\020\001*6\n" +
-      "\017InputScriptType\022\020\n\014SPENDADDRESS\020\000\022\021\n\rSP" +
-      "ENDMULTISIG\020\001*D\n\013RequestType\022\013\n\007TXINPUT\020" +
-      "\000\022\014\n\010TXOUTPUT\020\001\022\n\n\006TXMETA\020\002\022\016\n\nTXFINISHE",
-      "D\020\003*\302\002\n\021ButtonRequestType\022\027\n\023ButtonReque" +
-      "st_Other\020\001\022\"\n\036ButtonRequest_FeeOverThres" +
-      "hold\020\002\022\037\n\033ButtonRequest_ConfirmOutput\020\003\022" +
-      "\035\n\031ButtonRequest_ResetDevice\020\004\022\035\n\031Button" +
-      "Request_ConfirmWord\020\005\022\034\n\030ButtonRequest_W" +
-      "ipeDevice\020\006\022\035\n\031ButtonRequest_ProtectCall" +
-      "\020\007\022\030\n\024ButtonRequest_SignTx\020\010\022\037\n\033ButtonRe" +
-      "quest_FirmwareCheck\020\t\022\031\n\025ButtonRequest_A" +
-      "ddress\020\n*\177\n\024PinMatrixRequestType\022 \n\034PinM" +
-      "atrixRequestType_Current\020\001\022!\n\035PinMatrixR",
-      "equestType_NewFirst\020\002\022\"\n\036PinMatrixReques" +
-      "tType_NewSecond\020\003:4\n\007wire_in\022!.google.pr" +
-      "otobuf.EnumValueOptions\030\322\206\003 \001(\010:5\n\010wire_" +
-      "out\022!.google.protobuf.EnumValueOptions\030\323" +
-      "\206\003 \001(\010::\n\rwire_debug_in\022!.google.protobu" +
-      "f.EnumValueOptions\030\324\206\003 \001(\010:;\n\016wire_debug" +
-      "_out\022!.google.protobuf.EnumValueOptions\030" +
-      "\325\206\003 \001(\010B\'\n\030com.bdx.bwallet.protobufB\013BWa" +
-      "lletType"
+      "\n\npublic_key\030\006 \001(\014\">\n\016HDNodePathType\022\031\n\004" +
+      "node\030\001 \002(\0132\013.HDNodeType\022\021\n\taddress_n\030\002 \003" +
+      "(\r\"~\n\010CoinType\022\021\n\tcoin_name\030\001 \001(\t\022\025\n\rcoi" +
+      "n_shortcut\030\002 \001(\t\022\027\n\014address_type\030\003 \001(\r:\001" +
+      "0\022\021\n\tmaxfee_kb\030\004 \001(\004\022\034\n\021address_type_p2s" +
+      "h\030\005 \001(\r:\0015\"[\n\030MultisigRedeemScriptType\022 ",
+      "\n\007pubkeys\030\001 \003(\0132\017.HDNodePathType\022\022\n\nsign" +
+      "atures\030\002 \003(\014\022\t\n\001m\030\003 \001(\r\"\333\001\n\013TxInputType\022" +
+      "\021\n\taddress_n\030\001 \003(\r\022\021\n\tprev_hash\030\002 \002(\014\022\022\n" +
+      "\nprev_index\030\003 \002(\r\022\022\n\nscript_sig\030\004 \001(\014\022\034\n" +
+      "\010sequence\030\005 \001(\r:\n4294967295\0223\n\013script_ty" +
+      "pe\030\006 \001(\0162\020.InputScriptType:\014SPENDADDRESS" +
+      "\022+\n\010multisig\030\007 \001(\0132\031.MultisigRedeemScrip" +
+      "tType\"\257\001\n\014TxOutputType\022\017\n\007address\030\001 \001(\t\022" +
+      "\021\n\taddress_n\030\002 \003(\r\022\016\n\006amount\030\003 \002(\004\022&\n\013sc" +
+      "ript_type\030\004 \002(\0162\021.OutputScriptType\022+\n\010mu",
+      "ltisig\030\005 \001(\0132\031.MultisigRedeemScriptType\022" +
+      "\026\n\016op_return_data\030\006 \001(\014\"8\n\017TxOutputBinTy" +
+      "pe\022\016\n\006amount\030\001 \002(\004\022\025\n\rscript_pubkey\030\002 \002(" +
+      "\014\"\303\001\n\017TransactionType\022\017\n\007version\030\001 \001(\r\022\034" +
+      "\n\006inputs\030\002 \003(\0132\014.TxInputType\022%\n\013bin_outp" +
+      "uts\030\003 \003(\0132\020.TxOutputBinType\022\036\n\007outputs\030\005" +
+      " \003(\0132\r.TxOutputType\022\021\n\tlock_time\030\004 \001(\r\022\022" +
+      "\n\ninputs_cnt\030\006 \001(\r\022\023\n\013outputs_cnt\030\007 \001(\r\"" +
+      ">\n\024TxRequestDetailsType\022\025\n\rrequest_index" +
+      "\030\001 \001(\r\022\017\n\007tx_hash\030\002 \001(\014\"\\\n\027TxRequestSeri",
+      "alizedType\022\027\n\017signature_index\030\001 \001(\r\022\021\n\ts" +
+      "ignature\030\002 \001(\014\022\025\n\rserialized_tx\030\003 \001(\014\"g\n" +
+      "\014IdentityType\022\r\n\005proto\030\001 \001(\t\022\014\n\004user\030\002 \001" +
+      "(\t\022\014\n\004host\030\003 \001(\t\022\014\n\004port\030\004 \001(\t\022\014\n\004path\030\005" +
+      " \001(\t\022\020\n\005index\030\006 \001(\r:\0010*\315\002\n\013FailureType\022\035" +
+      "\n\031Failure_UnexpectedMessage\020\001\022\032\n\026Failure" +
+      "_ButtonExpected\020\002\022\027\n\023Failure_SyntaxError" +
+      "\020\003\022\033\n\027Failure_ActionCancelled\020\004\022\027\n\023Failu" +
+      "re_PinExpected\020\005\022\030\n\024Failure_PinCancelled" +
+      "\020\006\022\026\n\022Failure_PinInvalid\020\007\022\034\n\030Failure_In",
+      "validSignature\020\010\022\021\n\rFailure_Other\020\t\022\032\n\026F" +
+      "ailure_NotEnoughFunds\020\n\022\032\n\026Failure_NotIn" +
+      "itialized\020\013\022\031\n\025Failure_FirmwareError\020c*_" +
+      "\n\020OutputScriptType\022\020\n\014PAYTOADDRESS\020\000\022\023\n\017" +
+      "PAYTOSCRIPTHASH\020\001\022\021\n\rPAYTOMULTISIG\020\002\022\021\n\r" +
+      "PAYTOOPRETURN\020\003*6\n\017InputScriptType\022\020\n\014SP" +
+      "ENDADDRESS\020\000\022\021\n\rSPENDMULTISIG\020\001*D\n\013Reque" +
+      "stType\022\013\n\007TXINPUT\020\000\022\014\n\010TXOUTPUT\020\001\022\n\n\006TXM" +
+      "ETA\020\002\022\016\n\nTXFINISHED\020\003*\302\002\n\021ButtonRequestT" +
+      "ype\022\027\n\023ButtonRequest_Other\020\001\022\"\n\036ButtonRe",
+      "quest_FeeOverThreshold\020\002\022\037\n\033ButtonReques" +
+      "t_ConfirmOutput\020\003\022\035\n\031ButtonRequest_Reset" +
+      "Device\020\004\022\035\n\031ButtonRequest_ConfirmWord\020\005\022" +
+      "\034\n\030ButtonRequest_WipeDevice\020\006\022\035\n\031ButtonR" +
+      "equest_ProtectCall\020\007\022\030\n\024ButtonRequest_Si" +
+      "gnTx\020\010\022\037\n\033ButtonRequest_FirmwareCheck\020\t\022" +
+      "\031\n\025ButtonRequest_Address\020\n*\177\n\024PinMatrixR" +
+      "equestType\022 \n\034PinMatrixRequestType_Curre" +
+      "nt\020\001\022!\n\035PinMatrixRequestType_NewFirst\020\002\022" +
+      "\"\n\036PinMatrixRequestType_NewSecond\020\003:4\n\007w",
+      "ire_in\022!.google.protobuf.EnumValueOption" +
+      "s\030\322\206\003 \001(\010:5\n\010wire_out\022!.google.protobuf." +
+      "EnumValueOptions\030\323\206\003 \001(\010::\n\rwire_debug_i" +
+      "n\022!.google.protobuf.EnumValueOptions\030\324\206\003" +
+      " \001(\010:;\n\016wire_debug_out\022!.google.protobuf" +
+      ".EnumValueOptions\030\325\206\003 \001(\010B\'\n\030com.bdx.bwa" +
+      "llet.protobufB\013BWalletType"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -9177,54 +12338,66 @@ public final class BWalletType {
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_HDNodeType_descriptor,
               new java.lang.String[] { "Depth", "Fingerprint", "ChildNum", "ChainCode", "PrivateKey", "PublicKey", });
-          internal_static_CoinType_descriptor =
+          internal_static_HDNodePathType_descriptor =
             getDescriptor().getMessageTypes().get(1);
+          internal_static_HDNodePathType_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_HDNodePathType_descriptor,
+              new java.lang.String[] { "Node", "AddressN", });
+          internal_static_CoinType_descriptor =
+            getDescriptor().getMessageTypes().get(2);
           internal_static_CoinType_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_CoinType_descriptor,
-              new java.lang.String[] { "CoinName", "CoinShortcut", "AddressType", "MaxfeeKb", });
+              new java.lang.String[] { "CoinName", "CoinShortcut", "AddressType", "MaxfeeKb", "AddressTypeP2Sh", });
           internal_static_MultisigRedeemScriptType_descriptor =
-            getDescriptor().getMessageTypes().get(2);
+            getDescriptor().getMessageTypes().get(3);
           internal_static_MultisigRedeemScriptType_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_MultisigRedeemScriptType_descriptor,
-              new java.lang.String[] { "Pubkeys", "Signatures", });
+              new java.lang.String[] { "Pubkeys", "Signatures", "M", });
           internal_static_TxInputType_descriptor =
-            getDescriptor().getMessageTypes().get(3);
+            getDescriptor().getMessageTypes().get(4);
           internal_static_TxInputType_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_TxInputType_descriptor,
               new java.lang.String[] { "AddressN", "PrevHash", "PrevIndex", "ScriptSig", "Sequence", "ScriptType", "Multisig", });
           internal_static_TxOutputType_descriptor =
-            getDescriptor().getMessageTypes().get(4);
+            getDescriptor().getMessageTypes().get(5);
           internal_static_TxOutputType_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_TxOutputType_descriptor,
-              new java.lang.String[] { "Address", "AddressN", "Amount", "ScriptType", });
+              new java.lang.String[] { "Address", "AddressN", "Amount", "ScriptType", "Multisig", "OpReturnData", });
           internal_static_TxOutputBinType_descriptor =
-            getDescriptor().getMessageTypes().get(5);
+            getDescriptor().getMessageTypes().get(6);
           internal_static_TxOutputBinType_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_TxOutputBinType_descriptor,
               new java.lang.String[] { "Amount", "ScriptPubkey", });
           internal_static_TransactionType_descriptor =
-            getDescriptor().getMessageTypes().get(6);
+            getDescriptor().getMessageTypes().get(7);
           internal_static_TransactionType_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_TransactionType_descriptor,
               new java.lang.String[] { "Version", "Inputs", "BinOutputs", "Outputs", "LockTime", "InputsCnt", "OutputsCnt", });
           internal_static_TxRequestDetailsType_descriptor =
-            getDescriptor().getMessageTypes().get(7);
+            getDescriptor().getMessageTypes().get(8);
           internal_static_TxRequestDetailsType_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_TxRequestDetailsType_descriptor,
               new java.lang.String[] { "RequestIndex", "TxHash", });
           internal_static_TxRequestSerializedType_descriptor =
-            getDescriptor().getMessageTypes().get(8);
+            getDescriptor().getMessageTypes().get(9);
           internal_static_TxRequestSerializedType_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_TxRequestSerializedType_descriptor,
               new java.lang.String[] { "SignatureIndex", "Signature", "SerializedTx", });
+          internal_static_IdentityType_descriptor =
+            getDescriptor().getMessageTypes().get(10);
+          internal_static_IdentityType_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_IdentityType_descriptor,
+              new java.lang.String[] { "Proto", "User", "Host", "Port", "Path", "Index", });
           wireIn.internalInit(descriptor.getExtensions().get(0));
           wireOut.internalInit(descriptor.getExtensions().get(1));
           wireDebugIn.internalInit(descriptor.getExtensions().get(2));

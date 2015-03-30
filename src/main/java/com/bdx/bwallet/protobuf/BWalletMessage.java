@@ -111,117 +111,129 @@ public final class BWalletMessage {
      */
     MessageType_CipherKeyValue(22, 23),
     /**
-     * <code>MessageType_CipheredKeyValue = 48;</code>
-     */
-    MessageType_CipheredKeyValue(23, 48),
-    /**
      * <code>MessageType_ClearSession = 24;</code>
      */
-    MessageType_ClearSession(24, 24),
+    MessageType_ClearSession(23, 24),
     /**
      * <code>MessageType_ApplySettings = 25;</code>
      */
-    MessageType_ApplySettings(25, 25),
+    MessageType_ApplySettings(24, 25),
     /**
      * <code>MessageType_ButtonRequest = 26;</code>
      */
-    MessageType_ButtonRequest(26, 26),
+    MessageType_ButtonRequest(25, 26),
     /**
      * <code>MessageType_ButtonAck = 27;</code>
      */
-    MessageType_ButtonAck(27, 27),
+    MessageType_ButtonAck(26, 27),
     /**
      * <code>MessageType_GetAddress = 29;</code>
      */
-    MessageType_GetAddress(28, 29),
+    MessageType_GetAddress(27, 29),
     /**
      * <code>MessageType_Address = 30;</code>
      */
-    MessageType_Address(29, 30),
+    MessageType_Address(28, 30),
     /**
      * <code>MessageType_EntropyRequest = 35;</code>
      */
-    MessageType_EntropyRequest(30, 35),
+    MessageType_EntropyRequest(29, 35),
     /**
      * <code>MessageType_EntropyAck = 36;</code>
      */
-    MessageType_EntropyAck(31, 36),
+    MessageType_EntropyAck(30, 36),
     /**
      * <code>MessageType_SignMessage = 38;</code>
      */
-    MessageType_SignMessage(32, 38),
+    MessageType_SignMessage(31, 38),
     /**
      * <code>MessageType_VerifyMessage = 39;</code>
      */
-    MessageType_VerifyMessage(33, 39),
+    MessageType_VerifyMessage(32, 39),
     /**
      * <code>MessageType_MessageSignature = 40;</code>
      */
-    MessageType_MessageSignature(34, 40),
-    /**
-     * <code>MessageType_EncryptMessage = 49;</code>
-     */
-    MessageType_EncryptMessage(35, 49),
-    /**
-     * <code>MessageType_EncryptedMessage = 50;</code>
-     */
-    MessageType_EncryptedMessage(36, 50),
-    /**
-     * <code>MessageType_DecryptMessage = 51;</code>
-     */
-    MessageType_DecryptMessage(37, 51),
-    /**
-     * <code>MessageType_DecryptedMessage = 52;</code>
-     */
-    MessageType_DecryptedMessage(38, 52),
+    MessageType_MessageSignature(33, 40),
     /**
      * <code>MessageType_PassphraseRequest = 41;</code>
      */
-    MessageType_PassphraseRequest(39, 41),
+    MessageType_PassphraseRequest(34, 41),
     /**
      * <code>MessageType_PassphraseAck = 42;</code>
      */
-    MessageType_PassphraseAck(40, 42),
+    MessageType_PassphraseAck(35, 42),
     /**
      * <code>MessageType_EstimateTxSize = 43;</code>
      */
-    MessageType_EstimateTxSize(41, 43),
+    MessageType_EstimateTxSize(36, 43),
     /**
      * <code>MessageType_TxSize = 44;</code>
      */
-    MessageType_TxSize(42, 44),
+    MessageType_TxSize(37, 44),
     /**
      * <code>MessageType_RecoveryDevice = 45;</code>
      */
-    MessageType_RecoveryDevice(43, 45),
+    MessageType_RecoveryDevice(38, 45),
     /**
      * <code>MessageType_WordRequest = 46;</code>
      */
-    MessageType_WordRequest(44, 46),
+    MessageType_WordRequest(39, 46),
     /**
      * <code>MessageType_WordAck = 47;</code>
      */
-    MessageType_WordAck(45, 47),
+    MessageType_WordAck(40, 47),
+    /**
+     * <code>MessageType_CipheredKeyValue = 48;</code>
+     */
+    MessageType_CipheredKeyValue(41, 48),
+    /**
+     * <code>MessageType_EncryptMessage = 49;</code>
+     */
+    MessageType_EncryptMessage(42, 49),
+    /**
+     * <code>MessageType_EncryptedMessage = 50;</code>
+     */
+    MessageType_EncryptedMessage(43, 50),
+    /**
+     * <code>MessageType_DecryptMessage = 51;</code>
+     */
+    MessageType_DecryptMessage(44, 51),
+    /**
+     * <code>MessageType_DecryptedMessage = 52;</code>
+     */
+    MessageType_DecryptedMessage(45, 52),
+    /**
+     * <code>MessageType_SignIdentity = 53;</code>
+     */
+    MessageType_SignIdentity(46, 53),
+    /**
+     * <code>MessageType_SignedIdentity = 54;</code>
+     */
+    MessageType_SignedIdentity(47, 54),
+    /**
+     * <code>MessageType_TestScreen = 99;</code>
+     */
+    MessageType_TestScreen(48, 99),
     /**
      * <code>MessageType_DebugLinkDecision = 100;</code>
      */
-    MessageType_DebugLinkDecision(46, 100),
+    MessageType_DebugLinkDecision(49, 100),
     /**
      * <code>MessageType_DebugLinkGetState = 101;</code>
      */
-    MessageType_DebugLinkGetState(47, 101),
+    MessageType_DebugLinkGetState(50, 101),
     /**
      * <code>MessageType_DebugLinkState = 102;</code>
      */
-    MessageType_DebugLinkState(48, 102),
+    MessageType_DebugLinkState(51, 102),
     /**
      * <code>MessageType_DebugLinkStop = 103;</code>
      */
-    MessageType_DebugLinkStop(49, 103),
+    MessageType_DebugLinkStop(52, 103),
     /**
      * <code>MessageType_DebugLinkLog = 104;</code>
      */
-    MessageType_DebugLinkLog(50, 104),
+    MessageType_DebugLinkLog(53, 104),
     ;
 
     /**
@@ -317,10 +329,6 @@ public final class BWalletMessage {
      */
     public static final int MessageType_CipherKeyValue_VALUE = 23;
     /**
-     * <code>MessageType_CipheredKeyValue = 48;</code>
-     */
-    public static final int MessageType_CipheredKeyValue_VALUE = 48;
-    /**
      * <code>MessageType_ClearSession = 24;</code>
      */
     public static final int MessageType_ClearSession_VALUE = 24;
@@ -365,22 +373,6 @@ public final class BWalletMessage {
      */
     public static final int MessageType_MessageSignature_VALUE = 40;
     /**
-     * <code>MessageType_EncryptMessage = 49;</code>
-     */
-    public static final int MessageType_EncryptMessage_VALUE = 49;
-    /**
-     * <code>MessageType_EncryptedMessage = 50;</code>
-     */
-    public static final int MessageType_EncryptedMessage_VALUE = 50;
-    /**
-     * <code>MessageType_DecryptMessage = 51;</code>
-     */
-    public static final int MessageType_DecryptMessage_VALUE = 51;
-    /**
-     * <code>MessageType_DecryptedMessage = 52;</code>
-     */
-    public static final int MessageType_DecryptedMessage_VALUE = 52;
-    /**
      * <code>MessageType_PassphraseRequest = 41;</code>
      */
     public static final int MessageType_PassphraseRequest_VALUE = 41;
@@ -408,6 +400,38 @@ public final class BWalletMessage {
      * <code>MessageType_WordAck = 47;</code>
      */
     public static final int MessageType_WordAck_VALUE = 47;
+    /**
+     * <code>MessageType_CipheredKeyValue = 48;</code>
+     */
+    public static final int MessageType_CipheredKeyValue_VALUE = 48;
+    /**
+     * <code>MessageType_EncryptMessage = 49;</code>
+     */
+    public static final int MessageType_EncryptMessage_VALUE = 49;
+    /**
+     * <code>MessageType_EncryptedMessage = 50;</code>
+     */
+    public static final int MessageType_EncryptedMessage_VALUE = 50;
+    /**
+     * <code>MessageType_DecryptMessage = 51;</code>
+     */
+    public static final int MessageType_DecryptMessage_VALUE = 51;
+    /**
+     * <code>MessageType_DecryptedMessage = 52;</code>
+     */
+    public static final int MessageType_DecryptedMessage_VALUE = 52;
+    /**
+     * <code>MessageType_SignIdentity = 53;</code>
+     */
+    public static final int MessageType_SignIdentity_VALUE = 53;
+    /**
+     * <code>MessageType_SignedIdentity = 54;</code>
+     */
+    public static final int MessageType_SignedIdentity_VALUE = 54;
+    /**
+     * <code>MessageType_TestScreen = 99;</code>
+     */
+    public static final int MessageType_TestScreen_VALUE = 99;
     /**
      * <code>MessageType_DebugLinkDecision = 100;</code>
      */
@@ -457,7 +481,6 @@ public final class BWalletMessage {
         case 21: return MessageType_TxRequest;
         case 22: return MessageType_TxAck;
         case 23: return MessageType_CipherKeyValue;
-        case 48: return MessageType_CipheredKeyValue;
         case 24: return MessageType_ClearSession;
         case 25: return MessageType_ApplySettings;
         case 26: return MessageType_ButtonRequest;
@@ -469,10 +492,6 @@ public final class BWalletMessage {
         case 38: return MessageType_SignMessage;
         case 39: return MessageType_VerifyMessage;
         case 40: return MessageType_MessageSignature;
-        case 49: return MessageType_EncryptMessage;
-        case 50: return MessageType_EncryptedMessage;
-        case 51: return MessageType_DecryptMessage;
-        case 52: return MessageType_DecryptedMessage;
         case 41: return MessageType_PassphraseRequest;
         case 42: return MessageType_PassphraseAck;
         case 43: return MessageType_EstimateTxSize;
@@ -480,6 +499,14 @@ public final class BWalletMessage {
         case 45: return MessageType_RecoveryDevice;
         case 46: return MessageType_WordRequest;
         case 47: return MessageType_WordAck;
+        case 48: return MessageType_CipheredKeyValue;
+        case 49: return MessageType_EncryptMessage;
+        case 50: return MessageType_EncryptedMessage;
+        case 51: return MessageType_DecryptMessage;
+        case 52: return MessageType_DecryptedMessage;
+        case 53: return MessageType_SignIdentity;
+        case 54: return MessageType_SignedIdentity;
+        case 99: return MessageType_TestScreen;
         case 100: return MessageType_DebugLinkDecision;
         case 101: return MessageType_DebugLinkGetState;
         case 102: return MessageType_DebugLinkState;
@@ -1075,7 +1102,7 @@ public final class BWalletMessage {
      * <code>optional string vendor = 1;</code>
      *
      * <pre>
-     * name of the manufacturer, e.g. "bwallet.com"
+     * name of the manufacturer, e.g. "bitcointrezor.com"
      * </pre>
      */
     boolean hasVendor();
@@ -1083,7 +1110,7 @@ public final class BWalletMessage {
      * <code>optional string vendor = 1;</code>
      *
      * <pre>
-     * name of the manufacturer, e.g. "bwallet.com"
+     * name of the manufacturer, e.g. "bitcointrezor.com"
      * </pre>
      */
     java.lang.String getVendor();
@@ -1091,7 +1118,7 @@ public final class BWalletMessage {
      * <code>optional string vendor = 1;</code>
      *
      * <pre>
-     * name of the manufacturer, e.g. "bwallet.com"
+     * name of the manufacturer, e.g. "bitcointrezor.com"
      * </pre>
      */
     com.google.protobuf.ByteString
@@ -1402,33 +1429,6 @@ public final class BWalletMessage {
      * </pre>
      */
     boolean getImported();
-
-    // optional string cpu_sn = 16;
-    /**
-     * <code>optional string cpu_sn = 16;</code>
-     *
-     * <pre>
-     * serial number of CPU
-     * </pre>
-     */
-    boolean hasCpuSn();
-    /**
-     * <code>optional string cpu_sn = 16;</code>
-     *
-     * <pre>
-     * serial number of CPU
-     * </pre>
-     */
-    java.lang.String getCpuSn();
-    /**
-     * <code>optional string cpu_sn = 16;</code>
-     *
-     * <pre>
-     * serial number of CPU
-     * </pre>
-     */
-    com.google.protobuf.ByteString
-        getCpuSnBytes();
   }
   /**
    * Protobuf type {@code Features}
@@ -1565,11 +1565,6 @@ public final class BWalletMessage {
               imported_ = input.readBool();
               break;
             }
-            case 130: {
-              bitField0_ |= 0x00004000;
-              cpuSn_ = input.readBytes();
-              break;
-            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -1620,7 +1615,7 @@ public final class BWalletMessage {
      * <code>optional string vendor = 1;</code>
      *
      * <pre>
-     * name of the manufacturer, e.g. "bwallet.com"
+     * name of the manufacturer, e.g. "bitcointrezor.com"
      * </pre>
      */
     public boolean hasVendor() {
@@ -1630,7 +1625,7 @@ public final class BWalletMessage {
      * <code>optional string vendor = 1;</code>
      *
      * <pre>
-     * name of the manufacturer, e.g. "bwallet.com"
+     * name of the manufacturer, e.g. "bitcointrezor.com"
      * </pre>
      */
     public java.lang.String getVendor() {
@@ -1651,7 +1646,7 @@ public final class BWalletMessage {
      * <code>optional string vendor = 1;</code>
      *
      * <pre>
-     * name of the manufacturer, e.g. "bwallet.com"
+     * name of the manufacturer, e.g. "bitcointrezor.com"
      * </pre>
      */
     public com.google.protobuf.ByteString
@@ -2129,61 +2124,6 @@ public final class BWalletMessage {
       return imported_;
     }
 
-    // optional string cpu_sn = 16;
-    public static final int CPU_SN_FIELD_NUMBER = 16;
-    private java.lang.Object cpuSn_;
-    /**
-     * <code>optional string cpu_sn = 16;</code>
-     *
-     * <pre>
-     * serial number of CPU
-     * </pre>
-     */
-    public boolean hasCpuSn() {
-      return ((bitField0_ & 0x00004000) == 0x00004000);
-    }
-    /**
-     * <code>optional string cpu_sn = 16;</code>
-     *
-     * <pre>
-     * serial number of CPU
-     * </pre>
-     */
-    public java.lang.String getCpuSn() {
-      java.lang.Object ref = cpuSn_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        if (bs.isValidUtf8()) {
-          cpuSn_ = s;
-        }
-        return s;
-      }
-    }
-    /**
-     * <code>optional string cpu_sn = 16;</code>
-     *
-     * <pre>
-     * serial number of CPU
-     * </pre>
-     */
-    public com.google.protobuf.ByteString
-        getCpuSnBytes() {
-      java.lang.Object ref = cpuSn_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        cpuSn_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
-    }
-
     private void initFields() {
       vendor_ = "";
       majorVersion_ = 0;
@@ -2200,7 +2140,6 @@ public final class BWalletMessage {
       revision_ = com.google.protobuf.ByteString.EMPTY;
       bootloaderHash_ = com.google.protobuf.ByteString.EMPTY;
       imported_ = false;
-      cpuSn_ = "";
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -2258,9 +2197,6 @@ public final class BWalletMessage {
       }
       if (((bitField0_ & 0x00002000) == 0x00002000)) {
         output.writeBool(15, imported_);
-      }
-      if (((bitField0_ & 0x00004000) == 0x00004000)) {
-        output.writeBytes(16, getCpuSnBytes());
       }
       getUnknownFields().writeTo(output);
     }
@@ -2330,10 +2266,6 @@ public final class BWalletMessage {
       if (((bitField0_ & 0x00002000) == 0x00002000)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(15, imported_);
-      }
-      if (((bitField0_ & 0x00004000) == 0x00004000)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(16, getCpuSnBytes());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -2492,8 +2424,6 @@ public final class BWalletMessage {
         bitField0_ = (bitField0_ & ~0x00002000);
         imported_ = false;
         bitField0_ = (bitField0_ & ~0x00004000);
-        cpuSn_ = "";
-        bitField0_ = (bitField0_ & ~0x00008000);
         return this;
       }
 
@@ -2587,10 +2517,6 @@ public final class BWalletMessage {
           to_bitField0_ |= 0x00002000;
         }
         result.imported_ = imported_;
-        if (((from_bitField0_ & 0x00008000) == 0x00008000)) {
-          to_bitField0_ |= 0x00004000;
-        }
-        result.cpuSn_ = cpuSn_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -2683,11 +2609,6 @@ public final class BWalletMessage {
         if (other.hasImported()) {
           setImported(other.getImported());
         }
-        if (other.hasCpuSn()) {
-          bitField0_ |= 0x00008000;
-          cpuSn_ = other.cpuSn_;
-          onChanged();
-        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
@@ -2721,7 +2642,7 @@ public final class BWalletMessage {
        * <code>optional string vendor = 1;</code>
        *
        * <pre>
-       * name of the manufacturer, e.g. "bwallet.com"
+       * name of the manufacturer, e.g. "bitcointrezor.com"
        * </pre>
        */
       public boolean hasVendor() {
@@ -2731,7 +2652,7 @@ public final class BWalletMessage {
        * <code>optional string vendor = 1;</code>
        *
        * <pre>
-       * name of the manufacturer, e.g. "bwallet.com"
+       * name of the manufacturer, e.g. "bitcointrezor.com"
        * </pre>
        */
       public java.lang.String getVendor() {
@@ -2749,7 +2670,7 @@ public final class BWalletMessage {
        * <code>optional string vendor = 1;</code>
        *
        * <pre>
-       * name of the manufacturer, e.g. "bwallet.com"
+       * name of the manufacturer, e.g. "bitcointrezor.com"
        * </pre>
        */
       public com.google.protobuf.ByteString
@@ -2769,7 +2690,7 @@ public final class BWalletMessage {
        * <code>optional string vendor = 1;</code>
        *
        * <pre>
-       * name of the manufacturer, e.g. "bwallet.com"
+       * name of the manufacturer, e.g. "bitcointrezor.com"
        * </pre>
        */
       public Builder setVendor(
@@ -2786,7 +2707,7 @@ public final class BWalletMessage {
        * <code>optional string vendor = 1;</code>
        *
        * <pre>
-       * name of the manufacturer, e.g. "bwallet.com"
+       * name of the manufacturer, e.g. "bitcointrezor.com"
        * </pre>
        */
       public Builder clearVendor() {
@@ -2799,7 +2720,7 @@ public final class BWalletMessage {
        * <code>optional string vendor = 1;</code>
        *
        * <pre>
-       * name of the manufacturer, e.g. "bwallet.com"
+       * name of the manufacturer, e.g. "bitcointrezor.com"
        * </pre>
        */
       public Builder setVendorBytes(
@@ -3915,104 +3836,6 @@ public final class BWalletMessage {
         return this;
       }
 
-      // optional string cpu_sn = 16;
-      private java.lang.Object cpuSn_ = "";
-      /**
-       * <code>optional string cpu_sn = 16;</code>
-       *
-       * <pre>
-       * serial number of CPU
-       * </pre>
-       */
-      public boolean hasCpuSn() {
-        return ((bitField0_ & 0x00008000) == 0x00008000);
-      }
-      /**
-       * <code>optional string cpu_sn = 16;</code>
-       *
-       * <pre>
-       * serial number of CPU
-       * </pre>
-       */
-      public java.lang.String getCpuSn() {
-        java.lang.Object ref = cpuSn_;
-        if (!(ref instanceof java.lang.String)) {
-          java.lang.String s = ((com.google.protobuf.ByteString) ref)
-              .toStringUtf8();
-          cpuSn_ = s;
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
-      }
-      /**
-       * <code>optional string cpu_sn = 16;</code>
-       *
-       * <pre>
-       * serial number of CPU
-       * </pre>
-       */
-      public com.google.protobuf.ByteString
-          getCpuSnBytes() {
-        java.lang.Object ref = cpuSn_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          cpuSn_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>optional string cpu_sn = 16;</code>
-       *
-       * <pre>
-       * serial number of CPU
-       * </pre>
-       */
-      public Builder setCpuSn(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00008000;
-        cpuSn_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional string cpu_sn = 16;</code>
-       *
-       * <pre>
-       * serial number of CPU
-       * </pre>
-       */
-      public Builder clearCpuSn() {
-        bitField0_ = (bitField0_ & ~0x00008000);
-        cpuSn_ = getDefaultInstance().getCpuSn();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional string cpu_sn = 16;</code>
-       *
-       * <pre>
-       * serial number of CPU
-       * </pre>
-       */
-      public Builder setCpuSnBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00008000;
-        cpuSn_ = value;
-        onChanged();
-        return this;
-      }
-
       // @@protoc_insertion_point(builder_scope:Features)
     }
 
@@ -4377,6 +4200,26 @@ public final class BWalletMessage {
      */
     com.google.protobuf.ByteString
         getLabelBytes();
+
+    // optional bool use_passphrase = 3;
+    /**
+     * <code>optional bool use_passphrase = 3;</code>
+     */
+    boolean hasUsePassphrase();
+    /**
+     * <code>optional bool use_passphrase = 3;</code>
+     */
+    boolean getUsePassphrase();
+
+    // optional bytes homescreen = 4;
+    /**
+     * <code>optional bytes homescreen = 4;</code>
+     */
+    boolean hasHomescreen();
+    /**
+     * <code>optional bytes homescreen = 4;</code>
+     */
+    com.google.protobuf.ByteString getHomescreen();
   }
   /**
    * Protobuf type {@code ApplySettings}
@@ -4446,6 +4289,16 @@ public final class BWalletMessage {
             case 18: {
               bitField0_ |= 0x00000002;
               label_ = input.readBytes();
+              break;
+            }
+            case 24: {
+              bitField0_ |= 0x00000004;
+              usePassphrase_ = input.readBool();
+              break;
+            }
+            case 34: {
+              bitField0_ |= 0x00000008;
+              homescreen_ = input.readBytes();
               break;
             }
           }
@@ -4574,9 +4427,43 @@ public final class BWalletMessage {
       }
     }
 
+    // optional bool use_passphrase = 3;
+    public static final int USE_PASSPHRASE_FIELD_NUMBER = 3;
+    private boolean usePassphrase_;
+    /**
+     * <code>optional bool use_passphrase = 3;</code>
+     */
+    public boolean hasUsePassphrase() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>optional bool use_passphrase = 3;</code>
+     */
+    public boolean getUsePassphrase() {
+      return usePassphrase_;
+    }
+
+    // optional bytes homescreen = 4;
+    public static final int HOMESCREEN_FIELD_NUMBER = 4;
+    private com.google.protobuf.ByteString homescreen_;
+    /**
+     * <code>optional bytes homescreen = 4;</code>
+     */
+    public boolean hasHomescreen() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>optional bytes homescreen = 4;</code>
+     */
+    public com.google.protobuf.ByteString getHomescreen() {
+      return homescreen_;
+    }
+
     private void initFields() {
       language_ = "";
       label_ = "";
+      usePassphrase_ = false;
+      homescreen_ = com.google.protobuf.ByteString.EMPTY;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -4596,6 +4483,12 @@ public final class BWalletMessage {
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         output.writeBytes(2, getLabelBytes());
       }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeBool(3, usePassphrase_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeBytes(4, homescreen_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -4612,6 +4505,14 @@ public final class BWalletMessage {
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(2, getLabelBytes());
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(3, usePassphrase_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(4, homescreen_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -4742,6 +4643,10 @@ public final class BWalletMessage {
         bitField0_ = (bitField0_ & ~0x00000001);
         label_ = "";
         bitField0_ = (bitField0_ & ~0x00000002);
+        usePassphrase_ = false;
+        bitField0_ = (bitField0_ & ~0x00000004);
+        homescreen_ = com.google.protobuf.ByteString.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000008);
         return this;
       }
 
@@ -4778,6 +4683,14 @@ public final class BWalletMessage {
           to_bitField0_ |= 0x00000002;
         }
         result.label_ = label_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.usePassphrase_ = usePassphrase_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.homescreen_ = homescreen_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -4803,6 +4716,12 @@ public final class BWalletMessage {
           bitField0_ |= 0x00000002;
           label_ = other.label_;
           onChanged();
+        }
+        if (other.hasUsePassphrase()) {
+          setUsePassphrase(other.getUsePassphrase());
+        }
+        if (other.hasHomescreen()) {
+          setHomescreen(other.getHomescreen());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -4975,6 +4894,75 @@ public final class BWalletMessage {
   }
   bitField0_ |= 0x00000002;
         label_ = value;
+        onChanged();
+        return this;
+      }
+
+      // optional bool use_passphrase = 3;
+      private boolean usePassphrase_ ;
+      /**
+       * <code>optional bool use_passphrase = 3;</code>
+       */
+      public boolean hasUsePassphrase() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>optional bool use_passphrase = 3;</code>
+       */
+      public boolean getUsePassphrase() {
+        return usePassphrase_;
+      }
+      /**
+       * <code>optional bool use_passphrase = 3;</code>
+       */
+      public Builder setUsePassphrase(boolean value) {
+        bitField0_ |= 0x00000004;
+        usePassphrase_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional bool use_passphrase = 3;</code>
+       */
+      public Builder clearUsePassphrase() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        usePassphrase_ = false;
+        onChanged();
+        return this;
+      }
+
+      // optional bytes homescreen = 4;
+      private com.google.protobuf.ByteString homescreen_ = com.google.protobuf.ByteString.EMPTY;
+      /**
+       * <code>optional bytes homescreen = 4;</code>
+       */
+      public boolean hasHomescreen() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>optional bytes homescreen = 4;</code>
+       */
+      public com.google.protobuf.ByteString getHomescreen() {
+        return homescreen_;
+      }
+      /**
+       * <code>optional bytes homescreen = 4;</code>
+       */
+      public Builder setHomescreen(com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000008;
+        homescreen_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional bytes homescreen = 4;</code>
+       */
+      public Builder clearHomescreen() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        homescreen_ = getDefaultInstance().getHomescreen();
         onChanged();
         return this;
       }
@@ -12767,6 +12755,32 @@ public final class BWalletMessage {
      * <code>optional bool show_display = 3;</code>
      */
     boolean getShowDisplay();
+
+    // optional .MultisigRedeemScriptType multisig = 4;
+    /**
+     * <code>optional .MultisigRedeemScriptType multisig = 4;</code>
+     *
+     * <pre>
+     * Filled if we are showing a multisig address
+     * </pre>
+     */
+    boolean hasMultisig();
+    /**
+     * <code>optional .MultisigRedeemScriptType multisig = 4;</code>
+     *
+     * <pre>
+     * Filled if we are showing a multisig address
+     * </pre>
+     */
+    com.bdx.bwallet.protobuf.BWalletType.MultisigRedeemScriptType getMultisig();
+    /**
+     * <code>optional .MultisigRedeemScriptType multisig = 4;</code>
+     *
+     * <pre>
+     * Filled if we are showing a multisig address
+     * </pre>
+     */
+    com.bdx.bwallet.protobuf.BWalletType.MultisigRedeemScriptTypeOrBuilder getMultisigOrBuilder();
   }
   /**
    * Protobuf type {@code GetAddress}
@@ -12856,6 +12870,19 @@ public final class BWalletMessage {
             case 24: {
               bitField0_ |= 0x00000002;
               showDisplay_ = input.readBool();
+              break;
+            }
+            case 34: {
+              com.bdx.bwallet.protobuf.BWalletType.MultisigRedeemScriptType.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000004) == 0x00000004)) {
+                subBuilder = multisig_.toBuilder();
+              }
+              multisig_ = input.readMessage(com.bdx.bwallet.protobuf.BWalletType.MultisigRedeemScriptType.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(multisig_);
+                multisig_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00000004;
               break;
             }
           }
@@ -12995,16 +13022,57 @@ public final class BWalletMessage {
       return showDisplay_;
     }
 
+    // optional .MultisigRedeemScriptType multisig = 4;
+    public static final int MULTISIG_FIELD_NUMBER = 4;
+    private com.bdx.bwallet.protobuf.BWalletType.MultisigRedeemScriptType multisig_;
+    /**
+     * <code>optional .MultisigRedeemScriptType multisig = 4;</code>
+     *
+     * <pre>
+     * Filled if we are showing a multisig address
+     * </pre>
+     */
+    public boolean hasMultisig() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>optional .MultisigRedeemScriptType multisig = 4;</code>
+     *
+     * <pre>
+     * Filled if we are showing a multisig address
+     * </pre>
+     */
+    public com.bdx.bwallet.protobuf.BWalletType.MultisigRedeemScriptType getMultisig() {
+      return multisig_;
+    }
+    /**
+     * <code>optional .MultisigRedeemScriptType multisig = 4;</code>
+     *
+     * <pre>
+     * Filled if we are showing a multisig address
+     * </pre>
+     */
+    public com.bdx.bwallet.protobuf.BWalletType.MultisigRedeemScriptTypeOrBuilder getMultisigOrBuilder() {
+      return multisig_;
+    }
+
     private void initFields() {
       addressN_ = java.util.Collections.emptyList();
       coinName_ = "Bitcoin";
       showDisplay_ = false;
+      multisig_ = com.bdx.bwallet.protobuf.BWalletType.MultisigRedeemScriptType.getDefaultInstance();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized != -1) return isInitialized == 1;
 
+      if (hasMultisig()) {
+        if (!getMultisig().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
       memoizedIsInitialized = 1;
       return true;
     }
@@ -13020,6 +13088,9 @@ public final class BWalletMessage {
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         output.writeBool(3, showDisplay_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeMessage(4, multisig_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -13046,6 +13117,10 @@ public final class BWalletMessage {
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(3, showDisplay_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(4, multisig_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -13163,6 +13238,7 @@ public final class BWalletMessage {
       }
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getMultisigFieldBuilder();
         }
       }
       private static Builder create() {
@@ -13177,6 +13253,12 @@ public final class BWalletMessage {
         bitField0_ = (bitField0_ & ~0x00000002);
         showDisplay_ = false;
         bitField0_ = (bitField0_ & ~0x00000004);
+        if (multisigBuilder_ == null) {
+          multisig_ = com.bdx.bwallet.protobuf.BWalletType.MultisigRedeemScriptType.getDefaultInstance();
+        } else {
+          multisigBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000008);
         return this;
       }
 
@@ -13218,6 +13300,14 @@ public final class BWalletMessage {
           to_bitField0_ |= 0x00000002;
         }
         result.showDisplay_ = showDisplay_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        if (multisigBuilder_ == null) {
+          result.multisig_ = multisig_;
+        } else {
+          result.multisig_ = multisigBuilder_.build();
+        }
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -13252,11 +13342,20 @@ public final class BWalletMessage {
         if (other.hasShowDisplay()) {
           setShowDisplay(other.getShowDisplay());
         }
+        if (other.hasMultisig()) {
+          mergeMultisig(other.getMultisig());
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
 
       public final boolean isInitialized() {
+        if (hasMultisig()) {
+          if (!getMultisig().isInitialized()) {
+            
+            return false;
+          }
+        }
         return true;
       }
 
@@ -13478,6 +13577,159 @@ public final class BWalletMessage {
         showDisplay_ = false;
         onChanged();
         return this;
+      }
+
+      // optional .MultisigRedeemScriptType multisig = 4;
+      private com.bdx.bwallet.protobuf.BWalletType.MultisigRedeemScriptType multisig_ = com.bdx.bwallet.protobuf.BWalletType.MultisigRedeemScriptType.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          com.bdx.bwallet.protobuf.BWalletType.MultisigRedeemScriptType, com.bdx.bwallet.protobuf.BWalletType.MultisigRedeemScriptType.Builder, com.bdx.bwallet.protobuf.BWalletType.MultisigRedeemScriptTypeOrBuilder> multisigBuilder_;
+      /**
+       * <code>optional .MultisigRedeemScriptType multisig = 4;</code>
+       *
+       * <pre>
+       * Filled if we are showing a multisig address
+       * </pre>
+       */
+      public boolean hasMultisig() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>optional .MultisigRedeemScriptType multisig = 4;</code>
+       *
+       * <pre>
+       * Filled if we are showing a multisig address
+       * </pre>
+       */
+      public com.bdx.bwallet.protobuf.BWalletType.MultisigRedeemScriptType getMultisig() {
+        if (multisigBuilder_ == null) {
+          return multisig_;
+        } else {
+          return multisigBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>optional .MultisigRedeemScriptType multisig = 4;</code>
+       *
+       * <pre>
+       * Filled if we are showing a multisig address
+       * </pre>
+       */
+      public Builder setMultisig(com.bdx.bwallet.protobuf.BWalletType.MultisigRedeemScriptType value) {
+        if (multisigBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          multisig_ = value;
+          onChanged();
+        } else {
+          multisigBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000008;
+        return this;
+      }
+      /**
+       * <code>optional .MultisigRedeemScriptType multisig = 4;</code>
+       *
+       * <pre>
+       * Filled if we are showing a multisig address
+       * </pre>
+       */
+      public Builder setMultisig(
+          com.bdx.bwallet.protobuf.BWalletType.MultisigRedeemScriptType.Builder builderForValue) {
+        if (multisigBuilder_ == null) {
+          multisig_ = builderForValue.build();
+          onChanged();
+        } else {
+          multisigBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000008;
+        return this;
+      }
+      /**
+       * <code>optional .MultisigRedeemScriptType multisig = 4;</code>
+       *
+       * <pre>
+       * Filled if we are showing a multisig address
+       * </pre>
+       */
+      public Builder mergeMultisig(com.bdx.bwallet.protobuf.BWalletType.MultisigRedeemScriptType value) {
+        if (multisigBuilder_ == null) {
+          if (((bitField0_ & 0x00000008) == 0x00000008) &&
+              multisig_ != com.bdx.bwallet.protobuf.BWalletType.MultisigRedeemScriptType.getDefaultInstance()) {
+            multisig_ =
+              com.bdx.bwallet.protobuf.BWalletType.MultisigRedeemScriptType.newBuilder(multisig_).mergeFrom(value).buildPartial();
+          } else {
+            multisig_ = value;
+          }
+          onChanged();
+        } else {
+          multisigBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000008;
+        return this;
+      }
+      /**
+       * <code>optional .MultisigRedeemScriptType multisig = 4;</code>
+       *
+       * <pre>
+       * Filled if we are showing a multisig address
+       * </pre>
+       */
+      public Builder clearMultisig() {
+        if (multisigBuilder_ == null) {
+          multisig_ = com.bdx.bwallet.protobuf.BWalletType.MultisigRedeemScriptType.getDefaultInstance();
+          onChanged();
+        } else {
+          multisigBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000008);
+        return this;
+      }
+      /**
+       * <code>optional .MultisigRedeemScriptType multisig = 4;</code>
+       *
+       * <pre>
+       * Filled if we are showing a multisig address
+       * </pre>
+       */
+      public com.bdx.bwallet.protobuf.BWalletType.MultisigRedeemScriptType.Builder getMultisigBuilder() {
+        bitField0_ |= 0x00000008;
+        onChanged();
+        return getMultisigFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .MultisigRedeemScriptType multisig = 4;</code>
+       *
+       * <pre>
+       * Filled if we are showing a multisig address
+       * </pre>
+       */
+      public com.bdx.bwallet.protobuf.BWalletType.MultisigRedeemScriptTypeOrBuilder getMultisigOrBuilder() {
+        if (multisigBuilder_ != null) {
+          return multisigBuilder_.getMessageOrBuilder();
+        } else {
+          return multisig_;
+        }
+      }
+      /**
+       * <code>optional .MultisigRedeemScriptType multisig = 4;</code>
+       *
+       * <pre>
+       * Filled if we are showing a multisig address
+       * </pre>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          com.bdx.bwallet.protobuf.BWalletType.MultisigRedeemScriptType, com.bdx.bwallet.protobuf.BWalletType.MultisigRedeemScriptType.Builder, com.bdx.bwallet.protobuf.BWalletType.MultisigRedeemScriptTypeOrBuilder> 
+          getMultisigFieldBuilder() {
+        if (multisigBuilder_ == null) {
+          multisigBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              com.bdx.bwallet.protobuf.BWalletType.MultisigRedeemScriptType, com.bdx.bwallet.protobuf.BWalletType.MultisigRedeemScriptType.Builder, com.bdx.bwallet.protobuf.BWalletType.MultisigRedeemScriptTypeOrBuilder>(
+                  multisig_,
+                  getParentForChildren(),
+                  isClean());
+          multisig_ = null;
+        }
+        return multisigBuilder_;
       }
 
       // @@protoc_insertion_point(builder_scope:GetAddress)
@@ -32708,6 +32960,1670 @@ public final class BWalletMessage {
     // @@protoc_insertion_point(class_scope:TxAck)
   }
 
+  public interface SignIdentityOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // optional .IdentityType identity = 1;
+    /**
+     * <code>optional .IdentityType identity = 1;</code>
+     *
+     * <pre>
+     * identity
+     * </pre>
+     */
+    boolean hasIdentity();
+    /**
+     * <code>optional .IdentityType identity = 1;</code>
+     *
+     * <pre>
+     * identity
+     * </pre>
+     */
+    com.bdx.bwallet.protobuf.BWalletType.IdentityType getIdentity();
+    /**
+     * <code>optional .IdentityType identity = 1;</code>
+     *
+     * <pre>
+     * identity
+     * </pre>
+     */
+    com.bdx.bwallet.protobuf.BWalletType.IdentityTypeOrBuilder getIdentityOrBuilder();
+
+    // optional bytes challenge_hidden = 2;
+    /**
+     * <code>optional bytes challenge_hidden = 2;</code>
+     *
+     * <pre>
+     * non-visible challenge
+     * </pre>
+     */
+    boolean hasChallengeHidden();
+    /**
+     * <code>optional bytes challenge_hidden = 2;</code>
+     *
+     * <pre>
+     * non-visible challenge
+     * </pre>
+     */
+    com.google.protobuf.ByteString getChallengeHidden();
+
+    // optional string challenge_visual = 3;
+    /**
+     * <code>optional string challenge_visual = 3;</code>
+     *
+     * <pre>
+     * challenge shown on display (e.g. date+time)
+     * </pre>
+     */
+    boolean hasChallengeVisual();
+    /**
+     * <code>optional string challenge_visual = 3;</code>
+     *
+     * <pre>
+     * challenge shown on display (e.g. date+time)
+     * </pre>
+     */
+    java.lang.String getChallengeVisual();
+    /**
+     * <code>optional string challenge_visual = 3;</code>
+     *
+     * <pre>
+     * challenge shown on display (e.g. date+time)
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getChallengeVisualBytes();
+  }
+  /**
+   * Protobuf type {@code SignIdentity}
+   *
+   * <pre>
+   **
+   * Request: Ask device to sign identity
+   * @next SignedIdentity
+   * @next Failure
+   * </pre>
+   */
+  public static final class SignIdentity extends
+      com.google.protobuf.GeneratedMessage
+      implements SignIdentityOrBuilder {
+    // Use SignIdentity.newBuilder() to construct.
+    private SignIdentity(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private SignIdentity(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final SignIdentity defaultInstance;
+    public static SignIdentity getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public SignIdentity getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private SignIdentity(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              com.bdx.bwallet.protobuf.BWalletType.IdentityType.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000001) == 0x00000001)) {
+                subBuilder = identity_.toBuilder();
+              }
+              identity_ = input.readMessage(com.bdx.bwallet.protobuf.BWalletType.IdentityType.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(identity_);
+                identity_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00000001;
+              break;
+            }
+            case 18: {
+              bitField0_ |= 0x00000002;
+              challengeHidden_ = input.readBytes();
+              break;
+            }
+            case 26: {
+              bitField0_ |= 0x00000004;
+              challengeVisual_ = input.readBytes();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.bdx.bwallet.protobuf.BWalletMessage.internal_static_SignIdentity_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.bdx.bwallet.protobuf.BWalletMessage.internal_static_SignIdentity_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.bdx.bwallet.protobuf.BWalletMessage.SignIdentity.class, com.bdx.bwallet.protobuf.BWalletMessage.SignIdentity.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<SignIdentity> PARSER =
+        new com.google.protobuf.AbstractParser<SignIdentity>() {
+      public SignIdentity parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new SignIdentity(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<SignIdentity> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // optional .IdentityType identity = 1;
+    public static final int IDENTITY_FIELD_NUMBER = 1;
+    private com.bdx.bwallet.protobuf.BWalletType.IdentityType identity_;
+    /**
+     * <code>optional .IdentityType identity = 1;</code>
+     *
+     * <pre>
+     * identity
+     * </pre>
+     */
+    public boolean hasIdentity() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>optional .IdentityType identity = 1;</code>
+     *
+     * <pre>
+     * identity
+     * </pre>
+     */
+    public com.bdx.bwallet.protobuf.BWalletType.IdentityType getIdentity() {
+      return identity_;
+    }
+    /**
+     * <code>optional .IdentityType identity = 1;</code>
+     *
+     * <pre>
+     * identity
+     * </pre>
+     */
+    public com.bdx.bwallet.protobuf.BWalletType.IdentityTypeOrBuilder getIdentityOrBuilder() {
+      return identity_;
+    }
+
+    // optional bytes challenge_hidden = 2;
+    public static final int CHALLENGE_HIDDEN_FIELD_NUMBER = 2;
+    private com.google.protobuf.ByteString challengeHidden_;
+    /**
+     * <code>optional bytes challenge_hidden = 2;</code>
+     *
+     * <pre>
+     * non-visible challenge
+     * </pre>
+     */
+    public boolean hasChallengeHidden() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>optional bytes challenge_hidden = 2;</code>
+     *
+     * <pre>
+     * non-visible challenge
+     * </pre>
+     */
+    public com.google.protobuf.ByteString getChallengeHidden() {
+      return challengeHidden_;
+    }
+
+    // optional string challenge_visual = 3;
+    public static final int CHALLENGE_VISUAL_FIELD_NUMBER = 3;
+    private java.lang.Object challengeVisual_;
+    /**
+     * <code>optional string challenge_visual = 3;</code>
+     *
+     * <pre>
+     * challenge shown on display (e.g. date+time)
+     * </pre>
+     */
+    public boolean hasChallengeVisual() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>optional string challenge_visual = 3;</code>
+     *
+     * <pre>
+     * challenge shown on display (e.g. date+time)
+     * </pre>
+     */
+    public java.lang.String getChallengeVisual() {
+      java.lang.Object ref = challengeVisual_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          challengeVisual_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string challenge_visual = 3;</code>
+     *
+     * <pre>
+     * challenge shown on display (e.g. date+time)
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getChallengeVisualBytes() {
+      java.lang.Object ref = challengeVisual_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        challengeVisual_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    private void initFields() {
+      identity_ = com.bdx.bwallet.protobuf.BWalletType.IdentityType.getDefaultInstance();
+      challengeHidden_ = com.google.protobuf.ByteString.EMPTY;
+      challengeVisual_ = "";
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeMessage(1, identity_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeBytes(2, challengeHidden_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeBytes(3, getChallengeVisualBytes());
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, identity_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(2, challengeHidden_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(3, getChallengeVisualBytes());
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.bdx.bwallet.protobuf.BWalletMessage.SignIdentity parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.bdx.bwallet.protobuf.BWalletMessage.SignIdentity parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.bdx.bwallet.protobuf.BWalletMessage.SignIdentity parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.bdx.bwallet.protobuf.BWalletMessage.SignIdentity parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.bdx.bwallet.protobuf.BWalletMessage.SignIdentity parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.bdx.bwallet.protobuf.BWalletMessage.SignIdentity parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.bdx.bwallet.protobuf.BWalletMessage.SignIdentity parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.bdx.bwallet.protobuf.BWalletMessage.SignIdentity parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.bdx.bwallet.protobuf.BWalletMessage.SignIdentity parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.bdx.bwallet.protobuf.BWalletMessage.SignIdentity parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.bdx.bwallet.protobuf.BWalletMessage.SignIdentity prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code SignIdentity}
+     *
+     * <pre>
+     **
+     * Request: Ask device to sign identity
+     * @next SignedIdentity
+     * @next Failure
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.bdx.bwallet.protobuf.BWalletMessage.SignIdentityOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.bdx.bwallet.protobuf.BWalletMessage.internal_static_SignIdentity_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.bdx.bwallet.protobuf.BWalletMessage.internal_static_SignIdentity_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.bdx.bwallet.protobuf.BWalletMessage.SignIdentity.class, com.bdx.bwallet.protobuf.BWalletMessage.SignIdentity.Builder.class);
+      }
+
+      // Construct using com.bdx.bwallet.protobuf.BWalletMessage.SignIdentity.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getIdentityFieldBuilder();
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        if (identityBuilder_ == null) {
+          identity_ = com.bdx.bwallet.protobuf.BWalletType.IdentityType.getDefaultInstance();
+        } else {
+          identityBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000001);
+        challengeHidden_ = com.google.protobuf.ByteString.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        challengeVisual_ = "";
+        bitField0_ = (bitField0_ & ~0x00000004);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.bdx.bwallet.protobuf.BWalletMessage.internal_static_SignIdentity_descriptor;
+      }
+
+      public com.bdx.bwallet.protobuf.BWalletMessage.SignIdentity getDefaultInstanceForType() {
+        return com.bdx.bwallet.protobuf.BWalletMessage.SignIdentity.getDefaultInstance();
+      }
+
+      public com.bdx.bwallet.protobuf.BWalletMessage.SignIdentity build() {
+        com.bdx.bwallet.protobuf.BWalletMessage.SignIdentity result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.bdx.bwallet.protobuf.BWalletMessage.SignIdentity buildPartial() {
+        com.bdx.bwallet.protobuf.BWalletMessage.SignIdentity result = new com.bdx.bwallet.protobuf.BWalletMessage.SignIdentity(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        if (identityBuilder_ == null) {
+          result.identity_ = identity_;
+        } else {
+          result.identity_ = identityBuilder_.build();
+        }
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.challengeHidden_ = challengeHidden_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.challengeVisual_ = challengeVisual_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.bdx.bwallet.protobuf.BWalletMessage.SignIdentity) {
+          return mergeFrom((com.bdx.bwallet.protobuf.BWalletMessage.SignIdentity)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.bdx.bwallet.protobuf.BWalletMessage.SignIdentity other) {
+        if (other == com.bdx.bwallet.protobuf.BWalletMessage.SignIdentity.getDefaultInstance()) return this;
+        if (other.hasIdentity()) {
+          mergeIdentity(other.getIdentity());
+        }
+        if (other.hasChallengeHidden()) {
+          setChallengeHidden(other.getChallengeHidden());
+        }
+        if (other.hasChallengeVisual()) {
+          bitField0_ |= 0x00000004;
+          challengeVisual_ = other.challengeVisual_;
+          onChanged();
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.bdx.bwallet.protobuf.BWalletMessage.SignIdentity parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.bdx.bwallet.protobuf.BWalletMessage.SignIdentity) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // optional .IdentityType identity = 1;
+      private com.bdx.bwallet.protobuf.BWalletType.IdentityType identity_ = com.bdx.bwallet.protobuf.BWalletType.IdentityType.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          com.bdx.bwallet.protobuf.BWalletType.IdentityType, com.bdx.bwallet.protobuf.BWalletType.IdentityType.Builder, com.bdx.bwallet.protobuf.BWalletType.IdentityTypeOrBuilder> identityBuilder_;
+      /**
+       * <code>optional .IdentityType identity = 1;</code>
+       *
+       * <pre>
+       * identity
+       * </pre>
+       */
+      public boolean hasIdentity() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>optional .IdentityType identity = 1;</code>
+       *
+       * <pre>
+       * identity
+       * </pre>
+       */
+      public com.bdx.bwallet.protobuf.BWalletType.IdentityType getIdentity() {
+        if (identityBuilder_ == null) {
+          return identity_;
+        } else {
+          return identityBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>optional .IdentityType identity = 1;</code>
+       *
+       * <pre>
+       * identity
+       * </pre>
+       */
+      public Builder setIdentity(com.bdx.bwallet.protobuf.BWalletType.IdentityType value) {
+        if (identityBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          identity_ = value;
+          onChanged();
+        } else {
+          identityBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000001;
+        return this;
+      }
+      /**
+       * <code>optional .IdentityType identity = 1;</code>
+       *
+       * <pre>
+       * identity
+       * </pre>
+       */
+      public Builder setIdentity(
+          com.bdx.bwallet.protobuf.BWalletType.IdentityType.Builder builderForValue) {
+        if (identityBuilder_ == null) {
+          identity_ = builderForValue.build();
+          onChanged();
+        } else {
+          identityBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000001;
+        return this;
+      }
+      /**
+       * <code>optional .IdentityType identity = 1;</code>
+       *
+       * <pre>
+       * identity
+       * </pre>
+       */
+      public Builder mergeIdentity(com.bdx.bwallet.protobuf.BWalletType.IdentityType value) {
+        if (identityBuilder_ == null) {
+          if (((bitField0_ & 0x00000001) == 0x00000001) &&
+              identity_ != com.bdx.bwallet.protobuf.BWalletType.IdentityType.getDefaultInstance()) {
+            identity_ =
+              com.bdx.bwallet.protobuf.BWalletType.IdentityType.newBuilder(identity_).mergeFrom(value).buildPartial();
+          } else {
+            identity_ = value;
+          }
+          onChanged();
+        } else {
+          identityBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000001;
+        return this;
+      }
+      /**
+       * <code>optional .IdentityType identity = 1;</code>
+       *
+       * <pre>
+       * identity
+       * </pre>
+       */
+      public Builder clearIdentity() {
+        if (identityBuilder_ == null) {
+          identity_ = com.bdx.bwallet.protobuf.BWalletType.IdentityType.getDefaultInstance();
+          onChanged();
+        } else {
+          identityBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000001);
+        return this;
+      }
+      /**
+       * <code>optional .IdentityType identity = 1;</code>
+       *
+       * <pre>
+       * identity
+       * </pre>
+       */
+      public com.bdx.bwallet.protobuf.BWalletType.IdentityType.Builder getIdentityBuilder() {
+        bitField0_ |= 0x00000001;
+        onChanged();
+        return getIdentityFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .IdentityType identity = 1;</code>
+       *
+       * <pre>
+       * identity
+       * </pre>
+       */
+      public com.bdx.bwallet.protobuf.BWalletType.IdentityTypeOrBuilder getIdentityOrBuilder() {
+        if (identityBuilder_ != null) {
+          return identityBuilder_.getMessageOrBuilder();
+        } else {
+          return identity_;
+        }
+      }
+      /**
+       * <code>optional .IdentityType identity = 1;</code>
+       *
+       * <pre>
+       * identity
+       * </pre>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          com.bdx.bwallet.protobuf.BWalletType.IdentityType, com.bdx.bwallet.protobuf.BWalletType.IdentityType.Builder, com.bdx.bwallet.protobuf.BWalletType.IdentityTypeOrBuilder> 
+          getIdentityFieldBuilder() {
+        if (identityBuilder_ == null) {
+          identityBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              com.bdx.bwallet.protobuf.BWalletType.IdentityType, com.bdx.bwallet.protobuf.BWalletType.IdentityType.Builder, com.bdx.bwallet.protobuf.BWalletType.IdentityTypeOrBuilder>(
+                  identity_,
+                  getParentForChildren(),
+                  isClean());
+          identity_ = null;
+        }
+        return identityBuilder_;
+      }
+
+      // optional bytes challenge_hidden = 2;
+      private com.google.protobuf.ByteString challengeHidden_ = com.google.protobuf.ByteString.EMPTY;
+      /**
+       * <code>optional bytes challenge_hidden = 2;</code>
+       *
+       * <pre>
+       * non-visible challenge
+       * </pre>
+       */
+      public boolean hasChallengeHidden() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>optional bytes challenge_hidden = 2;</code>
+       *
+       * <pre>
+       * non-visible challenge
+       * </pre>
+       */
+      public com.google.protobuf.ByteString getChallengeHidden() {
+        return challengeHidden_;
+      }
+      /**
+       * <code>optional bytes challenge_hidden = 2;</code>
+       *
+       * <pre>
+       * non-visible challenge
+       * </pre>
+       */
+      public Builder setChallengeHidden(com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        challengeHidden_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional bytes challenge_hidden = 2;</code>
+       *
+       * <pre>
+       * non-visible challenge
+       * </pre>
+       */
+      public Builder clearChallengeHidden() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        challengeHidden_ = getDefaultInstance().getChallengeHidden();
+        onChanged();
+        return this;
+      }
+
+      // optional string challenge_visual = 3;
+      private java.lang.Object challengeVisual_ = "";
+      /**
+       * <code>optional string challenge_visual = 3;</code>
+       *
+       * <pre>
+       * challenge shown on display (e.g. date+time)
+       * </pre>
+       */
+      public boolean hasChallengeVisual() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>optional string challenge_visual = 3;</code>
+       *
+       * <pre>
+       * challenge shown on display (e.g. date+time)
+       * </pre>
+       */
+      public java.lang.String getChallengeVisual() {
+        java.lang.Object ref = challengeVisual_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          challengeVisual_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string challenge_visual = 3;</code>
+       *
+       * <pre>
+       * challenge shown on display (e.g. date+time)
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getChallengeVisualBytes() {
+        java.lang.Object ref = challengeVisual_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          challengeVisual_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string challenge_visual = 3;</code>
+       *
+       * <pre>
+       * challenge shown on display (e.g. date+time)
+       * </pre>
+       */
+      public Builder setChallengeVisual(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000004;
+        challengeVisual_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string challenge_visual = 3;</code>
+       *
+       * <pre>
+       * challenge shown on display (e.g. date+time)
+       * </pre>
+       */
+      public Builder clearChallengeVisual() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        challengeVisual_ = getDefaultInstance().getChallengeVisual();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string challenge_visual = 3;</code>
+       *
+       * <pre>
+       * challenge shown on display (e.g. date+time)
+       * </pre>
+       */
+      public Builder setChallengeVisualBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000004;
+        challengeVisual_ = value;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:SignIdentity)
+    }
+
+    static {
+      defaultInstance = new SignIdentity(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:SignIdentity)
+  }
+
+  public interface SignedIdentityOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // optional string address = 1;
+    /**
+     * <code>optional string address = 1;</code>
+     *
+     * <pre>
+     * identity address
+     * </pre>
+     */
+    boolean hasAddress();
+    /**
+     * <code>optional string address = 1;</code>
+     *
+     * <pre>
+     * identity address
+     * </pre>
+     */
+    java.lang.String getAddress();
+    /**
+     * <code>optional string address = 1;</code>
+     *
+     * <pre>
+     * identity address
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getAddressBytes();
+
+    // optional bytes public_key = 2;
+    /**
+     * <code>optional bytes public_key = 2;</code>
+     *
+     * <pre>
+     * identity public key
+     * </pre>
+     */
+    boolean hasPublicKey();
+    /**
+     * <code>optional bytes public_key = 2;</code>
+     *
+     * <pre>
+     * identity public key
+     * </pre>
+     */
+    com.google.protobuf.ByteString getPublicKey();
+
+    // optional bytes signature = 3;
+    /**
+     * <code>optional bytes signature = 3;</code>
+     *
+     * <pre>
+     * signature of the identity data
+     * </pre>
+     */
+    boolean hasSignature();
+    /**
+     * <code>optional bytes signature = 3;</code>
+     *
+     * <pre>
+     * signature of the identity data
+     * </pre>
+     */
+    com.google.protobuf.ByteString getSignature();
+  }
+  /**
+   * Protobuf type {@code SignedIdentity}
+   *
+   * <pre>
+   **
+   * Response: Device provides signed identity
+   * @prev SignIdentity
+   * </pre>
+   */
+  public static final class SignedIdentity extends
+      com.google.protobuf.GeneratedMessage
+      implements SignedIdentityOrBuilder {
+    // Use SignedIdentity.newBuilder() to construct.
+    private SignedIdentity(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private SignedIdentity(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final SignedIdentity defaultInstance;
+    public static SignedIdentity getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public SignedIdentity getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private SignedIdentity(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              bitField0_ |= 0x00000001;
+              address_ = input.readBytes();
+              break;
+            }
+            case 18: {
+              bitField0_ |= 0x00000002;
+              publicKey_ = input.readBytes();
+              break;
+            }
+            case 26: {
+              bitField0_ |= 0x00000004;
+              signature_ = input.readBytes();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.bdx.bwallet.protobuf.BWalletMessage.internal_static_SignedIdentity_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.bdx.bwallet.protobuf.BWalletMessage.internal_static_SignedIdentity_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.bdx.bwallet.protobuf.BWalletMessage.SignedIdentity.class, com.bdx.bwallet.protobuf.BWalletMessage.SignedIdentity.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<SignedIdentity> PARSER =
+        new com.google.protobuf.AbstractParser<SignedIdentity>() {
+      public SignedIdentity parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new SignedIdentity(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<SignedIdentity> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // optional string address = 1;
+    public static final int ADDRESS_FIELD_NUMBER = 1;
+    private java.lang.Object address_;
+    /**
+     * <code>optional string address = 1;</code>
+     *
+     * <pre>
+     * identity address
+     * </pre>
+     */
+    public boolean hasAddress() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>optional string address = 1;</code>
+     *
+     * <pre>
+     * identity address
+     * </pre>
+     */
+    public java.lang.String getAddress() {
+      java.lang.Object ref = address_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          address_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string address = 1;</code>
+     *
+     * <pre>
+     * identity address
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getAddressBytes() {
+      java.lang.Object ref = address_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        address_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // optional bytes public_key = 2;
+    public static final int PUBLIC_KEY_FIELD_NUMBER = 2;
+    private com.google.protobuf.ByteString publicKey_;
+    /**
+     * <code>optional bytes public_key = 2;</code>
+     *
+     * <pre>
+     * identity public key
+     * </pre>
+     */
+    public boolean hasPublicKey() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>optional bytes public_key = 2;</code>
+     *
+     * <pre>
+     * identity public key
+     * </pre>
+     */
+    public com.google.protobuf.ByteString getPublicKey() {
+      return publicKey_;
+    }
+
+    // optional bytes signature = 3;
+    public static final int SIGNATURE_FIELD_NUMBER = 3;
+    private com.google.protobuf.ByteString signature_;
+    /**
+     * <code>optional bytes signature = 3;</code>
+     *
+     * <pre>
+     * signature of the identity data
+     * </pre>
+     */
+    public boolean hasSignature() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>optional bytes signature = 3;</code>
+     *
+     * <pre>
+     * signature of the identity data
+     * </pre>
+     */
+    public com.google.protobuf.ByteString getSignature() {
+      return signature_;
+    }
+
+    private void initFields() {
+      address_ = "";
+      publicKey_ = com.google.protobuf.ByteString.EMPTY;
+      signature_ = com.google.protobuf.ByteString.EMPTY;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeBytes(1, getAddressBytes());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeBytes(2, publicKey_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeBytes(3, signature_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(1, getAddressBytes());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(2, publicKey_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(3, signature_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.bdx.bwallet.protobuf.BWalletMessage.SignedIdentity parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.bdx.bwallet.protobuf.BWalletMessage.SignedIdentity parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.bdx.bwallet.protobuf.BWalletMessage.SignedIdentity parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.bdx.bwallet.protobuf.BWalletMessage.SignedIdentity parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.bdx.bwallet.protobuf.BWalletMessage.SignedIdentity parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.bdx.bwallet.protobuf.BWalletMessage.SignedIdentity parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.bdx.bwallet.protobuf.BWalletMessage.SignedIdentity parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.bdx.bwallet.protobuf.BWalletMessage.SignedIdentity parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.bdx.bwallet.protobuf.BWalletMessage.SignedIdentity parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.bdx.bwallet.protobuf.BWalletMessage.SignedIdentity parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.bdx.bwallet.protobuf.BWalletMessage.SignedIdentity prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code SignedIdentity}
+     *
+     * <pre>
+     **
+     * Response: Device provides signed identity
+     * @prev SignIdentity
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.bdx.bwallet.protobuf.BWalletMessage.SignedIdentityOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.bdx.bwallet.protobuf.BWalletMessage.internal_static_SignedIdentity_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.bdx.bwallet.protobuf.BWalletMessage.internal_static_SignedIdentity_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.bdx.bwallet.protobuf.BWalletMessage.SignedIdentity.class, com.bdx.bwallet.protobuf.BWalletMessage.SignedIdentity.Builder.class);
+      }
+
+      // Construct using com.bdx.bwallet.protobuf.BWalletMessage.SignedIdentity.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        address_ = "";
+        bitField0_ = (bitField0_ & ~0x00000001);
+        publicKey_ = com.google.protobuf.ByteString.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        signature_ = com.google.protobuf.ByteString.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000004);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.bdx.bwallet.protobuf.BWalletMessage.internal_static_SignedIdentity_descriptor;
+      }
+
+      public com.bdx.bwallet.protobuf.BWalletMessage.SignedIdentity getDefaultInstanceForType() {
+        return com.bdx.bwallet.protobuf.BWalletMessage.SignedIdentity.getDefaultInstance();
+      }
+
+      public com.bdx.bwallet.protobuf.BWalletMessage.SignedIdentity build() {
+        com.bdx.bwallet.protobuf.BWalletMessage.SignedIdentity result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.bdx.bwallet.protobuf.BWalletMessage.SignedIdentity buildPartial() {
+        com.bdx.bwallet.protobuf.BWalletMessage.SignedIdentity result = new com.bdx.bwallet.protobuf.BWalletMessage.SignedIdentity(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.address_ = address_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.publicKey_ = publicKey_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.signature_ = signature_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.bdx.bwallet.protobuf.BWalletMessage.SignedIdentity) {
+          return mergeFrom((com.bdx.bwallet.protobuf.BWalletMessage.SignedIdentity)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.bdx.bwallet.protobuf.BWalletMessage.SignedIdentity other) {
+        if (other == com.bdx.bwallet.protobuf.BWalletMessage.SignedIdentity.getDefaultInstance()) return this;
+        if (other.hasAddress()) {
+          bitField0_ |= 0x00000001;
+          address_ = other.address_;
+          onChanged();
+        }
+        if (other.hasPublicKey()) {
+          setPublicKey(other.getPublicKey());
+        }
+        if (other.hasSignature()) {
+          setSignature(other.getSignature());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.bdx.bwallet.protobuf.BWalletMessage.SignedIdentity parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.bdx.bwallet.protobuf.BWalletMessage.SignedIdentity) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // optional string address = 1;
+      private java.lang.Object address_ = "";
+      /**
+       * <code>optional string address = 1;</code>
+       *
+       * <pre>
+       * identity address
+       * </pre>
+       */
+      public boolean hasAddress() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>optional string address = 1;</code>
+       *
+       * <pre>
+       * identity address
+       * </pre>
+       */
+      public java.lang.String getAddress() {
+        java.lang.Object ref = address_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          address_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string address = 1;</code>
+       *
+       * <pre>
+       * identity address
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getAddressBytes() {
+        java.lang.Object ref = address_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          address_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string address = 1;</code>
+       *
+       * <pre>
+       * identity address
+       * </pre>
+       */
+      public Builder setAddress(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        address_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string address = 1;</code>
+       *
+       * <pre>
+       * identity address
+       * </pre>
+       */
+      public Builder clearAddress() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        address_ = getDefaultInstance().getAddress();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string address = 1;</code>
+       *
+       * <pre>
+       * identity address
+       * </pre>
+       */
+      public Builder setAddressBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        address_ = value;
+        onChanged();
+        return this;
+      }
+
+      // optional bytes public_key = 2;
+      private com.google.protobuf.ByteString publicKey_ = com.google.protobuf.ByteString.EMPTY;
+      /**
+       * <code>optional bytes public_key = 2;</code>
+       *
+       * <pre>
+       * identity public key
+       * </pre>
+       */
+      public boolean hasPublicKey() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>optional bytes public_key = 2;</code>
+       *
+       * <pre>
+       * identity public key
+       * </pre>
+       */
+      public com.google.protobuf.ByteString getPublicKey() {
+        return publicKey_;
+      }
+      /**
+       * <code>optional bytes public_key = 2;</code>
+       *
+       * <pre>
+       * identity public key
+       * </pre>
+       */
+      public Builder setPublicKey(com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        publicKey_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional bytes public_key = 2;</code>
+       *
+       * <pre>
+       * identity public key
+       * </pre>
+       */
+      public Builder clearPublicKey() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        publicKey_ = getDefaultInstance().getPublicKey();
+        onChanged();
+        return this;
+      }
+
+      // optional bytes signature = 3;
+      private com.google.protobuf.ByteString signature_ = com.google.protobuf.ByteString.EMPTY;
+      /**
+       * <code>optional bytes signature = 3;</code>
+       *
+       * <pre>
+       * signature of the identity data
+       * </pre>
+       */
+      public boolean hasSignature() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>optional bytes signature = 3;</code>
+       *
+       * <pre>
+       * signature of the identity data
+       * </pre>
+       */
+      public com.google.protobuf.ByteString getSignature() {
+        return signature_;
+      }
+      /**
+       * <code>optional bytes signature = 3;</code>
+       *
+       * <pre>
+       * signature of the identity data
+       * </pre>
+       */
+      public Builder setSignature(com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000004;
+        signature_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional bytes signature = 3;</code>
+       *
+       * <pre>
+       * signature of the identity data
+       * </pre>
+       */
+      public Builder clearSignature() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        signature_ = getDefaultInstance().getSignature();
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:SignedIdentity)
+    }
+
+    static {
+      defaultInstance = new SignedIdentity(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:SignedIdentity)
+  }
+
   public interface FirmwareEraseOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
   }
@@ -33482,6 +35398,410 @@ public final class BWalletMessage {
     }
 
     // @@protoc_insertion_point(class_scope:FirmwareUpload)
+  }
+
+  public interface TestScreenOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required uint32 delay_time = 1 [default = 1];
+    /**
+     * <code>required uint32 delay_time = 1 [default = 1];</code>
+     */
+    boolean hasDelayTime();
+    /**
+     * <code>required uint32 delay_time = 1 [default = 1];</code>
+     */
+    int getDelayTime();
+  }
+  /**
+   * Protobuf type {@code TestScreen}
+   */
+  public static final class TestScreen extends
+      com.google.protobuf.GeneratedMessage
+      implements TestScreenOrBuilder {
+    // Use TestScreen.newBuilder() to construct.
+    private TestScreen(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private TestScreen(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final TestScreen defaultInstance;
+    public static TestScreen getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public TestScreen getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private TestScreen(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              delayTime_ = input.readUInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.bdx.bwallet.protobuf.BWalletMessage.internal_static_TestScreen_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.bdx.bwallet.protobuf.BWalletMessage.internal_static_TestScreen_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.bdx.bwallet.protobuf.BWalletMessage.TestScreen.class, com.bdx.bwallet.protobuf.BWalletMessage.TestScreen.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<TestScreen> PARSER =
+        new com.google.protobuf.AbstractParser<TestScreen>() {
+      public TestScreen parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new TestScreen(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<TestScreen> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required uint32 delay_time = 1 [default = 1];
+    public static final int DELAY_TIME_FIELD_NUMBER = 1;
+    private int delayTime_;
+    /**
+     * <code>required uint32 delay_time = 1 [default = 1];</code>
+     */
+    public boolean hasDelayTime() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required uint32 delay_time = 1 [default = 1];</code>
+     */
+    public int getDelayTime() {
+      return delayTime_;
+    }
+
+    private void initFields() {
+      delayTime_ = 1;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasDelayTime()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeUInt32(1, delayTime_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(1, delayTime_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.bdx.bwallet.protobuf.BWalletMessage.TestScreen parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.bdx.bwallet.protobuf.BWalletMessage.TestScreen parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.bdx.bwallet.protobuf.BWalletMessage.TestScreen parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.bdx.bwallet.protobuf.BWalletMessage.TestScreen parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.bdx.bwallet.protobuf.BWalletMessage.TestScreen parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.bdx.bwallet.protobuf.BWalletMessage.TestScreen parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.bdx.bwallet.protobuf.BWalletMessage.TestScreen parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.bdx.bwallet.protobuf.BWalletMessage.TestScreen parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.bdx.bwallet.protobuf.BWalletMessage.TestScreen parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.bdx.bwallet.protobuf.BWalletMessage.TestScreen parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.bdx.bwallet.protobuf.BWalletMessage.TestScreen prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code TestScreen}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.bdx.bwallet.protobuf.BWalletMessage.TestScreenOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.bdx.bwallet.protobuf.BWalletMessage.internal_static_TestScreen_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.bdx.bwallet.protobuf.BWalletMessage.internal_static_TestScreen_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.bdx.bwallet.protobuf.BWalletMessage.TestScreen.class, com.bdx.bwallet.protobuf.BWalletMessage.TestScreen.Builder.class);
+      }
+
+      // Construct using com.bdx.bwallet.protobuf.BWalletMessage.TestScreen.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        delayTime_ = 1;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.bdx.bwallet.protobuf.BWalletMessage.internal_static_TestScreen_descriptor;
+      }
+
+      public com.bdx.bwallet.protobuf.BWalletMessage.TestScreen getDefaultInstanceForType() {
+        return com.bdx.bwallet.protobuf.BWalletMessage.TestScreen.getDefaultInstance();
+      }
+
+      public com.bdx.bwallet.protobuf.BWalletMessage.TestScreen build() {
+        com.bdx.bwallet.protobuf.BWalletMessage.TestScreen result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.bdx.bwallet.protobuf.BWalletMessage.TestScreen buildPartial() {
+        com.bdx.bwallet.protobuf.BWalletMessage.TestScreen result = new com.bdx.bwallet.protobuf.BWalletMessage.TestScreen(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.delayTime_ = delayTime_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.bdx.bwallet.protobuf.BWalletMessage.TestScreen) {
+          return mergeFrom((com.bdx.bwallet.protobuf.BWalletMessage.TestScreen)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.bdx.bwallet.protobuf.BWalletMessage.TestScreen other) {
+        if (other == com.bdx.bwallet.protobuf.BWalletMessage.TestScreen.getDefaultInstance()) return this;
+        if (other.hasDelayTime()) {
+          setDelayTime(other.getDelayTime());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasDelayTime()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.bdx.bwallet.protobuf.BWalletMessage.TestScreen parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.bdx.bwallet.protobuf.BWalletMessage.TestScreen) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required uint32 delay_time = 1 [default = 1];
+      private int delayTime_ = 1;
+      /**
+       * <code>required uint32 delay_time = 1 [default = 1];</code>
+       */
+      public boolean hasDelayTime() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required uint32 delay_time = 1 [default = 1];</code>
+       */
+      public int getDelayTime() {
+        return delayTime_;
+      }
+      /**
+       * <code>required uint32 delay_time = 1 [default = 1];</code>
+       */
+      public Builder setDelayTime(int value) {
+        bitField0_ |= 0x00000001;
+        delayTime_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required uint32 delay_time = 1 [default = 1];</code>
+       */
+      public Builder clearDelayTime() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        delayTime_ = 1;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:TestScreen)
+    }
+
+    static {
+      defaultInstance = new TestScreen(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:TestScreen)
   }
 
   public interface DebugLinkDecisionOrBuilder
@@ -37580,6 +39900,16 @@ public final class BWalletMessage {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_TxAck_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_SignIdentity_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_SignIdentity_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_SignedIdentity_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_SignedIdentity_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
     internal_static_FirmwareErase_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
@@ -37589,6 +39919,11 @@ public final class BWalletMessage {
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_FirmwareUpload_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_TestScreen_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_TestScreen_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
     internal_static_DebugLinkDecision_descriptor;
   private static
@@ -37624,7 +39959,7 @@ public final class BWalletMessage {
   static {
     java.lang.String[] descriptorData = {
       "\n\016messages.proto\032\013types.proto\"\036\n\nInitial" +
-      "ize\022\020\n\010language\030\001 \001(\t\"\337\002\n\010Features\022\016\n\006ve" +
+      "ize\022\020\n\010language\030\001 \001(\t\"\317\002\n\010Features\022\016\n\006ve" +
       "ndor\030\001 \001(\t\022\025\n\rmajor_version\030\002 \001(\r\022\025\n\rmin" +
       "or_version\030\003 \001(\r\022\025\n\rpatch_version\030\004 \001(\r\022" +
       "\027\n\017bootloader_mode\030\005 \001(\010\022\021\n\tdevice_id\030\006 " +
@@ -37632,130 +39967,140 @@ public final class BWalletMessage {
       "e_protection\030\010 \001(\010\022\020\n\010language\030\t \001(\t\022\r\n\005" +
       "label\030\n \001(\t\022\030\n\005coins\030\013 \003(\0132\t.CoinType\022\023\n" +
       "\013initialized\030\014 \001(\010\022\020\n\010revision\030\r \001(\014\022\027\n\017" +
-      "bootloader_hash\030\016 \001(\014\022\020\n\010imported\030\017 \001(\010\022",
-      "\016\n\006cpu_sn\030\020 \001(\t\"\016\n\014ClearSession\"0\n\rApply" +
-      "Settings\022\020\n\010language\030\001 \001(\t\022\r\n\005label\030\002 \001(" +
-      "\t\"\033\n\tChangePin\022\016\n\006remove\030\001 \001(\010\"i\n\004Ping\022\017" +
-      "\n\007message\030\001 \001(\t\022\031\n\021button_protection\030\002 \001" +
-      "(\010\022\026\n\016pin_protection\030\003 \001(\010\022\035\n\025passphrase" +
-      "_protection\030\004 \001(\010\"\032\n\007Success\022\017\n\007message\030" +
-      "\001 \001(\t\"6\n\007Failure\022\032\n\004code\030\001 \001(\0162\014.Failure" +
-      "Type\022\017\n\007message\030\002 \001(\t\"?\n\rButtonRequest\022 " +
-      "\n\004code\030\001 \001(\0162\022.ButtonRequestType\022\014\n\004data" +
-      "\030\002 \001(\t\"\013\n\tButtonAck\"7\n\020PinMatrixRequest\022",
-      "#\n\004type\030\001 \001(\0162\025.PinMatrixRequestType\"\033\n\014" +
-      "PinMatrixAck\022\013\n\003pin\030\001 \002(\t\"\010\n\006Cancel\"\023\n\021P" +
-      "assphraseRequest\"#\n\rPassphraseAck\022\022\n\npas" +
-      "sphrase\030\001 \002(\t\"\032\n\nGetEntropy\022\014\n\004size\030\001 \002(" +
-      "\r\"\032\n\007Entropy\022\017\n\007entropy\030\001 \002(\014\"!\n\014GetPubl" +
-      "icKey\022\021\n\taddress_n\030\001 \003(\r\"4\n\tPublicKey\022\031\n" +
-      "\004node\030\001 \002(\0132\013.HDNodeType\022\014\n\004xpub\030\002 \001(\t\"Q" +
-      "\n\nGetAddress\022\021\n\taddress_n\030\001 \003(\r\022\032\n\tcoin_" +
-      "name\030\002 \001(\t:\007Bitcoin\022\024\n\014show_display\030\003 \001(" +
-      "\010\"\032\n\007Address\022\017\n\007address\030\001 \002(\t\"\014\n\nWipeDev",
-      "ice\"\246\001\n\nLoadDevice\022\020\n\010mnemonic\030\001 \001(\t\022\031\n\004" +
-      "node\030\002 \001(\0132\013.HDNodeType\022\013\n\003pin\030\003 \001(\t\022\035\n\025" +
-      "passphrase_protection\030\004 \001(\010\022\031\n\010language\030" +
-      "\005 \001(\t:\007english\022\r\n\005label\030\006 \001(\t\022\025\n\rskip_ch" +
-      "ecksum\030\007 \001(\010\"\235\001\n\013ResetDevice\022\026\n\016display_" +
-      "random\030\001 \001(\010\022\025\n\010strength\030\002 \001(\r:\003128\022\035\n\025p" +
-      "assphrase_protection\030\003 \001(\010\022\026\n\016pin_protec" +
-      "tion\030\004 \001(\010\022\031\n\010language\030\005 \001(\t:\007english\022\r\n" +
-      "\005label\030\006 \001(\t\"\020\n\016EntropyRequest\"\035\n\nEntrop" +
-      "yAck\022\017\n\007entropy\030\001 \001(\014\"\237\001\n\016RecoveryDevice",
-      "\022\022\n\nword_count\030\001 \001(\r\022\035\n\025passphrase_prote" +
-      "ction\030\002 \001(\010\022\026\n\016pin_protection\030\003 \001(\010\022\031\n\010l" +
-      "anguage\030\004 \001(\t:\007english\022\r\n\005label\030\005 \001(\t\022\030\n" +
-      "\020enforce_wordlist\030\006 \001(\010\"\r\n\013WordRequest\"\027" +
-      "\n\007WordAck\022\014\n\004word\030\001 \002(\t\"M\n\013SignMessage\022\021" +
-      "\n\taddress_n\030\001 \003(\r\022\017\n\007message\030\002 \002(\014\022\032\n\tco" +
-      "in_name\030\003 \001(\t:\007Bitcoin\"D\n\rVerifyMessage\022" +
-      "\017\n\007address\030\001 \001(\t\022\021\n\tsignature\030\002 \001(\014\022\017\n\007m" +
-      "essage\030\003 \001(\014\"6\n\020MessageSignature\022\017\n\007addr" +
-      "ess\030\001 \001(\t\022\021\n\tsignature\030\002 \001(\014\"v\n\016EncryptM",
-      "essage\022\016\n\006pubkey\030\001 \001(\014\022\017\n\007message\030\002 \001(\014\022" +
-      "\024\n\014display_only\030\003 \001(\010\022\021\n\taddress_n\030\004 \003(\r" +
-      "\022\032\n\tcoin_name\030\005 \001(\t:\007Bitcoin\"@\n\020Encrypte" +
-      "dMessage\022\r\n\005nonce\030\001 \001(\014\022\017\n\007message\030\002 \001(\014" +
-      "\022\014\n\004hmac\030\003 \001(\014\"Q\n\016DecryptMessage\022\021\n\taddr" +
-      "ess_n\030\001 \003(\r\022\r\n\005nonce\030\002 \001(\014\022\017\n\007message\030\003 " +
-      "\001(\014\022\014\n\004hmac\030\004 \001(\014\"4\n\020DecryptedMessage\022\017\n" +
-      "\007message\030\001 \001(\014\022\017\n\007address\030\002 \001(\t\"\200\001\n\016Ciph" +
-      "erKeyValue\022\021\n\taddress_n\030\001 \003(\r\022\013\n\003key\030\002 \001" +
-      "(\t\022\r\n\005value\030\003 \001(\014\022\017\n\007encrypt\030\004 \001(\010\022\026\n\016as",
-      "k_on_encrypt\030\005 \001(\010\022\026\n\016ask_on_decrypt\030\006 \001" +
-      "(\010\"!\n\020CipheredKeyValue\022\r\n\005value\030\001 \001(\014\"Y\n" +
-      "\016EstimateTxSize\022\025\n\routputs_count\030\001 \002(\r\022\024" +
-      "\n\014inputs_count\030\002 \002(\r\022\032\n\tcoin_name\030\003 \001(\t:" +
-      "\007Bitcoin\"\031\n\006TxSize\022\017\n\007tx_size\030\001 \001(\r\"Q\n\006S" +
-      "ignTx\022\025\n\routputs_count\030\001 \002(\r\022\024\n\014inputs_c" +
-      "ount\030\002 \002(\r\022\032\n\tcoin_name\030\003 \001(\t:\007Bitcoin\"\220" +
-      "\001\n\014SimpleSignTx\022\034\n\006inputs\030\001 \003(\0132\014.TxInpu" +
-      "tType\022\036\n\007outputs\030\002 \003(\0132\r.TxOutputType\022&\n" +
-      "\014transactions\030\003 \003(\0132\020.TransactionType\022\032\n",
-      "\tcoin_name\030\004 \001(\t:\007Bitcoin\"\205\001\n\tTxRequest\022" +
-      "\"\n\014request_type\030\001 \001(\0162\014.RequestType\022&\n\007d" +
-      "etails\030\002 \001(\0132\025.TxRequestDetailsType\022,\n\ns" +
-      "erialized\030\003 \001(\0132\030.TxRequestSerializedTyp" +
-      "e\"%\n\005TxAck\022\034\n\002tx\030\001 \001(\0132\020.TransactionType" +
-      "\"\017\n\rFirmwareErase\"!\n\016FirmwareUpload\022\017\n\007p" +
-      "ayload\030\001 \002(\014\"#\n\021DebugLinkDecision\022\016\n\006yes" +
-      "_no\030\001 \002(\010\"\023\n\021DebugLinkGetState\"\353\001\n\016Debug" +
-      "LinkState\022\016\n\006layout\030\001 \001(\014\022\013\n\003pin\030\002 \001(\t\022\016" +
-      "\n\006matrix\030\003 \001(\t\022\020\n\010mnemonic\030\004 \001(\t\022\031\n\004node",
-      "\030\005 \001(\0132\013.HDNodeType\022\035\n\025passphrase_protec" +
-      "tion\030\006 \001(\010\022\022\n\nreset_word\030\007 \001(\t\022\025\n\rreset_" +
-      "entropy\030\010 \001(\014\022\032\n\022recovery_fake_word\030\t \001(" +
-      "\t\022\031\n\021recovery_word_pos\030\n \001(\r\"\017\n\rDebugLin" +
-      "kStop\";\n\014DebugLinkLog\022\r\n\005level\030\001 \001(\r\022\016\n\006" +
-      "bucket\030\002 \001(\t\022\014\n\004text\030\003 \001(\t*\231\016\n\013MessageTy" +
-      "pe\022 \n\026MessageType_Initialize\020\000\032\004\220\265\030\001\022\032\n\020" +
-      "MessageType_Ping\020\001\032\004\220\265\030\001\022\035\n\023MessageType_" +
-      "Success\020\002\032\004\230\265\030\001\022\035\n\023MessageType_Failure\020\003" +
-      "\032\004\230\265\030\001\022\037\n\025MessageType_ChangePin\020\004\032\004\220\265\030\001\022",
-      " \n\026MessageType_WipeDevice\020\005\032\004\220\265\030\001\022#\n\031Mes" +
-      "sageType_FirmwareErase\020\006\032\004\220\265\030\001\022$\n\032Messag" +
-      "eType_FirmwareUpload\020\007\032\004\220\265\030\001\022 \n\026MessageT" +
-      "ype_GetEntropy\020\t\032\004\220\265\030\001\022\035\n\023MessageType_En" +
-      "tropy\020\n\032\004\230\265\030\001\022\"\n\030MessageType_GetPublicKe" +
-      "y\020\013\032\004\220\265\030\001\022\037\n\025MessageType_PublicKey\020\014\032\004\230\265" +
-      "\030\001\022 \n\026MessageType_LoadDevice\020\r\032\004\220\265\030\001\022!\n\027" +
-      "MessageType_ResetDevice\020\016\032\004\220\265\030\001\022\034\n\022Messa" +
-      "geType_SignTx\020\017\032\004\220\265\030\001\022\"\n\030MessageType_Sim" +
-      "pleSignTx\020\020\032\004\220\265\030\001\022\036\n\024MessageType_Feature",
-      "s\020\021\032\004\230\265\030\001\022&\n\034MessageType_PinMatrixReques" +
-      "t\020\022\032\004\230\265\030\001\022\"\n\030MessageType_PinMatrixAck\020\023\032" +
-      "\004\220\265\030\001\022\034\n\022MessageType_Cancel\020\024\032\004\220\265\030\001\022\037\n\025M" +
-      "essageType_TxRequest\020\025\032\004\230\265\030\001\022\033\n\021MessageT" +
-      "ype_TxAck\020\026\032\004\220\265\030\001\022$\n\032MessageType_CipherK" +
-      "eyValue\020\027\032\004\220\265\030\001\022&\n\034MessageType_CipheredK" +
-      "eyValue\0200\032\004\230\265\030\001\022\"\n\030MessageType_ClearSess" +
-      "ion\020\030\032\004\220\265\030\001\022#\n\031MessageType_ApplySettings" +
-      "\020\031\032\004\220\265\030\001\022#\n\031MessageType_ButtonRequest\020\032\032" +
-      "\004\230\265\030\001\022\037\n\025MessageType_ButtonAck\020\033\032\004\220\265\030\001\022 ",
-      "\n\026MessageType_GetAddress\020\035\032\004\220\265\030\001\022\035\n\023Mess" +
-      "ageType_Address\020\036\032\004\230\265\030\001\022$\n\032MessageType_E" +
-      "ntropyRequest\020#\032\004\230\265\030\001\022 \n\026MessageType_Ent" +
-      "ropyAck\020$\032\004\220\265\030\001\022!\n\027MessageType_SignMessa" +
-      "ge\020&\032\004\220\265\030\001\022#\n\031MessageType_VerifyMessage\020" +
-      "\'\032\004\220\265\030\001\022&\n\034MessageType_MessageSignature\020" +
-      "(\032\004\230\265\030\001\022$\n\032MessageType_EncryptMessage\0201\032" +
-      "\004\220\265\030\001\022&\n\034MessageType_EncryptedMessage\0202\032" +
-      "\004\230\265\030\001\022$\n\032MessageType_DecryptMessage\0203\032\004\220" +
-      "\265\030\001\022&\n\034MessageType_DecryptedMessage\0204\032\004\230",
-      "\265\030\001\022\'\n\035MessageType_PassphraseRequest\020)\032\004" +
-      "\230\265\030\001\022#\n\031MessageType_PassphraseAck\020*\032\004\220\265\030" +
-      "\001\022$\n\032MessageType_EstimateTxSize\020+\032\004\220\265\030\001\022" +
-      "\034\n\022MessageType_TxSize\020,\032\004\230\265\030\001\022$\n\032Message" +
-      "Type_RecoveryDevice\020-\032\004\220\265\030\001\022!\n\027MessageTy" +
-      "pe_WordRequest\020.\032\004\230\265\030\001\022\035\n\023MessageType_Wo" +
-      "rdAck\020/\032\004\220\265\030\001\022\'\n\035MessageType_DebugLinkDe" +
-      "cision\020d\032\004\240\265\030\001\022\'\n\035MessageType_DebugLinkG" +
-      "etState\020e\032\004\240\265\030\001\022$\n\032MessageType_DebugLink" +
-      "State\020f\032\004\250\265\030\001\022#\n\031MessageType_DebugLinkSt",
-      "op\020g\032\004\240\265\030\001\022\"\n\030MessageType_DebugLinkLog\020h" +
-      "\032\004\250\265\030\001B*\n\030com.bdx.bwallet.protobufB\016BWal" +
-      "letMessage"
+      "bootloader_hash\030\016 \001(\014\022\020\n\010imported\030\017 \001(\010\"",
+      "\016\n\014ClearSession\"\\\n\rApplySettings\022\020\n\010lang" +
+      "uage\030\001 \001(\t\022\r\n\005label\030\002 \001(\t\022\026\n\016use_passphr" +
+      "ase\030\003 \001(\010\022\022\n\nhomescreen\030\004 \001(\014\"\033\n\tChangeP" +
+      "in\022\016\n\006remove\030\001 \001(\010\"i\n\004Ping\022\017\n\007message\030\001 " +
+      "\001(\t\022\031\n\021button_protection\030\002 \001(\010\022\026\n\016pin_pr" +
+      "otection\030\003 \001(\010\022\035\n\025passphrase_protection\030" +
+      "\004 \001(\010\"\032\n\007Success\022\017\n\007message\030\001 \001(\t\"6\n\007Fai" +
+      "lure\022\032\n\004code\030\001 \001(\0162\014.FailureType\022\017\n\007mess" +
+      "age\030\002 \001(\t\"?\n\rButtonRequest\022 \n\004code\030\001 \001(\016" +
+      "2\022.ButtonRequestType\022\014\n\004data\030\002 \001(\t\"\013\n\tBu",
+      "ttonAck\"7\n\020PinMatrixRequest\022#\n\004type\030\001 \001(" +
+      "\0162\025.PinMatrixRequestType\"\033\n\014PinMatrixAck" +
+      "\022\013\n\003pin\030\001 \002(\t\"\010\n\006Cancel\"\023\n\021PassphraseReq" +
+      "uest\"#\n\rPassphraseAck\022\022\n\npassphrase\030\001 \002(" +
+      "\t\"\032\n\nGetEntropy\022\014\n\004size\030\001 \002(\r\"\032\n\007Entropy" +
+      "\022\017\n\007entropy\030\001 \002(\014\"!\n\014GetPublicKey\022\021\n\tadd" +
+      "ress_n\030\001 \003(\r\"4\n\tPublicKey\022\031\n\004node\030\001 \002(\0132" +
+      "\013.HDNodeType\022\014\n\004xpub\030\002 \001(\t\"~\n\nGetAddress" +
+      "\022\021\n\taddress_n\030\001 \003(\r\022\032\n\tcoin_name\030\002 \001(\t:\007" +
+      "Bitcoin\022\024\n\014show_display\030\003 \001(\010\022+\n\010multisi",
+      "g\030\004 \001(\0132\031.MultisigRedeemScriptType\"\032\n\007Ad" +
+      "dress\022\017\n\007address\030\001 \002(\t\"\014\n\nWipeDevice\"\246\001\n" +
+      "\nLoadDevice\022\020\n\010mnemonic\030\001 \001(\t\022\031\n\004node\030\002 " +
+      "\001(\0132\013.HDNodeType\022\013\n\003pin\030\003 \001(\t\022\035\n\025passphr" +
+      "ase_protection\030\004 \001(\010\022\031\n\010language\030\005 \001(\t:\007" +
+      "english\022\r\n\005label\030\006 \001(\t\022\025\n\rskip_checksum\030" +
+      "\007 \001(\010\"\235\001\n\013ResetDevice\022\026\n\016display_random\030" +
+      "\001 \001(\010\022\025\n\010strength\030\002 \001(\r:\003128\022\035\n\025passphra" +
+      "se_protection\030\003 \001(\010\022\026\n\016pin_protection\030\004 " +
+      "\001(\010\022\031\n\010language\030\005 \001(\t:\007english\022\r\n\005label\030",
+      "\006 \001(\t\"\020\n\016EntropyRequest\"\035\n\nEntropyAck\022\017\n" +
+      "\007entropy\030\001 \001(\014\"\237\001\n\016RecoveryDevice\022\022\n\nwor" +
+      "d_count\030\001 \001(\r\022\035\n\025passphrase_protection\030\002" +
+      " \001(\010\022\026\n\016pin_protection\030\003 \001(\010\022\031\n\010language" +
+      "\030\004 \001(\t:\007english\022\r\n\005label\030\005 \001(\t\022\030\n\020enforc" +
+      "e_wordlist\030\006 \001(\010\"\r\n\013WordRequest\"\027\n\007WordA" +
+      "ck\022\014\n\004word\030\001 \002(\t\"M\n\013SignMessage\022\021\n\taddre" +
+      "ss_n\030\001 \003(\r\022\017\n\007message\030\002 \002(\014\022\032\n\tcoin_name" +
+      "\030\003 \001(\t:\007Bitcoin\"D\n\rVerifyMessage\022\017\n\007addr" +
+      "ess\030\001 \001(\t\022\021\n\tsignature\030\002 \001(\014\022\017\n\007message\030",
+      "\003 \001(\014\"6\n\020MessageSignature\022\017\n\007address\030\001 \001" +
+      "(\t\022\021\n\tsignature\030\002 \001(\014\"v\n\016EncryptMessage\022" +
+      "\016\n\006pubkey\030\001 \001(\014\022\017\n\007message\030\002 \001(\014\022\024\n\014disp" +
+      "lay_only\030\003 \001(\010\022\021\n\taddress_n\030\004 \003(\r\022\032\n\tcoi" +
+      "n_name\030\005 \001(\t:\007Bitcoin\"@\n\020EncryptedMessag" +
+      "e\022\r\n\005nonce\030\001 \001(\014\022\017\n\007message\030\002 \001(\014\022\014\n\004hma" +
+      "c\030\003 \001(\014\"Q\n\016DecryptMessage\022\021\n\taddress_n\030\001" +
+      " \003(\r\022\r\n\005nonce\030\002 \001(\014\022\017\n\007message\030\003 \001(\014\022\014\n\004" +
+      "hmac\030\004 \001(\014\"4\n\020DecryptedMessage\022\017\n\007messag" +
+      "e\030\001 \001(\014\022\017\n\007address\030\002 \001(\t\"\200\001\n\016CipherKeyVa",
+      "lue\022\021\n\taddress_n\030\001 \003(\r\022\013\n\003key\030\002 \001(\t\022\r\n\005v" +
+      "alue\030\003 \001(\014\022\017\n\007encrypt\030\004 \001(\010\022\026\n\016ask_on_en" +
+      "crypt\030\005 \001(\010\022\026\n\016ask_on_decrypt\030\006 \001(\010\"!\n\020C" +
+      "ipheredKeyValue\022\r\n\005value\030\001 \001(\014\"Y\n\016Estima" +
+      "teTxSize\022\025\n\routputs_count\030\001 \002(\r\022\024\n\014input" +
+      "s_count\030\002 \002(\r\022\032\n\tcoin_name\030\003 \001(\t:\007Bitcoi" +
+      "n\"\031\n\006TxSize\022\017\n\007tx_size\030\001 \001(\r\"Q\n\006SignTx\022\025" +
+      "\n\routputs_count\030\001 \002(\r\022\024\n\014inputs_count\030\002 " +
+      "\002(\r\022\032\n\tcoin_name\030\003 \001(\t:\007Bitcoin\"\220\001\n\014Simp" +
+      "leSignTx\022\034\n\006inputs\030\001 \003(\0132\014.TxInputType\022\036",
+      "\n\007outputs\030\002 \003(\0132\r.TxOutputType\022&\n\014transa" +
+      "ctions\030\003 \003(\0132\020.TransactionType\022\032\n\tcoin_n" +
+      "ame\030\004 \001(\t:\007Bitcoin\"\205\001\n\tTxRequest\022\"\n\014requ" +
+      "est_type\030\001 \001(\0162\014.RequestType\022&\n\007details\030" +
+      "\002 \001(\0132\025.TxRequestDetailsType\022,\n\nserializ" +
+      "ed\030\003 \001(\0132\030.TxRequestSerializedType\"%\n\005Tx" +
+      "Ack\022\034\n\002tx\030\001 \001(\0132\020.TransactionType\"c\n\014Sig" +
+      "nIdentity\022\037\n\010identity\030\001 \001(\0132\r.IdentityTy" +
+      "pe\022\030\n\020challenge_hidden\030\002 \001(\014\022\030\n\020challeng" +
+      "e_visual\030\003 \001(\t\"H\n\016SignedIdentity\022\017\n\007addr",
+      "ess\030\001 \001(\t\022\022\n\npublic_key\030\002 \001(\014\022\021\n\tsignatu" +
+      "re\030\003 \001(\014\"\017\n\rFirmwareErase\"!\n\016FirmwareUpl" +
+      "oad\022\017\n\007payload\030\001 \002(\014\"#\n\nTestScreen\022\025\n\nde" +
+      "lay_time\030\001 \002(\r:\0011\"#\n\021DebugLinkDecision\022\016" +
+      "\n\006yes_no\030\001 \002(\010\"\023\n\021DebugLinkGetState\"\353\001\n\016" +
+      "DebugLinkState\022\016\n\006layout\030\001 \001(\014\022\013\n\003pin\030\002 " +
+      "\001(\t\022\016\n\006matrix\030\003 \001(\t\022\020\n\010mnemonic\030\004 \001(\t\022\031\n" +
+      "\004node\030\005 \001(\0132\013.HDNodeType\022\035\n\025passphrase_p" +
+      "rotection\030\006 \001(\010\022\022\n\nreset_word\030\007 \001(\t\022\025\n\rr" +
+      "eset_entropy\030\010 \001(\014\022\032\n\022recovery_fake_word",
+      "\030\t \001(\t\022\031\n\021recovery_word_pos\030\n \001(\r\"\017\n\rDeb" +
+      "ugLinkStop\";\n\014DebugLinkLog\022\r\n\005level\030\001 \001(" +
+      "\r\022\016\n\006bucket\030\002 \001(\t\022\014\n\004text\030\003 \001(\t*\205\017\n\013Mess" +
+      "ageType\022 \n\026MessageType_Initialize\020\000\032\004\220\265\030" +
+      "\001\022\032\n\020MessageType_Ping\020\001\032\004\220\265\030\001\022\035\n\023Message" +
+      "Type_Success\020\002\032\004\230\265\030\001\022\035\n\023MessageType_Fail" +
+      "ure\020\003\032\004\230\265\030\001\022\037\n\025MessageType_ChangePin\020\004\032\004" +
+      "\220\265\030\001\022 \n\026MessageType_WipeDevice\020\005\032\004\220\265\030\001\022#" +
+      "\n\031MessageType_FirmwareErase\020\006\032\004\220\265\030\001\022$\n\032M" +
+      "essageType_FirmwareUpload\020\007\032\004\220\265\030\001\022 \n\026Mes",
+      "sageType_GetEntropy\020\t\032\004\220\265\030\001\022\035\n\023MessageTy" +
+      "pe_Entropy\020\n\032\004\230\265\030\001\022\"\n\030MessageType_GetPub" +
+      "licKey\020\013\032\004\220\265\030\001\022\037\n\025MessageType_PublicKey\020" +
+      "\014\032\004\230\265\030\001\022 \n\026MessageType_LoadDevice\020\r\032\004\220\265\030" +
+      "\001\022!\n\027MessageType_ResetDevice\020\016\032\004\220\265\030\001\022\034\n\022" +
+      "MessageType_SignTx\020\017\032\004\220\265\030\001\022\"\n\030MessageTyp" +
+      "e_SimpleSignTx\020\020\032\004\220\265\030\001\022\036\n\024MessageType_Fe" +
+      "atures\020\021\032\004\230\265\030\001\022&\n\034MessageType_PinMatrixR" +
+      "equest\020\022\032\004\230\265\030\001\022\"\n\030MessageType_PinMatrixA" +
+      "ck\020\023\032\004\220\265\030\001\022\034\n\022MessageType_Cancel\020\024\032\004\220\265\030\001",
+      "\022\037\n\025MessageType_TxRequest\020\025\032\004\230\265\030\001\022\033\n\021Mes" +
+      "sageType_TxAck\020\026\032\004\220\265\030\001\022$\n\032MessageType_Ci" +
+      "pherKeyValue\020\027\032\004\220\265\030\001\022\"\n\030MessageType_Clea" +
+      "rSession\020\030\032\004\220\265\030\001\022#\n\031MessageType_ApplySet" +
+      "tings\020\031\032\004\220\265\030\001\022#\n\031MessageType_ButtonReque" +
+      "st\020\032\032\004\230\265\030\001\022\037\n\025MessageType_ButtonAck\020\033\032\004\220" +
+      "\265\030\001\022 \n\026MessageType_GetAddress\020\035\032\004\220\265\030\001\022\035\n" +
+      "\023MessageType_Address\020\036\032\004\230\265\030\001\022$\n\032MessageT" +
+      "ype_EntropyRequest\020#\032\004\230\265\030\001\022 \n\026MessageTyp" +
+      "e_EntropyAck\020$\032\004\220\265\030\001\022!\n\027MessageType_Sign",
+      "Message\020&\032\004\220\265\030\001\022#\n\031MessageType_VerifyMes" +
+      "sage\020\'\032\004\220\265\030\001\022&\n\034MessageType_MessageSigna" +
+      "ture\020(\032\004\230\265\030\001\022\'\n\035MessageType_PassphraseRe" +
+      "quest\020)\032\004\230\265\030\001\022#\n\031MessageType_PassphraseA" +
+      "ck\020*\032\004\220\265\030\001\022$\n\032MessageType_EstimateTxSize" +
+      "\020+\032\004\220\265\030\001\022\034\n\022MessageType_TxSize\020,\032\004\230\265\030\001\022$" +
+      "\n\032MessageType_RecoveryDevice\020-\032\004\220\265\030\001\022!\n\027" +
+      "MessageType_WordRequest\020.\032\004\230\265\030\001\022\035\n\023Messa" +
+      "geType_WordAck\020/\032\004\220\265\030\001\022&\n\034MessageType_Ci" +
+      "pheredKeyValue\0200\032\004\230\265\030\001\022$\n\032MessageType_En",
+      "cryptMessage\0201\032\004\220\265\030\001\022&\n\034MessageType_Encr" +
+      "yptedMessage\0202\032\004\230\265\030\001\022$\n\032MessageType_Decr" +
+      "yptMessage\0203\032\004\220\265\030\001\022&\n\034MessageType_Decryp" +
+      "tedMessage\0204\032\004\230\265\030\001\022\"\n\030MessageType_SignId" +
+      "entity\0205\032\004\220\265\030\001\022$\n\032MessageType_SignedIden" +
+      "tity\0206\032\004\230\265\030\001\022 \n\026MessageType_TestScreen\020c" +
+      "\032\004\220\265\030\001\022\'\n\035MessageType_DebugLinkDecision\020" +
+      "d\032\004\240\265\030\001\022\'\n\035MessageType_DebugLinkGetState" +
+      "\020e\032\004\240\265\030\001\022$\n\032MessageType_DebugLinkState\020f" +
+      "\032\004\250\265\030\001\022#\n\031MessageType_DebugLinkStop\020g\032\004\240",
+      "\265\030\001\022\"\n\030MessageType_DebugLinkLog\020h\032\004\250\265\030\001B" +
+      "*\n\030com.bdx.bwallet.protobufB\016BWalletMess" +
+      "age"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -37773,7 +40118,7 @@ public final class BWalletMessage {
           internal_static_Features_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_Features_descriptor,
-              new java.lang.String[] { "Vendor", "MajorVersion", "MinorVersion", "PatchVersion", "BootloaderMode", "DeviceId", "PinProtection", "PassphraseProtection", "Language", "Label", "Coins", "Initialized", "Revision", "BootloaderHash", "Imported", "CpuSn", });
+              new java.lang.String[] { "Vendor", "MajorVersion", "MinorVersion", "PatchVersion", "BootloaderMode", "DeviceId", "PinProtection", "PassphraseProtection", "Language", "Label", "Coins", "Initialized", "Revision", "BootloaderHash", "Imported", });
           internal_static_ClearSession_descriptor =
             getDescriptor().getMessageTypes().get(2);
           internal_static_ClearSession_fieldAccessorTable = new
@@ -37785,7 +40130,7 @@ public final class BWalletMessage {
           internal_static_ApplySettings_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_ApplySettings_descriptor,
-              new java.lang.String[] { "Language", "Label", });
+              new java.lang.String[] { "Language", "Label", "UsePassphrase", "Homescreen", });
           internal_static_ChangePin_descriptor =
             getDescriptor().getMessageTypes().get(4);
           internal_static_ChangePin_fieldAccessorTable = new
@@ -37881,7 +40226,7 @@ public final class BWalletMessage {
           internal_static_GetAddress_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_GetAddress_descriptor,
-              new java.lang.String[] { "AddressN", "CoinName", "ShowDisplay", });
+              new java.lang.String[] { "AddressN", "CoinName", "ShowDisplay", "Multisig", });
           internal_static_Address_descriptor =
             getDescriptor().getMessageTypes().get(20);
           internal_static_Address_fieldAccessorTable = new
@@ -38026,44 +40371,62 @@ public final class BWalletMessage {
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_TxAck_descriptor,
               new java.lang.String[] { "Tx", });
-          internal_static_FirmwareErase_descriptor =
+          internal_static_SignIdentity_descriptor =
             getDescriptor().getMessageTypes().get(44);
+          internal_static_SignIdentity_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_SignIdentity_descriptor,
+              new java.lang.String[] { "Identity", "ChallengeHidden", "ChallengeVisual", });
+          internal_static_SignedIdentity_descriptor =
+            getDescriptor().getMessageTypes().get(45);
+          internal_static_SignedIdentity_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_SignedIdentity_descriptor,
+              new java.lang.String[] { "Address", "PublicKey", "Signature", });
+          internal_static_FirmwareErase_descriptor =
+            getDescriptor().getMessageTypes().get(46);
           internal_static_FirmwareErase_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_FirmwareErase_descriptor,
               new java.lang.String[] { });
           internal_static_FirmwareUpload_descriptor =
-            getDescriptor().getMessageTypes().get(45);
+            getDescriptor().getMessageTypes().get(47);
           internal_static_FirmwareUpload_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_FirmwareUpload_descriptor,
               new java.lang.String[] { "Payload", });
+          internal_static_TestScreen_descriptor =
+            getDescriptor().getMessageTypes().get(48);
+          internal_static_TestScreen_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_TestScreen_descriptor,
+              new java.lang.String[] { "DelayTime", });
           internal_static_DebugLinkDecision_descriptor =
-            getDescriptor().getMessageTypes().get(46);
+            getDescriptor().getMessageTypes().get(49);
           internal_static_DebugLinkDecision_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_DebugLinkDecision_descriptor,
               new java.lang.String[] { "YesNo", });
           internal_static_DebugLinkGetState_descriptor =
-            getDescriptor().getMessageTypes().get(47);
+            getDescriptor().getMessageTypes().get(50);
           internal_static_DebugLinkGetState_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_DebugLinkGetState_descriptor,
               new java.lang.String[] { });
           internal_static_DebugLinkState_descriptor =
-            getDescriptor().getMessageTypes().get(48);
+            getDescriptor().getMessageTypes().get(51);
           internal_static_DebugLinkState_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_DebugLinkState_descriptor,
               new java.lang.String[] { "Layout", "Pin", "Matrix", "Mnemonic", "Node", "PassphraseProtection", "ResetWord", "ResetEntropy", "RecoveryFakeWord", "RecoveryWordPos", });
           internal_static_DebugLinkStop_descriptor =
-            getDescriptor().getMessageTypes().get(49);
+            getDescriptor().getMessageTypes().get(52);
           internal_static_DebugLinkStop_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_DebugLinkStop_descriptor,
               new java.lang.String[] { });
           internal_static_DebugLinkLog_descriptor =
-            getDescriptor().getMessageTypes().get(50);
+            getDescriptor().getMessageTypes().get(53);
           internal_static_DebugLinkLog_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_DebugLinkLog_descriptor,
@@ -38093,7 +40456,6 @@ public final class BWalletMessage {
           registry.add(com.bdx.bwallet.protobuf.BWalletType.wireOut);
           registry.add(com.bdx.bwallet.protobuf.BWalletType.wireIn);
           registry.add(com.bdx.bwallet.protobuf.BWalletType.wireIn);
-          registry.add(com.bdx.bwallet.protobuf.BWalletType.wireOut);
           registry.add(com.bdx.bwallet.protobuf.BWalletType.wireIn);
           registry.add(com.bdx.bwallet.protobuf.BWalletType.wireIn);
           registry.add(com.bdx.bwallet.protobuf.BWalletType.wireOut);
@@ -38105,12 +40467,16 @@ public final class BWalletMessage {
           registry.add(com.bdx.bwallet.protobuf.BWalletType.wireIn);
           registry.add(com.bdx.bwallet.protobuf.BWalletType.wireIn);
           registry.add(com.bdx.bwallet.protobuf.BWalletType.wireOut);
+          registry.add(com.bdx.bwallet.protobuf.BWalletType.wireOut);
+          registry.add(com.bdx.bwallet.protobuf.BWalletType.wireIn);
           registry.add(com.bdx.bwallet.protobuf.BWalletType.wireIn);
           registry.add(com.bdx.bwallet.protobuf.BWalletType.wireOut);
           registry.add(com.bdx.bwallet.protobuf.BWalletType.wireIn);
           registry.add(com.bdx.bwallet.protobuf.BWalletType.wireOut);
+          registry.add(com.bdx.bwallet.protobuf.BWalletType.wireIn);
           registry.add(com.bdx.bwallet.protobuf.BWalletType.wireOut);
           registry.add(com.bdx.bwallet.protobuf.BWalletType.wireIn);
+          registry.add(com.bdx.bwallet.protobuf.BWalletType.wireOut);
           registry.add(com.bdx.bwallet.protobuf.BWalletType.wireIn);
           registry.add(com.bdx.bwallet.protobuf.BWalletType.wireOut);
           registry.add(com.bdx.bwallet.protobuf.BWalletType.wireIn);

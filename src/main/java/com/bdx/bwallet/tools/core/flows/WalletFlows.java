@@ -70,4 +70,9 @@ public class WalletFlows {
         log.debug("Transitioning to 'change pin' flow");
         return new ChangePINFlow();
     }
+    
+    public static TestScreenFlow newTestScreenFlow() {
+        log.debug("Transitioning to 'test screen' flow");
+        return new TestScreenFlow();
+    }
 }

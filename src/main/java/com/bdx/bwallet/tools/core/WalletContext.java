@@ -227,4 +227,15 @@ public class WalletContext {
         // Issue starting message to elicit the event
         client.changePIN(remove);
     }
+    
+    public void beginTestScreenUseCase(int delayTime) {
+        log.debug("Begin 'test screen' use case");
+        // Track the use case
+        currentUseCase = ContextUseCase.TEST_SCREEN;
+        // Store the overall context parameters
+        // Set the event receiving state
+        currentFlow = WalletFlows.newTestScreenFlow();
+        // Issue starting message to elicit the event
+        client.testScreen(delayTime);
+    }
 }

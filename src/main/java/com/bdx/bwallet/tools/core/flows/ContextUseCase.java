@@ -30,5 +30,6 @@ public enum ContextUseCase {
     RECOVERY_DEVICE,
     FIRMWARE_ERASE,
     FIRMWARE_UPLOAD,
-    APPLY_SETTINGS
+    APPLY_SETTINGS,
+    TEST_SCREEN
 }

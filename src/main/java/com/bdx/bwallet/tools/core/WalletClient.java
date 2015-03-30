@@ -110,4 +110,6 @@ public interface WalletClient extends Connectable {
     Optional<MessageEvent> estimateTxSize(Transaction tx);
     
     Optional<MessageEvent> passphraseAck(String passphrase);
+    
+    Optional<MessageEvent> testScreen(int delayTime);
 }

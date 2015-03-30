@@ -596,6 +596,16 @@ public abstract class AbstractWalletClient implements WalletClient {
         );
     }
     
+    @Override
+    public Optional<MessageEvent> testScreen(int delayTime) {
+        return sendMessage(
+                BWalletMessage.TestScreen
+                .newBuilder()
+                .setDelayTime(delayTime)
+                .build()
+        );
+    }
+    
     /**
      * <p>
      * Send a message to the device that should have a near-immediate (under 5

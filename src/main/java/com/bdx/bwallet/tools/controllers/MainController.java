@@ -172,6 +172,14 @@ public class MainController {
         }
     }
     
+    public void testScreen(Device device, int delayTime) {
+        final WalletContext context = this.getContext(device);
+        if (context != null) {
+            walletService.setContext(context);
+            walletService.testScreen(delayTime);
+        }
+    }
+    
     public WalletContext getContext(Device device) {
         WalletContext context = contexts.get(device.getPath());
         if (context == null) {

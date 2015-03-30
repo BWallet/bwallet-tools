@@ -257,6 +257,11 @@ public class MainUI extends javax.swing.JFrame {
         });
 
         testScreenButton.setText("Test Screen");
+        testScreenButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                testScreenButtonActionPerformed(evt);
+            }
+        });
 
         signAndVerifyButton.setText("Sign & Verify");
         signAndVerifyButton.addActionListener(new java.awt.event.ActionListener() {
@@ -477,6 +482,17 @@ public class MainUI extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Please select a device.");
         }
     }//GEN-LAST:event_signAndVerifyButtonActionPerformed
+
+    private void testScreenButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_testScreenButtonActionPerformed
+        Device device = getSelectDevice();
+        if (device != null) {
+            TestScreenDialog testScreenDialog = new TestScreenDialog(this, true, mainController, device);
+            testScreenDialog.setLocationRelativeTo(null);
+            testScreenDialog.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(null, "Please select a device.");
+        }
+    }//GEN-LAST:event_testScreenButtonActionPerformed
 
     protected void openWebpage(URI uri) {
         if (desktop != null && desktop.isSupported(Desktop.Action.BROWSE)) {
