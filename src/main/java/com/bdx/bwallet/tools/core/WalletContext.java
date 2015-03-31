@@ -93,11 +93,9 @@ public class WalletContext {
     }
     
     public ListenableFuture<Optional<Features>> initialise() {
-        if (this.future == null) {
-            this.future = SettableFuture.<Optional<Features>>create();
-            client.initialise();
-        }
-        return future;
+        this.future = SettableFuture.<Optional<Features>>create();
+        client.initialise();
+        return this.future;
     }
 
     public void destroy() {
@@ -182,6 +180,28 @@ public class WalletContext {
         currentFlow = WalletFlows.newApplySettingsFlow();
         // Issue starting message to elicit the event
         client.applySettings(language, label);
+    }
+    
+    public void beginApplySettingsUseCase(boolean usePassphrase) {
+        log.debug("Begin 'apply settings' use case");
+        // Track the use case
+        currentUseCase = ContextUseCase.APPLY_SETTINGS;
+        // Store the overall context parameters
+        // Set the event receiving state
+        currentFlow = WalletFlows.newApplySettingsFlow();
+        // Issue starting message to elicit the event
+        client.applySettings(usePassphrase);
+    }
+    
+    public void beginApplySettingsUseCase(byte[] homescreen) {
+        log.debug("Begin 'apply settings' use case");
+        // Track the use case
+        currentUseCase = ContextUseCase.APPLY_SETTINGS;
+        // Store the overall context parameters
+        // Set the event receiving state
+        currentFlow = WalletFlows.newApplySettingsFlow();
+        // Issue starting message to elicit the event
+        client.applySettings(homescreen);
     }
     
     public void beginGetDeterministicHierarchyUseCase(List<ChildNumber> childNumbers) {

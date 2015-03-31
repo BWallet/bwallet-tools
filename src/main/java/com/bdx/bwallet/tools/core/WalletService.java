@@ -118,6 +118,14 @@ public class WalletService implements HidServicesListener {
         context.beginApplySettingsUseCase(language, labe);
     }
     
+    public void applySettings(boolean usePassphrase) {
+        context.beginApplySettingsUseCase(usePassphrase);
+    }
+    
+    public void applySettings(byte[] homescreen) {
+        context.beginApplySettingsUseCase(homescreen);
+    }
+    
     public void getDeterministicHierarchy(List<ChildNumber> childNumbers) {
         context.beginGetDeterministicHierarchyUseCase(childNumbers);
     }

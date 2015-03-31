@@ -11,6 +11,11 @@ public class ApplySettingsFlow extends AbstractWalletFlow {
     @Override
     protected void internalTransition(WalletClient client, WalletContext context, MessageEvent event) {
         switch (event.getEventType()) {
+            case PIN_MATRIX_REQUEST:
+                // Device is asking for a PIN matrix to be displayed (user must read the screen carefully)
+                HardwareWalletEvents.fireHardwareWalletEvent(HardwareWalletEventType.SHOW_PIN_ENTRY, event.getMessage().get());
+                // Further state transitions will occur after the user has provided the PIN via the service
+                break;
             case BUTTON_REQUEST:
                 // Device is asking for confirmation to wipe
                 HardwareWalletEvents.fireHardwareWalletEvent(HardwareWalletEventType.SHOW_BUTTON_PRESS, event.getMessage().get());

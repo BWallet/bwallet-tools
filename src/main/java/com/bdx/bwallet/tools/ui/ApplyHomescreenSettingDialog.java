@@ -13,68 +13,47 @@ import com.bdx.bwallet.tools.core.events.MessageEvent;
 import com.bdx.bwallet.tools.core.events.MessageEventType;
 import com.bdx.bwallet.tools.core.events.MessageEvents;
 import com.bdx.bwallet.tools.model.Device;
-import com.bdx.bwallet.tools.model.Language;
-import com.google.common.base.Optional;
 import com.google.common.eventbus.Subscribe;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import javax.swing.DefaultComboBoxModel;
+import java.io.File;
 import javax.swing.JDialog;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.WindowConstants;
-import org.apache.commons.lang3.StringUtils;
 import org.hid4java.HidDevice;
 
 /**
  *
  * @author Administrator
  */
-public class ApplySettingsDialog extends javax.swing.JDialog implements WindowListener {
+public class ApplyHomescreenSettingDialog extends javax.swing.JDialog implements WindowListener {
 
+    private final JFileChooser fileChooser = new JFileChooser();
+    
     private MainController mainController;
 
     private JDialog messageDialog;
 
     private Device device;
     
+    private File file;
+    
     /**
      * Creates new form ApplySettingsDialog
      */
-    public ApplySettingsDialog(java.awt.Frame parent, boolean modal, MainController mainController, Device device, Optional<String> language, Optional<String> label) {
+    public ApplyHomescreenSettingDialog(java.awt.Frame parent, boolean modal, MainController mainController, Device device) {
         super(parent, modal);
         initComponents();
-        
-        Map<String, Language> languages = new LinkedHashMap();
-        languages.put("english", new Language("english", "English"));
-        languages.put("chinese", new Language("chinese", "中文"));
-        DefaultComboBoxModel languageComboBoxModel = (DefaultComboBoxModel) languageComboBox.getModel();
-        languageComboBoxModel.removeAllElements();
-        for (Language l : languages.values()) {
-            languageComboBoxModel.addElement(l);
-        }
-        
-        if (language.isPresent() && StringUtils.isNotBlank(language.get())) {
-            languageComboBoxModel.setSelectedItem(languages.get(language.get()));
-        } else {
-            languageComboBoxModel.setSelectedItem(languages.get("english"));
-        }
-        
-        if (label.isPresent()) {
-            labelTextField.setText(label.get());
-        } else {
-            labelTextField.setText("My BWallet");
-        }
-        
+                
         this.mainController = mainController;
         this.device = device;
         
         JOptionPane messagePanel = new JOptionPane("Please confirm the action on your device.", JOptionPane.INFORMATION_MESSAGE,
                 JOptionPane.DEFAULT_OPTION, null,
                 new Object[]{}, null);
-        messageDialog = messagePanel.createDialog(null, "Apply Settings");
+        messageDialog = messagePanel.createDialog(null, "Homescreen Setting");
         messageDialog.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
         messageDialog.setSize(400, 150);
         messageDialog.setLocationRelativeTo(null);
@@ -82,7 +61,7 @@ public class ApplySettingsDialog extends javax.swing.JDialog implements WindowLi
             @Override
             public void windowClosing(WindowEvent e) {
                 System.out.println("windowClosing");
-                ApplySettingsDialog.this.mainController.cancel();
+                ApplyHomescreenSettingDialog.this.mainController.cancel();
             }
         });
         
@@ -100,12 +79,14 @@ public class ApplySettingsDialog extends javax.swing.JDialog implements WindowLi
 
         cancelButton = new javax.swing.JButton();
         applyButton = new javax.swing.JButton();
-        languageComboBox = new javax.swing.JComboBox();
-        languageLabel = new javax.swing.JLabel();
-        labelTextField = new javax.swing.JTextField();
-        labelLabel = new javax.swing.JLabel();
+        fileLabel = new javax.swing.JLabel();
+        fileTextField = new javax.swing.JTextField();
+        fileButton = new javax.swing.JButton();
+        tipLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Homescreen Setting");
+        setResizable(false);
 
         cancelButton.setText("Cancel");
         cancelButton.addActionListener(new java.awt.event.ActionListener() {
@@ -121,59 +102,54 @@ public class ApplySettingsDialog extends javax.swing.JDialog implements WindowLi
             }
         });
 
-        languageComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "English", "中文" }));
-        languageComboBox.addActionListener(new java.awt.event.ActionListener() {
+        fileLabel.setText("Homescreen");
+
+        fileTextField.setEditable(false);
+
+        fileButton.setText("Open a file...");
+        fileButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                languageComboBoxActionPerformed(evt);
+                fileButtonActionPerformed(evt);
             }
         });
 
-        languageLabel.setText("Device language");
-
-        labelTextField.setText("My BWallet");
-        labelTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                labelTextFieldActionPerformed(evt);
-            }
-        });
-
-        labelLabel.setText("Device label");
+        tipLabel.setText("(128*64)");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(34, 34, 34)
-                .addComponent(labelLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(labelTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 128, Short.MAX_VALUE)
-                .addComponent(languageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(languageComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30))
+                .addContainerGap()
+                .addComponent(fileLabel)
+                .addGap(18, 18, 18)
+                .addComponent(fileTextField)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(tipLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(fileButton)
+                .addContainerGap())
             .addGroup(layout.createSequentialGroup()
-                .addGap(186, 186, 186)
+                .addGap(188, 188, 188)
                 .addComponent(applyButton, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(50, 50, 50)
                 .addComponent(cancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(202, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(83, 83, 83)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(labelTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(labelLabel)
-                    .addComponent(languageLabel)
-                    .addComponent(languageComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(35, 35, 35)
+                    .addComponent(fileLabel)
+                    .addComponent(fileButton)
+                    .addComponent(fileTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tipLabel))
+                .addGap(48, 48, 48)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(applyButton)
                     .addComponent(cancelButton))
-                .addContainerGap(84, Short.MAX_VALUE))
+                .addContainerGap(69, Short.MAX_VALUE))
         );
 
         pack();
@@ -185,20 +161,22 @@ public class ApplySettingsDialog extends javax.swing.JDialog implements WindowLi
 
     private void applyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_applyButtonActionPerformed
         if (device != null) {
-            Language language = (Language) ((DefaultComboBoxModel) languageComboBox.getModel()).getSelectedItem();
-            String label = labelTextField.getText();
-            mainController.applySettings(device, language.getValue(), label);
+            if (file != null) {
+                mainController.applySettings(device, file);
+            } else
+                JOptionPane.showMessageDialog(null, "Please choose a bitmap file");
         } else 
             JOptionPane.showMessageDialog(null, "Device detached");
     }//GEN-LAST:event_applyButtonActionPerformed
 
-    private void languageComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_languageComboBoxActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_languageComboBoxActionPerformed
-
-    private void labelTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_labelTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_labelTextFieldActionPerformed
+    private void fileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fileButtonActionPerformed
+        int returnVal = fileChooser.showOpenDialog(this);
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            file = fileChooser.getSelectedFile();
+            fileTextField.setText(file.getAbsolutePath());
+        } else {
+        }
+    }//GEN-LAST:event_fileButtonActionPerformed
 
     @Subscribe
     public void onHardwareWalletEvent(HardwareWalletEvent event) {
@@ -314,20 +292,23 @@ public class ApplySettingsDialog extends javax.swing.JDialog implements WindowLi
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ApplySettingsDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ApplyHomescreenSettingDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ApplySettingsDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ApplyHomescreenSettingDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ApplySettingsDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ApplyHomescreenSettingDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ApplySettingsDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ApplyHomescreenSettingDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                ApplySettingsDialog dialog = new ApplySettingsDialog(new javax.swing.JFrame(), true, null, null, Optional.<String>absent(), Optional.<String>absent());
+                ApplyHomescreenSettingDialog dialog = new ApplyHomescreenSettingDialog(new javax.swing.JFrame(), true, null, null);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -342,9 +323,9 @@ public class ApplySettingsDialog extends javax.swing.JDialog implements WindowLi
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton applyButton;
     private javax.swing.JButton cancelButton;
-    private javax.swing.JLabel labelLabel;
-    private javax.swing.JTextField labelTextField;
-    private javax.swing.JComboBox languageComboBox;
-    private javax.swing.JLabel languageLabel;
+    private javax.swing.JButton fileButton;
+    private javax.swing.JLabel fileLabel;
+    private javax.swing.JTextField fileTextField;
+    private javax.swing.JLabel tipLabel;
     // End of variables declaration//GEN-END:variables
 }

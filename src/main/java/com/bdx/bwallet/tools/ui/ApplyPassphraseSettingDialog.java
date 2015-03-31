@@ -13,26 +13,20 @@ import com.bdx.bwallet.tools.core.events.MessageEvent;
 import com.bdx.bwallet.tools.core.events.MessageEventType;
 import com.bdx.bwallet.tools.core.events.MessageEvents;
 import com.bdx.bwallet.tools.model.Device;
-import com.bdx.bwallet.tools.model.Language;
-import com.google.common.base.Optional;
 import com.google.common.eventbus.Subscribe;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.WindowConstants;
-import org.apache.commons.lang3.StringUtils;
 import org.hid4java.HidDevice;
 
 /**
  *
  * @author Administrator
  */
-public class ApplySettingsDialog extends javax.swing.JDialog implements WindowListener {
+public class ApplyPassphraseSettingDialog extends javax.swing.JDialog implements WindowListener {
 
     private MainController mainController;
 
@@ -40,41 +34,23 @@ public class ApplySettingsDialog extends javax.swing.JDialog implements WindowLi
 
     private Device device;
     
+    private boolean disable;
+        
     /**
      * Creates new form ApplySettingsDialog
      */
-    public ApplySettingsDialog(java.awt.Frame parent, boolean modal, MainController mainController, Device device, Optional<String> language, Optional<String> label) {
+    public ApplyPassphraseSettingDialog(java.awt.Frame parent, boolean modal, MainController mainController, Device device, boolean disable) {
         super(parent, modal);
         initComponents();
-        
-        Map<String, Language> languages = new LinkedHashMap();
-        languages.put("english", new Language("english", "English"));
-        languages.put("chinese", new Language("chinese", "中文"));
-        DefaultComboBoxModel languageComboBoxModel = (DefaultComboBoxModel) languageComboBox.getModel();
-        languageComboBoxModel.removeAllElements();
-        for (Language l : languages.values()) {
-            languageComboBoxModel.addElement(l);
-        }
-        
-        if (language.isPresent() && StringUtils.isNotBlank(language.get())) {
-            languageComboBoxModel.setSelectedItem(languages.get(language.get()));
-        } else {
-            languageComboBoxModel.setSelectedItem(languages.get("english"));
-        }
-        
-        if (label.isPresent()) {
-            labelTextField.setText(label.get());
-        } else {
-            labelTextField.setText("My BWallet");
-        }
-        
+                
         this.mainController = mainController;
         this.device = device;
+        this.disable = disable;
         
         JOptionPane messagePanel = new JOptionPane("Please confirm the action on your device.", JOptionPane.INFORMATION_MESSAGE,
                 JOptionPane.DEFAULT_OPTION, null,
                 new Object[]{}, null);
-        messageDialog = messagePanel.createDialog(null, "Apply Settings");
+        messageDialog = messagePanel.createDialog(null, "Passphrase Setting");
         messageDialog.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
         messageDialog.setSize(400, 150);
         messageDialog.setLocationRelativeTo(null);
@@ -82,9 +58,14 @@ public class ApplySettingsDialog extends javax.swing.JDialog implements WindowLi
             @Override
             public void windowClosing(WindowEvent e) {
                 System.out.println("windowClosing");
-                ApplySettingsDialog.this.mainController.cancel();
+                ApplyPassphraseSettingDialog.this.mainController.cancel();
             }
         });
+        
+        if (disable) {
+            messageTextArea.setText("If you disable the passphrase encryption, your current funds will not appear. You will have to enable the passphrase encryption again to see your current wallet.");
+            applyButton.setText("Disable passphrase encryption");
+        }
         
         this.addWindowListener(this);
     }
@@ -98,107 +79,84 @@ public class ApplySettingsDialog extends javax.swing.JDialog implements WindowLi
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        cancelButton = new javax.swing.JButton();
         applyButton = new javax.swing.JButton();
-        languageComboBox = new javax.swing.JComboBox();
-        languageLabel = new javax.swing.JLabel();
-        labelTextField = new javax.swing.JTextField();
-        labelLabel = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        messageTextArea = new javax.swing.JTextArea();
+        confirmCheckBox = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Passphrase Setting");
+        setResizable(false);
 
-        cancelButton.setText("Cancel");
-        cancelButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cancelButtonActionPerformed(evt);
-            }
-        });
-
-        applyButton.setText("Apply");
+        applyButton.setFont(new java.awt.Font("宋体", 0, 24)); // NOI18N
+        applyButton.setText("Enable passphrase encryption");
+        applyButton.setEnabled(false);
         applyButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 applyButtonActionPerformed(evt);
             }
         });
 
-        languageComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "English", "中文" }));
-        languageComboBox.addActionListener(new java.awt.event.ActionListener() {
+        messageTextArea.setEditable(false);
+        messageTextArea.setColumns(20);
+        messageTextArea.setLineWrap(true);
+        messageTextArea.setRows(5);
+        messageTextArea.setText("Passphrase encryption allows you to access new wallets, each hidden behind a particular passphrase. Your old accounts will be accessible behind an empty passphrase.\nIf you forget your passphrase, your wallet is lost for good. There is no way to recover your funds.");
+        jScrollPane1.setViewportView(messageTextArea);
+
+        confirmCheckBox.setLabel("OK, I understand");
+        confirmCheckBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                languageComboBoxActionPerformed(evt);
+                confirmCheckBoxActionPerformed(evt);
             }
         });
-
-        languageLabel.setText("Device language");
-
-        labelTextField.setText("My BWallet");
-        labelTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                labelTextFieldActionPerformed(evt);
-            }
-        });
-
-        labelLabel.setText("Device label");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(34, 34, 34)
-                .addComponent(labelLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(labelTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 128, Short.MAX_VALUE)
-                .addComponent(languageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(languageComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(186, 186, 186)
-                .addComponent(applyButton, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(50, 50, 50)
-                .addComponent(cancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(28, 28, 28)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(confirmCheckBox)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 660, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(85, 85, 85)
+                        .addComponent(applyButton, javax.swing.GroupLayout.PREFERRED_SIZE, 482, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(32, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(83, 83, 83)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(labelTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(labelLabel)
-                    .addComponent(languageLabel)
-                    .addComponent(languageComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(35, 35, 35)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(applyButton)
-                    .addComponent(cancelButton))
-                .addContainerGap(84, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(23, 23, 23)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(16, 16, 16)
+                .addComponent(confirmCheckBox)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(applyButton, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(26, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
-        this.dispose();
-    }//GEN-LAST:event_cancelButtonActionPerformed
-
     private void applyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_applyButtonActionPerformed
         if (device != null) {
-            Language language = (Language) ((DefaultComboBoxModel) languageComboBox.getModel()).getSelectedItem();
-            String label = labelTextField.getText();
-            mainController.applySettings(device, language.getValue(), label);
+            if (disable)
+                mainController.applySettings(device, false);
+            else
+                mainController.applySettings(device, true);
         } else 
             JOptionPane.showMessageDialog(null, "Device detached");
     }//GEN-LAST:event_applyButtonActionPerformed
 
-    private void languageComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_languageComboBoxActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_languageComboBoxActionPerformed
-
-    private void labelTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_labelTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_labelTextFieldActionPerformed
+    private void confirmCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmCheckBoxActionPerformed
+        if (confirmCheckBox.isSelected()) {
+            applyButton.setEnabled(true);
+        } else {
+            applyButton.setEnabled(false);
+        }
+    }//GEN-LAST:event_confirmCheckBoxActionPerformed
 
     @Subscribe
     public void onHardwareWalletEvent(HardwareWalletEvent event) {
@@ -238,6 +196,7 @@ public class ApplySettingsDialog extends javax.swing.JDialog implements WindowLi
             case SHOW_OPERATION_SUCCEEDED:
                 messageDialog.setVisible(false);
                 JOptionPane.showMessageDialog(null, "Apply Settings was successful");
+                this.dispose();
                 break;
             case SHOW_OPERATION_FAILED:
                 messageDialog.setVisible(false);
@@ -314,20 +273,23 @@ public class ApplySettingsDialog extends javax.swing.JDialog implements WindowLi
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ApplySettingsDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ApplyPassphraseSettingDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ApplySettingsDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ApplyPassphraseSettingDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ApplySettingsDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ApplyPassphraseSettingDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ApplySettingsDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ApplyPassphraseSettingDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                ApplySettingsDialog dialog = new ApplySettingsDialog(new javax.swing.JFrame(), true, null, null, Optional.<String>absent(), Optional.<String>absent());
+                ApplyPassphraseSettingDialog dialog = new ApplyPassphraseSettingDialog(new javax.swing.JFrame(), true, null, null, true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -341,10 +303,8 @@ public class ApplySettingsDialog extends javax.swing.JDialog implements WindowLi
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton applyButton;
-    private javax.swing.JButton cancelButton;
-    private javax.swing.JLabel labelLabel;
-    private javax.swing.JTextField labelTextField;
-    private javax.swing.JComboBox languageComboBox;
-    private javax.swing.JLabel languageLabel;
+    private javax.swing.JCheckBox confirmCheckBox;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextArea messageTextArea;
     // End of variables declaration//GEN-END:variables
 }

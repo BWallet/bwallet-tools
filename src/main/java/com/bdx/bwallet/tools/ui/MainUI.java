@@ -8,15 +8,16 @@ package com.bdx.bwallet.tools.ui;
 import com.bdx.bwallet.protobuf.BWalletMessage;
 import com.bdx.bwallet.tools.controllers.MainController;
 import com.bdx.bwallet.tools.core.WalletContext;
-import com.bdx.bwallet.tools.core.concurrent.SafeExecutors;
 import com.bdx.bwallet.tools.core.events.HardwareWalletEvent;
 import com.bdx.bwallet.tools.core.events.HardwareWalletEvents;
 import com.bdx.bwallet.tools.core.events.MessageEvent;
 import com.bdx.bwallet.tools.core.events.MessageEventType;
 import com.bdx.bwallet.tools.core.events.MessageEvents;
+import com.bdx.bwallet.tools.core.utils.FirmwareVersion;
 import com.bdx.bwallet.tools.model.Device;
 import com.google.common.base.Optional;
 import com.google.common.eventbus.Subscribe;
+import com.google.common.util.concurrent.ListenableFuture;
 import com.google.protobuf.ByteString;
 import java.awt.Desktop;
 import java.net.MalformedURLException;
@@ -27,7 +28,10 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
@@ -157,6 +161,9 @@ public class MainUI extends javax.swing.JFrame {
         changePinButton = new javax.swing.JButton();
         testScreenButton = new javax.swing.JButton();
         signAndVerifyButton = new javax.swing.JButton();
+        passphraseSettingButton = new javax.swing.JButton();
+        homescreenSettingButton = new javax.swing.JButton();
+        applyAccountLabel = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("BWallet Tools");
@@ -270,6 +277,22 @@ public class MainUI extends javax.swing.JFrame {
             }
         });
 
+        passphraseSettingButton.setText("Passphrase Setting");
+        passphraseSettingButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                passphraseSettingButtonActionPerformed(evt);
+            }
+        });
+
+        homescreenSettingButton.setText("Homescreen Setting");
+        homescreenSettingButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                homescreenSettingButtonActionPerformed(evt);
+            }
+        });
+
+        applyAccountLabel.setText("Apply Account Label");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -285,19 +308,13 @@ public class MainUI extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(getPublicKeyButton, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(getBlHashButton, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(accountInfoButton, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                         .addComponent(applySettingsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(18, 18, 18)
-                                        .addComponent(changePinButton, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(passphraseSettingButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addGap(18, 18, 18)
-                                        .addComponent(testScreenButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                        .addComponent(changePinButton, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                         .addComponent(resetDeviceButton, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(18, 18, 18)
@@ -307,8 +324,22 @@ public class MainUI extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(updateFirmwareButton, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
-                                    .addComponent(signAndVerifyButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                            .addComponent(devicesPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(homescreenSettingButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(devicesPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(getPublicKeyButton, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(getBlHashButton, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(applyAccountLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(testScreenButton, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(18, 18, 18)
+                                .addComponent(accountInfoButton, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(signAndVerifyButton, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -331,14 +362,19 @@ public class MainUI extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(applySettingsButton)
                     .addComponent(changePinButton)
-                    .addComponent(testScreenButton)
-                    .addComponent(signAndVerifyButton))
+                    .addComponent(passphraseSettingButton)
+                    .addComponent(homescreenSettingButton))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(getPublicKeyButton)
                     .addComponent(getBlHashButton)
-                    .addComponent(accountInfoButton))
-                .addContainerGap(57, Short.MAX_VALUE))
+                    .addComponent(accountInfoButton)
+                    .addComponent(signAndVerifyButton))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(applyAccountLabel)
+                    .addComponent(testScreenButton))
+                .addContainerGap(32, Short.MAX_VALUE))
         );
 
         pack();
@@ -433,6 +469,14 @@ public class MainUI extends javax.swing.JFrame {
         if (device != null) {
             WalletContext context = mainController.getContext(device);
             if (context != null) {
+                try {
+                    ListenableFuture<Optional<BWalletMessage.Features>> future = context.initialise();
+                    future.get(5, TimeUnit.SECONDS);
+                } catch (InterruptedException | ExecutionException | TimeoutException ex) {
+                    JOptionPane.showMessageDialog(null, "Device initialise failed.");
+                    return ;
+                }
+                
                 Optional<BWalletMessage.Features> features = context.getFeatures();
                 Optional<String> language = Optional.absent();
                 Optional<String> label = Optional.absent();
@@ -494,6 +538,67 @@ public class MainUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_testScreenButtonActionPerformed
 
+    private void passphraseSettingButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passphraseSettingButtonActionPerformed
+        Device device = getSelectDevice();
+        if (device != null) {
+            WalletContext context = mainController.getContext(device);
+            if (context != null) {
+                try {
+                    ListenableFuture<Optional<BWalletMessage.Features>> future = context.initialise();
+                    future.get(5, TimeUnit.SECONDS);
+                } catch (InterruptedException | ExecutionException | TimeoutException ex) {
+                    JOptionPane.showMessageDialog(null, "Device initialise failed.");
+                    return ;
+                }
+                
+                BWalletMessage.Features features = context.getFeatures().get();
+                FirmwareVersion firmwareVersion = new FirmwareVersion(features);
+                System.out.println(firmwareVersion.toString());
+                if (!firmwareVersion.ge(1, 3, 1)) {
+                    JOptionPane.showMessageDialog(null, "Unsupported firmware:" + firmwareVersion.toString());
+                    return ;
+                }
+                
+                boolean disable = features.getPassphraseProtection();
+                ApplyPassphraseSettingDialog applyPassphraseSettingsDialog = new ApplyPassphraseSettingDialog(this, true, mainController, device, disable);
+                applyPassphraseSettingsDialog.setLocationRelativeTo(null);
+                applyPassphraseSettingsDialog.setVisible(true);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Please select a device.");
+        }
+    }//GEN-LAST:event_passphraseSettingButtonActionPerformed
+
+    private void homescreenSettingButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_homescreenSettingButtonActionPerformed
+        Device device = getSelectDevice();
+        if (device != null) {
+            WalletContext context = mainController.getContext(device);
+            if (context != null) {
+                try {
+                    ListenableFuture<Optional<BWalletMessage.Features>> future = context.initialise();
+                    future.get(5, TimeUnit.SECONDS);
+                } catch (InterruptedException | ExecutionException | TimeoutException ex) {
+                    JOptionPane.showMessageDialog(null, "Device initialise failed.");
+                    return ;
+                }
+                
+                BWalletMessage.Features features = context.getFeatures().get();
+                FirmwareVersion firmwareVersion = new FirmwareVersion(features);
+                System.out.println(firmwareVersion.toString());
+                if (!firmwareVersion.ge(1, 3, 1)) {
+                    JOptionPane.showMessageDialog(null, "Unsupported firmware:" + firmwareVersion.toString());
+                    return ;
+                }
+                
+                ApplyHomescreenSettingDialog applyHomescreenSettingsDialog = new ApplyHomescreenSettingDialog(this, true, mainController, device);
+                applyHomescreenSettingsDialog.setLocationRelativeTo(null);
+                applyHomescreenSettingsDialog.setVisible(true);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Please select a device.");
+        }
+    }//GEN-LAST:event_homescreenSettingButtonActionPerformed
+
     protected void openWebpage(URI uri) {
         if (desktop != null && desktop.isSupported(Desktop.Action.BROWSE)) {
             try {
@@ -552,6 +657,7 @@ public class MainUI extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton aboutButton;
     private javax.swing.JButton accountInfoButton;
+    private javax.swing.JButton applyAccountLabel;
     private javax.swing.JButton applySettingsButton;
     private javax.swing.JButton buyButton;
     private javax.swing.JButton changePinButton;
@@ -559,7 +665,9 @@ public class MainUI extends javax.swing.JFrame {
     private javax.swing.JPanel devicesPanel;
     private javax.swing.JButton getBlHashButton;
     private javax.swing.JButton getPublicKeyButton;
+    private javax.swing.JButton homescreenSettingButton;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JButton passphraseSettingButton;
     private javax.swing.JButton recoveryDeviceButton;
     private javax.swing.JButton resetDeviceButton;
     private javax.swing.JButton signAndVerifyButton;

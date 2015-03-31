@@ -80,6 +80,10 @@ public interface WalletClient extends Connectable {
 
     Optional<MessageEvent> applySettings(String language, String label);
 
+    Optional<MessageEvent> applySettings(boolean usePassphrase);
+    
+    Optional<MessageEvent> applySettings(byte[] homescreen);
+    
     public Optional<MessageEvent> getAddress(int account, KeyChain.KeyPurpose keyPurpose, int index, boolean showDisplay);
 
     Optional<MessageEvent> getPublicKey(int account, KeyChain.KeyPurpose keyPurpose, int index);

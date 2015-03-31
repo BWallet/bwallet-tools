@@ -472,6 +472,28 @@ public abstract class AbstractWalletClient implements WalletClient {
     }
 
     @Override
+    public Optional<MessageEvent> applySettings(boolean usePassphrase) {
+
+        return sendMessage(
+                BWalletMessage.ApplySettings
+                .newBuilder()
+                .setUsePassphrase(usePassphrase)
+                .build()
+        );
+    }
+    
+    @Override
+    public Optional<MessageEvent> applySettings(byte[] homescreen) {
+
+        return sendMessage(
+                BWalletMessage.ApplySettings
+                .newBuilder()
+                .setHomescreen(ByteString.copyFrom(homescreen))
+                .build()
+        );
+    }
+    
+    @Override
     public Optional<MessageEvent> entropyAck(byte[] entropy) {
         return sendMessage(
                 BWalletMessage.EntropyAck

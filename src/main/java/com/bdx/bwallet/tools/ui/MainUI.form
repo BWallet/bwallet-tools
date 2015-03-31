@@ -37,20 +37,13 @@
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
-                              <Component id="getPublicKeyButton" min="-2" pref="160" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="getBlHashButton" min="-2" pref="160" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="accountInfoButton" min="-2" pref="160" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="0" attributes="0">
                               <Group type="103" groupAlignment="1" max="-2" attributes="0">
                                   <Group type="102" alignment="0" attributes="0">
                                       <Component id="applySettingsButton" min="-2" pref="160" max="-2" attributes="0"/>
                                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                                      <Component id="changePinButton" min="-2" pref="160" max="-2" attributes="0"/>
+                                      <Component id="passphraseSettingButton" max="32767" attributes="0"/>
                                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                                      <Component id="testScreenButton" max="32767" attributes="0"/>
+                                      <Component id="changePinButton" min="-2" pref="160" max="-2" attributes="0"/>
                                   </Group>
                                   <Group type="102" alignment="0" attributes="0">
                                       <Component id="resetDeviceButton" min="-2" pref="160" max="-2" attributes="0"/>
@@ -63,10 +56,28 @@
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                   <Component id="updateFirmwareButton" pref="160" max="32767" attributes="0"/>
-                                  <Component id="signAndVerifyButton" max="32767" attributes="0"/>
+                                  <Component id="homescreenSettingButton" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                           <Component id="devicesPanel" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="102" attributes="0">
+                                      <Component id="getPublicKeyButton" min="-2" pref="160" max="-2" attributes="0"/>
+                                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                                      <Component id="getBlHashButton" min="-2" pref="160" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="applyAccountLabel" min="-2" pref="160" max="-2" attributes="0"/>
+                                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                                      <Component id="testScreenButton" min="-2" pref="160" max="-2" attributes="0"/>
+                                  </Group>
+                              </Group>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="accountInfoButton" min="-2" pref="160" max="-2" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="signAndVerifyButton" min="-2" pref="160" max="-2" attributes="0"/>
+                          </Group>
                       </Group>
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>
@@ -96,16 +107,22 @@
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="applySettingsButton" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="changePinButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="testScreenButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="signAndVerifyButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="passphraseSettingButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="homescreenSettingButton" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="getPublicKeyButton" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="getBlHashButton" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="accountInfoButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="signAndVerifyButton" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="57" max="32767" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="applyAccountLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="testScreenButton" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace pref="32" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -260,6 +277,27 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="signAndVerifyButtonActionPerformed"/>
       </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="passphraseSettingButton">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Passphrase Setting"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="passphraseSettingButtonActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="homescreenSettingButton">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Homescreen Setting"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="homescreenSettingButtonActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="applyAccountLabel">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Apply Account Label"/>
+      </Properties>
     </Component>
   </SubComponents>
 </Form>

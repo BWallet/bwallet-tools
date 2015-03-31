@@ -20,6 +20,7 @@ import com.bdx.bwallet.tools.model.Device;
 import com.google.common.base.Optional;
 import com.google.common.eventbus.Subscribe;
 import com.google.common.util.concurrent.ListenableFuture;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
@@ -29,6 +30,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.logging.Level;
+import javax.imageio.ImageIO;
 import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.io.FileUtils;
@@ -83,7 +85,7 @@ public class MainController {
     public void providePassphrase(String passphrase) {
         walletService.providePassphrase(passphrase);
     }
-    
+
     public void wipeDevice(Device device) {
         final WalletContext context = this.getContext(device);
         if (context != null) {
@@ -140,6 +142,58 @@ public class MainController {
         }
     }
 
+    public void applySettings(Device device, boolean usePassphrase) {
+        final WalletContext context = this.getContext(device);
+        if (context != null) {
+            walletService.setContext(context);
+            walletService.applySettings(usePassphrase);
+        }
+    }
+
+    public void applySettings(Device device, File homescreen) {
+        final WalletContext context = this.getContext(device);
+        if (context != null) {
+            walletService.setContext(context);
+            try {
+                BufferedImage img = ImageIO.read(homescreen);
+                int height = img.getHeight();
+                int width = img.getWidth();
+                if (height != 64 || width != 128) {
+                    throw new IllegalArgumentException("Wrong size of the image");
+                }
+                
+                StringBuilder sb = new StringBuilder();
+                for (int h = 0; h < 64; h++) {
+                    for (int w = 0; w < 128; w++) {
+                        int rgb = img.getRGB(w, h);
+                        int red = (rgb >> 16) & 0x000000FF;
+                        int green = (rgb >> 8) & 0x000000FF;
+                        int blue = (rgb) & 0x000000FF;
+                        if (red == 0 && green == 0 && blue == 0) {
+                            // black
+                            sb.append("0");
+                        } else {
+                            // white
+                            sb.append("1");
+                        }
+                    }
+                }
+                
+                String hex = sb.toString();
+                byte[]bytes = new byte[64 * 128 / 8];
+                for (int i = 0; i < hex.length(); i += 8) {
+                    bytes[i / 8] = (byte) Integer.parseInt(hex.substring(i, i + 8), 2);
+                }
+                
+                walletService.applySettings(bytes);
+            } catch (Exception ex) {
+                BWalletMessage.Failure failure = BWalletMessage.Failure.newBuilder().setMessage(ex.getMessage()).build();
+                HardwareWalletEvents.fireHardwareWalletEvent(
+                        HardwareWalletEventType.SHOW_OPERATION_FAILED, failure);
+            }
+        }
+    }
+
     public void getDeterministicHierarchy(Device device, List<ChildNumber> childNumbers) {
         final WalletContext context = this.getContext(device);
         if (context != null) {
@@ -147,7 +201,7 @@ public class MainController {
             walletService.getDeterministicHierarchy(childNumbers);
         }
     }
-    
+
     public void signMessage(Device device, int account, KeyChain.KeyPurpose keyPurpose, int index, byte[] message) {
         final WalletContext context = this.getContext(device);
         if (context != null) {
@@ -155,7 +209,7 @@ public class MainController {
             walletService.signMessage(account, keyPurpose, index, message);
         }
     }
-    
+
     public void verifyMessage(Device device, Address address, byte[] signature, byte[] message) {
         final WalletContext context = this.getContext(device);
         if (context != null) {
@@ -163,7 +217,7 @@ public class MainController {
             walletService.verifyMessage(address, signature, message);
         }
     }
-    
+
     public void changePIN(Device device, boolean remove) {
         final WalletContext context = this.getContext(device);
         if (context != null) {
@@ -171,7 +225,7 @@ public class MainController {
             walletService.changePIN(remove);
         }
     }
-    
+
     public void testScreen(Device device, int delayTime) {
         final WalletContext context = this.getContext(device);
         if (context != null) {
@@ -179,7 +233,7 @@ public class MainController {
             walletService.testScreen(delayTime);
         }
     }
-    
+
     public WalletContext getContext(Device device) {
         WalletContext context = contexts.get(device.getPath());
         if (context == null) {
