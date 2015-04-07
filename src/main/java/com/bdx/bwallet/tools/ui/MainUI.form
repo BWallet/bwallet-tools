@@ -68,7 +68,7 @@
                                       <Component id="getBlHashButton" min="-2" pref="160" max="-2" attributes="0"/>
                                   </Group>
                                   <Group type="102" alignment="0" attributes="0">
-                                      <Component id="applyAccountLabel" min="-2" pref="160" max="-2" attributes="0"/>
+                                      <Component id="setAccountLabel" min="-2" pref="160" max="-2" attributes="0"/>
                                       <EmptySpace type="separate" max="-2" attributes="0"/>
                                       <Component id="testScreenButton" min="-2" pref="160" max="-2" attributes="0"/>
                                   </Group>
@@ -119,7 +119,7 @@
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="applyAccountLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="setAccountLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                   <Component id="testScreenButton" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace pref="32" max="32767" attributes="0"/>
@@ -294,10 +294,13 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="homescreenSettingButtonActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="applyAccountLabel">
+    <Component class="javax.swing.JButton" name="setAccountLabel">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Apply Account Label"/>
+        <Property name="text" type="java.lang.String" value="Account Label Setting"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="setAccountLabelActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

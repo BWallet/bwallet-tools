@@ -1,3 +1,8 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package com.bdx.bwallet.tools.core.flows;
 
 import com.bdx.bwallet.tools.core.WalletClient;
@@ -6,7 +11,11 @@ import com.bdx.bwallet.tools.core.events.HardwareWalletEventType;
 import com.bdx.bwallet.tools.core.events.HardwareWalletEvents;
 import com.bdx.bwallet.tools.core.events.MessageEvent;
 
-public class GetDeterministicHierarchyFlow extends AbstractWalletFlow {
+/**
+ *
+ * @author Administrator
+ */
+public class SetAccountLabelFlow extends AbstractWalletFlow {
 
     @Override
     protected void internalTransition(WalletClient client, WalletContext context, MessageEvent event) {
@@ -16,11 +25,16 @@ public class GetDeterministicHierarchyFlow extends AbstractWalletFlow {
                 HardwareWalletEvents.fireHardwareWalletEvent(HardwareWalletEventType.SHOW_PIN_ENTRY, event.getMessage().get());
                 // Further state transitions will occur after the user has provided the PIN via the service
                 break;
-            case PASSPHRASE_REQUEST:
-                HardwareWalletEvents.fireHardwareWalletEvent(HardwareWalletEventType.SHOW_PASSPHRASE_ENTRY, event.getMessage().get());
+            case BUTTON_REQUEST:
+                // Device is asking for confirmation to wipe
+                HardwareWalletEvents.fireHardwareWalletEvent(HardwareWalletEventType.SHOW_BUTTON_PRESS, event.getMessage().get());
+                client.buttonAck();
                 break;
-            case PUBLIC_KEY:
-                HardwareWalletEvents.fireHardwareWalletEvent(HardwareWalletEventType.DETERMINISTIC_HIERARCHY, event.getMessage().get());
+            case SUCCESS:
+                // Device has successfully wiped
+                // No wallet creation required so we're done
+                HardwareWalletEvents.fireHardwareWalletEvent(HardwareWalletEventType.SHOW_OPERATION_SUCCEEDED, event.getMessage().get());
+                // Ensure the Features are updated
                 context.reset();
                 break;
             case FAILURE:
@@ -32,5 +46,4 @@ public class GetDeterministicHierarchyFlow extends AbstractWalletFlow {
                 handleUnexpectedMessageEvent(context, event);
         }
     }
-
 }

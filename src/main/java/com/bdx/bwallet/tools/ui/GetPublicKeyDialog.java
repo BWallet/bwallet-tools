@@ -22,6 +22,8 @@ import java.awt.event.WindowListener;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import org.apache.commons.lang3.StringUtils;
 import org.bitcoinj.crypto.ChildNumber;
 import org.hid4java.HidDevice;
@@ -38,17 +40,41 @@ public class GetPublicKeyDialog extends javax.swing.JDialog implements WindowLis
 
     private Device device;
 
+    private List<ChildNumber> childNumbers = null;
+    
     /**
      * Creates new form GetPublicKeyDialog
      */
     public GetPublicKeyDialog(java.awt.Frame parent, boolean modal, MainController mainController, Device device) {
         super(parent, modal);
         initComponents();
-        
+
         this.mainController = mainController;
         this.device = device;
-        
+
         this.addWindowListener(this);
+
+        pathTextField.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                update();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                update();
+            }
+
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                update();
+            }
+
+            public void update() {
+                contentTextArea.setText("");
+                addressTextField.setText("");
+            }
+        });
     }
 
     /**
@@ -60,7 +86,7 @@ public class GetPublicKeyDialog extends javax.swing.JDialog implements WindowLis
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        copyButton = new javax.swing.JButton();
+        copyPublicKeyButton = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         contentTextArea = new javax.swing.JTextArea();
         closeButton = new javax.swing.JButton();
@@ -68,14 +94,18 @@ public class GetPublicKeyDialog extends javax.swing.JDialog implements WindowLis
         pathTextField = new javax.swing.JTextField();
         getButton = new javax.swing.JButton();
         egLabel = new javax.swing.JLabel();
+        addressTextField = new javax.swing.JTextField();
+        publicKeyLabel = new javax.swing.JLabel();
+        addressLabel = new javax.swing.JLabel();
+        copyAddressButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Get Public Key");
 
-        copyButton.setText("Copy");
-        copyButton.addActionListener(new java.awt.event.ActionListener() {
+        copyPublicKeyButton.setText("Copy");
+        copyPublicKeyButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                copyButtonActionPerformed(evt);
+                copyPublicKeyButtonActionPerformed(evt);
             }
         });
 
@@ -109,46 +139,78 @@ public class GetPublicKeyDialog extends javax.swing.JDialog implements WindowLis
 
         egLabel.setText("e.g. m/44'/0'/0'");
 
+        addressTextField.setEditable(false);
+
+        publicKeyLabel.setText("Public Key");
+
+        addressLabel.setText("Address");
+
+        copyAddressButton.setText("Copy");
+        copyAddressButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                copyAddressButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(54, 54, 54)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(136, 136, 136)
-                        .addComponent(copyButton, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(50, 50, 50)
-                        .addComponent(closeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 490, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(pathLabel)
-                            .addGap(18, 18, 18)
-                            .addComponent(pathTextField)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(egLabel)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(getButton))))
-                .addContainerGap(56, Short.MAX_VALUE))
+                        .addGap(55, 55, 55)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(addressTextField, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(publicKeyLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(pathLabel))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(36, 36, 36)
+                                        .addComponent(pathTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(egLabel)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(getButton))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(copyPublicKeyButton))))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addComponent(addressLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(copyAddressButton))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(252, 252, 252)
+                        .addComponent(closeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(37, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(61, Short.MAX_VALUE)
+                .addGap(21, 21, 21)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(pathLabel)
                     .addComponent(pathTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(getButton)
                     .addComponent(egLabel))
-                .addGap(33, 33, 33)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(copyButton)
-                    .addComponent(closeButton))
-                .addGap(23, 23, 23))
+                    .addComponent(publicKeyLabel)
+                    .addComponent(copyPublicKeyButton))
+                .addGap(5, 5, 5)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(addressLabel)
+                    .addComponent(copyAddressButton))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(addressTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(closeButton)
+                .addGap(14, 14, 14))
         );
 
         pack();
@@ -166,22 +228,10 @@ public class GetPublicKeyDialog extends javax.swing.JDialog implements WindowLis
             } else if (!path.startsWith("m")) {
                 JOptionPane.showMessageDialog(null, "BIP32 Path must be start with 'm'");
             } else {
-                List<ChildNumber> childNumbers = new ArrayList();
-                String[] array = path.split("/");
                 try {
-                    for (int i = 1; i < array.length; i++) {
-                        ChildNumber childNumber = null;
-                        String s = array[i];
-                        if (s.endsWith("'")) {
-                            int n = Integer.parseInt(s.substring(0, s.length() - 1));
-                            childNumber = new ChildNumber(n, true);
-                        } else {
-                            int n = Integer.parseInt(s);
-                            childNumber = new ChildNumber(n, false);
-                        }
-                        childNumbers.add(childNumber);
-                    }
+                    List<ChildNumber> childNumbers = this.pathToChildNumbers(path);
                     mainController.getDeterministicHierarchy(device, childNumbers);
+                    this.childNumbers = childNumbers;
                 } catch (IllegalArgumentException e) {
                     JOptionPane.showMessageDialog(null, "Invalid BIP32 Path");
                 }
@@ -195,21 +245,58 @@ public class GetPublicKeyDialog extends javax.swing.JDialog implements WindowLis
         this.dispose();
     }//GEN-LAST:event_closeButtonActionPerformed
 
-    private void copyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_copyButtonActionPerformed
+    private void copyPublicKeyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_copyPublicKeyButtonActionPerformed
         String text = contentTextArea.getText();
         StringSelection selection = new StringSelection(text);
         Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
         clipboard.setContents(selection, selection);
-    }//GEN-LAST:event_copyButtonActionPerformed
+    }//GEN-LAST:event_copyPublicKeyButtonActionPerformed
+
+    private void copyAddressButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_copyAddressButtonActionPerformed
+        String text = addressTextField.getText();
+        StringSelection selection = new StringSelection(text);
+        Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+        clipboard.setContents(selection, selection);
+    }//GEN-LAST:event_copyAddressButtonActionPerformed
 
     @Subscribe
     public void onHardwareWalletEvent(HardwareWalletEvent event) {
         System.out.println(event.getEventType());
         String msg = "";
         switch (event.getEventType()) {
+             case SHOW_PIN_ENTRY:
+                PINEntryDialog pinEntryDialog = new PINEntryDialog(this, true);
+                pinEntryDialog.setLocationRelativeTo(null);
+                if (event.getMessage().isPresent()) {
+                    BWalletMessage.PinMatrixRequest pinRequest = (BWalletMessage.PinMatrixRequest) event.getMessage().get();
+                    msg = "Please enter PIN:";
+                    if ("PinMatrixRequestType_Current".equals(pinRequest.getType().name())) {
+                        msg = "Please enter current PIN:";
+                    } else if ("PinMatrixRequestType_NewFirst".equals(pinRequest.getType().name())) {
+                        msg = "Please enter new PIN:";
+                    } else if ("PinMatrixRequestType_NewSecond".equals(pinRequest.getType().name())) {
+                        msg = "Please re-enter new PIN:";
+                    }
+                    pinEntryDialog.setPinTitle(msg);
+                }
+                pinEntryDialog.setVisible(true);
+                if (pinEntryDialog.isCancel()) {
+                    mainController.cancel();
+                } else {
+                    String pin = pinEntryDialog.getPin();
+                    mainController.providePin(pin);
+                }
+                break;
             case DETERMINISTIC_HIERARCHY:
-                BWalletMessage.PublicKey publicKey = (BWalletMessage.PublicKey)event.getMessage().get();
+                BWalletMessage.PublicKey publicKey = (BWalletMessage.PublicKey) event.getMessage().get();
                 contentTextArea.setText(publicKey.getXpub());
+                if (device != null && childNumbers != null) {
+                    mainController.getAddress(device, childNumbers);
+                }
+                break;
+            case ADDRESS:
+                BWalletMessage.Address address = (BWalletMessage.Address) event.getMessage().get();
+                addressTextField.setText(address.getAddress());
                 break;
             case SHOW_PASSPHRASE_ENTRY:
                 PassphraseEntryDialog passphraseEntryDialog = new PassphraseEntryDialog(this, true);
@@ -234,7 +321,7 @@ public class GetPublicKeyDialog extends javax.swing.JDialog implements WindowLis
                 break;
         }
     }
-    
+
     @Subscribe
     public void onMessageEvent(MessageEvent event) {
         if (event.getEventType() == MessageEventType.DEVICE_DETACHED) {
@@ -244,6 +331,24 @@ public class GetPublicKeyDialog extends javax.swing.JDialog implements WindowLis
                 JOptionPane.showMessageDialog(null, "Device detached");
             }
         }
+    }
+
+    protected List<ChildNumber> pathToChildNumbers(String path) {
+        List<ChildNumber> childNumbers = new ArrayList();
+        String[] array = path.split("/");
+        for (int i = 1; i < array.length; i++) {
+            ChildNumber childNumber = null;
+            String s = array[i];
+            if (s.endsWith("'")) {
+                int n = Integer.parseInt(s.substring(0, s.length() - 1));
+                childNumber = new ChildNumber(n, true);
+            } else {
+                int n = Integer.parseInt(s);
+                childNumber = new ChildNumber(n, false);
+            }
+            childNumbers.add(childNumber);
+        }
+        return childNumbers;
     }
 
     @Override
@@ -321,13 +426,17 @@ public class GetPublicKeyDialog extends javax.swing.JDialog implements WindowLis
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel addressLabel;
+    private javax.swing.JTextField addressTextField;
     private javax.swing.JButton closeButton;
     private javax.swing.JTextArea contentTextArea;
-    private javax.swing.JButton copyButton;
+    private javax.swing.JButton copyAddressButton;
+    private javax.swing.JButton copyPublicKeyButton;
     private javax.swing.JLabel egLabel;
     private javax.swing.JButton getButton;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel pathLabel;
     private javax.swing.JTextField pathTextField;
+    private javax.swing.JLabel publicKeyLabel;
     // End of variables declaration//GEN-END:variables
 }

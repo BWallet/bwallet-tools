@@ -12151,9 +12151,1575 @@ public final class BWalletType {
     // @@protoc_insertion_point(class_scope:IdentityType)
   }
 
+  public interface AccountLabelsTypeOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required uint32 count = 1;
+    /**
+     * <code>required uint32 count = 1;</code>
+     */
+    boolean hasCount();
+    /**
+     * <code>required uint32 count = 1;</code>
+     */
+    int getCount();
+
+    // repeated .AccountLabelType labels = 2;
+    /**
+     * <code>repeated .AccountLabelType labels = 2;</code>
+     *
+     * <pre>
+     * account label and index 
+     * </pre>
+     */
+    java.util.List<com.bdx.bwallet.protobuf.BWalletType.AccountLabelType> 
+        getLabelsList();
+    /**
+     * <code>repeated .AccountLabelType labels = 2;</code>
+     *
+     * <pre>
+     * account label and index 
+     * </pre>
+     */
+    com.bdx.bwallet.protobuf.BWalletType.AccountLabelType getLabels(int index);
+    /**
+     * <code>repeated .AccountLabelType labels = 2;</code>
+     *
+     * <pre>
+     * account label and index 
+     * </pre>
+     */
+    int getLabelsCount();
+    /**
+     * <code>repeated .AccountLabelType labels = 2;</code>
+     *
+     * <pre>
+     * account label and index 
+     * </pre>
+     */
+    java.util.List<? extends com.bdx.bwallet.protobuf.BWalletType.AccountLabelTypeOrBuilder> 
+        getLabelsOrBuilderList();
+    /**
+     * <code>repeated .AccountLabelType labels = 2;</code>
+     *
+     * <pre>
+     * account label and index 
+     * </pre>
+     */
+    com.bdx.bwallet.protobuf.BWalletType.AccountLabelTypeOrBuilder getLabelsOrBuilder(
+        int index);
+  }
+  /**
+   * Protobuf type {@code AccountLabelsType}
+   *
+   * <pre>
+   **
+   * Structure representing coin data
+   * @used_in storage or get coin account labels
+   * </pre>
+   */
+  public static final class AccountLabelsType extends
+      com.google.protobuf.GeneratedMessage
+      implements AccountLabelsTypeOrBuilder {
+    // Use AccountLabelsType.newBuilder() to construct.
+    private AccountLabelsType(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private AccountLabelsType(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final AccountLabelsType defaultInstance;
+    public static AccountLabelsType getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public AccountLabelsType getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private AccountLabelsType(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              count_ = input.readUInt32();
+              break;
+            }
+            case 18: {
+              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+                labels_ = new java.util.ArrayList<com.bdx.bwallet.protobuf.BWalletType.AccountLabelType>();
+                mutable_bitField0_ |= 0x00000002;
+              }
+              labels_.add(input.readMessage(com.bdx.bwallet.protobuf.BWalletType.AccountLabelType.PARSER, extensionRegistry));
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+          labels_ = java.util.Collections.unmodifiableList(labels_);
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.bdx.bwallet.protobuf.BWalletType.internal_static_AccountLabelsType_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.bdx.bwallet.protobuf.BWalletType.internal_static_AccountLabelsType_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.bdx.bwallet.protobuf.BWalletType.AccountLabelsType.class, com.bdx.bwallet.protobuf.BWalletType.AccountLabelsType.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<AccountLabelsType> PARSER =
+        new com.google.protobuf.AbstractParser<AccountLabelsType>() {
+      public AccountLabelsType parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new AccountLabelsType(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<AccountLabelsType> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required uint32 count = 1;
+    public static final int COUNT_FIELD_NUMBER = 1;
+    private int count_;
+    /**
+     * <code>required uint32 count = 1;</code>
+     */
+    public boolean hasCount() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required uint32 count = 1;</code>
+     */
+    public int getCount() {
+      return count_;
+    }
+
+    // repeated .AccountLabelType labels = 2;
+    public static final int LABELS_FIELD_NUMBER = 2;
+    private java.util.List<com.bdx.bwallet.protobuf.BWalletType.AccountLabelType> labels_;
+    /**
+     * <code>repeated .AccountLabelType labels = 2;</code>
+     *
+     * <pre>
+     * account label and index 
+     * </pre>
+     */
+    public java.util.List<com.bdx.bwallet.protobuf.BWalletType.AccountLabelType> getLabelsList() {
+      return labels_;
+    }
+    /**
+     * <code>repeated .AccountLabelType labels = 2;</code>
+     *
+     * <pre>
+     * account label and index 
+     * </pre>
+     */
+    public java.util.List<? extends com.bdx.bwallet.protobuf.BWalletType.AccountLabelTypeOrBuilder> 
+        getLabelsOrBuilderList() {
+      return labels_;
+    }
+    /**
+     * <code>repeated .AccountLabelType labels = 2;</code>
+     *
+     * <pre>
+     * account label and index 
+     * </pre>
+     */
+    public int getLabelsCount() {
+      return labels_.size();
+    }
+    /**
+     * <code>repeated .AccountLabelType labels = 2;</code>
+     *
+     * <pre>
+     * account label and index 
+     * </pre>
+     */
+    public com.bdx.bwallet.protobuf.BWalletType.AccountLabelType getLabels(int index) {
+      return labels_.get(index);
+    }
+    /**
+     * <code>repeated .AccountLabelType labels = 2;</code>
+     *
+     * <pre>
+     * account label and index 
+     * </pre>
+     */
+    public com.bdx.bwallet.protobuf.BWalletType.AccountLabelTypeOrBuilder getLabelsOrBuilder(
+        int index) {
+      return labels_.get(index);
+    }
+
+    private void initFields() {
+      count_ = 0;
+      labels_ = java.util.Collections.emptyList();
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasCount()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      for (int i = 0; i < getLabelsCount(); i++) {
+        if (!getLabels(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeUInt32(1, count_);
+      }
+      for (int i = 0; i < labels_.size(); i++) {
+        output.writeMessage(2, labels_.get(i));
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(1, count_);
+      }
+      for (int i = 0; i < labels_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(2, labels_.get(i));
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.bdx.bwallet.protobuf.BWalletType.AccountLabelsType parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.bdx.bwallet.protobuf.BWalletType.AccountLabelsType parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.bdx.bwallet.protobuf.BWalletType.AccountLabelsType parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.bdx.bwallet.protobuf.BWalletType.AccountLabelsType parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.bdx.bwallet.protobuf.BWalletType.AccountLabelsType parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.bdx.bwallet.protobuf.BWalletType.AccountLabelsType parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.bdx.bwallet.protobuf.BWalletType.AccountLabelsType parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.bdx.bwallet.protobuf.BWalletType.AccountLabelsType parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.bdx.bwallet.protobuf.BWalletType.AccountLabelsType parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.bdx.bwallet.protobuf.BWalletType.AccountLabelsType parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.bdx.bwallet.protobuf.BWalletType.AccountLabelsType prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code AccountLabelsType}
+     *
+     * <pre>
+     **
+     * Structure representing coin data
+     * @used_in storage or get coin account labels
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.bdx.bwallet.protobuf.BWalletType.AccountLabelsTypeOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.bdx.bwallet.protobuf.BWalletType.internal_static_AccountLabelsType_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.bdx.bwallet.protobuf.BWalletType.internal_static_AccountLabelsType_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.bdx.bwallet.protobuf.BWalletType.AccountLabelsType.class, com.bdx.bwallet.protobuf.BWalletType.AccountLabelsType.Builder.class);
+      }
+
+      // Construct using com.bdx.bwallet.protobuf.BWalletType.AccountLabelsType.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getLabelsFieldBuilder();
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        count_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        if (labelsBuilder_ == null) {
+          labels_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000002);
+        } else {
+          labelsBuilder_.clear();
+        }
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.bdx.bwallet.protobuf.BWalletType.internal_static_AccountLabelsType_descriptor;
+      }
+
+      public com.bdx.bwallet.protobuf.BWalletType.AccountLabelsType getDefaultInstanceForType() {
+        return com.bdx.bwallet.protobuf.BWalletType.AccountLabelsType.getDefaultInstance();
+      }
+
+      public com.bdx.bwallet.protobuf.BWalletType.AccountLabelsType build() {
+        com.bdx.bwallet.protobuf.BWalletType.AccountLabelsType result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.bdx.bwallet.protobuf.BWalletType.AccountLabelsType buildPartial() {
+        com.bdx.bwallet.protobuf.BWalletType.AccountLabelsType result = new com.bdx.bwallet.protobuf.BWalletType.AccountLabelsType(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.count_ = count_;
+        if (labelsBuilder_ == null) {
+          if (((bitField0_ & 0x00000002) == 0x00000002)) {
+            labels_ = java.util.Collections.unmodifiableList(labels_);
+            bitField0_ = (bitField0_ & ~0x00000002);
+          }
+          result.labels_ = labels_;
+        } else {
+          result.labels_ = labelsBuilder_.build();
+        }
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.bdx.bwallet.protobuf.BWalletType.AccountLabelsType) {
+          return mergeFrom((com.bdx.bwallet.protobuf.BWalletType.AccountLabelsType)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.bdx.bwallet.protobuf.BWalletType.AccountLabelsType other) {
+        if (other == com.bdx.bwallet.protobuf.BWalletType.AccountLabelsType.getDefaultInstance()) return this;
+        if (other.hasCount()) {
+          setCount(other.getCount());
+        }
+        if (labelsBuilder_ == null) {
+          if (!other.labels_.isEmpty()) {
+            if (labels_.isEmpty()) {
+              labels_ = other.labels_;
+              bitField0_ = (bitField0_ & ~0x00000002);
+            } else {
+              ensureLabelsIsMutable();
+              labels_.addAll(other.labels_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.labels_.isEmpty()) {
+            if (labelsBuilder_.isEmpty()) {
+              labelsBuilder_.dispose();
+              labelsBuilder_ = null;
+              labels_ = other.labels_;
+              bitField0_ = (bitField0_ & ~0x00000002);
+              labelsBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getLabelsFieldBuilder() : null;
+            } else {
+              labelsBuilder_.addAllMessages(other.labels_);
+            }
+          }
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasCount()) {
+          
+          return false;
+        }
+        for (int i = 0; i < getLabelsCount(); i++) {
+          if (!getLabels(i).isInitialized()) {
+            
+            return false;
+          }
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.bdx.bwallet.protobuf.BWalletType.AccountLabelsType parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.bdx.bwallet.protobuf.BWalletType.AccountLabelsType) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required uint32 count = 1;
+      private int count_ ;
+      /**
+       * <code>required uint32 count = 1;</code>
+       */
+      public boolean hasCount() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required uint32 count = 1;</code>
+       */
+      public int getCount() {
+        return count_;
+      }
+      /**
+       * <code>required uint32 count = 1;</code>
+       */
+      public Builder setCount(int value) {
+        bitField0_ |= 0x00000001;
+        count_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required uint32 count = 1;</code>
+       */
+      public Builder clearCount() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        count_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // repeated .AccountLabelType labels = 2;
+      private java.util.List<com.bdx.bwallet.protobuf.BWalletType.AccountLabelType> labels_ =
+        java.util.Collections.emptyList();
+      private void ensureLabelsIsMutable() {
+        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
+          labels_ = new java.util.ArrayList<com.bdx.bwallet.protobuf.BWalletType.AccountLabelType>(labels_);
+          bitField0_ |= 0x00000002;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.bdx.bwallet.protobuf.BWalletType.AccountLabelType, com.bdx.bwallet.protobuf.BWalletType.AccountLabelType.Builder, com.bdx.bwallet.protobuf.BWalletType.AccountLabelTypeOrBuilder> labelsBuilder_;
+
+      /**
+       * <code>repeated .AccountLabelType labels = 2;</code>
+       *
+       * <pre>
+       * account label and index 
+       * </pre>
+       */
+      public java.util.List<com.bdx.bwallet.protobuf.BWalletType.AccountLabelType> getLabelsList() {
+        if (labelsBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(labels_);
+        } else {
+          return labelsBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .AccountLabelType labels = 2;</code>
+       *
+       * <pre>
+       * account label and index 
+       * </pre>
+       */
+      public int getLabelsCount() {
+        if (labelsBuilder_ == null) {
+          return labels_.size();
+        } else {
+          return labelsBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .AccountLabelType labels = 2;</code>
+       *
+       * <pre>
+       * account label and index 
+       * </pre>
+       */
+      public com.bdx.bwallet.protobuf.BWalletType.AccountLabelType getLabels(int index) {
+        if (labelsBuilder_ == null) {
+          return labels_.get(index);
+        } else {
+          return labelsBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .AccountLabelType labels = 2;</code>
+       *
+       * <pre>
+       * account label and index 
+       * </pre>
+       */
+      public Builder setLabels(
+          int index, com.bdx.bwallet.protobuf.BWalletType.AccountLabelType value) {
+        if (labelsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureLabelsIsMutable();
+          labels_.set(index, value);
+          onChanged();
+        } else {
+          labelsBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .AccountLabelType labels = 2;</code>
+       *
+       * <pre>
+       * account label and index 
+       * </pre>
+       */
+      public Builder setLabels(
+          int index, com.bdx.bwallet.protobuf.BWalletType.AccountLabelType.Builder builderForValue) {
+        if (labelsBuilder_ == null) {
+          ensureLabelsIsMutable();
+          labels_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          labelsBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .AccountLabelType labels = 2;</code>
+       *
+       * <pre>
+       * account label and index 
+       * </pre>
+       */
+      public Builder addLabels(com.bdx.bwallet.protobuf.BWalletType.AccountLabelType value) {
+        if (labelsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureLabelsIsMutable();
+          labels_.add(value);
+          onChanged();
+        } else {
+          labelsBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .AccountLabelType labels = 2;</code>
+       *
+       * <pre>
+       * account label and index 
+       * </pre>
+       */
+      public Builder addLabels(
+          int index, com.bdx.bwallet.protobuf.BWalletType.AccountLabelType value) {
+        if (labelsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureLabelsIsMutable();
+          labels_.add(index, value);
+          onChanged();
+        } else {
+          labelsBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .AccountLabelType labels = 2;</code>
+       *
+       * <pre>
+       * account label and index 
+       * </pre>
+       */
+      public Builder addLabels(
+          com.bdx.bwallet.protobuf.BWalletType.AccountLabelType.Builder builderForValue) {
+        if (labelsBuilder_ == null) {
+          ensureLabelsIsMutable();
+          labels_.add(builderForValue.build());
+          onChanged();
+        } else {
+          labelsBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .AccountLabelType labels = 2;</code>
+       *
+       * <pre>
+       * account label and index 
+       * </pre>
+       */
+      public Builder addLabels(
+          int index, com.bdx.bwallet.protobuf.BWalletType.AccountLabelType.Builder builderForValue) {
+        if (labelsBuilder_ == null) {
+          ensureLabelsIsMutable();
+          labels_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          labelsBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .AccountLabelType labels = 2;</code>
+       *
+       * <pre>
+       * account label and index 
+       * </pre>
+       */
+      public Builder addAllLabels(
+          java.lang.Iterable<? extends com.bdx.bwallet.protobuf.BWalletType.AccountLabelType> values) {
+        if (labelsBuilder_ == null) {
+          ensureLabelsIsMutable();
+          super.addAll(values, labels_);
+          onChanged();
+        } else {
+          labelsBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .AccountLabelType labels = 2;</code>
+       *
+       * <pre>
+       * account label and index 
+       * </pre>
+       */
+      public Builder clearLabels() {
+        if (labelsBuilder_ == null) {
+          labels_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000002);
+          onChanged();
+        } else {
+          labelsBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .AccountLabelType labels = 2;</code>
+       *
+       * <pre>
+       * account label and index 
+       * </pre>
+       */
+      public Builder removeLabels(int index) {
+        if (labelsBuilder_ == null) {
+          ensureLabelsIsMutable();
+          labels_.remove(index);
+          onChanged();
+        } else {
+          labelsBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .AccountLabelType labels = 2;</code>
+       *
+       * <pre>
+       * account label and index 
+       * </pre>
+       */
+      public com.bdx.bwallet.protobuf.BWalletType.AccountLabelType.Builder getLabelsBuilder(
+          int index) {
+        return getLabelsFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .AccountLabelType labels = 2;</code>
+       *
+       * <pre>
+       * account label and index 
+       * </pre>
+       */
+      public com.bdx.bwallet.protobuf.BWalletType.AccountLabelTypeOrBuilder getLabelsOrBuilder(
+          int index) {
+        if (labelsBuilder_ == null) {
+          return labels_.get(index);  } else {
+          return labelsBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .AccountLabelType labels = 2;</code>
+       *
+       * <pre>
+       * account label and index 
+       * </pre>
+       */
+      public java.util.List<? extends com.bdx.bwallet.protobuf.BWalletType.AccountLabelTypeOrBuilder> 
+           getLabelsOrBuilderList() {
+        if (labelsBuilder_ != null) {
+          return labelsBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(labels_);
+        }
+      }
+      /**
+       * <code>repeated .AccountLabelType labels = 2;</code>
+       *
+       * <pre>
+       * account label and index 
+       * </pre>
+       */
+      public com.bdx.bwallet.protobuf.BWalletType.AccountLabelType.Builder addLabelsBuilder() {
+        return getLabelsFieldBuilder().addBuilder(
+            com.bdx.bwallet.protobuf.BWalletType.AccountLabelType.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .AccountLabelType labels = 2;</code>
+       *
+       * <pre>
+       * account label and index 
+       * </pre>
+       */
+      public com.bdx.bwallet.protobuf.BWalletType.AccountLabelType.Builder addLabelsBuilder(
+          int index) {
+        return getLabelsFieldBuilder().addBuilder(
+            index, com.bdx.bwallet.protobuf.BWalletType.AccountLabelType.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .AccountLabelType labels = 2;</code>
+       *
+       * <pre>
+       * account label and index 
+       * </pre>
+       */
+      public java.util.List<com.bdx.bwallet.protobuf.BWalletType.AccountLabelType.Builder> 
+           getLabelsBuilderList() {
+        return getLabelsFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.bdx.bwallet.protobuf.BWalletType.AccountLabelType, com.bdx.bwallet.protobuf.BWalletType.AccountLabelType.Builder, com.bdx.bwallet.protobuf.BWalletType.AccountLabelTypeOrBuilder> 
+          getLabelsFieldBuilder() {
+        if (labelsBuilder_ == null) {
+          labelsBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              com.bdx.bwallet.protobuf.BWalletType.AccountLabelType, com.bdx.bwallet.protobuf.BWalletType.AccountLabelType.Builder, com.bdx.bwallet.protobuf.BWalletType.AccountLabelTypeOrBuilder>(
+                  labels_,
+                  ((bitField0_ & 0x00000002) == 0x00000002),
+                  getParentForChildren(),
+                  isClean());
+          labels_ = null;
+        }
+        return labelsBuilder_;
+      }
+
+      // @@protoc_insertion_point(builder_scope:AccountLabelsType)
+    }
+
+    static {
+      defaultInstance = new AccountLabelsType(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:AccountLabelsType)
+  }
+
+  public interface AccountLabelTypeOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required uint32 index = 1;
+    /**
+     * <code>required uint32 index = 1;</code>
+     *
+     * <pre>
+     * account label index 
+     * </pre>
+     */
+    boolean hasIndex();
+    /**
+     * <code>required uint32 index = 1;</code>
+     *
+     * <pre>
+     * account label index 
+     * </pre>
+     */
+    int getIndex();
+
+    // required string label = 2;
+    /**
+     * <code>required string label = 2;</code>
+     *
+     * <pre>
+     * account label 
+     * </pre>
+     */
+    boolean hasLabel();
+    /**
+     * <code>required string label = 2;</code>
+     *
+     * <pre>
+     * account label 
+     * </pre>
+     */
+    java.lang.String getLabel();
+    /**
+     * <code>required string label = 2;</code>
+     *
+     * <pre>
+     * account label 
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getLabelBytes();
+  }
+  /**
+   * Protobuf type {@code AccountLabelType}
+   *
+   * <pre>
+   **
+   * Structure representing  coin data to map --&gt; key
+   * @used_in storage or get coin account label
+   * </pre>
+   */
+  public static final class AccountLabelType extends
+      com.google.protobuf.GeneratedMessage
+      implements AccountLabelTypeOrBuilder {
+    // Use AccountLabelType.newBuilder() to construct.
+    private AccountLabelType(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private AccountLabelType(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final AccountLabelType defaultInstance;
+    public static AccountLabelType getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public AccountLabelType getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private AccountLabelType(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              index_ = input.readUInt32();
+              break;
+            }
+            case 18: {
+              bitField0_ |= 0x00000002;
+              label_ = input.readBytes();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.bdx.bwallet.protobuf.BWalletType.internal_static_AccountLabelType_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.bdx.bwallet.protobuf.BWalletType.internal_static_AccountLabelType_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.bdx.bwallet.protobuf.BWalletType.AccountLabelType.class, com.bdx.bwallet.protobuf.BWalletType.AccountLabelType.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<AccountLabelType> PARSER =
+        new com.google.protobuf.AbstractParser<AccountLabelType>() {
+      public AccountLabelType parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new AccountLabelType(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<AccountLabelType> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required uint32 index = 1;
+    public static final int INDEX_FIELD_NUMBER = 1;
+    private int index_;
+    /**
+     * <code>required uint32 index = 1;</code>
+     *
+     * <pre>
+     * account label index 
+     * </pre>
+     */
+    public boolean hasIndex() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required uint32 index = 1;</code>
+     *
+     * <pre>
+     * account label index 
+     * </pre>
+     */
+    public int getIndex() {
+      return index_;
+    }
+
+    // required string label = 2;
+    public static final int LABEL_FIELD_NUMBER = 2;
+    private java.lang.Object label_;
+    /**
+     * <code>required string label = 2;</code>
+     *
+     * <pre>
+     * account label 
+     * </pre>
+     */
+    public boolean hasLabel() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required string label = 2;</code>
+     *
+     * <pre>
+     * account label 
+     * </pre>
+     */
+    public java.lang.String getLabel() {
+      java.lang.Object ref = label_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          label_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string label = 2;</code>
+     *
+     * <pre>
+     * account label 
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getLabelBytes() {
+      java.lang.Object ref = label_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        label_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    private void initFields() {
+      index_ = 0;
+      label_ = "";
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasIndex()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasLabel()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeUInt32(1, index_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeBytes(2, getLabelBytes());
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(1, index_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(2, getLabelBytes());
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.bdx.bwallet.protobuf.BWalletType.AccountLabelType parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.bdx.bwallet.protobuf.BWalletType.AccountLabelType parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.bdx.bwallet.protobuf.BWalletType.AccountLabelType parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.bdx.bwallet.protobuf.BWalletType.AccountLabelType parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.bdx.bwallet.protobuf.BWalletType.AccountLabelType parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.bdx.bwallet.protobuf.BWalletType.AccountLabelType parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.bdx.bwallet.protobuf.BWalletType.AccountLabelType parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.bdx.bwallet.protobuf.BWalletType.AccountLabelType parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.bdx.bwallet.protobuf.BWalletType.AccountLabelType parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.bdx.bwallet.protobuf.BWalletType.AccountLabelType parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.bdx.bwallet.protobuf.BWalletType.AccountLabelType prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code AccountLabelType}
+     *
+     * <pre>
+     **
+     * Structure representing  coin data to map --&gt; key
+     * @used_in storage or get coin account label
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.bdx.bwallet.protobuf.BWalletType.AccountLabelTypeOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.bdx.bwallet.protobuf.BWalletType.internal_static_AccountLabelType_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.bdx.bwallet.protobuf.BWalletType.internal_static_AccountLabelType_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.bdx.bwallet.protobuf.BWalletType.AccountLabelType.class, com.bdx.bwallet.protobuf.BWalletType.AccountLabelType.Builder.class);
+      }
+
+      // Construct using com.bdx.bwallet.protobuf.BWalletType.AccountLabelType.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        index_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        label_ = "";
+        bitField0_ = (bitField0_ & ~0x00000002);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.bdx.bwallet.protobuf.BWalletType.internal_static_AccountLabelType_descriptor;
+      }
+
+      public com.bdx.bwallet.protobuf.BWalletType.AccountLabelType getDefaultInstanceForType() {
+        return com.bdx.bwallet.protobuf.BWalletType.AccountLabelType.getDefaultInstance();
+      }
+
+      public com.bdx.bwallet.protobuf.BWalletType.AccountLabelType build() {
+        com.bdx.bwallet.protobuf.BWalletType.AccountLabelType result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.bdx.bwallet.protobuf.BWalletType.AccountLabelType buildPartial() {
+        com.bdx.bwallet.protobuf.BWalletType.AccountLabelType result = new com.bdx.bwallet.protobuf.BWalletType.AccountLabelType(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.index_ = index_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.label_ = label_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.bdx.bwallet.protobuf.BWalletType.AccountLabelType) {
+          return mergeFrom((com.bdx.bwallet.protobuf.BWalletType.AccountLabelType)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.bdx.bwallet.protobuf.BWalletType.AccountLabelType other) {
+        if (other == com.bdx.bwallet.protobuf.BWalletType.AccountLabelType.getDefaultInstance()) return this;
+        if (other.hasIndex()) {
+          setIndex(other.getIndex());
+        }
+        if (other.hasLabel()) {
+          bitField0_ |= 0x00000002;
+          label_ = other.label_;
+          onChanged();
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasIndex()) {
+          
+          return false;
+        }
+        if (!hasLabel()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.bdx.bwallet.protobuf.BWalletType.AccountLabelType parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.bdx.bwallet.protobuf.BWalletType.AccountLabelType) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required uint32 index = 1;
+      private int index_ ;
+      /**
+       * <code>required uint32 index = 1;</code>
+       *
+       * <pre>
+       * account label index 
+       * </pre>
+       */
+      public boolean hasIndex() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required uint32 index = 1;</code>
+       *
+       * <pre>
+       * account label index 
+       * </pre>
+       */
+      public int getIndex() {
+        return index_;
+      }
+      /**
+       * <code>required uint32 index = 1;</code>
+       *
+       * <pre>
+       * account label index 
+       * </pre>
+       */
+      public Builder setIndex(int value) {
+        bitField0_ |= 0x00000001;
+        index_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required uint32 index = 1;</code>
+       *
+       * <pre>
+       * account label index 
+       * </pre>
+       */
+      public Builder clearIndex() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        index_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required string label = 2;
+      private java.lang.Object label_ = "";
+      /**
+       * <code>required string label = 2;</code>
+       *
+       * <pre>
+       * account label 
+       * </pre>
+       */
+      public boolean hasLabel() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required string label = 2;</code>
+       *
+       * <pre>
+       * account label 
+       * </pre>
+       */
+      public java.lang.String getLabel() {
+        java.lang.Object ref = label_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          label_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string label = 2;</code>
+       *
+       * <pre>
+       * account label 
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getLabelBytes() {
+        java.lang.Object ref = label_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          label_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string label = 2;</code>
+       *
+       * <pre>
+       * account label 
+       * </pre>
+       */
+      public Builder setLabel(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        label_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string label = 2;</code>
+       *
+       * <pre>
+       * account label 
+       * </pre>
+       */
+      public Builder clearLabel() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        label_ = getDefaultInstance().getLabel();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string label = 2;</code>
+       *
+       * <pre>
+       * account label 
+       * </pre>
+       */
+      public Builder setLabelBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        label_ = value;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:AccountLabelType)
+    }
+
+    static {
+      defaultInstance = new AccountLabelType(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:AccountLabelType)
+  }
+
   public static final int WIRE_IN_FIELD_NUMBER = 50002;
   /**
    * <code>extend .google.protobuf.EnumValueOptions { ... }</code>
+   *
+   * <pre>
+   * account label index 
+   * </pre>
    */
   public static final
     com.google.protobuf.GeneratedMessage.GeneratedExtension<
@@ -12165,6 +13731,10 @@ public final class BWalletType {
   public static final int WIRE_OUT_FIELD_NUMBER = 50003;
   /**
    * <code>extend .google.protobuf.EnumValueOptions { ... }</code>
+   *
+   * <pre>
+   * account label 
+   * </pre>
    */
   public static final
     com.google.protobuf.GeneratedMessage.GeneratedExtension<
@@ -12250,6 +13820,16 @@ public final class BWalletType {
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_IdentityType_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_AccountLabelsType_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_AccountLabelsType_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_AccountLabelType_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_AccountLabelType_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -12293,39 +13873,42 @@ public final class BWalletType {
       "ignature\030\002 \001(\014\022\025\n\rserialized_tx\030\003 \001(\014\"g\n" +
       "\014IdentityType\022\r\n\005proto\030\001 \001(\t\022\014\n\004user\030\002 \001" +
       "(\t\022\014\n\004host\030\003 \001(\t\022\014\n\004port\030\004 \001(\t\022\014\n\004path\030\005" +
-      " \001(\t\022\020\n\005index\030\006 \001(\r:\0010*\315\002\n\013FailureType\022\035" +
-      "\n\031Failure_UnexpectedMessage\020\001\022\032\n\026Failure" +
-      "_ButtonExpected\020\002\022\027\n\023Failure_SyntaxError" +
-      "\020\003\022\033\n\027Failure_ActionCancelled\020\004\022\027\n\023Failu" +
-      "re_PinExpected\020\005\022\030\n\024Failure_PinCancelled" +
-      "\020\006\022\026\n\022Failure_PinInvalid\020\007\022\034\n\030Failure_In",
-      "validSignature\020\010\022\021\n\rFailure_Other\020\t\022\032\n\026F" +
-      "ailure_NotEnoughFunds\020\n\022\032\n\026Failure_NotIn" +
-      "itialized\020\013\022\031\n\025Failure_FirmwareError\020c*_" +
-      "\n\020OutputScriptType\022\020\n\014PAYTOADDRESS\020\000\022\023\n\017" +
-      "PAYTOSCRIPTHASH\020\001\022\021\n\rPAYTOMULTISIG\020\002\022\021\n\r" +
-      "PAYTOOPRETURN\020\003*6\n\017InputScriptType\022\020\n\014SP" +
-      "ENDADDRESS\020\000\022\021\n\rSPENDMULTISIG\020\001*D\n\013Reque" +
-      "stType\022\013\n\007TXINPUT\020\000\022\014\n\010TXOUTPUT\020\001\022\n\n\006TXM" +
-      "ETA\020\002\022\016\n\nTXFINISHED\020\003*\302\002\n\021ButtonRequestT" +
-      "ype\022\027\n\023ButtonRequest_Other\020\001\022\"\n\036ButtonRe",
-      "quest_FeeOverThreshold\020\002\022\037\n\033ButtonReques" +
-      "t_ConfirmOutput\020\003\022\035\n\031ButtonRequest_Reset" +
-      "Device\020\004\022\035\n\031ButtonRequest_ConfirmWord\020\005\022" +
-      "\034\n\030ButtonRequest_WipeDevice\020\006\022\035\n\031ButtonR" +
-      "equest_ProtectCall\020\007\022\030\n\024ButtonRequest_Si" +
-      "gnTx\020\010\022\037\n\033ButtonRequest_FirmwareCheck\020\t\022" +
-      "\031\n\025ButtonRequest_Address\020\n*\177\n\024PinMatrixR" +
-      "equestType\022 \n\034PinMatrixRequestType_Curre" +
-      "nt\020\001\022!\n\035PinMatrixRequestType_NewFirst\020\002\022" +
-      "\"\n\036PinMatrixRequestType_NewSecond\020\003:4\n\007w",
-      "ire_in\022!.google.protobuf.EnumValueOption" +
-      "s\030\322\206\003 \001(\010:5\n\010wire_out\022!.google.protobuf." +
-      "EnumValueOptions\030\323\206\003 \001(\010::\n\rwire_debug_i" +
-      "n\022!.google.protobuf.EnumValueOptions\030\324\206\003" +
-      " \001(\010:;\n\016wire_debug_out\022!.google.protobuf" +
-      ".EnumValueOptions\030\325\206\003 \001(\010B\'\n\030com.bdx.bwa" +
-      "llet.protobufB\013BWalletType"
+      " \001(\t\022\020\n\005index\030\006 \001(\r:\0010\"E\n\021AccountLabelsT" +
+      "ype\022\r\n\005count\030\001 \002(\r\022!\n\006labels\030\002 \003(\0132\021.Acc" +
+      "ountLabelType\"0\n\020AccountLabelType\022\r\n\005ind" +
+      "ex\030\001 \002(\r\022\r\n\005label\030\002 \002(\t*\315\002\n\013FailureType\022" +
+      "\035\n\031Failure_UnexpectedMessage\020\001\022\032\n\026Failur" +
+      "e_ButtonExpected\020\002\022\027\n\023Failure_SyntaxErro",
+      "r\020\003\022\033\n\027Failure_ActionCancelled\020\004\022\027\n\023Fail" +
+      "ure_PinExpected\020\005\022\030\n\024Failure_PinCancelle" +
+      "d\020\006\022\026\n\022Failure_PinInvalid\020\007\022\034\n\030Failure_I" +
+      "nvalidSignature\020\010\022\021\n\rFailure_Other\020\t\022\032\n\026" +
+      "Failure_NotEnoughFunds\020\n\022\032\n\026Failure_NotI" +
+      "nitialized\020\013\022\031\n\025Failure_FirmwareError\020c*" +
+      "_\n\020OutputScriptType\022\020\n\014PAYTOADDRESS\020\000\022\023\n" +
+      "\017PAYTOSCRIPTHASH\020\001\022\021\n\rPAYTOMULTISIG\020\002\022\021\n" +
+      "\rPAYTOOPRETURN\020\003*6\n\017InputScriptType\022\020\n\014S" +
+      "PENDADDRESS\020\000\022\021\n\rSPENDMULTISIG\020\001*D\n\013Requ",
+      "estType\022\013\n\007TXINPUT\020\000\022\014\n\010TXOUTPUT\020\001\022\n\n\006TX" +
+      "META\020\002\022\016\n\nTXFINISHED\020\003*\302\002\n\021ButtonRequest" +
+      "Type\022\027\n\023ButtonRequest_Other\020\001\022\"\n\036ButtonR" +
+      "equest_FeeOverThreshold\020\002\022\037\n\033ButtonReque" +
+      "st_ConfirmOutput\020\003\022\035\n\031ButtonRequest_Rese" +
+      "tDevice\020\004\022\035\n\031ButtonRequest_ConfirmWord\020\005" +
+      "\022\034\n\030ButtonRequest_WipeDevice\020\006\022\035\n\031Button" +
+      "Request_ProtectCall\020\007\022\030\n\024ButtonRequest_S" +
+      "ignTx\020\010\022\037\n\033ButtonRequest_FirmwareCheck\020\t" +
+      "\022\031\n\025ButtonRequest_Address\020\n*\177\n\024PinMatrix",
+      "RequestType\022 \n\034PinMatrixRequestType_Curr" +
+      "ent\020\001\022!\n\035PinMatrixRequestType_NewFirst\020\002" +
+      "\022\"\n\036PinMatrixRequestType_NewSecond\020\003:4\n\007" +
+      "wire_in\022!.google.protobuf.EnumValueOptio" +
+      "ns\030\322\206\003 \001(\010:5\n\010wire_out\022!.google.protobuf" +
+      ".EnumValueOptions\030\323\206\003 \001(\010::\n\rwire_debug_" +
+      "in\022!.google.protobuf.EnumValueOptions\030\324\206" +
+      "\003 \001(\010:;\n\016wire_debug_out\022!.google.protobu" +
+      "f.EnumValueOptions\030\325\206\003 \001(\010B\'\n\030com.bdx.bw" +
+      "allet.protobufB\013BWalletType"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -12398,6 +13981,18 @@ public final class BWalletType {
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_IdentityType_descriptor,
               new java.lang.String[] { "Proto", "User", "Host", "Port", "Path", "Index", });
+          internal_static_AccountLabelsType_descriptor =
+            getDescriptor().getMessageTypes().get(11);
+          internal_static_AccountLabelsType_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_AccountLabelsType_descriptor,
+              new java.lang.String[] { "Count", "Labels", });
+          internal_static_AccountLabelType_descriptor =
+            getDescriptor().getMessageTypes().get(12);
+          internal_static_AccountLabelType_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_AccountLabelType_descriptor,
+              new java.lang.String[] { "Index", "Label", });
           wireIn.internalInit(descriptor.getExtensions().get(0));
           wireOut.internalInit(descriptor.getExtensions().get(1));
           wireDebugIn.internalInit(descriptor.getExtensions().get(2));

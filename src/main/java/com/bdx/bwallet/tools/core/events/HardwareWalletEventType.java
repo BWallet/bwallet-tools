@@ -97,6 +97,7 @@ public enum HardwareWalletEventType {
    */
   DETERMINISTIC_HIERARCHY,
 
+  ACCOUNT_LABELS,
   // End of enum
   ;
 

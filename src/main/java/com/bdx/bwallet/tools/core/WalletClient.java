@@ -86,6 +86,8 @@ public interface WalletClient extends Connectable {
     
     public Optional<MessageEvent> getAddress(int account, KeyChain.KeyPurpose keyPurpose, int index, boolean showDisplay);
 
+    public Optional<MessageEvent> getAddress(List<ChildNumber> childNumbers, boolean showDisplay);
+    
     Optional<MessageEvent> getPublicKey(int account, KeyChain.KeyPurpose keyPurpose, int index);
 
     Optional<MessageEvent> getDeterministicHierarchy(List<ChildNumber> childNumbers);
@@ -116,4 +118,10 @@ public interface WalletClient extends Connectable {
     Optional<MessageEvent> passphraseAck(String passphrase);
     
     Optional<MessageEvent> testScreen(int delayTime);
+    
+    Optional<MessageEvent> getAccountLabels(String coinName, boolean all, int index);
+    
+    Optional<MessageEvent> setAccountLabel(String coinName, int index, String label);
+    
+    Optional<MessageEvent> removeAccountLabel(String coinName, int index);
 }

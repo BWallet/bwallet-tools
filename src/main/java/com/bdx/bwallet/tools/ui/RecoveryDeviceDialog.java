@@ -320,6 +320,7 @@ public class RecoveryDeviceDialog extends javax.swing.JDialog implements WindowL
             case SHOW_OPERATION_SUCCEEDED:
                 wordEntryDialog.setVisible(false);
                 JOptionPane.showMessageDialog(null, "Recovery was successful");
+                this.dispose();
                 break;
             case SHOW_OPERATION_FAILED:
                 wordEntryDialog.setVisible(false);

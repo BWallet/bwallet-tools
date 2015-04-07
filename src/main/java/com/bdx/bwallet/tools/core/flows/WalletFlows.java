@@ -75,4 +75,19 @@ public class WalletFlows {
         log.debug("Transitioning to 'test screen' flow");
         return new TestScreenFlow();
     }
+    
+    public static GetAccountLabelsFlow newGetAccountLabelsFlow() {
+        log.debug("Transitioning to 'get account labels' flow");
+        return new GetAccountLabelsFlow();
+    }
+    
+    public static SetAccountLabelFlow newSetAccountLabelFlow() {
+        log.debug("Transitioning to 'set account label' flow");
+        return new SetAccountLabelFlow();
+    }
+    
+    public static GetAddressFlow newGetAddressFlow() {
+        log.debug("Transitioning to 'get address' flow");
+        return new GetAddressFlow();
+    }
 }

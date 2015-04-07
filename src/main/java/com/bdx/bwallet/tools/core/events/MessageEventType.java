@@ -269,7 +269,12 @@ public enum MessageEventType {
     DEBUG_LINK_GET_STATE,
     DEBUG_LINK_STATE,
     DEBUG_LINK_STOP,
-    DEBUG_LINK_LOG, // End of enum
+    DEBUG_LINK_LOG,
+    
+    GET_ACCOUNT_LABELS,
+    ACCOUNT_LABELS,
+    
+    // End of enum
     ;
 
 }

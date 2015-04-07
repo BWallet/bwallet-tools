@@ -258,4 +258,48 @@ public class WalletContext {
         // Issue starting message to elicit the event
         client.testScreen(delayTime);
     }
+    
+    public void beginGetAccountLabelsUseCase(String coinName, boolean all, int index) {
+        log.debug("Begin 'get account labels' use case");
+        // Track the use case
+        currentUseCase = ContextUseCase.GET_ACCOUNT_LABELS;
+        // Store the overall context parameters
+        // Set the event receiving state
+        currentFlow = WalletFlows.newGetAccountLabelsFlow();
+        // Issue starting message to elicit the event
+        client.getAccountLabels(coinName, all, index);
+    }
+    
+    public void beginSetAccountLabelUseCase(String coinName, int index, String label) {
+        log.debug("Begin 'set account label' use case");
+        // Track the use case
+        currentUseCase = ContextUseCase.SET_ACCOUNT_LABEL;
+        // Store the overall context parameters
+        // Set the event receiving state
+        currentFlow = WalletFlows.newSetAccountLabelFlow();
+        // Issue starting message to elicit the event
+        client.setAccountLabel(coinName, index, label);
+    }
+    
+    public void beginRemoveAccountLabelUseCase(String coinName, int index) {
+        log.debug("Begin 'set account label' use case");
+        // Track the use case
+        currentUseCase = ContextUseCase.SET_ACCOUNT_LABEL;
+        // Store the overall context parameters
+        // Set the event receiving state
+        currentFlow = WalletFlows.newSetAccountLabelFlow();
+        // Issue starting message to elicit the event
+        client.removeAccountLabel(coinName, index);
+    }
+    
+    public void beginGetAddressUseCase(List<ChildNumber> childNumbers) {
+        log.debug("Begin 'get address' use case");
+        // Track the use case
+        currentUseCase = ContextUseCase.REQUEST_ADDRESS;
+        // Store the overall context parameters
+        // Set the event receiving state
+        currentFlow = WalletFlows.newGetAddressFlow();
+        // Issue starting message to elicit the event
+        client.getAddress(childNumbers, false);
+    }
 }

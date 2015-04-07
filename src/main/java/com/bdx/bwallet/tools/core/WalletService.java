@@ -14,6 +14,7 @@ import com.google.common.base.Preconditions;
 import com.google.protobuf.Message;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.util.ArrayList;
 import java.util.List;
 import org.bitcoinj.core.Address;
 import org.bitcoinj.crypto.ChildNumber;
@@ -130,6 +131,10 @@ public class WalletService implements HidServicesListener {
         context.beginGetDeterministicHierarchyUseCase(childNumbers);
     }
     
+    public void getAddress(List<ChildNumber> childNumbers) {
+        context.beginGetAddressUseCase(childNumbers);
+    }
+    
     public void signMessage(int account, KeyChain.KeyPurpose keyPurpose, int index, byte[] message) {
         context.beginSignMessageUseCase(account, keyPurpose, index, message);
     }
@@ -144,6 +149,18 @@ public class WalletService implements HidServicesListener {
     
     public void testScreen(int delayTime) {
         context.beginTestScreenUseCase(delayTime);
+    }
+    
+    public void getAccountLabels(String coinName, boolean all, int index) {
+        context.beginGetAccountLabelsUseCase(coinName, all, index);
+    }
+    
+    public void setAccountLabel(String coinName, int index, String label) {
+        context.beginSetAccountLabelUseCase(coinName, index, label);
+    }
+    
+    public void removeAccountLabel(String coinName, int index) {
+        context.beginRemoveAccountLabelUseCase(coinName, index);
     }
     
     /**
@@ -165,7 +182,15 @@ public class WalletService implements HidServicesListener {
     }
 
     public List<HidDevice> getDevices() {
-        return hidServices.getAttachedHidDevices();
+        List<HidDevice> devices = new ArrayList();
+        List<HidDevice> attachedHidDevices = hidServices.getAttachedHidDevices();
+        for (HidDevice hidDevice : attachedHidDevices) {
+            if (HidWallet.VENDOR_ID.equals(hidDevice.getVendorId())
+                && HidWallet.PRODUCT_ID.equals(hidDevice.getProductId())) {
+                devices.add(hidDevice);
+            }
+        }
+        return devices;
     }
 
     @Override

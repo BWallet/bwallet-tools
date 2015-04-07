@@ -388,6 +388,7 @@ public class CreateWalletDialog extends javax.swing.JDialog implements WindowLis
             case SHOW_OPERATION_SUCCEEDED:
                 messageDialog.setVisible(false);
                 JOptionPane.showMessageDialog(null, "Setup was successful");
+                this.dispose();
                 break;
             case SHOW_OPERATION_FAILED:
                 messageDialog.setVisible(false);

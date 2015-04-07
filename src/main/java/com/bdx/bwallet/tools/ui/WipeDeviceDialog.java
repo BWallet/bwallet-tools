@@ -150,6 +150,7 @@ public class WipeDeviceDialog extends javax.swing.JDialog implements WindowListe
             case SHOW_OPERATION_SUCCEEDED:
                 messageDialog.setVisible(false);
                 JOptionPane.showMessageDialog(null, "Wipe was successful");
+                this.dispose();
                 break;
             case SHOW_OPERATION_FAILED:
                 messageDialog.setVisible(false);

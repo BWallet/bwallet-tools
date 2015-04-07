@@ -24,12 +24,8 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.logging.Level;
@@ -163,7 +159,7 @@ public class MainUI extends javax.swing.JFrame {
         signAndVerifyButton = new javax.swing.JButton();
         passphraseSettingButton = new javax.swing.JButton();
         homescreenSettingButton = new javax.swing.JButton();
-        applyAccountLabel = new javax.swing.JButton();
+        setAccountLabel = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("BWallet Tools");
@@ -291,7 +287,12 @@ public class MainUI extends javax.swing.JFrame {
             }
         });
 
-        applyAccountLabel.setText("Apply Account Label");
+        setAccountLabel.setText("Account Label Setting");
+        setAccountLabel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                setAccountLabelActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -333,7 +334,7 @@ public class MainUI extends javax.swing.JFrame {
                                         .addGap(18, 18, 18)
                                         .addComponent(getBlHashButton, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(layout.createSequentialGroup()
-                                        .addComponent(applyAccountLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(setAccountLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(18, 18, 18)
                                         .addComponent(testScreenButton, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addGap(18, 18, 18)
@@ -372,7 +373,7 @@ public class MainUI extends javax.swing.JFrame {
                     .addComponent(signAndVerifyButton))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(applyAccountLabel)
+                    .addComponent(setAccountLabel)
                     .addComponent(testScreenButton))
                 .addContainerGap(32, Short.MAX_VALUE))
         );
@@ -599,6 +600,36 @@ public class MainUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_homescreenSettingButtonActionPerformed
 
+    private void setAccountLabelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_setAccountLabelActionPerformed
+        Device device = getSelectDevice();
+        if (device != null) {
+            WalletContext context = mainController.getContext(device);
+            if (context != null) {
+                try {
+                    ListenableFuture<Optional<BWalletMessage.Features>> future = context.initialise();
+                    future.get(5, TimeUnit.SECONDS);
+                } catch (InterruptedException | ExecutionException | TimeoutException ex) {
+                    JOptionPane.showMessageDialog(null, "Device initialise failed.");
+                    return ;
+                }
+                
+                BWalletMessage.Features features = context.getFeatures().get();
+                FirmwareVersion firmwareVersion = new FirmwareVersion(features);
+                System.out.println(firmwareVersion.toString());
+                if (!firmwareVersion.ge(1, 3, 1)) {
+                    JOptionPane.showMessageDialog(null, "Unsupported firmware:" + firmwareVersion.toString());
+                    return ;
+                }
+                
+                AccountLabelDialog accountLabelDialog = new AccountLabelDialog(this, true, mainController, device);
+                accountLabelDialog.setLocationRelativeTo(null);
+                accountLabelDialog.setVisible(true);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Please select a device.");
+        }
+    }//GEN-LAST:event_setAccountLabelActionPerformed
+
     protected void openWebpage(URI uri) {
         if (desktop != null && desktop.isSupported(Desktop.Action.BROWSE)) {
             try {
@@ -657,7 +688,6 @@ public class MainUI extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton aboutButton;
     private javax.swing.JButton accountInfoButton;
-    private javax.swing.JButton applyAccountLabel;
     private javax.swing.JButton applySettingsButton;
     private javax.swing.JButton buyButton;
     private javax.swing.JButton changePinButton;
@@ -670,6 +700,7 @@ public class MainUI extends javax.swing.JFrame {
     private javax.swing.JButton passphraseSettingButton;
     private javax.swing.JButton recoveryDeviceButton;
     private javax.swing.JButton resetDeviceButton;
+    private javax.swing.JButton setAccountLabel;
     private javax.swing.JButton signAndVerifyButton;
     private javax.swing.JButton testScreenButton;
     private javax.swing.JButton updateFirmwareButton;

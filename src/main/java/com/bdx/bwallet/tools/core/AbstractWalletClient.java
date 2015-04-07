@@ -427,6 +427,25 @@ public abstract class AbstractWalletClient implements WalletClient {
     }
 
     @Override
+    public Optional<MessageEvent> getAddress(
+            List<ChildNumber> childNumbers,
+            boolean showDisplay
+    ) {
+        List<Integer> addressN = Lists.newArrayList();
+        for (ChildNumber childNumber : childNumbers) {
+            addressN.add(childNumber.getI());
+        }
+        
+        return sendMessage(BWalletMessage.GetAddress
+                .newBuilder()
+                .addAllAddressN(addressN)
+                .setCoinName("Bitcoin")
+                .setShowDisplay(showDisplay)
+                .build()
+        );
+    }
+    
+    @Override
     public Optional<MessageEvent> getPublicKey(
             int account,
             KeyChain.KeyPurpose keyPurpose,
@@ -624,6 +643,41 @@ public abstract class AbstractWalletClient implements WalletClient {
                 BWalletMessage.TestScreen
                 .newBuilder()
                 .setDelayTime(delayTime)
+                .build()
+        );
+    }
+    
+    @Override
+    public Optional<MessageEvent> getAccountLabels(String coinName, boolean all, int index) {
+        return sendMessage(
+                BWalletMessage.GetAccountLabels
+                .newBuilder()
+                .setCoinName(coinName)
+                .setAll(all)
+                .setIndex(index)
+                .build()
+        );
+    }
+    
+    @Override
+    public Optional<MessageEvent> setAccountLabel(String coinName, int index, String label){
+        return sendMessage(
+                BWalletMessage.SetAccountLabel
+                .newBuilder()
+                .setCoinName(coinName)
+                .setIndex(index)
+                .setLabel(label)
+                .build()
+        );
+    }
+    
+    @Override
+    public Optional<MessageEvent> removeAccountLabel(String coinName, int index){
+        return sendMessage(
+                BWalletMessage.SetAccountLabel
+                .newBuilder()
+                .setCoinName(coinName)
+                .setIndex(index)
                 .build()
         );
     }

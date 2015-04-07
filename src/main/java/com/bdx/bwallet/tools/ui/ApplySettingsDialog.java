@@ -238,6 +238,7 @@ public class ApplySettingsDialog extends javax.swing.JDialog implements WindowLi
             case SHOW_OPERATION_SUCCEEDED:
                 messageDialog.setVisible(false);
                 JOptionPane.showMessageDialog(null, "Apply Settings was successful");
+                this.dispose();
                 break;
             case SHOW_OPERATION_FAILED:
                 messageDialog.setVisible(false);

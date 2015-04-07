@@ -273,6 +273,14 @@ public final class MessageUtils {
                     message = BWalletMessage.DebugLinkLog.parseFrom(buffer);
                     messageEventType = MessageEventType.DEBUG_LINK_LOG;
                     break;
+                case MessageType_GetAccountLabels:
+                    message = BWalletMessage.GetAccountLabels.parseFrom(buffer);
+                    messageEventType = MessageEventType.GET_ACCOUNT_LABELS;
+                    break;
+                case MessageType_AccountLabels:
+                    message = BWalletMessage.AccountLabels.parseFrom(buffer);
+                    messageEventType = MessageEventType.ACCOUNT_LABELS;
+                    break;
                 default:
                     throw new IllegalStateException("Unknown message type: " + type.name());
             }

@@ -201,6 +201,7 @@ public class FirmwareUpdateDialog extends javax.swing.JDialog implements WindowL
                     updateButton.setEnabled(false);
                     messageDialog.setVisible(false);
                     JOptionPane.showMessageDialog(null, "Update was successful\r\nPlease unplug the device now.");
+                    this.dispose();
                 }
                 break;
             case SHOW_OPERATION_FAILED:

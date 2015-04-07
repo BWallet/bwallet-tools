@@ -202,6 +202,14 @@ public class MainController {
         }
     }
 
+    public void getAddress(Device device, List<ChildNumber> childNumbers) {
+        final WalletContext context = this.getContext(device);
+        if (context != null) {
+            walletService.setContext(context);
+            walletService.getAddress(childNumbers);
+        }
+    }
+    
     public void signMessage(Device device, int account, KeyChain.KeyPurpose keyPurpose, int index, byte[] message) {
         final WalletContext context = this.getContext(device);
         if (context != null) {
@@ -234,6 +242,30 @@ public class MainController {
         }
     }
 
+    public void getAccountLabels(Device device, String coinName, boolean all, int index) {
+        final WalletContext context = this.getContext(device);
+        if (context != null) {
+            walletService.setContext(context);
+            walletService.getAccountLabels(coinName, all, index);
+        }
+    }
+    
+    public void setAccountLabel(Device device, String coinName, int index, String label) {
+        final WalletContext context = this.getContext(device);
+        if (context != null) {
+            walletService.setContext(context);
+            walletService.setAccountLabel(coinName, index, label);
+        }
+    }
+    
+    public void removeAccountLabel(Device device, String coinName, int index) {
+        final WalletContext context = this.getContext(device);
+        if (context != null) {
+            walletService.setContext(context);
+            walletService.removeAccountLabel(coinName, index);
+        }
+    }
+    
     public WalletContext getContext(Device device) {
         WalletContext context = contexts.get(device.getPath());
         if (context == null) {
