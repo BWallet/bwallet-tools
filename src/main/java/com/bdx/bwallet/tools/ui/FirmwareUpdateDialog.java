@@ -53,7 +53,7 @@ public class FirmwareUpdateDialog extends javax.swing.JDialog implements WindowL
         JOptionPane messagePanel = new JOptionPane("Please confirm on your device.", JOptionPane.INFORMATION_MESSAGE,
                 JOptionPane.DEFAULT_OPTION, null,
                 new Object[]{}, null);
-        messageDialog = messagePanel.createDialog(null, "Uploading firmware...");
+        messageDialog = messagePanel.createDialog(this, "Uploading firmware...");
         messageDialog.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         messageDialog.setSize(400, 150);
         messageDialog.setLocationRelativeTo(null);
@@ -171,9 +171,9 @@ public class FirmwareUpdateDialog extends javax.swing.JDialog implements WindowL
                 });
             }
             else
-                JOptionPane.showMessageDialog(null, "Please choose a firmware file");
+                JOptionPane.showMessageDialog(this, "Please choose a firmware file");
         } else 
-            JOptionPane.showMessageDialog(null, "Device detached");
+            JOptionPane.showMessageDialog(this, "Device detached");
     }//GEN-LAST:event_updateButtonActionPerformed
 
     @Subscribe
@@ -200,7 +200,7 @@ public class FirmwareUpdateDialog extends javax.swing.JDialog implements WindowL
                 } else {
                     updateButton.setEnabled(false);
                     messageDialog.setVisible(false);
-                    JOptionPane.showMessageDialog(null, "Update was successful\r\nPlease unplug the device now.");
+                    JOptionPane.showMessageDialog(this, "Update was successful\r\nPlease unplug the device now.");
                     this.dispose();
                 }
                 break;
@@ -210,7 +210,7 @@ public class FirmwareUpdateDialog extends javax.swing.JDialog implements WindowL
                     BWalletMessage.Failure failure = (BWalletMessage.Failure)event.getMessage().get();
                     msg = msg + " : " + failure.getMessage();
                 }
-                JOptionPane.showMessageDialog(null, msg);
+                JOptionPane.showMessageDialog(this, msg);
                 messageDialog.setVisible(false);
                 break;
             default:
@@ -225,8 +225,11 @@ public class FirmwareUpdateDialog extends javax.swing.JDialog implements WindowL
             if (hidDevice.getPath() != null && hidDevice.getPath().equals(device.getPath())) {
                 device = null;
                 messageDialog.setVisible(false);
-                JOptionPane.showMessageDialog(null, "Device detached");
+                JOptionPane.showMessageDialog(this, "Device detached");
             }
+        } else if (event.getEventType() == MessageEventType.DEVICE_FAILED) {
+            JOptionPane.showMessageDialog(this, "Device could not be opened.\r\nMake sure you don't have running another client!");
+            messageDialog.setVisible(false);
         }
     }
     

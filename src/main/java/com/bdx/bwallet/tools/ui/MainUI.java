@@ -389,7 +389,7 @@ public class MainUI extends javax.swing.JFrame {
             recoveryDeviceDialog.setLocationRelativeTo(null);
             recoveryDeviceDialog.setVisible(true);
         } else {
-            JOptionPane.showMessageDialog(null, "Please select a device.");
+            JOptionPane.showMessageDialog(this, "Please select a device.");
         }
     }//GEN-LAST:event_recoveryDeviceButtonActionPerformed
 
@@ -400,7 +400,7 @@ public class MainUI extends javax.swing.JFrame {
             wipeDeviceDialog.setLocationRelativeTo(null);
             wipeDeviceDialog.setVisible(true);
         } else {
-            JOptionPane.showMessageDialog(null, "Please select a device.");
+            JOptionPane.showMessageDialog(this, "Please select a device.");
         }
     }//GEN-LAST:event_wipeDeviceButtonActionPerformed
 
@@ -426,9 +426,11 @@ public class MainUI extends javax.swing.JFrame {
                 }
                 bootloaderHashDialog.setLocationRelativeTo(null);
                 bootloaderHashDialog.setVisible(true);
+            } else {
+                JOptionPane.showMessageDialog(this, "Device could not be opened.\r\nMake sure you don't have running another client!");
             }
         } else {
-            JOptionPane.showMessageDialog(null, "Please select a device.");
+            JOptionPane.showMessageDialog(this, "Please select a device.");
         }
     }//GEN-LAST:event_getBlHashButtonActionPerformed
 
@@ -451,7 +453,7 @@ public class MainUI extends javax.swing.JFrame {
             updateFirmwareDialog.setLocationRelativeTo(null);
             updateFirmwareDialog.setVisible(true);
         } else {
-            JOptionPane.showMessageDialog(null, "Please select a device.");
+            JOptionPane.showMessageDialog(this, "Please select a device.");
         }
     }//GEN-LAST:event_updateFirmwareButtonActionPerformed
 
@@ -462,7 +464,7 @@ public class MainUI extends javax.swing.JFrame {
             createWalletDialog.setLocationRelativeTo(null);
             createWalletDialog.setVisible(true);
         } else {
-            JOptionPane.showMessageDialog(null, "Please select a device.");
+            JOptionPane.showMessageDialog(this, "Please select a device.");
         }
     }//GEN-LAST:event_resetDeviceButtonActionPerformed
 
@@ -475,7 +477,7 @@ public class MainUI extends javax.swing.JFrame {
                     ListenableFuture<Optional<BWalletMessage.Features>> future = context.initialise();
                     future.get(5, TimeUnit.SECONDS);
                 } catch (InterruptedException | ExecutionException | TimeoutException ex) {
-                    JOptionPane.showMessageDialog(null, "Device initialise failed.");
+                    JOptionPane.showMessageDialog(this, "Device initialise failed.");
                     return ;
                 }
                 
@@ -490,9 +492,11 @@ public class MainUI extends javax.swing.JFrame {
                 ApplySettingsDialog applySettingsDialog = new ApplySettingsDialog(this, true, mainController, device, language, label);
                 applySettingsDialog.setLocationRelativeTo(null);
                 applySettingsDialog.setVisible(true);
+            } else {
+                JOptionPane.showMessageDialog(this, "Device could not be opened.\r\nMake sure you don't have running another client!");
             }
         } else {
-            JOptionPane.showMessageDialog(null, "Please select a device.");
+            JOptionPane.showMessageDialog(this, "Please select a device.");
         }
     }//GEN-LAST:event_applySettingsButtonActionPerformed
 
@@ -503,7 +507,7 @@ public class MainUI extends javax.swing.JFrame {
             getPublicKeyDialog.setLocationRelativeTo(null);
             getPublicKeyDialog.setVisible(true);
         } else {
-            JOptionPane.showMessageDialog(null, "Please select a device.");
+            JOptionPane.showMessageDialog(this, "Please select a device.");
         }
     }//GEN-LAST:event_getPublicKeyButtonActionPerformed
 
@@ -514,7 +518,7 @@ public class MainUI extends javax.swing.JFrame {
             changePINDialog.setLocationRelativeTo(null);
             changePINDialog.setVisible(true);
         } else {
-            JOptionPane.showMessageDialog(null, "Please select a device.");
+            JOptionPane.showMessageDialog(this, "Please select a device.");
         }
     }//GEN-LAST:event_changePinButtonActionPerformed
 
@@ -525,7 +529,7 @@ public class MainUI extends javax.swing.JFrame {
             signMessageDialog.setLocationRelativeTo(null);
             signMessageDialog.setVisible(true);
         } else {
-            JOptionPane.showMessageDialog(null, "Please select a device.");
+            JOptionPane.showMessageDialog(this, "Please select a device.");
         }
     }//GEN-LAST:event_signAndVerifyButtonActionPerformed
 
@@ -536,7 +540,7 @@ public class MainUI extends javax.swing.JFrame {
             testScreenDialog.setLocationRelativeTo(null);
             testScreenDialog.setVisible(true);
         } else {
-            JOptionPane.showMessageDialog(null, "Please select a device.");
+            JOptionPane.showMessageDialog(this, "Please select a device.");
         }
     }//GEN-LAST:event_testScreenButtonActionPerformed
 
@@ -549,7 +553,7 @@ public class MainUI extends javax.swing.JFrame {
                     ListenableFuture<Optional<BWalletMessage.Features>> future = context.initialise();
                     future.get(5, TimeUnit.SECONDS);
                 } catch (InterruptedException | ExecutionException | TimeoutException ex) {
-                    JOptionPane.showMessageDialog(null, "Device initialise failed.");
+                    JOptionPane.showMessageDialog(this, "Device initialise failed.");
                     return ;
                 }
                 
@@ -557,7 +561,7 @@ public class MainUI extends javax.swing.JFrame {
                 FirmwareVersion firmwareVersion = new FirmwareVersion(features);
                 System.out.println(firmwareVersion.toString());
                 if (!firmwareVersion.ge(1, 3, 1)) {
-                    JOptionPane.showMessageDialog(null, "Unsupported firmware:" + firmwareVersion.toString());
+                    JOptionPane.showMessageDialog(this, "Unsupported firmware:" + firmwareVersion.toString());
                     return ;
                 }
                 
@@ -565,9 +569,11 @@ public class MainUI extends javax.swing.JFrame {
                 ApplyPassphraseSettingDialog applyPassphraseSettingsDialog = new ApplyPassphraseSettingDialog(this, true, mainController, device, disable);
                 applyPassphraseSettingsDialog.setLocationRelativeTo(null);
                 applyPassphraseSettingsDialog.setVisible(true);
+            } else {
+                JOptionPane.showMessageDialog(this, "Device could not be opened.\r\nMake sure you don't have running another client!");
             }
         } else {
-            JOptionPane.showMessageDialog(null, "Please select a device.");
+            JOptionPane.showMessageDialog(this, "Please select a device.");
         }
     }//GEN-LAST:event_passphraseSettingButtonActionPerformed
 
@@ -580,7 +586,7 @@ public class MainUI extends javax.swing.JFrame {
                     ListenableFuture<Optional<BWalletMessage.Features>> future = context.initialise();
                     future.get(5, TimeUnit.SECONDS);
                 } catch (InterruptedException | ExecutionException | TimeoutException ex) {
-                    JOptionPane.showMessageDialog(null, "Device initialise failed.");
+                    JOptionPane.showMessageDialog(this, "Device initialise failed.");
                     return ;
                 }
                 
@@ -588,16 +594,18 @@ public class MainUI extends javax.swing.JFrame {
                 FirmwareVersion firmwareVersion = new FirmwareVersion(features);
                 System.out.println(firmwareVersion.toString());
                 if (!firmwareVersion.ge(1, 3, 1)) {
-                    JOptionPane.showMessageDialog(null, "Unsupported firmware:" + firmwareVersion.toString());
+                    JOptionPane.showMessageDialog(this, "Unsupported firmware:" + firmwareVersion.toString());
                     return ;
                 }
                 
                 ApplyHomescreenSettingDialog applyHomescreenSettingsDialog = new ApplyHomescreenSettingDialog(this, true, mainController, device);
                 applyHomescreenSettingsDialog.setLocationRelativeTo(null);
                 applyHomescreenSettingsDialog.setVisible(true);
+            } else {
+                JOptionPane.showMessageDialog(this, "Device could not be opened.\r\nMake sure you don't have running another client!");
             }
         } else {
-            JOptionPane.showMessageDialog(null, "Please select a device.");
+            JOptionPane.showMessageDialog(this, "Please select a device.");
         }
     }//GEN-LAST:event_homescreenSettingButtonActionPerformed
 
@@ -610,7 +618,7 @@ public class MainUI extends javax.swing.JFrame {
                     ListenableFuture<Optional<BWalletMessage.Features>> future = context.initialise();
                     future.get(5, TimeUnit.SECONDS);
                 } catch (InterruptedException | ExecutionException | TimeoutException ex) {
-                    JOptionPane.showMessageDialog(null, "Device initialise failed.");
+                    JOptionPane.showMessageDialog(this, "Device initialise failed.");
                     return ;
                 }
                 
@@ -618,16 +626,18 @@ public class MainUI extends javax.swing.JFrame {
                 FirmwareVersion firmwareVersion = new FirmwareVersion(features);
                 System.out.println(firmwareVersion.toString());
                 if (!firmwareVersion.ge(1, 3, 1)) {
-                    JOptionPane.showMessageDialog(null, "Unsupported firmware:" + firmwareVersion.toString());
+                    JOptionPane.showMessageDialog(this, "Unsupported firmware:" + firmwareVersion.toString());
                     return ;
                 }
                 
                 AccountLabelDialog accountLabelDialog = new AccountLabelDialog(this, true, mainController, device);
                 accountLabelDialog.setLocationRelativeTo(null);
                 accountLabelDialog.setVisible(true);
+            } else {
+                JOptionPane.showMessageDialog(this, "Device could not be opened.\r\nMake sure you don't have running another client!");
             }
         } else {
-            JOptionPane.showMessageDialog(null, "Please select a device.");
+            JOptionPane.showMessageDialog(this, "Please select a device.");
         }
     }//GEN-LAST:event_setAccountLabelActionPerformed
 
@@ -638,7 +648,7 @@ public class MainUI extends javax.swing.JFrame {
             accountDetailsDialog.setLocationRelativeTo(null);
             accountDetailsDialog.setVisible(true);
         } else {
-            JOptionPane.showMessageDialog(null, "Please select a device.");
+            JOptionPane.showMessageDialog(this, "Please select a device.");
         }
     }//GEN-LAST:event_accountDetailsButtonActionPerformed
 

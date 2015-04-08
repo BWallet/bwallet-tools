@@ -47,7 +47,7 @@ public class TestScreenDialog extends javax.swing.JDialog  implements WindowList
         JOptionPane messagePanel = new JOptionPane("Please check the screen of your device.", JOptionPane.INFORMATION_MESSAGE,
                 JOptionPane.DEFAULT_OPTION, null,
                 new Object[]{}, null);
-        messageDialog = messagePanel.createDialog(null, "Test Screen");
+        messageDialog = messagePanel.createDialog(this, "Test Screen");
         messageDialog.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
         messageDialog.setSize(400, 150);
         messageDialog.setLocationRelativeTo(null);
@@ -130,20 +130,25 @@ public class TestScreenDialog extends javax.swing.JDialog  implements WindowList
         if (device != null) {
             String timeText = timeTextField.getText().trim();
             if ("".equals(timeText)) {
-                JOptionPane.showMessageDialog(null, "Empty delay time");
+                JOptionPane.showMessageDialog(this, "Empty delay time");
                 return;
             }
             int time;
             try {
                 time = Integer.parseInt(timeText);
             } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(null, "Invalid delay time");
+                JOptionPane.showMessageDialog(this, "Invalid delay time");
                 return;
             }
+            java.awt.EventQueue.invokeLater(new Runnable() {
+                @Override
+                public void run() {
+                    messageDialog.setVisible(true);
+                }
+            });
             mainController.testScreen(device, time);
-            messageDialog.setVisible(true);
         } else
-            JOptionPane.showMessageDialog(null, "Device detached");
+            JOptionPane.showMessageDialog(this, "Device detached");
     }//GEN-LAST:event_testButtonActionPerformed
 
     @Subscribe
@@ -158,7 +163,7 @@ public class TestScreenDialog extends javax.swing.JDialog  implements WindowList
                     msg = success.getMessage();
                 } else 
                     msg = "Test finished";
-                JOptionPane.showMessageDialog(null, msg);
+                JOptionPane.showMessageDialog(this, msg);
                 break;
             case SHOW_OPERATION_FAILED:
                 messageDialog.setVisible(false);
@@ -167,7 +172,7 @@ public class TestScreenDialog extends javax.swing.JDialog  implements WindowList
                     msg = failure.getMessage();
                 } else 
                     msg = "Test failed";
-                JOptionPane.showMessageDialog(null, msg);
+                JOptionPane.showMessageDialog(this, msg);
                 break;
             default:
                 break;
@@ -181,8 +186,16 @@ public class TestScreenDialog extends javax.swing.JDialog  implements WindowList
             if (hidDevice.getPath() != null && hidDevice.getPath().equals(device.getPath())) {
                 device = null;
                 messageDialog.setVisible(false);
-                JOptionPane.showMessageDialog(null, "Device detached");
+                JOptionPane.showMessageDialog(this, "Device detached");
             }
+        } else if (event.getEventType() == MessageEventType.DEVICE_FAILED) {
+            java.awt.EventQueue.invokeLater(new Runnable() {
+                @Override
+                public void run() {
+                    messageDialog.setVisible(false);
+                }
+            });
+            JOptionPane.showMessageDialog(this, "Device could not be opened.\r\nMake sure you don't have running another client!");
         }
     }
     

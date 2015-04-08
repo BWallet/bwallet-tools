@@ -55,7 +55,7 @@ public class SignMessageDialog extends javax.swing.JDialog implements WindowList
         JOptionPane messagePanel = new JOptionPane("Please confirm the action on your device.", JOptionPane.INFORMATION_MESSAGE,
                 JOptionPane.DEFAULT_OPTION, null,
                 new Object[]{}, null);
-        messageDialog = messagePanel.createDialog(null, "Sign & Verify");
+        messageDialog = messagePanel.createDialog(this, "Sign & Verify");
         messageDialog.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
         messageDialog.setSize(400, 150);
         messageDialog.setLocationRelativeTo(null);
@@ -336,34 +336,34 @@ public class SignMessageDialog extends javax.swing.JDialog implements WindowList
         if (device != null) {
             String messageText = sMessageTextArea.getText().trim();
             if ("".equals(messageText)) {
-                JOptionPane.showMessageDialog(null, "Empty message");
+                JOptionPane.showMessageDialog(this, "Empty message");
                 return;
             }
             byte[] message = messageText.getBytes();
             
             String accountText = accountTextField.getText().trim();
             if ("".equals(accountText)) {
-                JOptionPane.showMessageDialog(null, "Empty account");
+                JOptionPane.showMessageDialog(this, "Empty account");
                 return;
             }
             int account;
             try {
                 account = Integer.parseInt(accountText);
             } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(null, "Invalid account");
+                JOptionPane.showMessageDialog(this, "Invalid account");
                 return;
             }
             
             String indexText = indexTextField.getText().trim();
             if ("".equals(indexText)) {
-                JOptionPane.showMessageDialog(null, "Empty index");
+                JOptionPane.showMessageDialog(this, "Empty index");
                 return;
             }
             int index;
             try {
                 index = Integer.parseInt(indexText);
             } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(null, "Invalid index");
+                JOptionPane.showMessageDialog(this, "Invalid index");
                 return;
             }
             
@@ -376,7 +376,7 @@ public class SignMessageDialog extends javax.swing.JDialog implements WindowList
             
             mainController.signMessage(device, account, purpose, index, message);
         } else {
-            JOptionPane.showMessageDialog(null, "Device detached");
+            JOptionPane.showMessageDialog(this, "Device detached");
         }
     }//GEN-LAST:event_signButtonActionPerformed
 
@@ -384,40 +384,40 @@ public class SignMessageDialog extends javax.swing.JDialog implements WindowList
         if (device != null) {
             String messageText = vMessageTextArea.getText().trim();
             if ("".equals(messageText)) {
-                JOptionPane.showMessageDialog(null, "Empty message");
+                JOptionPane.showMessageDialog(this, "Empty message");
                 return;
             }
             byte[] message = messageText.getBytes();
             
             String addressText = addressTextField.getText().trim();
             if ("".equals(addressText)) {
-                JOptionPane.showMessageDialog(null, "Empty address");
+                JOptionPane.showMessageDialog(this, "Empty address");
                 return;
             }
             Address address = null;
             try {
                 address = new Address(MainNetParams.get(), addressText);
             } catch (AddressFormatException ex) {
-                 JOptionPane.showMessageDialog(null, "Invalid address");
+                 JOptionPane.showMessageDialog(this, "Invalid address");
                 return;
             }
             
             String signatureText = vSignatureTextArea.getText().trim();
             if ("".equals(signatureText)) {
-                JOptionPane.showMessageDialog(null, "Empty signature");
+                JOptionPane.showMessageDialog(this, "Empty signature");
                 return;
             }
             byte[] signature;
             try {
                 signature = Base64.decode(signatureText);
             } catch (DecoderException e) {
-                JOptionPane.showMessageDialog(null, "Invalid signature");
+                JOptionPane.showMessageDialog(this, "Invalid signature");
                 return;
             }
             
             mainController.verifyMessage(device, address, signature, message);
         } else {
-            JOptionPane.showMessageDialog(null, "Device detached");
+            JOptionPane.showMessageDialog(this, "Device detached");
         }
     }//GEN-LAST:event_verifyButtonActionPerformed
 
@@ -481,7 +481,7 @@ public class SignMessageDialog extends javax.swing.JDialog implements WindowList
                     BWalletMessage.Success success = (BWalletMessage.Success) event.getMessage().get();
                     msg = success.getMessage();
                 }
-                JOptionPane.showMessageDialog(null, msg);
+                JOptionPane.showMessageDialog(this, msg);
                 break;
             case SHOW_OPERATION_FAILED:
                 messageDialog.setVisible(false);
@@ -489,7 +489,7 @@ public class SignMessageDialog extends javax.swing.JDialog implements WindowList
                     BWalletMessage.Failure failure = (BWalletMessage.Failure) event.getMessage().get();
                     msg = failure.getMessage();
                 }
-                JOptionPane.showMessageDialog(null, msg);
+                JOptionPane.showMessageDialog(this, msg);
                 break;
             default:
                 break;
@@ -503,8 +503,10 @@ public class SignMessageDialog extends javax.swing.JDialog implements WindowList
             if (hidDevice.getPath() != null && hidDevice.getPath().equals(device.getPath())) {
                 device = null;
                 messageDialog.setVisible(false);
-                JOptionPane.showMessageDialog(null, "Device detached");
+                JOptionPane.showMessageDialog(this, "Device detached");
             }
+        } else if (event.getEventType() == MessageEventType.DEVICE_FAILED) {
+            JOptionPane.showMessageDialog(this, "Device could not be opened.\r\nMake sure you don't have running another client!");
         }
     }
 

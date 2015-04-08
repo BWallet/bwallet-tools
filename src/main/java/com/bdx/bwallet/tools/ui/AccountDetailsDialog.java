@@ -78,7 +78,7 @@ public class AccountDetailsDialog extends javax.swing.JDialog implements WindowL
         JOptionPane messagePanel = new JOptionPane("Please confirm the action on your device.", JOptionPane.INFORMATION_MESSAGE,
                 JOptionPane.DEFAULT_OPTION, null,
                 new Object[]{}, null);
-        messageDialog = messagePanel.createDialog(null, "Get Account Details");
+        messageDialog = messagePanel.createDialog(this, "Get Account Details");
         messageDialog.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
         messageDialog.setSize(400, 150);
         messageDialog.setLocationRelativeTo(null);
@@ -375,18 +375,18 @@ public class AccountDetailsDialog extends javax.swing.JDialog implements WindowL
         if (device != null) {
             String indexText = accountIndexTextField.getText();
             if ("".equals(indexText)) {
-                JOptionPane.showMessageDialog(null, "Empty account index");
+                JOptionPane.showMessageDialog(this, "Empty account index");
                 return;
             }
             int index;
             try {
                 index = Integer.parseInt(indexText);
             } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(null, "Invalid account index");
+                JOptionPane.showMessageDialog(this, "Invalid account index");
                 return;
             }
             if (index < 1) {
-                JOptionPane.showMessageDialog(null, "Account index must be greater than or equal to 1");
+                JOptionPane.showMessageDialog(this, "Account index must be greater than or equal to 1");
                 return;
             }
             List<ChildNumber> childNumbers = new ArrayList();
@@ -395,7 +395,7 @@ public class AccountDetailsDialog extends javax.swing.JDialog implements WindowL
             childNumbers.add(new ChildNumber(index - 1, true));
             mainController.getDeterministicHierarchy(device, childNumbers);
         } else {
-            JOptionPane.showMessageDialog(null, "Device detached");
+            JOptionPane.showMessageDialog(this, "Device detached");
         }
     }//GEN-LAST:event_getButtonActionPerformed
 
@@ -511,7 +511,7 @@ public class AccountDetailsDialog extends javax.swing.JDialog implements WindowL
                     BWalletMessage.Success success = (BWalletMessage.Success) event.getMessage().get();
                     msg = success.getMessage();
                 }
-                JOptionPane.showMessageDialog(null, msg);
+                JOptionPane.showMessageDialog(this, msg);
                 break;
             case SHOW_OPERATION_FAILED:
                 messageDialog.setVisible(false);
@@ -520,7 +520,7 @@ public class AccountDetailsDialog extends javax.swing.JDialog implements WindowL
                     BWalletMessage.Failure failure = (BWalletMessage.Failure) event.getMessage().get();
                     msg = failure.getMessage();
                 }
-                JOptionPane.showMessageDialog(null, msg);
+                JOptionPane.showMessageDialog(this, msg);
                 break;
             default:
                 break;
@@ -534,8 +534,10 @@ public class AccountDetailsDialog extends javax.swing.JDialog implements WindowL
             if (hidDevice.getPath() != null && hidDevice.getPath().equals(device.getPath())) {
                 device = null;
                 messageDialog.setVisible(false);
-                JOptionPane.showMessageDialog(null, "Device detached");
+                JOptionPane.showMessageDialog(this, "Device detached");
             }
+        } else if (event.getEventType() == MessageEventType.DEVICE_FAILED) {
+            JOptionPane.showMessageDialog(this, "Device could not be opened.\r\nMake sure you don't have running another client!");
         }
     }
 

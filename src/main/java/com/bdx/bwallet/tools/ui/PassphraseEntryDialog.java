@@ -89,7 +89,7 @@ public class PassphraseEntryDialog extends javax.swing.JDialog implements Window
         String confirmPassphrase = new String(confirmPassphraseField.getPassword());
         
         if (!passphrase.equals(confirmPassphrase)) {
-            JOptionPane.showMessageDialog(null, "The passwords you typed do not match. ");
+            JOptionPane.showMessageDialog(this, "The passwords you typed do not match. ");
             return ;
         }
         

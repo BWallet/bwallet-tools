@@ -264,7 +264,7 @@ public class RecoveryDeviceDialog extends javax.swing.JDialog implements WindowL
             
             mainController.recoverDevice(device, language.getValue(), label, seedLength, passphraseProtection, pinProtection, true);
         } else {
-            JOptionPane.showMessageDialog(null, "Device detached");
+            JOptionPane.showMessageDialog(this, "Device detached");
         }
     }//GEN-LAST:event_continueButtonActionPerformed
 
@@ -319,7 +319,7 @@ public class RecoveryDeviceDialog extends javax.swing.JDialog implements WindowL
                 break;
             case SHOW_OPERATION_SUCCEEDED:
                 wordEntryDialog.setVisible(false);
-                JOptionPane.showMessageDialog(null, "Recovery was successful");
+                JOptionPane.showMessageDialog(this, "Recovery was successful");
                 this.dispose();
                 break;
             case SHOW_OPERATION_FAILED:
@@ -329,7 +329,7 @@ public class RecoveryDeviceDialog extends javax.swing.JDialog implements WindowL
                     BWalletMessage.Failure failure = (BWalletMessage.Failure) event.getMessage().get();
                     msg = msg + " : " + failure.getMessage();
                 }
-                JOptionPane.showMessageDialog(null, msg);
+                JOptionPane.showMessageDialog(this, msg);
                 break;
             default:
                 break;
@@ -343,8 +343,10 @@ public class RecoveryDeviceDialog extends javax.swing.JDialog implements WindowL
             if (hidDevice.getPath() != null && hidDevice.getPath().equals(device.getPath())) {
                 device = null;
                 wordEntryDialog.setVisible(false);
-                JOptionPane.showMessageDialog(null, "Device detached");
+                JOptionPane.showMessageDialog(this, "Device detached");
             }
+        } else if (event.getEventType() == MessageEventType.DEVICE_FAILED) {
+            JOptionPane.showMessageDialog(this, "Device could not be opened.\r\nMake sure you don't have running another client!");
         }
     }
 

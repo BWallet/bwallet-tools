@@ -224,20 +224,20 @@ public class GetPublicKeyDialog extends javax.swing.JDialog implements WindowLis
         if (device != null) {
             String path = pathTextField.getText();
             if (StringUtils.isBlank(path)) {
-                JOptionPane.showMessageDialog(null, "Please enter the BIP32 Path");
+                JOptionPane.showMessageDialog(this, "Please enter the BIP32 Path");
             } else if (!path.startsWith("m")) {
-                JOptionPane.showMessageDialog(null, "BIP32 Path must be start with 'm'");
+                JOptionPane.showMessageDialog(this, "BIP32 Path must be start with 'm'");
             } else {
                 try {
                     List<ChildNumber> childNumbers = this.pathToChildNumbers(path);
                     mainController.getDeterministicHierarchy(device, childNumbers);
                     this.childNumbers = childNumbers;
                 } catch (IllegalArgumentException e) {
-                    JOptionPane.showMessageDialog(null, "Invalid BIP32 Path");
+                    JOptionPane.showMessageDialog(this, "Invalid BIP32 Path");
                 }
             }
         } else {
-            JOptionPane.showMessageDialog(null, "Device detached");
+            JOptionPane.showMessageDialog(this, "Device detached");
         }
     }//GEN-LAST:event_getButtonActionPerformed
 
@@ -315,7 +315,7 @@ public class GetPublicKeyDialog extends javax.swing.JDialog implements WindowLis
                     BWalletMessage.Failure failure = (BWalletMessage.Failure) event.getMessage().get();
                     msg = msg + " : " + failure.getMessage();
                 }
-                JOptionPane.showMessageDialog(null, msg);
+                JOptionPane.showMessageDialog(this, msg);
                 break;
             default:
                 break;
@@ -328,8 +328,10 @@ public class GetPublicKeyDialog extends javax.swing.JDialog implements WindowLis
             HidDevice hidDevice = event.getDevice().get();
             if (hidDevice.getPath() != null && hidDevice.getPath().equals(device.getPath())) {
                 device = null;
-                JOptionPane.showMessageDialog(null, "Device detached");
+                JOptionPane.showMessageDialog(this, "Device detached");
             }
+        } else if (event.getEventType() == MessageEventType.DEVICE_FAILED) {
+            JOptionPane.showMessageDialog(this, "Device could not be opened.\r\nMake sure you don't have running another client!");
         }
     }
 

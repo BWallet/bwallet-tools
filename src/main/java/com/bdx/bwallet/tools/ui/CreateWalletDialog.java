@@ -56,7 +56,7 @@ public class CreateWalletDialog extends javax.swing.JDialog implements WindowLis
         JOptionPane messagePanel = new JOptionPane("Please confirm on your device.", JOptionPane.INFORMATION_MESSAGE,
                 JOptionPane.DEFAULT_OPTION, null,
                 new Object[]{}, null);
-        messageDialog = messagePanel.createDialog(null, "Device Setup");
+        messageDialog = messagePanel.createDialog(this, "Device Setup");
         messageDialog.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
         messageDialog.setSize(670, 150);
         messageDialog.setLocationRelativeTo(null);
@@ -281,12 +281,6 @@ public class CreateWalletDialog extends javax.swing.JDialog implements WindowLis
             boolean pinProtection = pinCheckBox.isSelected();
             boolean passphraseProtection = passphraseCheckBox.isSelected();
             int seedLength = lengthSlider.getValue();
-
-            System.out.println(language.getValue());
-            System.out.println(label);
-            System.out.println(pinProtection);
-            System.out.println(passphraseProtection);
-            System.out.println((seedLength / 6) * 64);
             
             recoveryStarted = false;
             recoveryWords = seedLength;
@@ -295,7 +289,7 @@ public class CreateWalletDialog extends javax.swing.JDialog implements WindowLis
 
             mainController.createWallet(device, language.getValue(), label, false, pinProtection, passphraseProtection, (seedLength / 6) * 64);
         } else {
-            JOptionPane.showMessageDialog(null, "Device detached");
+            JOptionPane.showMessageDialog(this, "Device detached");
         }
     }//GEN-LAST:event_continueButtonActionPerformed
 
@@ -387,7 +381,7 @@ public class CreateWalletDialog extends javax.swing.JDialog implements WindowLis
                 break;
             case SHOW_OPERATION_SUCCEEDED:
                 messageDialog.setVisible(false);
-                JOptionPane.showMessageDialog(null, "Setup was successful");
+                JOptionPane.showMessageDialog(this, "Setup was successful");
                 this.dispose();
                 break;
             case SHOW_OPERATION_FAILED:
@@ -397,7 +391,7 @@ public class CreateWalletDialog extends javax.swing.JDialog implements WindowLis
                     BWalletMessage.Failure failure = (BWalletMessage.Failure) event.getMessage().get();
                     msg = msg + " : " + failure.getMessage();
                 }
-                JOptionPane.showMessageDialog(null, msg);
+                JOptionPane.showMessageDialog(this, msg);
                 break;
             default:
                 break;
@@ -411,8 +405,10 @@ public class CreateWalletDialog extends javax.swing.JDialog implements WindowLis
             if (hidDevice.getPath() != null && hidDevice.getPath().equals(device.getPath())) {
                 device = null;
                 messageDialog.setVisible(false);
-                JOptionPane.showMessageDialog(null, "Device detached");
+                JOptionPane.showMessageDialog(this, "Device detached");
             }
+        } else if (event.getEventType() == MessageEventType.DEVICE_FAILED) {
+            JOptionPane.showMessageDialog(this, "Device could not be opened.\r\nMake sure you don't have running another client!");
         }
     }
 

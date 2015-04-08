@@ -156,7 +156,7 @@ public class HidWallet extends AbstractWallet {
             attach();
             if (!locatedDevice.isPresent()) {
                 log.debug("Failed to locate. Device must be detached.");
-                MessageEvents.fireMessageEvent(MessageEventType.DEVICE_DETACHED);
+                MessageEvents.fireMessageEvent(MessageEventType.DEVICE_FAILED);
                 return false;
             }
         }

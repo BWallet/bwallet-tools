@@ -48,7 +48,7 @@ public class WipeDeviceDialog extends javax.swing.JDialog implements WindowListe
         JOptionPane messagePanel = new JOptionPane("This action cannot be undone. Please confirm on your device.", JOptionPane.INFORMATION_MESSAGE,
                 JOptionPane.DEFAULT_OPTION, null,
                 new Object[]{}, null);
-        messageDialog = messagePanel.createDialog(null, "Wipe Device");
+        messageDialog = messagePanel.createDialog(this, "Wipe Device");
         messageDialog.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
         messageDialog.setSize(400, 150);
         messageDialog.setLocationRelativeTo(null);
@@ -129,7 +129,7 @@ public class WipeDeviceDialog extends javax.swing.JDialog implements WindowListe
         if (device != null)
             mainController.wipeDevice(device);
         else 
-            JOptionPane.showMessageDialog(null, "Device detached");
+            JOptionPane.showMessageDialog(this, "Device detached");
     }//GEN-LAST:event_wipeButtonActionPerformed
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
@@ -149,7 +149,7 @@ public class WipeDeviceDialog extends javax.swing.JDialog implements WindowListe
                 break;
             case SHOW_OPERATION_SUCCEEDED:
                 messageDialog.setVisible(false);
-                JOptionPane.showMessageDialog(null, "Wipe was successful");
+                JOptionPane.showMessageDialog(this, "Wipe was successful");
                 this.dispose();
                 break;
             case SHOW_OPERATION_FAILED:
@@ -159,7 +159,7 @@ public class WipeDeviceDialog extends javax.swing.JDialog implements WindowListe
                     Failure failure = (Failure)event.getMessage().get();
                     msg = msg + " : " + failure.getMessage();
                 }
-                JOptionPane.showMessageDialog(null, msg);
+                JOptionPane.showMessageDialog(this, msg);
                 break;
             default:
                 break;
@@ -173,8 +173,10 @@ public class WipeDeviceDialog extends javax.swing.JDialog implements WindowListe
             if (hidDevice.getPath() != null && hidDevice.getPath().equals(device.getPath())) {
                 device = null;
                 messageDialog.setVisible(false);
-                JOptionPane.showMessageDialog(null, "Device detached");
+                JOptionPane.showMessageDialog(this, "Device detached");
             }
+        } else if (event.getEventType() == MessageEventType.DEVICE_FAILED) {
+            JOptionPane.showMessageDialog(this, "Device could not be opened.\r\nMake sure you don't have running another client!");
         }
     }
     

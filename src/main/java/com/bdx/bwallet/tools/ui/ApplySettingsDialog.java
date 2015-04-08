@@ -74,7 +74,7 @@ public class ApplySettingsDialog extends javax.swing.JDialog implements WindowLi
         JOptionPane messagePanel = new JOptionPane("Please confirm the action on your device.", JOptionPane.INFORMATION_MESSAGE,
                 JOptionPane.DEFAULT_OPTION, null,
                 new Object[]{}, null);
-        messageDialog = messagePanel.createDialog(null, "Apply Settings");
+        messageDialog = messagePanel.createDialog(this, "Apply Settings");
         messageDialog.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
         messageDialog.setSize(400, 150);
         messageDialog.setLocationRelativeTo(null);
@@ -189,7 +189,7 @@ public class ApplySettingsDialog extends javax.swing.JDialog implements WindowLi
             String label = labelTextField.getText();
             mainController.applySettings(device, language.getValue(), label);
         } else 
-            JOptionPane.showMessageDialog(null, "Device detached");
+            JOptionPane.showMessageDialog(this, "Device detached");
     }//GEN-LAST:event_applyButtonActionPerformed
 
     private void languageComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_languageComboBoxActionPerformed
@@ -237,7 +237,7 @@ public class ApplySettingsDialog extends javax.swing.JDialog implements WindowLi
                 break;
             case SHOW_OPERATION_SUCCEEDED:
                 messageDialog.setVisible(false);
-                JOptionPane.showMessageDialog(null, "Apply Settings was successful");
+                JOptionPane.showMessageDialog(this, "Apply Settings was successful");
                 this.dispose();
                 break;
             case SHOW_OPERATION_FAILED:
@@ -247,7 +247,7 @@ public class ApplySettingsDialog extends javax.swing.JDialog implements WindowLi
                     BWalletMessage.Failure failure = (BWalletMessage.Failure)event.getMessage().get();
                     msg = failure.getMessage();
                 }
-                JOptionPane.showMessageDialog(null, msg);
+                JOptionPane.showMessageDialog(this, msg);
                 break;
             default:
                 break;
@@ -261,7 +261,7 @@ public class ApplySettingsDialog extends javax.swing.JDialog implements WindowLi
             if (hidDevice.getPath() != null && hidDevice.getPath().equals(device.getPath())) {
                 device = null;
                 messageDialog.setVisible(false);
-                JOptionPane.showMessageDialog(null, "Device detached");
+                JOptionPane.showMessageDialog(this, "Device detached");
             }
         }
     }

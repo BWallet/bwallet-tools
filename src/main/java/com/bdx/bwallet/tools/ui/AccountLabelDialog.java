@@ -68,7 +68,7 @@ public class AccountLabelDialog extends javax.swing.JDialog implements WindowLis
         JOptionPane messagePanel = new JOptionPane("Please confirm the action on your device.", JOptionPane.INFORMATION_MESSAGE,
                 JOptionPane.DEFAULT_OPTION, null,
                 new Object[]{}, null);
-        messageDialog = messagePanel.createDialog(null, "Account Label Setting");
+        messageDialog = messagePanel.createDialog(this, "Account Label Setting");
         messageDialog.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
         messageDialog.setSize(400, 150);
         messageDialog.setLocationRelativeTo(null);
@@ -97,7 +97,7 @@ public class AccountLabelDialog extends javax.swing.JDialog implements WindowLis
                     Integer index = (Integer) ((DefaultTableModel) table.getModel()).getValueAt(modelRow, 0);
                     mainController.removeAccountLabel(device, (String) coinComboBox.getSelectedItem(), index);
                 } else {
-                    JOptionPane.showMessageDialog(null, "Device detached");
+                    JOptionPane.showMessageDialog(AccountLabelDialog.this, "Device detached");
                 }
             }
         };
@@ -122,7 +122,7 @@ public class AccountLabelDialog extends javax.swing.JDialog implements WindowLis
                         mainController.setAccountLabel(device, (String) coinComboBox.getSelectedItem(), index, l);
                     }
                 } else {
-                    JOptionPane.showMessageDialog(null, "Device detached");
+                    JOptionPane.showMessageDialog(AccountLabelDialog.this, "Device detached");
                 }
             }
         };
@@ -140,7 +140,7 @@ public class AccountLabelDialog extends javax.swing.JDialog implements WindowLis
                     if (AccountLabelDialog.this.device != null) {
                         AccountLabelDialog.this.mainController.getAccountLabels(AccountLabelDialog.this.device, (String) e.getItem(), true, 1);
                     } else {
-                        JOptionPane.showMessageDialog(null, "Device detached");
+                        JOptionPane.showMessageDialog(AccountLabelDialog.this, "Device detached");
                     }
                 } else if (e.getStateChange() == ItemEvent.DESELECTED) {
                 }
@@ -237,7 +237,7 @@ public class AccountLabelDialog extends javax.swing.JDialog implements WindowLis
         if (device != null) {
             DefaultTableModel wordTableModel = (DefaultTableModel) labelTable.getModel();
             if (wordTableModel.getRowCount() >= 32) {
-                JOptionPane.showMessageDialog(null, "The maximum amount of the Account Label cannot be more than 32.");
+                JOptionPane.showMessageDialog(this, "The maximum amount of the Account Label cannot be more than 32.");
                 return ;
             }
             AccountLabelEntryDialog entryDialog = new AccountLabelEntryDialog(this, true, false, Optional.<Integer>absent(), Optional.<String>absent());
@@ -252,7 +252,7 @@ public class AccountLabelDialog extends javax.swing.JDialog implements WindowLis
                 mainController.setAccountLabel(device, coin, index, label);
             }
         } else {
-            JOptionPane.showMessageDialog(null, "Device detached");
+            JOptionPane.showMessageDialog(this, "Device detached");
         }
     }//GEN-LAST:event_settingButtonActionPerformed
 
@@ -313,7 +313,7 @@ public class AccountLabelDialog extends javax.swing.JDialog implements WindowLis
                     BWalletMessage.Success success = (BWalletMessage.Success) event.getMessage().get();
                     msg = success.getMessage();
                 }
-                JOptionPane.showMessageDialog(null, msg);
+                JOptionPane.showMessageDialog(this, msg);
                 loadLables();
                 break;
             case SHOW_OPERATION_FAILED:
@@ -323,7 +323,7 @@ public class AccountLabelDialog extends javax.swing.JDialog implements WindowLis
                     BWalletMessage.Failure failure = (BWalletMessage.Failure) event.getMessage().get();
                     msg = failure.getMessage();
                 }
-                JOptionPane.showMessageDialog(null, msg);
+                JOptionPane.showMessageDialog(this, msg);
                 break;
             default:
                 break;
@@ -337,7 +337,7 @@ public class AccountLabelDialog extends javax.swing.JDialog implements WindowLis
             if (hidDevice.getPath() != null && hidDevice.getPath().equals(device.getPath())) {
                 device = null;
                 messageDialog.setVisible(false);
-                JOptionPane.showMessageDialog(null, "Device detached");
+                JOptionPane.showMessageDialog(this, "Device detached");
             }
         }
     }

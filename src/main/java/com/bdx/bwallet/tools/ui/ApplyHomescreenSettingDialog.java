@@ -53,7 +53,7 @@ public class ApplyHomescreenSettingDialog extends javax.swing.JDialog implements
         JOptionPane messagePanel = new JOptionPane("Please confirm the action on your device.", JOptionPane.INFORMATION_MESSAGE,
                 JOptionPane.DEFAULT_OPTION, null,
                 new Object[]{}, null);
-        messageDialog = messagePanel.createDialog(null, "Homescreen Setting");
+        messageDialog = messagePanel.createDialog(this, "Homescreen Setting");
         messageDialog.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
         messageDialog.setSize(400, 150);
         messageDialog.setLocationRelativeTo(null);
@@ -164,9 +164,9 @@ public class ApplyHomescreenSettingDialog extends javax.swing.JDialog implements
             if (file != null) {
                 mainController.applySettings(device, file);
             } else
-                JOptionPane.showMessageDialog(null, "Please choose a bitmap file");
+                JOptionPane.showMessageDialog(this, "Please choose a bitmap file");
         } else 
-            JOptionPane.showMessageDialog(null, "Device detached");
+            JOptionPane.showMessageDialog(this, "Device detached");
     }//GEN-LAST:event_applyButtonActionPerformed
 
     private void fileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fileButtonActionPerformed
@@ -215,7 +215,7 @@ public class ApplyHomescreenSettingDialog extends javax.swing.JDialog implements
                 break;
             case SHOW_OPERATION_SUCCEEDED:
                 messageDialog.setVisible(false);
-                JOptionPane.showMessageDialog(null, "Apply Settings was successful");
+                JOptionPane.showMessageDialog(this, "Apply Settings was successful");
                 this.dispose();
                 break;
             case SHOW_OPERATION_FAILED:
@@ -225,7 +225,7 @@ public class ApplyHomescreenSettingDialog extends javax.swing.JDialog implements
                     BWalletMessage.Failure failure = (BWalletMessage.Failure)event.getMessage().get();
                     msg = failure.getMessage();
                 }
-                JOptionPane.showMessageDialog(null, msg);
+                JOptionPane.showMessageDialog(this, msg);
                 break;
             default:
                 break;
@@ -239,7 +239,7 @@ public class ApplyHomescreenSettingDialog extends javax.swing.JDialog implements
             if (hidDevice.getPath() != null && hidDevice.getPath().equals(device.getPath())) {
                 device = null;
                 messageDialog.setVisible(false);
-                JOptionPane.showMessageDialog(null, "Device detached");
+                JOptionPane.showMessageDialog(this, "Device detached");
             }
         }
     }
