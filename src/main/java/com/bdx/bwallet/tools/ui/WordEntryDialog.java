@@ -16,6 +16,7 @@ import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.table.DefaultTableModel;
+import org.apache.commons.lang3.StringUtils;
 import org.bitcoinj.crypto.MnemonicCode;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
@@ -158,7 +159,7 @@ public class WordEntryDialog extends javax.swing.JDialog implements WindowListen
         if ("comboBoxEdited".equals(evt.getActionCommand())) {
             // User has typed in a string; only possible with an editable combobox
             String word = (String)cb.getSelectedItem();
-            if (!"".equals(word)) {
+            if (StringUtils.isNotBlank(word)) {
                 System.out.println(word);
                 this.disableWordComboBox();
                 mainController.provideWord(word);
