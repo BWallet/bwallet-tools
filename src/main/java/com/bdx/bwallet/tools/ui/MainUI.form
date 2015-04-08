@@ -74,7 +74,7 @@
                                   </Group>
                               </Group>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="accountInfoButton" min="-2" pref="160" max="-2" attributes="0"/>
+                              <Component id="accountDetailsButton" min="-2" pref="160" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="signAndVerifyButton" min="-2" pref="160" max="-2" attributes="0"/>
                           </Group>
@@ -114,7 +114,7 @@
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="getPublicKeyButton" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="getBlHashButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="accountInfoButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="accountDetailsButton" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="signAndVerifyButton" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -233,10 +233,13 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="getBlHashButtonActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="accountInfoButton">
+    <Component class="javax.swing.JButton" name="accountDetailsButton">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Get Account Info"/>
+        <Property name="text" type="java.lang.String" value="Get Account Details"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="accountDetailsButtonActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="updateFirmwareButton">
       <Properties>

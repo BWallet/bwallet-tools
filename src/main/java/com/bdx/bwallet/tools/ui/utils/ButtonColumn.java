@@ -1,4 +1,4 @@
-package com.bdx.bwallet.tools.ui.swing;
+package com.bdx.bwallet.tools.ui.utils;
 
 import java.awt.*;
 import java.awt.event.*;

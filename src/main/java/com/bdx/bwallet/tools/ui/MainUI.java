@@ -15,14 +15,12 @@ import com.bdx.bwallet.tools.core.events.MessageEventType;
 import com.bdx.bwallet.tools.core.events.MessageEvents;
 import com.bdx.bwallet.tools.core.utils.FirmwareVersion;
 import com.bdx.bwallet.tools.model.Device;
+import com.bdx.bwallet.tools.ui.utils.BrowserUtils;
 import com.google.common.base.Optional;
 import com.google.common.eventbus.Subscribe;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.protobuf.ByteString;
-import java.awt.Desktop;
 import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -40,8 +38,6 @@ import org.spongycastle.util.encoders.Hex;
  * @author Administrator
  */
 public class MainUI extends javax.swing.JFrame {
-
-    private final Desktop desktop = Desktop.isDesktopSupported() ? Desktop.getDesktop() : null;
 
     private MainController mainController = new MainController();
 
@@ -151,7 +147,7 @@ public class MainUI extends javax.swing.JFrame {
         wipeDeviceButton = new javax.swing.JButton();
         getPublicKeyButton = new javax.swing.JButton();
         getBlHashButton = new javax.swing.JButton();
-        accountInfoButton = new javax.swing.JButton();
+        accountDetailsButton = new javax.swing.JButton();
         updateFirmwareButton = new javax.swing.JButton();
         applySettingsButton = new javax.swing.JButton();
         changePinButton = new javax.swing.JButton();
@@ -236,7 +232,12 @@ public class MainUI extends javax.swing.JFrame {
             }
         });
 
-        accountInfoButton.setText("Get Account Info");
+        accountDetailsButton.setText("Get Account Details");
+        accountDetailsButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                accountDetailsButtonActionPerformed(evt);
+            }
+        });
 
         updateFirmwareButton.setText("Update Firmware");
         updateFirmwareButton.addActionListener(new java.awt.event.ActionListener() {
@@ -338,7 +339,7 @@ public class MainUI extends javax.swing.JFrame {
                                         .addGap(18, 18, 18)
                                         .addComponent(testScreenButton, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addGap(18, 18, 18)
-                                .addComponent(accountInfoButton, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(accountDetailsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(signAndVerifyButton, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(0, 0, Short.MAX_VALUE)))
@@ -369,7 +370,7 @@ public class MainUI extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(getPublicKeyButton)
                     .addComponent(getBlHashButton)
-                    .addComponent(accountInfoButton)
+                    .addComponent(accountDetailsButton)
                     .addComponent(signAndVerifyButton))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -433,7 +434,7 @@ public class MainUI extends javax.swing.JFrame {
 
     private void buyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buyButtonActionPerformed
         try {
-            this.openWebpage(new URL(buyUrl));
+            BrowserUtils.openWebpage(new URL(buyUrl));
         } catch (MalformedURLException ex) {
             Logger.getLogger(MainUI.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -630,22 +631,18 @@ public class MainUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_setAccountLabelActionPerformed
 
-    protected void openWebpage(URI uri) {
-        if (desktop != null && desktop.isSupported(Desktop.Action.BROWSE)) {
-            try {
-                desktop.browse(uri);
-            } catch (Exception e) {
-            }
+    private void accountDetailsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_accountDetailsButtonActionPerformed
+        Device device = getSelectDevice();
+        if (device != null) {
+            AccountDetailsDialog accountDetailsDialog = new AccountDetailsDialog(this, true, mainController, device);
+            accountDetailsDialog.setLocationRelativeTo(null);
+            accountDetailsDialog.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(null, "Please select a device.");
         }
-    }
+    }//GEN-LAST:event_accountDetailsButtonActionPerformed
 
-    protected void openWebpage(URL url) {
-        try {
-            openWebpage(url.toURI());
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
-    }
+    
 
     /**
      * @param args the command line arguments
@@ -687,7 +684,7 @@ public class MainUI extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton aboutButton;
-    private javax.swing.JButton accountInfoButton;
+    private javax.swing.JButton accountDetailsButton;
     private javax.swing.JButton applySettingsButton;
     private javax.swing.JButton buyButton;
     private javax.swing.JButton changePinButton;

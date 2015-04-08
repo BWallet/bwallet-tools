@@ -29,7 +29,6 @@ import org.bitcoinj.wallet.KeyChain;
 import org.hid4java.HidDevice;
 import org.spongycastle.util.encoders.Base64;
 import org.spongycastle.util.encoders.DecoderException;
-import org.spongycastle.util.encoders.Hex;
 
 /**
  *

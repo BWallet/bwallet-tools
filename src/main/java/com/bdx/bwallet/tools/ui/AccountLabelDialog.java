@@ -14,7 +14,8 @@ import com.bdx.bwallet.tools.core.events.MessageEvent;
 import com.bdx.bwallet.tools.core.events.MessageEventType;
 import com.bdx.bwallet.tools.core.events.MessageEvents;
 import com.bdx.bwallet.tools.model.Device;
-import com.bdx.bwallet.tools.ui.swing.ButtonColumn;
+import com.bdx.bwallet.tools.ui.utils.ButtonColumn;
+import com.bdx.bwallet.tools.ui.utils.IconUtils;
 import com.google.common.base.Optional;
 import com.google.common.eventbus.Subscribe;
 import java.awt.event.ActionEvent;
@@ -46,8 +47,8 @@ public class AccountLabelDialog extends javax.swing.JDialog implements WindowLis
 
     private Device device;
 
-    private final ImageIcon editIcon = createImageIcon("/icons/edit.png", "Edit");
-    private final ImageIcon removeIcon = createImageIcon("/icons/remove.png", "Remove");
+    private final ImageIcon editIcon = IconUtils.createImageIcon("/icons/edit.png", "Edit");
+    private final ImageIcon removeIcon = IconUtils.createImageIcon("/icons/remove.png", "Remove");
 
     /**
      * Creates new form ApplySettingsDialog
@@ -379,17 +380,6 @@ public class AccountLabelDialog extends javax.swing.JDialog implements WindowLis
 
     @Override
     public void windowDeactivated(WindowEvent e) {
-    }
-
-    protected ImageIcon createImageIcon(String path,
-            String description) {
-        java.net.URL imgURL = getClass().getResource(path);
-        if (imgURL != null) {
-            return new ImageIcon(imgURL, description);
-        } else {
-            System.err.println("Couldn't find file: " + path);
-            return null;
-        }
     }
 
     /**
