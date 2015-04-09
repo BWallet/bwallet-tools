@@ -39,7 +39,7 @@ import org.spongycastle.util.encoders.Hex;
  */
 public class MainUI extends javax.swing.JFrame {
 
-    private MainController mainController = new MainController();
+    private final MainController mainController = new MainController();
 
     private final String buyUrl = "https://bidingxing.com/bwallet";
 
@@ -79,53 +79,6 @@ public class MainUI extends javax.swing.JFrame {
 
     @Subscribe
     public void onHardwareWalletEvent(HardwareWalletEvent event) {
-        //log.debug("{} Received hardware event: '{}'.", this, event.getEventType().name());
-        switch (event.getEventType()) {
-            case SHOW_DEVICE_FAILED:
-                //handleDeviceFailed(event);
-                break;
-            case SHOW_DEVICE_READY:
-                //handleDeviceReady(event);
-                break;
-            case SHOW_DEVICE_DETACHED:
-                //handleDeviceDetached(event);
-                break;
-            case SHOW_DEVICE_STOPPED:
-                //handleDeviceStopped(event);
-                break;
-            case SHOW_PIN_ENTRY:
-                //handlePINEntry(event);
-                break;
-            case SHOW_BUTTON_PRESS:
-                //handleButtonPress(event);
-                break;
-            case SHOW_OPERATION_SUCCEEDED:
-                //handleOperationSucceeded(event);
-                break;
-            case SHOW_OPERATION_FAILED:
-                //handleOperationFailed(event);
-                break;
-            case PROVIDE_ENTROPY:
-                //handleProvideEntropy(event);
-                break;
-            case ADDRESS:
-                //handleReceivedAddress(event);
-                break;
-            case PUBLIC_KEY:
-                //handleReceivedPublicKey(event);
-                break;
-            case DETERMINISTIC_HIERARCHY:
-                //handleReceivedDeterministicHierarchy(event);
-                break;
-            case MESSAGE_SIGNATURE:
-                //handleReceivedMessageSignature(event);
-                break;
-            case SHOW_WORD_ENTRY:
-                break;
-            default:
-                //log.warn("Unknown hardware wallet event type: {}", event.getEventType().name());
-                break;
-        }
     }
 
     /**
@@ -561,7 +514,7 @@ public class MainUI extends javax.swing.JFrame {
                 FirmwareVersion firmwareVersion = new FirmwareVersion(features);
                 System.out.println(firmwareVersion.toString());
                 if (!firmwareVersion.ge(1, 3, 1)) {
-                    JOptionPane.showMessageDialog(this, "Unsupported firmware:" + firmwareVersion.toString());
+                    JOptionPane.showMessageDialog(this, "Unsupported firmware:" + firmwareVersion.toString() + "\r\nFirmware version 1.3.1 or above is required.");
                     return ;
                 }
                 
@@ -594,7 +547,7 @@ public class MainUI extends javax.swing.JFrame {
                 FirmwareVersion firmwareVersion = new FirmwareVersion(features);
                 System.out.println(firmwareVersion.toString());
                 if (!firmwareVersion.ge(1, 3, 1)) {
-                    JOptionPane.showMessageDialog(this, "Unsupported firmware:" + firmwareVersion.toString());
+                    JOptionPane.showMessageDialog(this, "Unsupported firmware:" + firmwareVersion.toString() + "\r\nFirmware version 1.3.1 or above is required.");
                     return ;
                 }
                 
@@ -626,7 +579,7 @@ public class MainUI extends javax.swing.JFrame {
                 FirmwareVersion firmwareVersion = new FirmwareVersion(features);
                 System.out.println(firmwareVersion.toString());
                 if (!firmwareVersion.ge(1, 3, 1)) {
-                    JOptionPane.showMessageDialog(this, "Unsupported firmware:" + firmwareVersion.toString());
+                    JOptionPane.showMessageDialog(this, "Unsupported firmware:" + firmwareVersion.toString() + "\r\nFirmware version 1.3.1 or above is required.");
                     return ;
                 }
                 

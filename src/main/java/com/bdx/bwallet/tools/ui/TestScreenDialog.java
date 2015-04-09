@@ -77,6 +77,7 @@ public class TestScreenDialog extends javax.swing.JDialog  implements WindowList
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Test Screen");
+        setResizable(false);
 
         testButton.setFont(new java.awt.Font("宋体", 0, 24)); // NOI18N
         testButton.setText("Test Screen");

@@ -185,8 +185,8 @@ public class WalletService implements HidServicesListener {
         List<HidDevice> devices = new ArrayList();
         List<HidDevice> attachedHidDevices = hidServices.getAttachedHidDevices();
         for (HidDevice hidDevice : attachedHidDevices) {
-            if (HidWallet.VENDOR_ID.equals(hidDevice.getVendorId())
-                && HidWallet.PRODUCT_ID.equals(hidDevice.getProductId())) {
+            if (HidWallet.VENDOR_ID == hidDevice.getVendorId()
+                && HidWallet.PRODUCT_ID == hidDevice.getProductId()) {
                 devices.add(hidDevice);
             }
         }

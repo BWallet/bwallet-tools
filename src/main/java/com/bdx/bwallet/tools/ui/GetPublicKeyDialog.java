@@ -101,6 +101,7 @@ public class GetPublicKeyDialog extends javax.swing.JDialog implements WindowLis
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Get Public Key");
+        setResizable(false);
 
         copyPublicKeyButton.setText("Copy");
         copyPublicKeyButton.addActionListener(new java.awt.event.ActionListener() {

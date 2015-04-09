@@ -106,6 +106,8 @@ public class ApplySettingsDialog extends javax.swing.JDialog implements WindowLi
         labelLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Apply Settings");
+        setResizable(false);
 
         cancelButton.setText("Cancel");
         cancelButton.addActionListener(new java.awt.event.ActionListener() {

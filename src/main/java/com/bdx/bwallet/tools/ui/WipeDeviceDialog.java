@@ -45,12 +45,14 @@ public class WipeDeviceDialog extends javax.swing.JDialog implements WindowListe
         this.mainController = mainController;
         this.device = device;
         
-        JOptionPane messagePanel = new JOptionPane("This action cannot be undone. Please confirm on your device.", JOptionPane.INFORMATION_MESSAGE,
+        JOptionPane messagePanel = new JOptionPane("All data on your device will be deleted.\r\nThis action cannot be undone. Please confirm on your device.\r\n"
+                + "Never do this action with BWallet holding coins unless you have your recovery seed at hand.", 
+                JOptionPane.INFORMATION_MESSAGE,
                 JOptionPane.DEFAULT_OPTION, null,
                 new Object[]{}, null);
         messageDialog = messagePanel.createDialog(this, "Wipe Device");
         messageDialog.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
-        messageDialog.setSize(400, 150);
+        messageDialog.setSize(600, 150);
         messageDialog.setLocationRelativeTo(null);
         messageDialog.addWindowListener(new WindowAdapter(){
             @Override
@@ -73,11 +75,13 @@ public class WipeDeviceDialog extends javax.swing.JDialog implements WindowListe
     private void initComponents() {
 
         cancelButton = new javax.swing.JButton();
-        cautionLabel = new javax.swing.JLabel();
         wipeButton = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Do you really want to wipe the device?");
+        setResizable(false);
 
         cancelButton.setText("Close");
         cancelButton.addActionListener(new java.awt.event.ActionListener() {
@@ -86,8 +90,6 @@ public class WipeDeviceDialog extends javax.swing.JDialog implements WindowListe
             }
         });
 
-        cautionLabel.setText("All data from the device will be lost! You can recover your funds using recovery seed.");
-
         wipeButton.setText("Wipe");
         wipeButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -95,31 +97,39 @@ public class WipeDeviceDialog extends javax.swing.JDialog implements WindowListe
             }
         });
 
+        jTextArea1.setEditable(false);
+        jTextArea1.setColumns(20);
+        jTextArea1.setLineWrap(true);
+        jTextArea1.setRows(5);
+        jTextArea1.setText("Wiping the device removes all its information.\n\nUse this feature only if you have your Recovery Seed or you don't have any coins on your device.");
+        jScrollPane1.setViewportView(jTextArea1);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(185, 185, 185)
-                .addComponent(wipeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(51, 51, 51)
-                .addComponent(cancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(204, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(cautionLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 535, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(26, 26, 26))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(40, 40, 40)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 512, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(184, 184, 184)
+                        .addComponent(wipeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(51, 51, 51)
+                        .addComponent(cancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(40, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(57, 57, 57)
-                .addComponent(cautionLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 77, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
+                .addContainerGap(36, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(cancelButton)
                     .addComponent(wipeButton))
-                .addGap(73, 73, 73))
+                .addGap(38, 38, 38))
         );
 
         pack();
@@ -256,7 +266,8 @@ public class WipeDeviceDialog extends javax.swing.JDialog implements WindowListe
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cancelButton;
-    private javax.swing.JLabel cautionLabel;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JButton wipeButton;
     // End of variables declaration//GEN-END:variables
 }

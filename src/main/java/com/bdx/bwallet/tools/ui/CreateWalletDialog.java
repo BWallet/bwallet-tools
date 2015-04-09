@@ -21,7 +21,11 @@ import java.awt.event.WindowListener;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
+import javax.swing.JSlider;
+import javax.swing.JToolTip;
 import javax.swing.WindowConstants;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import org.hid4java.HidDevice;
 
 /**
@@ -60,7 +64,7 @@ public class CreateWalletDialog extends javax.swing.JDialog implements WindowLis
         messageDialog.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
         messageDialog.setSize(670, 150);
         messageDialog.setLocationRelativeTo(null);
-        messageDialog.addWindowListener(new WindowAdapter(){
+        messageDialog.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
                 System.out.println("windowClosing");
@@ -68,10 +72,37 @@ public class CreateWalletDialog extends javax.swing.JDialog implements WindowLis
             }
         });
 
+        labelTextField.setToolTipText("This label will be shown on the display when you plug your in. This is useful if you have more than one device.");
+        languageComboBox.setToolTipText("The language be used that your device displaying text.");
+        lengthSlider.setToolTipText("Your recovery seed is a sequence of words. It will help you recover your wallet (your bitcoins and transaction history), into another device should your be lost or destoyed.");
+        pinCheckBox.setToolTipText("<html>Using PIN protection is highly recommended. The PIN prevents unauthorized persons from stealing your bitcoins if they ever get physical access to your device.<br/>"
+                + "You can reset or change your PIN at any time after the setup is complete. Be careful with your recovery card. If anyone finds out your recovery seed they can steal your bitcoins even without your PIN.</html>");
+        passphraseCheckBox.setToolTipText("<html>Using an encryption passphrase adds an additional level of security. You'll be asked for your passphrase every time you want to access your wallet.<br/>"
+                + "<h4>Passphrase encryption is for experts only. Proceed with caution!</h4>"
+                + "Passphrase works like a 25th word of the seed which is not stored in the BWallet. If you forget your passphrase, your wallet is lost for good. There is absolutely no way to recover your funds.<br/>"
+                + "If you mistype your passphrase, a different wallet is created, which will look as if you had 0 BTC on your account.</html>");
+
         this.mainController = mainController;
         this.device = device;
 
         this.addWindowListener(this);
+        lengthSlider.addChangeListener(new ChangeListener() {
+            private boolean isUserTrigger = true;
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                JSlider source = (JSlider) e.getSource();
+                if (!source.getValueIsAdjusting() && isUserTrigger) {
+                    if (source.getValue() != 24) {
+                        int reply = JOptionPane.showConfirmDialog(CreateWalletDialog.this, "We strongly recommend that you use 24 words of Recovery seed.\r\nAre you sure want to change the Recovery seed length?", "", JOptionPane.YES_NO_OPTION);
+                        if (reply == JOptionPane.NO_OPTION) {
+                            isUserTrigger = false;
+                            source.setValue(24);
+                            isUserTrigger = true;
+                        }
+                    }
+                }
+            }
+        });
     }
 
     /**
@@ -200,9 +231,9 @@ public class CreateWalletDialog extends javax.swing.JDialog implements WindowLis
                 .addGroup(advancedPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(advancedPanelLayout.createSequentialGroup()
                         .addComponent(len12Label)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(206, 206, 206)
                         .addComponent(len18Label)
-                        .addGap(203, 203, 203)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(len24Label))
                     .addGroup(advancedPanelLayout.createSequentialGroup()
                         .addGroup(advancedPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -224,10 +255,10 @@ public class CreateWalletDialog extends javax.swing.JDialog implements WindowLis
                 .addComponent(lengthSlider, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(advancedPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(len24Label)
                     .addGroup(advancedPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(len24Label)
-                        .addComponent(len18Label, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(len12Label, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(len12Label, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(len18Label, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(pinLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -281,7 +312,7 @@ public class CreateWalletDialog extends javax.swing.JDialog implements WindowLis
             boolean pinProtection = pinCheckBox.isSelected();
             boolean passphraseProtection = passphraseCheckBox.isSelected();
             int seedLength = lengthSlider.getValue();
-            
+
             recoveryStarted = false;
             recoveryWords = seedLength;
             recoveryWordsDone = 0;
@@ -343,7 +374,7 @@ public class CreateWalletDialog extends javax.swing.JDialog implements WindowLis
                         msg = "Please check the " + ordinal(recoveryCurrentWord) + " word of your recovery seed.";
                     }
                 }
-                ((JOptionPane)messageDialog.getContentPane().getComponent(0)).setMessage(msg);
+                ((JOptionPane) messageDialog.getContentPane().getComponent(0)).setMessage(msg);
                 java.awt.EventQueue.invokeLater(new Runnable() {
                     public void run() {
                         messageDialog.setVisible(true);

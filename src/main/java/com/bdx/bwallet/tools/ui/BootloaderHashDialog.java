@@ -39,6 +39,7 @@ public class BootloaderHashDialog extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Get Bootloader Hash");
+        setResizable(false);
 
         contentTextArea.setEditable(false);
         contentTextArea.setColumns(20);
