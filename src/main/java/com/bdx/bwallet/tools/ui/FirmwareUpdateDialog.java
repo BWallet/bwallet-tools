@@ -14,7 +14,6 @@ import com.bdx.bwallet.tools.core.events.MessageEventType;
 import com.bdx.bwallet.tools.core.events.MessageEvents;
 import com.bdx.bwallet.tools.model.Device;
 import com.bdx.bwallet.tools.ui.utils.BrowserUtils;
-import com.bdx.bwallet.tools.ui.utils.FirmwareUtils;
 import com.google.common.base.Optional;
 import com.google.common.eventbus.Subscribe;
 import com.google.protobuf.Message;

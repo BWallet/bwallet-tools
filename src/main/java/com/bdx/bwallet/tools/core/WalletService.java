@@ -63,6 +63,10 @@ public class WalletService implements HidServicesListener {
         this.context = context;
     }
 
+    public void stop() {
+        hidServices.stop();
+    }
+    
     public void requestCancel() {
         // Let the state changes occur as a result of the internal messages
         context.getClient().cancel();

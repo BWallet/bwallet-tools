@@ -100,6 +100,7 @@ public class WalletContext {
 
     public void destroy() {
         MessageEvents.unsubscribe(this);
+        client.hardDetach();
     }
 
     public void reset() {

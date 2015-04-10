@@ -396,7 +396,9 @@ public class MainUI extends javax.swing.JFrame {
     }//GEN-LAST:event_buyButtonActionPerformed
 
     private void aboutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aboutButtonActionPerformed
-        // TODO add your handling code here:
+        AboutDialog aboutDialog = new AboutDialog(this, true);
+        aboutDialog.setLocationRelativeTo(null);
+        aboutDialog.setVisible(true);
     }//GEN-LAST:event_aboutButtonActionPerformed
 
     private void updateFirmwareButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateFirmwareButtonActionPerformed

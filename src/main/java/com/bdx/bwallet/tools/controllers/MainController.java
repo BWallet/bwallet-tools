@@ -56,6 +56,17 @@ public class MainController {
     public MainController() {
         MessageEvents.subscribe(this);
         HardwareWalletEvents.subscribe(this);
+
+        Runtime.getRuntime().addShutdownHook(new Thread() {
+            @Override
+            public void run() {
+                System.out.println("Triggered shutdown hook in MainController");
+                for (WalletContext context : contexts.values()) {
+                    context.destroy();
+                }
+                walletService.stop();
+            }
+        });
     }
 
     public void unsubscribe() {
@@ -161,7 +172,7 @@ public class MainController {
                 if (height != 64 || width != 128) {
                     throw new IllegalArgumentException("Wrong size of the image");
                 }
-                
+
                 StringBuilder sb = new StringBuilder();
                 for (int h = 0; h < 64; h++) {
                     for (int w = 0; w < 128; w++) {
@@ -178,15 +189,15 @@ public class MainController {
                         }
                     }
                 }
-                
+
                 String hex = sb.toString();
-                byte[]bytes = new byte[64 * 128 / 8];
+                byte[] bytes = new byte[64 * 128 / 8];
                 for (int i = 0; i < hex.length(); i += 8) {
                     bytes[i / 8] = (byte) Integer.parseInt(hex.substring(i, i + 8), 2);
                 }
-                
+
                 walletService.applySettings(bytes);
-            } catch (Exception ex) {
+            } catch (IOException | IllegalArgumentException ex) {
                 BWalletMessage.Failure failure = BWalletMessage.Failure.newBuilder().setMessage(ex.getMessage()).build();
                 HardwareWalletEvents.fireHardwareWalletEvent(
                         HardwareWalletEventType.SHOW_OPERATION_FAILED, failure);
@@ -209,7 +220,7 @@ public class MainController {
             walletService.getAddress(childNumbers);
         }
     }
-    
+
     public void signMessage(Device device, int account, KeyChain.KeyPurpose keyPurpose, int index, byte[] message) {
         final WalletContext context = this.getContext(device);
         if (context != null) {
@@ -249,7 +260,7 @@ public class MainController {
             walletService.getAccountLabels(coinName, all, index);
         }
     }
-    
+
     public void setAccountLabel(Device device, String coinName, int index, String label) {
         final WalletContext context = this.getContext(device);
         if (context != null) {
@@ -257,7 +268,7 @@ public class MainController {
             walletService.setAccountLabel(coinName, index, label);
         }
     }
-    
+
     public void removeAccountLabel(Device device, String coinName, int index) {
         final WalletContext context = this.getContext(device);
         if (context != null) {
@@ -265,7 +276,7 @@ public class MainController {
             walletService.removeAccountLabel(coinName, index);
         }
     }
-    
+
     public WalletContext getContext(Device device) {
         WalletContext context = contexts.get(device.getPath());
         if (context == null) {
@@ -301,28 +312,13 @@ public class MainController {
         if (event.getEventType() == MessageEventType.DEVICE_DETACHED) {
             HidDevice hidDevice = event.getDevice().get();
             WalletContext context = contexts.remove(hidDevice.getPath());
-            System.out.println(hidDevice.getPath());
-            System.out.println(context);
             if (context != null) {
                 context.destroy();
-                System.out.println("yyy");
             }
         }
     }
 
     @Subscribe
     public void onHardwareWalletEvent(final HardwareWalletEvent event) {
-        log.debug("Received hardware event: '{}'", event.getEventType().name());
-        //System.out.println(event.getEventType());
-        // Quick check for relevancy
-        switch (event.getEventType()) {
-            case SHOW_DEVICE_DETACHED:
-                // TODO 
-                break;
-            default:
-                // The AbstractHardwareWalletWizard handles everything when a wizard is showing
-                return;
-        }
-
     }
 }
