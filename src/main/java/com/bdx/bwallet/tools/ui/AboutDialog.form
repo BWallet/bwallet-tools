@@ -65,7 +65,7 @@
             <Property name="columns" type="int" value="20"/>
             <Property name="lineWrap" type="boolean" value="true"/>
             <Property name="rows" type="int" value="5"/>
-            <Property name="text" type="java.lang.String" value="About BWallet Tools&#xa;&#xa;BWallet Tools is a set of offline tool for BWallet.&#xa;&#xa;Website : https://bidingxing.com&#xa;Version : 0.1.0 "/>
+            <Property name="text" type="java.lang.String" value="About BWallet Tools&#xa;&#xa;BWallet Tools is a set of offline tools for BWallet.&#xa;&#xa;Website : https://bidingxing.com&#xa;Version : 0.1.0 "/>
           </Properties>
         </Component>
       </SubComponents>

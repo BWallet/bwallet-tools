@@ -39,7 +39,7 @@ public class AboutDialog extends javax.swing.JDialog {
         contentTextArea.setColumns(20);
         contentTextArea.setLineWrap(true);
         contentTextArea.setRows(5);
-        contentTextArea.setText("About BWallet Tools\n\nBWallet Tools is a set of offline tool for BWallet.\n\nWebsite : https://bidingxing.com\nVersion : 0.1.0 ");
+        contentTextArea.setText("About BWallet Tools\n\nBWallet Tools is a set of offline tools for BWallet.\n\nWebsite : https://bidingxing.com\nVersion : 0.1.0 ");
         jScrollPane1.setViewportView(contentTextArea);
 
         closeButton.setText("Close");

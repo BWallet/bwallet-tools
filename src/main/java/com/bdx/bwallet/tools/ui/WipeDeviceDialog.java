@@ -52,7 +52,7 @@ public class WipeDeviceDialog extends javax.swing.JDialog implements WindowListe
                 new Object[]{}, null);
         messageDialog = messagePanel.createDialog(this, "Wipe Device");
         messageDialog.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
-        messageDialog.setSize(600, 150);
+        messageDialog.setSize(640, 150);
         messageDialog.setLocationRelativeTo(null);
         messageDialog.addWindowListener(new WindowAdapter(){
             @Override

@@ -81,7 +81,7 @@ public class RecoveryDeviceDialog extends javax.swing.JDialog implements WindowL
         passphraseCheckBox = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Device Setup");
+        setTitle("Recovery Device");
         setResizable(false);
 
         basicPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(" Basic settings "));
@@ -231,8 +231,8 @@ public class RecoveryDeviceDialog extends javax.swing.JDialog implements WindowL
                         .addContainerGap())
                     .addComponent(advancedPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
             .addGroup(layout.createSequentialGroup()
-                .addGap(240, 240, 240)
-                .addComponent(continueButton)
+                .addGap(237, 237, 237)
+                .addComponent(continueButton, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -242,9 +242,9 @@ public class RecoveryDeviceDialog extends javax.swing.JDialog implements WindowL
                 .addComponent(basicPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(advancedPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addComponent(continueButton)
-                .addContainerGap())
+                .addContainerGap(22, Short.MAX_VALUE))
         );
 
         pack();
