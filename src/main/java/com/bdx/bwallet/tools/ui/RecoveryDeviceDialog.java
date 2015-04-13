@@ -17,8 +17,10 @@ import com.bdx.bwallet.tools.model.Language;
 import com.google.common.eventbus.Subscribe;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.util.ResourceBundle;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
+import javax.swing.border.TitledBorder;
 import org.hid4java.HidDevice;
 
 /**
@@ -27,6 +29,8 @@ import org.hid4java.HidDevice;
  */
 public class RecoveryDeviceDialog extends javax.swing.JDialog implements WindowListener {
 
+    private ResourceBundle bundle;
+    
     private MainController mainController;
 
     private Device device;
@@ -34,9 +38,9 @@ public class RecoveryDeviceDialog extends javax.swing.JDialog implements WindowL
     private WordEntryDialog wordEntryDialog;
     
     /**
-     * Creates new form CreateWalletDialog
+     * Creates new form RecoveryDeviceDialog
      */
-    public RecoveryDeviceDialog(java.awt.Frame parent, boolean modal, MainController mainController, Device device) {
+    public RecoveryDeviceDialog(java.awt.Frame parent, boolean modal, ResourceBundle bundle, MainController mainController, Device device) {
         super(parent, modal);
         initComponents();
 
@@ -45,15 +49,38 @@ public class RecoveryDeviceDialog extends javax.swing.JDialog implements WindowL
         languageComboBoxModel.addElement(new Language("english", "English"));
         languageComboBoxModel.addElement(new Language("chinese", "中文"));
 
-        wordEntryDialog = new WordEntryDialog(this, true, mainController);
+        wordEntryDialog = new WordEntryDialog(this, true, bundle, mainController);
         wordEntryDialog.setLocationRelativeTo(null);
         
         this.mainController = mainController;
         this.device = device;
 
         this.addWindowListener(this);
+        
+        this.bundle = bundle;
+        applyResourceBundle();
     }
 
+    public void applyResourceBundle() {
+        setTitle(bundle.getString("RecoveryDeviceDialog.title")); 
+        
+        ((TitledBorder)basicPanel.getBorder()).setTitle(bundle.getString("RecoveryDeviceDialog.basicPanel.border.title"));
+        ((TitledBorder)advancedPanel.getBorder()).setTitle(bundle.getString("RecoveryDeviceDialog.advancedPanel.border.title"));
+        
+        labelLabel.setText(bundle.getString("RecoveryDeviceDialog.labelLabel.text")); 
+        languageLabel.setText(bundle.getString("RecoveryDeviceDialog.languageLabel.text")); 
+        labelTextField.setText(bundle.getString("RecoveryDeviceDialog.labelTextField.text")); 
+        continueButton.setText(bundle.getString("RecoveryDeviceDialog.continueButton.text")); 
+        lengthLabel.setText(bundle.getString("RecoveryDeviceDialog.lengthLabel.text")); 
+        len12Label.setText(bundle.getString("RecoveryDeviceDialog.len12Label.text")); 
+        len18Label.setText(bundle.getString("RecoveryDeviceDialog.len18Label.text")); 
+        len24Label.setText(bundle.getString("RecoveryDeviceDialog.len24Label.text")); 
+        pinLabel.setText(bundle.getString("RecoveryDeviceDialog.pinLabel.text")); 
+        passphraseLabel.setText(bundle.getString("RecoveryDeviceDialog.passphraseLabel.text")); 
+        pinCheckBox.setText(bundle.getString("RecoveryDeviceDialog.pinCheckBox.text")); 
+        passphraseCheckBox.setText(bundle.getString("RecoveryDeviceDialog.passphraseCheckBox.text")); 
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -264,7 +291,7 @@ public class RecoveryDeviceDialog extends javax.swing.JDialog implements WindowL
             
             mainController.recoverDevice(device, language.getValue(), label, seedLength, passphraseProtection, pinProtection, true);
         } else {
-            JOptionPane.showMessageDialog(this, "Device detached");
+            JOptionPane.showMessageDialog(this, bundle.getString("MessageDialog.deviceDetached"));
         }
     }//GEN-LAST:event_continueButtonActionPerformed
 
@@ -282,7 +309,7 @@ public class RecoveryDeviceDialog extends javax.swing.JDialog implements WindowL
         String msg = "";
         switch (event.getEventType()) {
             case SHOW_PIN_ENTRY:
-                PINEntryDialog pinEntryDialog = new PINEntryDialog(this, true);
+                PINEntryDialog pinEntryDialog = new PINEntryDialog(this, true, bundle);
                 pinEntryDialog.setLocationRelativeTo(null);
                 if (event.getMessage().isPresent()) {
                     BWalletMessage.PinMatrixRequest pinRequest = (BWalletMessage.PinMatrixRequest) event.getMessage().get();
@@ -343,10 +370,10 @@ public class RecoveryDeviceDialog extends javax.swing.JDialog implements WindowL
             if (hidDevice.getPath() != null && hidDevice.getPath().equals(device.getPath())) {
                 device = null;
                 wordEntryDialog.setVisible(false);
-                JOptionPane.showMessageDialog(this, "Device detached");
+                JOptionPane.showMessageDialog(this, bundle.getString("MessageDialog.deviceDetached"));
             }
         } else if (event.getEventType() == MessageEventType.DEVICE_FAILED) {
-            JOptionPane.showMessageDialog(this, "Device could not be opened.\r\nMake sure you don't have running another client!");
+            JOptionPane.showMessageDialog(this, bundle.getString("MessageDialog.deviceOpenFaild"));
         }
     }
 
@@ -413,7 +440,7 @@ public class RecoveryDeviceDialog extends javax.swing.JDialog implements WindowL
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                RecoveryDeviceDialog dialog = new RecoveryDeviceDialog(new javax.swing.JFrame(), true, null, null);
+                RecoveryDeviceDialog dialog = new RecoveryDeviceDialog(new javax.swing.JFrame(), true, ResourceBundle.getBundle("com/bdx/bwallet/tools/ui/Bundle"), null, null);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {

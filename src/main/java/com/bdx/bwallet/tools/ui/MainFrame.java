@@ -23,7 +23,10 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.KeyEvent;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.MessageFormat;
 import java.util.List;
+import java.util.Locale;
+import java.util.ResourceBundle;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
@@ -34,6 +37,7 @@ import javax.swing.InputMap;
 import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
 import javax.swing.UIManager;
+import javax.swing.border.TitledBorder;
 import javax.swing.text.DefaultEditorKit;
 import org.hid4java.HidDevice;
 import org.spongycastle.util.encoders.Hex;
@@ -42,16 +46,18 @@ import org.spongycastle.util.encoders.Hex;
  *
  * @author Administrator
  */
-public class MainFrame extends javax.swing.JFrame {
+public final class MainFrame extends javax.swing.JFrame {
 
     static final String SITE_URL = "http://mybwallet.com";
     static final String HELP_URL = SITE_URL + "/docs/help/zh/";
     static final String FAQ_URL = SITE_URL + "/docs/faq/zh/";
     static final String RESOURCES_URL = SITE_URL + "/resources";
     static final String BUY_URL = "https://bidingxing.com/bwallet";
-    
+
     private final MainController mainController = new MainController();
-    
+
+    private ResourceBundle bundle;
+
     /**
      * Creates new form MainUI3
      */
@@ -75,8 +81,54 @@ public class MainFrame extends javax.swing.JFrame {
         }
 
         MessageEvents.subscribe(this);
+
+        loadResourceBundle();
+        applyResourceBundle();
     }
 
+    public void loadResourceBundle() {
+        bundle = ResourceBundle.getBundle("com/bdx/bwallet/tools/ui/Bundle");
+    }
+
+    public void applyResourceBundle() {
+        setTitle(bundle.getString("MainFrame.title")); 
+
+        devicesLabel.setText(bundle.getString("MainFrame.devicesLabel.text")); 
+
+        ((TitledBorder)setupPanel.getBorder()).setTitle(bundle.getString("MainFrame.setupPanel.border.title"));
+        ((TitledBorder)settingPanel.getBorder()).setTitle(bundle.getString("MainFrame.settingPanel.border.title"));
+        ((TitledBorder)accountPanel.getBorder()).setTitle(bundle.getString("MainFrame.accountPanel.border.title"));
+        ((TitledBorder)miscPanel.getBorder()).setTitle(bundle.getString("MainFrame.miscPanel.border.title"));
+                
+        resetDeviceButton.setText(bundle.getString("MainFrame.resetDeviceButton.text")); 
+        recoveryDeviceButton.setText(bundle.getString("MainFrame.recoveryDeviceButton.text")); 
+        wipeDeviceButton.setText(bundle.getString("MainFrame.wipeDeviceButton.text")); 
+        
+        applySettingsButton.setText(bundle.getString("MainFrame.applySettingsButton.text")); 
+        passphraseSettingButton.setText(bundle.getString("MainFrame.passphraseSettingButton.text")); 
+        homescreenSettingButton.setText(bundle.getString("MainFrame.homescreenSettingButton.text")); 
+        accountLabelSettingButton.setText(bundle.getString("MainFrame.accountLabelSettingButton.text")); 
+        changePinButton.setText(bundle.getString("MainFrame.changePinButton.text")); 
+        
+        accountDetailsButton.setText(bundle.getString("MainFrame.accountDetailsButton.text")); 
+        signAndVerifyButton.setText(bundle.getString("MainFrame.signAndVerifyButton.text")); 
+        getPublicKeyButton.setText(bundle.getString("MainFrame.getPublicKeyButton.text")); 
+       
+        updateFirmwareButton.setText(bundle.getString("MainFrame.updateFirmwareButton.text")); 
+        getBlHashButton.setText(bundle.getString("MainFrame.getBlHashButton.text")); 
+        testScreenButton.setText(bundle.getString("MainFrame.testScreenButton.text")); 
+        
+        fileMenu.setText(bundle.getString("MainFrame.fileMenu.text")); 
+        exitMenuItem.setText(bundle.getString("MainFrame.exitMenuItem.text")); 
+        helpMenu.setText(bundle.getString("MainFrame.helpMenu.text")); 
+        contentsMenuItem.setText(bundle.getString("MainFrame.contentsMenuItem.text")); 
+        faqMenuItem.setText(bundle.getString("MainFrame.faqMenuItem.text")); 
+        resourcesMenuItem.setText(bundle.getString("MainFrame.resourcesMenuItem.text")); 
+        websiteMenuItem.setText(bundle.getString("MainFrame.websiteMenuItem.text")); 
+        buyMenuItem.setText(bundle.getString("MainFrame.buyMenuItem.text")); 
+        aboutMenuItem.setText(bundle.getString("MainFrame.aboutMenuItem.text")); 
+    }
+    
     @Subscribe
     public void onMessageEvent(MessageEvent event) {
         DefaultListModel<Device> listModel = (DefaultListModel) devicesList.getModel();
@@ -415,33 +467,33 @@ public class MainFrame extends javax.swing.JFrame {
     private void resetDeviceButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetDeviceButtonActionPerformed
         Device device = getSelectDevice();
         if (device != null) {
-            CreateWalletDialog createWalletDialog = new CreateWalletDialog(this, true, mainController, device);
+            CreateWalletDialog createWalletDialog = new CreateWalletDialog(this, true, bundle, mainController, device);
             createWalletDialog.setLocationRelativeTo(null);
             createWalletDialog.setVisible(true);
         } else {
-            JOptionPane.showMessageDialog(this, "Please select a device.");
+            JOptionPane.showMessageDialog(this, bundle.getString("MessageDialog.noneDeviceSelected"));
         }
     }//GEN-LAST:event_resetDeviceButtonActionPerformed
 
     private void recoveryDeviceButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_recoveryDeviceButtonActionPerformed
         Device device = getSelectDevice();
         if (device != null) {
-            RecoveryDeviceDialog recoveryDeviceDialog = new RecoveryDeviceDialog(this, true, mainController, device);
+            RecoveryDeviceDialog recoveryDeviceDialog = new RecoveryDeviceDialog(this, true, bundle, mainController, device);
             recoveryDeviceDialog.setLocationRelativeTo(null);
             recoveryDeviceDialog.setVisible(true);
         } else {
-            JOptionPane.showMessageDialog(this, "Please select a device.");
+            JOptionPane.showMessageDialog(this, bundle.getString("MessageDialog.noneDeviceSelected"));
         }
     }//GEN-LAST:event_recoveryDeviceButtonActionPerformed
 
     private void wipeDeviceButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_wipeDeviceButtonActionPerformed
         Device device = getSelectDevice();
         if (device != null) {
-            WipeDeviceDialog wipeDeviceDialog = new WipeDeviceDialog(this, true, mainController, device);
+            WipeDeviceDialog wipeDeviceDialog = new WipeDeviceDialog(this, true, bundle, mainController, device);
             wipeDeviceDialog.setLocationRelativeTo(null);
             wipeDeviceDialog.setVisible(true);
         } else {
-            JOptionPane.showMessageDialog(this, "Please select a device.");
+            JOptionPane.showMessageDialog(this, bundle.getString("MessageDialog.noneDeviceSelected"));
         }
     }//GEN-LAST:event_wipeDeviceButtonActionPerformed
 
@@ -454,10 +506,10 @@ public class MainFrame extends javax.swing.JFrame {
                     ListenableFuture<Optional<BWalletMessage.Features>> future = context.initialise();
                     future.get(5, TimeUnit.SECONDS);
                 } catch (InterruptedException | ExecutionException | TimeoutException ex) {
-                    JOptionPane.showMessageDialog(this, "Device initialise failed.");
-                    return ;
+                    JOptionPane.showMessageDialog(this, bundle.getString("MessageDialog.deviceInitialiseFailed"));
+                    return;
                 }
-                
+
                 Optional<BWalletMessage.Features> features = context.getFeatures();
                 Optional<String> language = Optional.absent();
                 Optional<String> label = Optional.absent();
@@ -466,14 +518,14 @@ public class MainFrame extends javax.swing.JFrame {
                     label = Optional.fromNullable(features.get().getLabel());
                 }
 
-                ApplySettingsDialog applySettingsDialog = new ApplySettingsDialog(this, true, mainController, device, language, label);
+                ApplySettingsDialog applySettingsDialog = new ApplySettingsDialog(this, true, bundle, mainController, device, language, label);
                 applySettingsDialog.setLocationRelativeTo(null);
                 applySettingsDialog.setVisible(true);
             } else {
-                JOptionPane.showMessageDialog(this, "Device could not be opened.\r\nMake sure you don't have running another client!");
+                JOptionPane.showMessageDialog(this, bundle.getString("MessageDialog.deviceOpenFaild"));
             }
         } else {
-            JOptionPane.showMessageDialog(this, "Please select a device.");
+            JOptionPane.showMessageDialog(this, bundle.getString("MessageDialog.noneDeviceSelected"));
         }
     }//GEN-LAST:event_applySettingsButtonActionPerformed
 
@@ -486,27 +538,26 @@ public class MainFrame extends javax.swing.JFrame {
                     ListenableFuture<Optional<BWalletMessage.Features>> future = context.initialise();
                     future.get(5, TimeUnit.SECONDS);
                 } catch (InterruptedException | ExecutionException | TimeoutException ex) {
-                    JOptionPane.showMessageDialog(this, "Device initialise failed.");
-                    return ;
+                    JOptionPane.showMessageDialog(this, bundle.getString("MessageDialog.deviceInitialiseFailed"));
+                    return;
                 }
-                
+
                 BWalletMessage.Features features = context.getFeatures().get();
                 FirmwareVersion firmwareVersion = new FirmwareVersion(features);
-                System.out.println(firmwareVersion.toString());
                 if (!firmwareVersion.ge(1, 3, 1)) {
-                    JOptionPane.showMessageDialog(this, "Unsupported firmware:" + firmwareVersion.toString() + "\r\nFirmware version 1.3.1 or above is required.");
-                    return ;
+                    JOptionPane.showMessageDialog(this, MessageFormat.format(bundle.getString("MessageDialog.unsupportedFirmware"), new Object[]{firmwareVersion.toString(), "1.3.1"}));
+                    return;
                 }
-                
+
                 boolean disable = features.getPassphraseProtection();
-                ApplyPassphraseSettingDialog applyPassphraseSettingsDialog = new ApplyPassphraseSettingDialog(this, true, mainController, device, disable);
+                ApplyPassphraseSettingDialog applyPassphraseSettingsDialog = new ApplyPassphraseSettingDialog(this, true, bundle, mainController, device, disable);
                 applyPassphraseSettingsDialog.setLocationRelativeTo(null);
                 applyPassphraseSettingsDialog.setVisible(true);
             } else {
-                JOptionPane.showMessageDialog(this, "Device could not be opened.\r\nMake sure you don't have running another client!");
+                JOptionPane.showMessageDialog(this, bundle.getString("MessageDialog.deviceOpenFaild"));
             }
         } else {
-            JOptionPane.showMessageDialog(this, "Please select a device.");
+            JOptionPane.showMessageDialog(this, bundle.getString("MessageDialog.noneDeviceSelected"));
         }
     }//GEN-LAST:event_passphraseSettingButtonActionPerformed
 
@@ -519,26 +570,25 @@ public class MainFrame extends javax.swing.JFrame {
                     ListenableFuture<Optional<BWalletMessage.Features>> future = context.initialise();
                     future.get(5, TimeUnit.SECONDS);
                 } catch (InterruptedException | ExecutionException | TimeoutException ex) {
-                    JOptionPane.showMessageDialog(this, "Device initialise failed.");
-                    return ;
+                    JOptionPane.showMessageDialog(this, bundle.getString("MessageDialog.deviceInitialiseFailed"));
+                    return;
                 }
-                
+
                 BWalletMessage.Features features = context.getFeatures().get();
                 FirmwareVersion firmwareVersion = new FirmwareVersion(features);
-                System.out.println(firmwareVersion.toString());
                 if (!firmwareVersion.ge(1, 3, 1)) {
-                    JOptionPane.showMessageDialog(this, "Unsupported firmware:" + firmwareVersion.toString() + "\r\nFirmware version 1.3.1 or above is required.");
-                    return ;
+                    JOptionPane.showMessageDialog(this, MessageFormat.format(bundle.getString("MessageDialog.unsupportedFirmware"), new Object[]{firmwareVersion.toString(), "1.3.1"}));
+                    return;
                 }
-                
-                ApplyHomescreenSettingDialog applyHomescreenSettingsDialog = new ApplyHomescreenSettingDialog(this, true, mainController, device);
+
+                ApplyHomescreenSettingDialog applyHomescreenSettingsDialog = new ApplyHomescreenSettingDialog(this, true, bundle, mainController, device);
                 applyHomescreenSettingsDialog.setLocationRelativeTo(null);
                 applyHomescreenSettingsDialog.setVisible(true);
             } else {
-                JOptionPane.showMessageDialog(this, "Device could not be opened.\r\nMake sure you don't have running another client!");
+                JOptionPane.showMessageDialog(this, bundle.getString("MessageDialog.deviceOpenFaild"));
             }
         } else {
-            JOptionPane.showMessageDialog(this, "Please select a device.");
+            JOptionPane.showMessageDialog(this, bundle.getString("MessageDialog.noneDeviceSelected"));
         }
     }//GEN-LAST:event_homescreenSettingButtonActionPerformed
 
@@ -551,81 +601,80 @@ public class MainFrame extends javax.swing.JFrame {
                     ListenableFuture<Optional<BWalletMessage.Features>> future = context.initialise();
                     future.get(5, TimeUnit.SECONDS);
                 } catch (InterruptedException | ExecutionException | TimeoutException ex) {
-                    JOptionPane.showMessageDialog(this, "Device initialise failed.");
-                    return ;
+                    JOptionPane.showMessageDialog(this, bundle.getString("MessageDialog.deviceInitialiseFailed"));
+                    return;
                 }
-                
+
                 BWalletMessage.Features features = context.getFeatures().get();
                 FirmwareVersion firmwareVersion = new FirmwareVersion(features);
-                System.out.println(firmwareVersion.toString());
                 if (!firmwareVersion.ge(1, 3, 1)) {
-                    JOptionPane.showMessageDialog(this, "Unsupported firmware:" + firmwareVersion.toString() + "\r\nFirmware version 1.3.1 or above is required.");
-                    return ;
+                    JOptionPane.showMessageDialog(this, MessageFormat.format(bundle.getString("MessageDialog.unsupportedFirmware"), new Object[]{firmwareVersion.toString(), "1.3.1"}));
+                    return;
                 }
-                
-                AccountLabelDialog accountLabelDialog = new AccountLabelDialog(this, true, mainController, device);
+
+                AccountLabelDialog accountLabelDialog = new AccountLabelDialog(this, true, bundle, mainController, device);
                 accountLabelDialog.setLocationRelativeTo(null);
                 accountLabelDialog.setVisible(true);
             } else {
-                JOptionPane.showMessageDialog(this, "Device could not be opened.\r\nMake sure you don't have running another client!");
+                JOptionPane.showMessageDialog(this, bundle.getString("MessageDialog.deviceOpenFaild"));
             }
         } else {
-            JOptionPane.showMessageDialog(this, "Please select a device.");
+            JOptionPane.showMessageDialog(this, bundle.getString("MessageDialog.noneDeviceSelected"));
         }
     }//GEN-LAST:event_accountLabelSettingButtonActionPerformed
 
     private void changePinButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changePinButtonActionPerformed
         Device device = getSelectDevice();
         if (device != null) {
-            ChangePINDialog changePINDialog = new ChangePINDialog(this, true, mainController, device);
+            ChangePINDialog changePINDialog = new ChangePINDialog(this, true, bundle, mainController, device);
             changePINDialog.setLocationRelativeTo(null);
             changePINDialog.setVisible(true);
         } else {
-            JOptionPane.showMessageDialog(this, "Please select a device.");
+            JOptionPane.showMessageDialog(this, bundle.getString("MessageDialog.noneDeviceSelected"));
         }
     }//GEN-LAST:event_changePinButtonActionPerformed
 
     private void accountDetailsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_accountDetailsButtonActionPerformed
         Device device = getSelectDevice();
         if (device != null) {
-            AccountDetailsDialog accountDetailsDialog = new AccountDetailsDialog(this, true, mainController, device);
+            AccountDetailsDialog accountDetailsDialog = new AccountDetailsDialog(this, true, bundle, mainController, device);
             accountDetailsDialog.setLocationRelativeTo(null);
             accountDetailsDialog.setVisible(true);
         } else {
-            JOptionPane.showMessageDialog(this, "Please select a device.");
+            JOptionPane.showMessageDialog(this, bundle.getString("MessageDialog.noneDeviceSelected"));
         }
     }//GEN-LAST:event_accountDetailsButtonActionPerformed
 
     private void signAndVerifyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signAndVerifyButtonActionPerformed
         Device device = getSelectDevice();
         if (device != null) {
-            SignMessageDialog signMessageDialog = new SignMessageDialog(this, true, mainController, device);
+            SignMessageDialog signMessageDialog = new SignMessageDialog(this, true, bundle, mainController, device);
             signMessageDialog.setLocationRelativeTo(null);
             signMessageDialog.setVisible(true);
         } else {
-            JOptionPane.showMessageDialog(this, "Please select a device.");
+            JOptionPane.showMessageDialog(this, bundle.getString("MessageDialog.noneDeviceSelected"));
         }
     }//GEN-LAST:event_signAndVerifyButtonActionPerformed
 
     private void getPublicKeyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_getPublicKeyButtonActionPerformed
         Device device = getSelectDevice();
         if (device != null) {
-            GetPublicKeyDialog getPublicKeyDialog = new GetPublicKeyDialog(this, true, mainController, device);
+            GetPublicKeyDialog getPublicKeyDialog = new GetPublicKeyDialog(this, true, bundle, mainController, device);
             getPublicKeyDialog.setLocationRelativeTo(null);
             getPublicKeyDialog.setVisible(true);
         } else {
-            JOptionPane.showMessageDialog(this, "Please select a device.");
+            JOptionPane.showMessageDialog(this, bundle.getString("MessageDialog.noneDeviceSelected"));
         }
     }//GEN-LAST:event_getPublicKeyButtonActionPerformed
 
     private void updateFirmwareButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateFirmwareButtonActionPerformed
         Device device = getSelectDevice();
         if (device != null) {
-            FirmwareUpdateDialog updateFirmwareDialog = new FirmwareUpdateDialog(this, true, mainController, device);
+            FirmwareUpdateDialog updateFirmwareDialog = new FirmwareUpdateDialog(this, true, bundle, mainController, device);
             updateFirmwareDialog.setLocationRelativeTo(null);
             updateFirmwareDialog.setVisible(true);
         } else {
-            JOptionPane.showMessageDialog(this, "Please select a device.");
+            JOptionPane.showMessageDialog(this, bundle.getString("MessageDialog.noneDeviceSelected"));
         }
     }//GEN-LAST:event_updateFirmwareButtonActionPerformed
 
@@ -634,8 +683,8 @@ public class MainFrame extends javax.swing.JFrame {
         if (device != null) {
             WalletContext context = mainController.getContext(device);
             if (context != null) {
-                BootloaderHashDialog bootloaderHashDialog = new BootloaderHashDialog(this, true);
-                
+                BootloaderHashDialog bootloaderHashDialog = new BootloaderHashDialog(this, true, bundle);
+
                 Optional<BWalletMessage.Features> features = context.getFeatures();
                 if (features.isPresent()) {
                     ByteString hash = features.get().getBootloaderHash();
@@ -648,21 +697,21 @@ public class MainFrame extends javax.swing.JFrame {
                 bootloaderHashDialog.setLocationRelativeTo(null);
                 bootloaderHashDialog.setVisible(true);
             } else {
-                JOptionPane.showMessageDialog(this, "Device could not be opened.\r\nMake sure you don't have running another client!");
+                JOptionPane.showMessageDialog(this, bundle.getString("MessageDialog.deviceOpenFaild"));
             }
         } else {
-            JOptionPane.showMessageDialog(this, "Please select a device.");
+            JOptionPane.showMessageDialog(this, bundle.getString("MessageDialog.noneDeviceSelected"));
         }
     }//GEN-LAST:event_getBlHashButtonActionPerformed
 
     private void testScreenButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_testScreenButtonActionPerformed
         Device device = getSelectDevice();
         if (device != null) {
-            TestScreenDialog testScreenDialog = new TestScreenDialog(this, true, mainController, device);
+            TestScreenDialog testScreenDialog = new TestScreenDialog(this, true, bundle, mainController, device);
             testScreenDialog.setLocationRelativeTo(null);
             testScreenDialog.setVisible(true);
         } else {
-            JOptionPane.showMessageDialog(this, "Please select a device.");
+            JOptionPane.showMessageDialog(this, bundle.getString("MessageDialog.noneDeviceSelected"));
         }
     }//GEN-LAST:event_testScreenButtonActionPerformed
 
@@ -670,7 +719,7 @@ public class MainFrame extends javax.swing.JFrame {
         try {
             BrowserUtils.openWebpage(new URL(HELP_URL));
         } catch (MalformedURLException ex) {
-            Logger.getLogger(MainUI.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_contentsMenuItemActionPerformed
 
@@ -678,7 +727,7 @@ public class MainFrame extends javax.swing.JFrame {
         try {
             BrowserUtils.openWebpage(new URL(FAQ_URL));
         } catch (MalformedURLException ex) {
-            Logger.getLogger(MainUI.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_faqMenuItemActionPerformed
 
@@ -686,7 +735,7 @@ public class MainFrame extends javax.swing.JFrame {
         try {
             BrowserUtils.openWebpage(new URL(RESOURCES_URL));
         } catch (MalformedURLException ex) {
-            Logger.getLogger(MainUI.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_resourcesMenuItemActionPerformed
 
@@ -694,7 +743,7 @@ public class MainFrame extends javax.swing.JFrame {
         try {
             BrowserUtils.openWebpage(new URL(SITE_URL));
         } catch (MalformedURLException ex) {
-            Logger.getLogger(MainUI.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_websiteMenuItemActionPerformed
 
@@ -702,12 +751,12 @@ public class MainFrame extends javax.swing.JFrame {
         try {
             BrowserUtils.openWebpage(new URL(BUY_URL));
         } catch (MalformedURLException ex) {
-            Logger.getLogger(MainUI.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_buyMenuItemActionPerformed
 
     private void aboutMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aboutMenuItemActionPerformed
-        AboutDialog aboutDialog = new AboutDialog(this, true);
+        AboutDialog aboutDialog = new AboutDialog(this, true, bundle);
         aboutDialog.setLocationRelativeTo(null);
         aboutDialog.setVisible(true);
     }//GEN-LAST:event_aboutMenuItemActionPerformed
@@ -746,12 +795,14 @@ public class MainFrame extends javax.swing.JFrame {
             im.put(KeyStroke.getKeyStroke(KeyEvent.VK_C, KeyEvent.META_DOWN_MASK), DefaultEditorKit.copyAction);
             im.put(KeyStroke.getKeyStroke(KeyEvent.VK_V, KeyEvent.META_DOWN_MASK), DefaultEditorKit.pasteAction);
             im.put(KeyStroke.getKeyStroke(KeyEvent.VK_X, KeyEvent.META_DOWN_MASK), DefaultEditorKit.cutAction);
-            
+
             im = (InputMap) UIManager.get("TextArea.focusInputMap");
             im.put(KeyStroke.getKeyStroke(KeyEvent.VK_C, KeyEvent.META_DOWN_MASK), DefaultEditorKit.copyAction);
             im.put(KeyStroke.getKeyStroke(KeyEvent.VK_V, KeyEvent.META_DOWN_MASK), DefaultEditorKit.pasteAction);
             im.put(KeyStroke.getKeyStroke(KeyEvent.VK_X, KeyEvent.META_DOWN_MASK), DefaultEditorKit.cutAction);
         }
+
+        Locale.setDefault(new Locale("zh","CN"));
         
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {

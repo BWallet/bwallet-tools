@@ -9,6 +9,7 @@ import com.bdx.bwallet.protobuf.BWalletMessage;
 import com.google.common.base.Optional;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.util.ResourceBundle;
 import javax.swing.JOptionPane;
 
 /**
@@ -16,6 +17,8 @@ import javax.swing.JOptionPane;
  * @author Administrator
  */
 public class AccountLabelEntryDialog extends javax.swing.JDialog implements WindowListener {
+
+    private ResourceBundle bundle;
 
     private boolean edit;
 
@@ -28,18 +31,30 @@ public class AccountLabelEntryDialog extends javax.swing.JDialog implements Wind
     /**
      * Creates new form AccountLabelEntryDialog
      */
-    public AccountLabelEntryDialog(java.awt.Dialog parent, boolean modal, boolean edit, Optional<Integer> index, Optional<String> label) {
+    public AccountLabelEntryDialog(java.awt.Dialog parent, boolean modal, ResourceBundle bundle, boolean edit, Optional<Integer> index, Optional<String> label) {
         super(parent, modal);
         initComponents();
         this.edit = edit;
         if (edit) {
             indexTextField.setEditable(false);
         }
-        if (index.isPresent())
+        if (index.isPresent()) {
             indexTextField.setText(index.get().toString());
-        if (label.isPresent())
+        }
+        if (label.isPresent()) {
             labelTextField.setText(label.get());
+        }
         this.addWindowListener(this);
+
+        this.bundle = bundle;
+        applyResourceBundle();
+    }
+
+    public void applyResourceBundle() {
+        setTitle(bundle.getString("AccountLabelEntryDialog.title")); 
+        indexLabel.setText(bundle.getString("AccountLabelEntryDialog.indexLabel.text")); 
+        labelLabel.setText(bundle.getString("AccountLabelEntryDialog.labelLabel.text")); 
+        enterButton.setText(bundle.getString("AccountLabelEntryDialog.enterButton.text")); 
     }
 
     /**
@@ -127,12 +142,12 @@ public class AccountLabelEntryDialog extends javax.swing.JDialog implements Wind
             JOptionPane.showMessageDialog(this, "Index must be greater than or equal to 1");
             return;
         }
-        
+
         String labelText = labelTextField.getText().trim();
         if ("".equals(labelText)) {
             JOptionPane.showMessageDialog(this, "Empty label");
             return;
-        }        
+        }
         BWalletMessage.SetAccountLabel message = BWalletMessage.SetAccountLabel
                 .newBuilder()
                 .setCoinName("Bitcoin")
@@ -143,7 +158,7 @@ public class AccountLabelEntryDialog extends javax.swing.JDialog implements Wind
             JOptionPane.showMessageDialog(this, "Label is to long");
             return;
         }
-        
+
         this.index = index;
         this.label = labelText;
         this.cancel = false;
@@ -227,7 +242,7 @@ public class AccountLabelEntryDialog extends javax.swing.JDialog implements Wind
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                AccountLabelEntryDialog dialog = new AccountLabelEntryDialog(new javax.swing.JDialog(), true, false, Optional.<Integer>absent(), Optional.<String>absent());
+                AccountLabelEntryDialog dialog = new AccountLabelEntryDialog(new javax.swing.JDialog(), true, ResourceBundle.getBundle("com/bdx/bwallet/tools/ui/Bundle"), false, Optional.<Integer>absent(), Optional.<String>absent());
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {

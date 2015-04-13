@@ -8,6 +8,7 @@ package com.bdx.bwallet.tools.ui;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
+import java.util.ResourceBundle;
 
 /**
  *
@@ -15,12 +16,22 @@ import java.awt.datatransfer.StringSelection;
  */
 public class BootloaderHashDialog extends javax.swing.JDialog {
 
+    private ResourceBundle bundle;
+
     /**
      * Creates new form BootloaderHashDialog
      */
-    public BootloaderHashDialog(java.awt.Frame parent, boolean modal) {
+    public BootloaderHashDialog(java.awt.Frame parent, boolean modal, ResourceBundle bundle) {
         super(parent, modal);
         initComponents();
+        this.bundle = bundle;
+        applyResourceBundle();
+    }
+
+    public void applyResourceBundle() {
+        setTitle(bundle.getString("BootloaderHashDialog.title")); // NOI18N
+        copyButton.setText(bundle.getString("BootloaderHashDialog.copyButton.text")); // NOI18N
+        closeButton.setText(bundle.getString("BootloaderHashDialog.closeButton.text")); // NOI18N
     }
 
     /**
@@ -106,7 +117,7 @@ public class BootloaderHashDialog extends javax.swing.JDialog {
     public void setContent(String text) {
         contentTextArea.setText(text);
     }
-    
+
     /**
      * @param args the command line arguments
      */
@@ -137,7 +148,7 @@ public class BootloaderHashDialog extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                BootloaderHashDialog dialog = new BootloaderHashDialog(new javax.swing.JFrame(), true);
+                BootloaderHashDialog dialog = new BootloaderHashDialog(new javax.swing.JFrame(), true, ResourceBundle.getBundle("com/bdx/bwallet/tools/ui/Bundle"));
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {

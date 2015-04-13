@@ -8,6 +8,7 @@ package com.bdx.bwallet.tools.ui;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.util.Arrays;
+import java.util.ResourceBundle;
 
 /**
  *
@@ -15,17 +16,27 @@ import java.util.Arrays;
  */
 public class PINEntryDialog extends javax.swing.JDialog implements WindowListener {
 
+    private ResourceBundle bundle;
+
     private String pin = "";
-    
+
     private boolean cancel = false;
 
     /**
      * Creates new form PINEntryDialog
      */
-    public PINEntryDialog(java.awt.Dialog parent, boolean modal) {
+    public PINEntryDialog(java.awt.Dialog parent, boolean modal, ResourceBundle bundle) {
         super(parent, modal);
         initComponents();
         this.addWindowListener(this);
+        this.bundle = bundle;
+        applyResourceBundle();
+    }
+
+    public void applyResourceBundle() {
+        lookDeviceLabel.setText(bundle.getString("PINEntryDialog.lookDeviceLabel.text")); 
+        titleLabel.setText(bundle.getString("PINEntryDialog.titleLabel.text")); 
+        enterButton.setText(bundle.getString("PINEntryDialog.enterButton.text")); 
     }
 
     /**
@@ -247,10 +258,10 @@ public class PINEntryDialog extends javax.swing.JDialog implements WindowListene
     }//GEN-LAST:event_pin1ButtonActionPerformed
 
     private void backspaceButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backspaceButtonActionPerformed
-        char [] pin = pinPasswordField.getPassword();
+        char[] pin = pinPasswordField.getPassword();
         if (pin.length > 0) {
             pinPasswordField.setText(new String(Arrays.copyOf(pin, pin.length - 1)));
-            if (!enterButton.isEnabled() && !(pinPasswordField.getPassword().length > 9)){
+            if (!enterButton.isEnabled() && !(pinPasswordField.getPassword().length > 9)) {
                 enterButton.setEnabled(true);
                 verificationLabel.setText("");
             }
@@ -287,11 +298,11 @@ public class PINEntryDialog extends javax.swing.JDialog implements WindowListene
             verificationLabel.setText("Too Long");
         }
     }
-    
+
     public void setPinTitle(String title) {
         titleLabel.setText(title);
     }
-    
+
     public String getPin() {
         return pin;
     }
@@ -299,9 +310,9 @@ public class PINEntryDialog extends javax.swing.JDialog implements WindowListene
     public boolean isCancel() {
         return cancel;
     }
-    
+
     @Override
-    public void windowOpened(WindowEvent e) {  
+    public void windowOpened(WindowEvent e) {
     }
 
     @Override
@@ -323,13 +334,13 @@ public class PINEntryDialog extends javax.swing.JDialog implements WindowListene
     }
 
     @Override
-    public void windowActivated(WindowEvent e) {        
+    public void windowActivated(WindowEvent e) {
     }
 
     @Override
     public void windowDeactivated(WindowEvent e) {
     }
-    
+
     /**
      * @param args the command line arguments
      */
@@ -360,7 +371,7 @@ public class PINEntryDialog extends javax.swing.JDialog implements WindowListene
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                PINEntryDialog dialog = new PINEntryDialog(new javax.swing.JDialog(), true);
+                PINEntryDialog dialog = new PINEntryDialog(new javax.swing.JDialog(), true, ResourceBundle.getBundle("com/bdx/bwallet/tools/ui/Bundle"));
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {

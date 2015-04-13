@@ -16,6 +16,7 @@ import java.awt.datatransfer.StringSelection;
 import java.awt.image.BufferedImage;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JLabel;
@@ -29,14 +30,30 @@ import org.bitcoinj.params.MainNetParams;
  */
 public class AddressDetailsDialog extends javax.swing.JDialog {
 
+    private ResourceBundle bundle;
+
     private String address;
 
     /**
      * Creates new form AddressDetailsDialog
      */
-    public AddressDetailsDialog(java.awt.Dialog parent, boolean modal) {
+    public AddressDetailsDialog(java.awt.Dialog parent, boolean modal, ResourceBundle bundle) {
         super(parent, modal);
         initComponents();
+        this.bundle = bundle;
+        applyResourceBundle();
+    }
+
+    public void applyResourceBundle() {
+        setTitle(bundle.getString("AddressDetailsDialog.title")); 
+        addressLabel.setText(bundle.getString("AddressDetailsDialog.addressLabel.text")); 
+        pathLabel.setText(bundle.getString("AddressDetailsDialog.pathLabel.text")); 
+        xpubLabel.setText(bundle.getString("AddressDetailsDialog.xpubLabel.text")); 
+        pathContentLabel.setText(bundle.getString("AddressDetailsDialog.pathContentLabel.text")); 
+        copyAddressButton.setText(bundle.getString("AddressDetailsDialog.copyAddressButton.text")); 
+        copyXpubButton.setText(bundle.getString("AddressDetailsDialog.copyXpubButton.text")); 
+        viewBlockchainButton.setText(bundle.getString("AddressDetailsDialog.viewBlockchainButton.text")); 
+        viewBlockmetaButton.setText(bundle.getString("AddressDetailsDialog.viewBlockmetaButton.text")); 
     }
 
     /**
@@ -220,15 +237,16 @@ public class AddressDetailsDialog extends javax.swing.JDialog {
 
         xpubTextArea.setText(deterministicKey.serializePubB58());
         addressTextField.setText(address);
-        
+
         String path = "m/44'/0'";
         for (ChildNumber childNumber : deterministicKey.getPath()) {
             path = path + "/" + childNumber.num();
-            if (childNumber.isHardened())
+            if (childNumber.isHardened()) {
                 path = path + "'";
+            }
         }
         pathContentLabel.setText(path);
-        
+
         Optional<BufferedImage> qrCodeImage = QRCodes.generateQRCode(address, 2);
         JLabel imageLabel = LabelUtils.newImageLabel(qrCodeImage);
         imageLabel.setSize(180, 180);
@@ -267,7 +285,7 @@ public class AddressDetailsDialog extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                AddressDetailsDialog dialog = new AddressDetailsDialog(new javax.swing.JDialog(), true);
+                AddressDetailsDialog dialog = new AddressDetailsDialog(new javax.swing.JDialog(), true, ResourceBundle.getBundle("com/bdx/bwallet/tools/ui/Bundle"));
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {

@@ -21,6 +21,7 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.File;
 import java.net.URL;
+import java.util.ResourceBundle;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -34,24 +35,26 @@ import org.hid4java.HidDevice;
 public class FirmwareUpdateDialog extends javax.swing.JDialog implements WindowListener {
 
     private final JFileChooser fileChooser = new JFileChooser();
-    
+
+    private ResourceBundle bundle;
+
     private JDialog messageDialog;
-    
+
     private File file;
-    
+
     private MainController mainController;
 
     private Device device;
-    
+
     private boolean erased = false;
-    
+
     /**
      * Creates new form UpdateFirmwareDialog
      */
-    public FirmwareUpdateDialog(java.awt.Frame parent, boolean modal, MainController mainController, Device device) {
+    public FirmwareUpdateDialog(java.awt.Frame parent, boolean modal, ResourceBundle bundle, MainController mainController, Device device) {
         super(parent, modal);
         initComponents();
-        
+
         JOptionPane messagePanel = new JOptionPane("Please confirm on your device.", JOptionPane.INFORMATION_MESSAGE,
                 JOptionPane.DEFAULT_OPTION, null,
                 new Object[]{}, null);
@@ -59,11 +62,24 @@ public class FirmwareUpdateDialog extends javax.swing.JDialog implements WindowL
         messageDialog.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         messageDialog.setSize(400, 150);
         messageDialog.setLocationRelativeTo(null);
-        
+
         this.mainController = mainController;
         this.device = device;
-        
+
         this.addWindowListener(this);
+
+        this.bundle = bundle;
+        applyResourceBundle();
+    }
+
+    public void applyResourceBundle() {
+        setTitle(bundle.getString("FirmwareUpdateDialog.title")); 
+        fileButton.setText(bundle.getString("FirmwareUpdateDialog.fileButton.text")); 
+        fileLabel.setText(bundle.getString("FirmwareUpdateDialog.fileLabel.text")); 
+        updateButton.setText(bundle.getString("FirmwareUpdateDialog.updateButton.text")); 
+        cancelButton.setText(bundle.getString("FirmwareUpdateDialog.cancelButton.text")); 
+        messageTextArea.setText(bundle.getString("FirmwareUpdateDialog.messageTextArea.text")); 
+        downloadButton.setText(bundle.getString("FirmwareUpdateDialog.downloadButton.text")); 
     }
 
     /**
@@ -191,15 +207,16 @@ public class FirmwareUpdateDialog extends javax.swing.JDialog implements WindowL
                 mainController.firmwareErase(device);
                 java.awt.EventQueue.invokeLater(new Runnable() {
                     public void run() {
-                        ((JOptionPane)messageDialog.getContentPane().getComponent(0)).setMessage("If asked, please confirm the update on your device.");
+                        ((JOptionPane) messageDialog.getContentPane().getComponent(0)).setMessage("If asked, please confirm the update on your device.");
                         messageDialog.setVisible(true);
                     }
                 });
-            }
-            else
+            } else {
                 JOptionPane.showMessageDialog(this, "Please choose a firmware file");
-        } else 
-            JOptionPane.showMessageDialog(this, "Device detached");
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, bundle.getString("MessageDialog.deviceDetached"));
+        }
     }//GEN-LAST:event_updateButtonActionPerformed
 
     private void downloadButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_downloadButtonActionPerformed
@@ -220,9 +237,10 @@ public class FirmwareUpdateDialog extends javax.swing.JDialog implements WindowL
                         String code = getButtonRequestCode(event.getMessage());
                         String msg = code;
                         System.out.println(code);
-                        if ("ButtonRequest_FirmwareCheck".equals(code)) 
+                        if ("ButtonRequest_FirmwareCheck".equals(code)) {
                             msg = "Please confirm the firmware fingerprint on your device.";
-                        ((JOptionPane)messageDialog.getContentPane().getComponent(0)).setMessage(msg);
+                        }
+                        ((JOptionPane) messageDialog.getContentPane().getComponent(0)).setMessage(msg);
                         messageDialog.setVisible(true);
                     }
                 });
@@ -241,7 +259,7 @@ public class FirmwareUpdateDialog extends javax.swing.JDialog implements WindowL
             case SHOW_OPERATION_FAILED:
                 String msg = "Update failed";
                 if (event.getMessage().isPresent()) {
-                    BWalletMessage.Failure failure = (BWalletMessage.Failure)event.getMessage().get();
+                    BWalletMessage.Failure failure = (BWalletMessage.Failure) event.getMessage().get();
                     msg = msg + " : " + failure.getMessage();
                 }
                 JOptionPane.showMessageDialog(this, msg);
@@ -251,7 +269,7 @@ public class FirmwareUpdateDialog extends javax.swing.JDialog implements WindowL
                 break;
         }
     }
-    
+
     @Subscribe
     public void onMessageEvent(MessageEvent event) {
         if (event.getEventType() == MessageEventType.DEVICE_DETACHED) {
@@ -259,22 +277,22 @@ public class FirmwareUpdateDialog extends javax.swing.JDialog implements WindowL
             if (hidDevice.getPath() != null && hidDevice.getPath().equals(device.getPath())) {
                 device = null;
                 messageDialog.setVisible(false);
-                JOptionPane.showMessageDialog(this, "Device detached");
+                JOptionPane.showMessageDialog(this, bundle.getString("MessageDialog.deviceDetached"));
             }
         } else if (event.getEventType() == MessageEventType.DEVICE_FAILED) {
-            JOptionPane.showMessageDialog(this, "Device could not be opened.\r\nMake sure you don't have running another client!");
+            JOptionPane.showMessageDialog(this, bundle.getString("MessageDialog.deviceOpenFaild"));
             messageDialog.setVisible(false);
         }
     }
-    
+
     private String getButtonRequestCode(Optional<Message> message) {
         if (message.isPresent()) {
-            BWalletMessage.ButtonRequest buttonRequest = (BWalletMessage.ButtonRequest)message.get();
+            BWalletMessage.ButtonRequest buttonRequest = (BWalletMessage.ButtonRequest) message.get();
             return buttonRequest.getCode().name();
         }
         return null;
     }
-    
+
     @Override
     public void windowOpened(WindowEvent e) {
         HardwareWalletEvents.subscribe(this);
@@ -300,13 +318,13 @@ public class FirmwareUpdateDialog extends javax.swing.JDialog implements WindowL
     }
 
     @Override
-    public void windowActivated(WindowEvent e) {        
+    public void windowActivated(WindowEvent e) {
     }
 
     @Override
     public void windowDeactivated(WindowEvent e) {
     }
-    
+
     /**
      * @param args the command line arguments
      */
@@ -338,7 +356,7 @@ public class FirmwareUpdateDialog extends javax.swing.JDialog implements WindowL
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                FirmwareUpdateDialog dialog = new FirmwareUpdateDialog(new javax.swing.JFrame(), true, null, null);
+                FirmwareUpdateDialog dialog = new FirmwareUpdateDialog(new javax.swing.JFrame(), true, ResourceBundle.getBundle("com/bdx/bwallet/tools/ui/Bundle"), null, null);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {

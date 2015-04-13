@@ -28,6 +28,7 @@ import java.awt.event.WindowListener;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.ImageIcon;
@@ -47,9 +48,11 @@ import org.hid4java.HidDevice;
  *
  * @author Administrator
  */
-public class AccountDetailsDialog extends javax.swing.JDialog implements WindowListener {
+public final class AccountDetailsDialog extends javax.swing.JDialog implements WindowListener {
 
     final static int PAGE_SIZE = 15;
+
+    private ResourceBundle bundle;
 
     private MainController mainController;
 
@@ -68,7 +71,7 @@ public class AccountDetailsDialog extends javax.swing.JDialog implements WindowL
     /**
      * Creates new form AccountDetailsDialog
      */
-    public AccountDetailsDialog(java.awt.Frame parent, boolean modal, MainController mainController, Device device) {
+    public AccountDetailsDialog(java.awt.Frame parent, boolean modal, ResourceBundle bundle, MainController mainController, Device device) {
         super(parent, modal);
         initComponents();
 
@@ -104,7 +107,7 @@ public class AccountDetailsDialog extends javax.swing.JDialog implements WindowL
                 if (xpub != null) {
                     DeterministicKey parentXpub = HDKeyDerivation.deriveChildKey(xpub, 0);
                     DeterministicKey childXpub = HDKeyDerivation.deriveChildKey(parentXpub, index);
-                    AddressDetailsDialog addressDialog = new AddressDetailsDialog(AccountDetailsDialog.this, true);
+                    AddressDetailsDialog addressDialog = new AddressDetailsDialog(AccountDetailsDialog.this, true, AccountDetailsDialog.this.bundle);
                     addressDialog.init(childXpub);
                     addressDialog.setLocationRelativeTo(null);
                     addressDialog.setVisible(true);
@@ -127,7 +130,7 @@ public class AccountDetailsDialog extends javax.swing.JDialog implements WindowL
                 if (xpub != null) {
                     DeterministicKey parentXpub = HDKeyDerivation.deriveChildKey(xpub, 1);
                     DeterministicKey childXpub = HDKeyDerivation.deriveChildKey(parentXpub, index);
-                    AddressDetailsDialog addressDialog = new AddressDetailsDialog(AccountDetailsDialog.this, true);
+                    AddressDetailsDialog addressDialog = new AddressDetailsDialog(AccountDetailsDialog.this, true, AccountDetailsDialog.this.bundle);
                     addressDialog.init(childXpub);
                     addressDialog.setLocationRelativeTo(null);
                     addressDialog.setVisible(true);
@@ -137,6 +140,17 @@ public class AccountDetailsDialog extends javax.swing.JDialog implements WindowL
         ButtonColumn buttonColumn2 = new ButtonColumn(cAddressTable, view2, 2);
 
         this.addWindowListener(this);
+
+        this.bundle = bundle;
+        applyResourceBundle();
+    }
+
+    public void applyResourceBundle() {
+        setTitle(bundle.getString("AccountDetailsDialog.title")); 
+        accountIndexLabel.setText(bundle.getString("AccountDetailsDialog.accountIndexLabel.text")); 
+        getButton.setText(bundle.getString("AccountDetailsDialog.getButton.text")); 
+        receivingAddressesLabel.setText(bundle.getString("AccountDetailsDialog.receivingAddressesLabel.text")); 
+        changeAddressesLabel.setText(bundle.getString("AccountDetailsDialog.changeAddressesLabel.text")); 
     }
 
     /**
@@ -395,7 +409,7 @@ public class AccountDetailsDialog extends javax.swing.JDialog implements WindowL
             childNumbers.add(new ChildNumber(index - 1, true));
             mainController.getDeterministicHierarchy(device, childNumbers);
         } else {
-            JOptionPane.showMessageDialog(this, "Device detached");
+            JOptionPane.showMessageDialog(this, bundle.getString("MessageDialog.deviceDetached"));
         }
     }//GEN-LAST:event_getButtonActionPerformed
 
@@ -441,7 +455,7 @@ public class AccountDetailsDialog extends javax.swing.JDialog implements WindowL
         String msg = "";
         switch (event.getEventType()) {
             case SHOW_PIN_ENTRY:
-                PINEntryDialog pinEntryDialog = new PINEntryDialog(this, true);
+                PINEntryDialog pinEntryDialog = new PINEntryDialog(this, true, bundle);
                 pinEntryDialog.setLocationRelativeTo(null);
                 if (event.getMessage().isPresent()) {
                     BWalletMessage.PinMatrixRequest pinRequest = (BWalletMessage.PinMatrixRequest) event.getMessage().get();
@@ -464,7 +478,7 @@ public class AccountDetailsDialog extends javax.swing.JDialog implements WindowL
                 }
                 break;
             case SHOW_PASSPHRASE_ENTRY:
-                PassphraseEntryDialog passphraseEntryDialog = new PassphraseEntryDialog(this, true);
+                PassphraseEntryDialog passphraseEntryDialog = new PassphraseEntryDialog(this, true, bundle);
                 passphraseEntryDialog.setLocationRelativeTo(null);
                 passphraseEntryDialog.setVisible(true);
                 if (passphraseEntryDialog.isCancel()) {
@@ -534,10 +548,10 @@ public class AccountDetailsDialog extends javax.swing.JDialog implements WindowL
             if (hidDevice.getPath() != null && hidDevice.getPath().equals(device.getPath())) {
                 device = null;
                 messageDialog.setVisible(false);
-                JOptionPane.showMessageDialog(this, "Device detached");
+                JOptionPane.showMessageDialog(this, bundle.getString("MessageDialog.deviceDetached"));
             }
         } else if (event.getEventType() == MessageEventType.DEVICE_FAILED) {
-            JOptionPane.showMessageDialog(this, "Device could not be opened.\r\nMake sure you don't have running another client!");
+            JOptionPane.showMessageDialog(this, bundle.getString("MessageDialog.deviceOpenFaild"));
         }
     }
 
@@ -614,7 +628,7 @@ public class AccountDetailsDialog extends javax.swing.JDialog implements WindowL
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                AccountDetailsDialog dialog = new AccountDetailsDialog(new javax.swing.JFrame(), true, null, null);
+                AccountDetailsDialog dialog = new AccountDetailsDialog(new javax.swing.JFrame(), true, ResourceBundle.getBundle("com/bdx/bwallet/tools/ui/Bundle"), null, null);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {

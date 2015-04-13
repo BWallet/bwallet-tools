@@ -21,6 +21,7 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.ResourceBundle;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
@@ -32,21 +33,23 @@ import org.hid4java.HidDevice;
  *
  * @author Administrator
  */
-public class ApplySettingsDialog extends javax.swing.JDialog implements WindowListener {
+public final class ApplySettingsDialog extends javax.swing.JDialog implements WindowListener {
+
+    private ResourceBundle bundle;
 
     private MainController mainController;
 
     private JDialog messageDialog;
 
     private Device device;
-    
+
     /**
      * Creates new form ApplySettingsDialog
      */
-    public ApplySettingsDialog(java.awt.Frame parent, boolean modal, MainController mainController, Device device, Optional<String> language, Optional<String> label) {
+    public ApplySettingsDialog(java.awt.Frame parent, boolean modal, ResourceBundle bundle, MainController mainController, Device device, Optional<String> language, Optional<String> label) {
         super(parent, modal);
         initComponents();
-        
+
         Map<String, Language> languages = new LinkedHashMap();
         languages.put("english", new Language("english", "English"));
         languages.put("chinese", new Language("chinese", "中文"));
@@ -55,22 +58,22 @@ public class ApplySettingsDialog extends javax.swing.JDialog implements WindowLi
         for (Language l : languages.values()) {
             languageComboBoxModel.addElement(l);
         }
-        
+
         if (language.isPresent() && StringUtils.isNotBlank(language.get())) {
             languageComboBoxModel.setSelectedItem(languages.get(language.get()));
         } else {
             languageComboBoxModel.setSelectedItem(languages.get("english"));
         }
-        
+
         if (label.isPresent()) {
             labelTextField.setText(label.get());
         } else {
             labelTextField.setText("My BWallet");
         }
-        
+
         this.mainController = mainController;
         this.device = device;
-        
+
         JOptionPane messagePanel = new JOptionPane("Please confirm the action on your device.", JOptionPane.INFORMATION_MESSAGE,
                 JOptionPane.DEFAULT_OPTION, null,
                 new Object[]{}, null);
@@ -78,15 +81,27 @@ public class ApplySettingsDialog extends javax.swing.JDialog implements WindowLi
         messageDialog.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
         messageDialog.setSize(400, 150);
         messageDialog.setLocationRelativeTo(null);
-        messageDialog.addWindowListener(new WindowAdapter(){
+        messageDialog.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
                 System.out.println("windowClosing");
                 ApplySettingsDialog.this.mainController.cancel();
             }
         });
-        
+
         this.addWindowListener(this);
+
+        this.bundle = bundle;
+        applyResourceBundle();
+    }
+
+    public void applyResourceBundle() {
+        setTitle(bundle.getString("ApplySettingsDialog.title")); 
+        cancelButton.setText(bundle.getString("ApplySettingsDialog.cancelButton.text")); 
+        applyButton.setText(bundle.getString("ApplySettingsDialog.applyButton.text")); 
+        languageLabel.setText(bundle.getString("ApplySettingsDialog.languageLabel.text")); 
+        labelTextField.setText(bundle.getString("ApplySettingsDialog.labelTextField.text")); 
+        labelLabel.setText(bundle.getString("ApplySettingsDialog.labelLabel.text")); 
     }
 
     /**
@@ -190,8 +205,9 @@ public class ApplySettingsDialog extends javax.swing.JDialog implements WindowLi
             Language language = (Language) ((DefaultComboBoxModel) languageComboBox.getModel()).getSelectedItem();
             String label = labelTextField.getText();
             mainController.applySettings(device, language.getValue(), label);
-        } else 
-            JOptionPane.showMessageDialog(this, "Device detached");
+        } else {
+            JOptionPane.showMessageDialog(this, bundle.getString("MessageDialog.deviceDetached"));
+        }
     }//GEN-LAST:event_applyButtonActionPerformed
 
     private void languageComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_languageComboBoxActionPerformed
@@ -208,7 +224,7 @@ public class ApplySettingsDialog extends javax.swing.JDialog implements WindowLi
         String msg = "";
         switch (event.getEventType()) {
             case SHOW_PIN_ENTRY:
-                PINEntryDialog pinEntryDialog = new PINEntryDialog(this, true);
+                PINEntryDialog pinEntryDialog = new PINEntryDialog(this, true, bundle);
                 pinEntryDialog.setLocationRelativeTo(null);
                 if (event.getMessage().isPresent()) {
                     BWalletMessage.PinMatrixRequest pinRequest = (BWalletMessage.PinMatrixRequest) event.getMessage().get();
@@ -246,7 +262,7 @@ public class ApplySettingsDialog extends javax.swing.JDialog implements WindowLi
                 messageDialog.setVisible(false);
                 msg = "Apply Settings failed";
                 if (event.getMessage().isPresent()) {
-                    BWalletMessage.Failure failure = (BWalletMessage.Failure)event.getMessage().get();
+                    BWalletMessage.Failure failure = (BWalletMessage.Failure) event.getMessage().get();
                     msg = failure.getMessage();
                 }
                 JOptionPane.showMessageDialog(this, msg);
@@ -255,7 +271,7 @@ public class ApplySettingsDialog extends javax.swing.JDialog implements WindowLi
                 break;
         }
     }
-    
+
     @Subscribe
     public void onMessageEvent(MessageEvent event) {
         if (event.getEventType() == MessageEventType.DEVICE_DETACHED) {
@@ -263,11 +279,11 @@ public class ApplySettingsDialog extends javax.swing.JDialog implements WindowLi
             if (hidDevice.getPath() != null && hidDevice.getPath().equals(device.getPath())) {
                 device = null;
                 messageDialog.setVisible(false);
-                JOptionPane.showMessageDialog(this, "Device detached");
+                JOptionPane.showMessageDialog(this, bundle.getString("MessageDialog.deviceDetached"));
             }
         }
     }
-    
+
     @Override
     public void windowOpened(WindowEvent e) {
         HardwareWalletEvents.subscribe(this);
@@ -293,13 +309,13 @@ public class ApplySettingsDialog extends javax.swing.JDialog implements WindowLi
     }
 
     @Override
-    public void windowActivated(WindowEvent e) {        
+    public void windowActivated(WindowEvent e) {
     }
 
     @Override
     public void windowDeactivated(WindowEvent e) {
     }
-    
+
     /**
      * @param args the command line arguments
      */
@@ -330,7 +346,7 @@ public class ApplySettingsDialog extends javax.swing.JDialog implements WindowLi
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                ApplySettingsDialog dialog = new ApplySettingsDialog(new javax.swing.JFrame(), true, null, null, Optional.<String>absent(), Optional.<String>absent());
+                ApplySettingsDialog dialog = new ApplySettingsDialog(new javax.swing.JFrame(), true, ResourceBundle.getBundle("com/bdx/bwallet/tools/ui/Bundle"), null, null, Optional.<String>absent(), Optional.<String>absent());
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {

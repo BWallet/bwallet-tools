@@ -11,6 +11,7 @@ import java.awt.event.WindowListener;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
@@ -26,37 +27,48 @@ import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
  */
 public class WordEntryDialog extends javax.swing.JDialog implements WindowListener {
 
+    private ResourceBundle bundle;
+
     private MainController mainController;
-    
+
     private List<String> wordList = new ArrayList<>();
 
     private DefaultComboBoxModel wordModel = new DefaultComboBoxModel();
-    
+
     /**
      * Creates new form WordEntryDialog
      */
-    public WordEntryDialog(java.awt.Dialog parent, boolean modal, MainController mainController) {
+    public WordEntryDialog(java.awt.Dialog parent, boolean modal, ResourceBundle bundle, MainController mainController) {
         super(parent, modal);
         initComponents();
 
         this.addWindowListener(this);
-        
+
         this.mainController = mainController;
-        
-        wordComboBox.setModel(wordModel);     
+
+        wordComboBox.setModel(wordModel);
         AutoCompleteDecorator.decorate(wordComboBox);
-        
+
         try {
             MnemonicCode mnemonicCode = new MnemonicCode();
             wordList = mnemonicCode.getWordList();
         } catch (IOException ex) {
             Logger.getLogger(WordEntryDialog.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         wordModel.addElement("");
         for (String word : wordList) {
             wordModel.addElement(word);
         }
+
+        this.bundle = bundle;
+        applyResourceBundle();
+    }
+
+    public void applyResourceBundle() {
+        setTitle(bundle.getString("WordEntryDialog.title"));
+        message1Label.setText(bundle.getString("WordEntryDialog.message1Label.text"));
+        message2Label.setText(bundle.getString("WordEntryDialog.message2Label.text"));
     }
 
     /**
@@ -158,13 +170,13 @@ public class WordEntryDialog extends javax.swing.JDialog implements WindowListen
         JComboBox cb = (JComboBox) evt.getSource();
         if ("comboBoxEdited".equals(evt.getActionCommand())) {
             // User has typed in a string; only possible with an editable combobox
-            String word = (String)cb.getSelectedItem();
+            String word = (String) cb.getSelectedItem();
             if (StringUtils.isNotBlank(word)) {
                 System.out.println(word);
                 this.disableWordComboBox();
                 mainController.provideWord(word);
-                cb.setSelectedIndex(0);             
-                DefaultTableModel wordTableModel = (DefaultTableModel)wordTable.getModel();
+                cb.setSelectedIndex(0);
+                DefaultTableModel wordTableModel = (DefaultTableModel) wordTable.getModel();
                 wordTableModel.addRow(new String[]{word});
             }
         }
@@ -173,21 +185,21 @@ public class WordEntryDialog extends javax.swing.JDialog implements WindowListen
     public void disableWordComboBox() {
         wordComboBox.setEnabled(false);
     }
-    
+
     public void enableWordComboBox() {
         wordComboBox.setEnabled(true);
         wordComboBox.grabFocus();
     }
-    
+
     public void clearWordTable() {
-        DefaultTableModel wordTableModel = (DefaultTableModel)wordTable.getModel();
-        for (int i = wordTableModel.getRowCount() - 1; i >= 0 ; i--) {
+        DefaultTableModel wordTableModel = (DefaultTableModel) wordTable.getModel();
+        for (int i = wordTableModel.getRowCount() - 1; i >= 0; i--) {
             wordTableModel.removeRow(i);
         }
     }
 
     @Override
-    public void windowOpened(WindowEvent e) {  
+    public void windowOpened(WindowEvent e) {
     }
 
     @Override
@@ -208,13 +220,13 @@ public class WordEntryDialog extends javax.swing.JDialog implements WindowListen
     }
 
     @Override
-    public void windowActivated(WindowEvent e) {        
+    public void windowActivated(WindowEvent e) {
     }
 
     @Override
     public void windowDeactivated(WindowEvent e) {
     }
-    
+
     /**
      * @param args the command line arguments
      */
@@ -245,7 +257,7 @@ public class WordEntryDialog extends javax.swing.JDialog implements WindowListen
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                WordEntryDialog dialog = new WordEntryDialog(new javax.swing.JDialog(), true, null);
+                WordEntryDialog dialog = new WordEntryDialog(new javax.swing.JDialog(), true, ResourceBundle.getBundle("com/bdx/bwallet/tools/ui/Bundle"), null);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {

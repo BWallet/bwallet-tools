@@ -17,9 +17,11 @@ import com.google.common.eventbus.Subscribe;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.util.ResourceBundle;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.WindowConstants;
+import javax.swing.border.TitledBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import org.bitcoinj.core.Address;
@@ -36,6 +38,8 @@ import org.spongycastle.util.encoders.DecoderException;
  */
 public class SignMessageDialog extends javax.swing.JDialog implements WindowListener {
 
+    private ResourceBundle bundle;
+
     private MainController mainController;
 
     private JDialog messageDialog;
@@ -45,7 +49,7 @@ public class SignMessageDialog extends javax.swing.JDialog implements WindowList
     /**
      * Creates new form SignMessageDialog
      */
-    public SignMessageDialog(java.awt.Frame parent, boolean modal, MainController mainController, Device device) {
+    public SignMessageDialog(java.awt.Frame parent, boolean modal, ResourceBundle bundle, MainController mainController, Device device) {
         super(parent, modal);
         initComponents();
 
@@ -68,51 +72,78 @@ public class SignMessageDialog extends javax.swing.JDialog implements WindowList
         });
 
         this.addWindowListener(this);
-        
-        sMessageTextArea.getDocument().addDocumentListener(new DocumentListener(){
+
+        sMessageTextArea.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
                 sSignatureTextArea.setText("");
             }
+
             @Override
             public void removeUpdate(DocumentEvent e) {
                 sSignatureTextArea.setText("");
             }
+
             @Override
             public void changedUpdate(DocumentEvent e) {
                 sSignatureTextArea.setText("");
             }
         });
-        
-        accountTextField.getDocument().addDocumentListener(new DocumentListener(){
+
+        accountTextField.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
                 sSignatureTextArea.setText("");
             }
+
             @Override
             public void removeUpdate(DocumentEvent e) {
                 sSignatureTextArea.setText("");
             }
+
             @Override
             public void changedUpdate(DocumentEvent e) {
                 sSignatureTextArea.setText("");
             }
         });
-        
-        indexTextField.getDocument().addDocumentListener(new DocumentListener(){
+
+        indexTextField.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
                 sSignatureTextArea.setText("");
             }
+
             @Override
             public void removeUpdate(DocumentEvent e) {
                 sSignatureTextArea.setText("");
             }
+
             @Override
             public void changedUpdate(DocumentEvent e) {
                 sSignatureTextArea.setText("");
             }
         });
+
+        this.bundle = bundle;
+        applyResourceBundle();
+    }
+
+    public void applyResourceBundle() {
+        setTitle(bundle.getString("SignMessageDialog.title")); 
+        
+        ((TitledBorder)signPanel.getBorder()).setTitle(bundle.getString("SignMessageDialog.signPanel.border.title"));
+        ((TitledBorder)verifyPanel.getBorder()).setTitle(bundle.getString("SignMessageDialog.verifyPanel.border.title"));
+        
+        sMessageLabel.setText(bundle.getString("SignMessageDialog.sMessageLabel.text")); 
+        sSignatureLabel.setText(bundle.getString("SignMessageDialog.sSignatureLabel.text")); 
+        sAddressLabel.setText(bundle.getString("SignMessageDialog.sAddressLabel.text")); 
+        signButton.setText(bundle.getString("SignMessageDialog.signButton.text")); 
+        accountLabel.setText(bundle.getString("SignMessageDialog.accountLabel.text")); 
+        indexLabel.setText(bundle.getString("SignMessageDialog.indexLabel.text")); 
+        vMessageLabel.setText(bundle.getString("SignMessageDialog.vMessageLabel.text")); 
+        vSignatureLabel.setText(bundle.getString("SignMessageDialog.vSignatureLabel.text")); 
+        vAddressLabel.setText(bundle.getString("SignMessageDialog.vAddressLabel.text")); 
+        verifyButton.setText(bundle.getString("SignMessageDialog.verifyButton.text")); 
     }
 
     /**
@@ -340,7 +371,7 @@ public class SignMessageDialog extends javax.swing.JDialog implements WindowList
                 return;
             }
             byte[] message = messageText.getBytes();
-            
+
             String accountText = accountTextField.getText().trim();
             if ("".equals(accountText)) {
                 JOptionPane.showMessageDialog(this, "Empty account");
@@ -353,7 +384,7 @@ public class SignMessageDialog extends javax.swing.JDialog implements WindowList
                 JOptionPane.showMessageDialog(this, "Invalid account");
                 return;
             }
-            
+
             String indexText = indexTextField.getText().trim();
             if ("".equals(indexText)) {
                 JOptionPane.showMessageDialog(this, "Empty index");
@@ -366,17 +397,18 @@ public class SignMessageDialog extends javax.swing.JDialog implements WindowList
                 JOptionPane.showMessageDialog(this, "Invalid index");
                 return;
             }
-            
-            String purposeText = (String)purposeComboBox.getSelectedItem();
+
+            String purposeText = (String) purposeComboBox.getSelectedItem();
             KeyChain.KeyPurpose purpose;
-            if ("Receive".equals(purposeText))
+            if ("Receive".equals(purposeText)) {
                 purpose = KeyChain.KeyPurpose.RECEIVE_FUNDS;
-            else 
+            } else {
                 purpose = KeyChain.KeyPurpose.CHANGE;
-            
+            }
+
             mainController.signMessage(device, account, purpose, index, message);
         } else {
-            JOptionPane.showMessageDialog(this, "Device detached");
+            JOptionPane.showMessageDialog(this, bundle.getString("MessageDialog.deviceDetached"));
         }
     }//GEN-LAST:event_signButtonActionPerformed
 
@@ -388,7 +420,7 @@ public class SignMessageDialog extends javax.swing.JDialog implements WindowList
                 return;
             }
             byte[] message = messageText.getBytes();
-            
+
             String addressText = addressTextField.getText().trim();
             if ("".equals(addressText)) {
                 JOptionPane.showMessageDialog(this, "Empty address");
@@ -398,10 +430,10 @@ public class SignMessageDialog extends javax.swing.JDialog implements WindowList
             try {
                 address = new Address(MainNetParams.get(), addressText);
             } catch (AddressFormatException ex) {
-                 JOptionPane.showMessageDialog(this, "Invalid address");
+                JOptionPane.showMessageDialog(this, "Invalid address");
                 return;
             }
-            
+
             String signatureText = vSignatureTextArea.getText().trim();
             if ("".equals(signatureText)) {
                 JOptionPane.showMessageDialog(this, "Empty signature");
@@ -414,10 +446,10 @@ public class SignMessageDialog extends javax.swing.JDialog implements WindowList
                 JOptionPane.showMessageDialog(this, "Invalid signature");
                 return;
             }
-            
+
             mainController.verifyMessage(device, address, signature, message);
         } else {
-            JOptionPane.showMessageDialog(this, "Device detached");
+            JOptionPane.showMessageDialog(this, bundle.getString("MessageDialog.deviceDetached"));
         }
     }//GEN-LAST:event_verifyButtonActionPerformed
 
@@ -426,8 +458,8 @@ public class SignMessageDialog extends javax.swing.JDialog implements WindowList
         System.out.println(event.getEventType());
         String msg = "";
         switch (event.getEventType()) {
-             case SHOW_PASSPHRASE_ENTRY:
-                PassphraseEntryDialog passphraseEntryDialog = new PassphraseEntryDialog(this, true);
+            case SHOW_PASSPHRASE_ENTRY:
+                PassphraseEntryDialog passphraseEntryDialog = new PassphraseEntryDialog(this, true, bundle);
                 passphraseEntryDialog.setLocationRelativeTo(null);
                 passphraseEntryDialog.setVisible(true);
                 if (passphraseEntryDialog.isCancel()) {
@@ -438,7 +470,7 @@ public class SignMessageDialog extends javax.swing.JDialog implements WindowList
                 }
                 break;
             case SHOW_PIN_ENTRY:
-                PINEntryDialog pinEntryDialog = new PINEntryDialog(this, true);
+                PINEntryDialog pinEntryDialog = new PINEntryDialog(this, true, bundle);
                 pinEntryDialog.setLocationRelativeTo(null);
                 if (event.getMessage().isPresent()) {
                     BWalletMessage.PinMatrixRequest pinRequest = (BWalletMessage.PinMatrixRequest) event.getMessage().get();
@@ -503,10 +535,10 @@ public class SignMessageDialog extends javax.swing.JDialog implements WindowList
             if (hidDevice.getPath() != null && hidDevice.getPath().equals(device.getPath())) {
                 device = null;
                 messageDialog.setVisible(false);
-                JOptionPane.showMessageDialog(this, "Device detached");
+                JOptionPane.showMessageDialog(this, bundle.getString("MessageDialog.deviceDetached"));
             }
         } else if (event.getEventType() == MessageEventType.DEVICE_FAILED) {
-            JOptionPane.showMessageDialog(this, "Device could not be opened.\r\nMake sure you don't have running another client!");
+            JOptionPane.showMessageDialog(this, bundle.getString("MessageDialog.deviceOpenFaild"));
         }
     }
 
@@ -572,7 +604,7 @@ public class SignMessageDialog extends javax.swing.JDialog implements WindowList
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                SignMessageDialog dialog = new SignMessageDialog(new javax.swing.JFrame(), true, null, null);
+                SignMessageDialog dialog = new SignMessageDialog(new javax.swing.JFrame(), true, ResourceBundle.getBundle("com/bdx/bwallet/tools/ui/Bundle"), null, null);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {

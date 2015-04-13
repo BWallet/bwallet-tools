@@ -7,6 +7,7 @@ package com.bdx.bwallet.tools.ui;
 
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.util.ResourceBundle;
 import javax.swing.JOptionPane;
 
 /**
@@ -15,16 +16,25 @@ import javax.swing.JOptionPane;
  */
 public class PassphraseEntryDialog extends javax.swing.JDialog implements WindowListener {
 
+    private ResourceBundle bundle;
+
     private String passphrase = "";
-    
+
     private boolean cancel = false;
-    
+
     /**
      * Creates new form PassphraseEntryDialog
      */
-    public PassphraseEntryDialog(java.awt.Dialog parent, boolean modal) {
+    public PassphraseEntryDialog(java.awt.Dialog parent, boolean modal, ResourceBundle bundle) {
         super(parent, modal);
         initComponents();
+        this.bundle = bundle;
+        applyResourceBundle();
+    }
+
+    public void applyResourceBundle() {
+        passphraseLabel.setText(bundle.getString("PassphraseEntryDialog.passphraseLabel.text")); 
+        enterButton.setText(bundle.getString("PassphraseEntryDialog.enterButton.text")); 
     }
 
     /**
@@ -87,12 +97,12 @@ public class PassphraseEntryDialog extends javax.swing.JDialog implements Window
     private void enterButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enterButtonActionPerformed
         String passphrase = new String(passphraseField.getPassword());
         String confirmPassphrase = new String(confirmPassphraseField.getPassword());
-        
+
         if (!passphrase.equals(confirmPassphrase)) {
             JOptionPane.showMessageDialog(this, "The passwords you typed do not match. ");
-            return ;
+            return;
         }
-        
+
         this.passphrase = passphrase;
         this.cancel = false;
         this.dispose();
@@ -105,9 +115,9 @@ public class PassphraseEntryDialog extends javax.swing.JDialog implements Window
     public boolean isCancel() {
         return cancel;
     }
-    
+
     @Override
-    public void windowOpened(WindowEvent e) {  
+    public void windowOpened(WindowEvent e) {
     }
 
     @Override
@@ -129,13 +139,13 @@ public class PassphraseEntryDialog extends javax.swing.JDialog implements Window
     }
 
     @Override
-    public void windowActivated(WindowEvent e) {        
+    public void windowActivated(WindowEvent e) {
     }
 
     @Override
     public void windowDeactivated(WindowEvent e) {
     }
-    
+
     /**
      * @param args the command line arguments
      */
@@ -166,7 +176,7 @@ public class PassphraseEntryDialog extends javax.swing.JDialog implements Window
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                PassphraseEntryDialog dialog = new PassphraseEntryDialog(new javax.swing.JDialog(), true);
+                PassphraseEntryDialog dialog = new PassphraseEntryDialog(new javax.swing.JDialog(), true, ResourceBundle.getBundle("com/bdx/bwallet/tools/ui/Bundle"));
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {

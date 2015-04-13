@@ -17,6 +17,7 @@ import com.google.common.eventbus.Subscribe;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.util.ResourceBundle;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.WindowConstants;
@@ -26,24 +27,26 @@ import org.hid4java.HidDevice;
  *
  * @author Administrator
  */
-public class TestScreenDialog extends javax.swing.JDialog  implements WindowListener {
+public class TestScreenDialog extends javax.swing.JDialog implements WindowListener {
+
+    private ResourceBundle bundle;
 
     private MainController mainController;
-    
+
     private JDialog messageDialog;
-    
+
     private Device device;
-    
+
     /**
      * Creates new form TestScreenDialog
      */
-    public TestScreenDialog(java.awt.Frame parent, boolean modal, MainController mainController, Device device) {
+    public TestScreenDialog(java.awt.Frame parent, boolean modal, ResourceBundle bundle, MainController mainController, Device device) {
         super(parent, modal);
         initComponents();
-        
+
         this.mainController = mainController;
         this.device = device;
-        
+
         JOptionPane messagePanel = new JOptionPane("Please check the screen of your device.", JOptionPane.INFORMATION_MESSAGE,
                 JOptionPane.DEFAULT_OPTION, null,
                 new Object[]{}, null);
@@ -57,8 +60,18 @@ public class TestScreenDialog extends javax.swing.JDialog  implements WindowList
                 System.out.println("windowClosing");
             }
         });
-        
+
         this.addWindowListener(this);
+
+        this.bundle = bundle;
+        applyResourceBundle();
+    }
+
+    public void applyResourceBundle() {
+        setTitle(bundle.getString("TestScreenDialog.title"));
+        testButton.setText(bundle.getString("TestScreenDialog.testButton.text"));
+        timeLabel.setText(bundle.getString("TestScreenDialog.timeLabel.text"));
+        unitLabel.setText(bundle.getString("TestScreenDialog.unitLabel.text"));
     }
 
     /**
@@ -148,8 +161,9 @@ public class TestScreenDialog extends javax.swing.JDialog  implements WindowList
                 }
             });
             mainController.testScreen(device, time);
-        } else
-            JOptionPane.showMessageDialog(this, "Device detached");
+        } else {
+            JOptionPane.showMessageDialog(this, bundle.getString("MessageDialog.deviceDetached"));
+        }
     }//GEN-LAST:event_testButtonActionPerformed
 
     @Subscribe
@@ -162,8 +176,9 @@ public class TestScreenDialog extends javax.swing.JDialog  implements WindowList
                 if (event.getMessage().isPresent()) {
                     BWalletMessage.Success success = (BWalletMessage.Success) event.getMessage().get();
                     msg = success.getMessage();
-                } else 
+                } else {
                     msg = "Test finished";
+                }
                 JOptionPane.showMessageDialog(this, msg);
                 break;
             case SHOW_OPERATION_FAILED:
@@ -171,15 +186,16 @@ public class TestScreenDialog extends javax.swing.JDialog  implements WindowList
                 if (event.getMessage().isPresent()) {
                     BWalletMessage.Failure failure = (BWalletMessage.Failure) event.getMessage().get();
                     msg = failure.getMessage();
-                } else 
+                } else {
                     msg = "Test failed";
+                }
                 JOptionPane.showMessageDialog(this, msg);
                 break;
             default:
                 break;
         }
     }
-    
+
     @Subscribe
     public void onMessageEvent(MessageEvent event) {
         if (event.getEventType() == MessageEventType.DEVICE_DETACHED) {
@@ -187,7 +203,7 @@ public class TestScreenDialog extends javax.swing.JDialog  implements WindowList
             if (hidDevice.getPath() != null && hidDevice.getPath().equals(device.getPath())) {
                 device = null;
                 messageDialog.setVisible(false);
-                JOptionPane.showMessageDialog(this, "Device detached");
+                JOptionPane.showMessageDialog(this, bundle.getString("MessageDialog.deviceDetached"));
             }
         } else if (event.getEventType() == MessageEventType.DEVICE_FAILED) {
             java.awt.EventQueue.invokeLater(new Runnable() {
@@ -196,10 +212,10 @@ public class TestScreenDialog extends javax.swing.JDialog  implements WindowList
                     messageDialog.setVisible(false);
                 }
             });
-            JOptionPane.showMessageDialog(this, "Device could not be opened.\r\nMake sure you don't have running another client!");
+            JOptionPane.showMessageDialog(this, bundle.getString("MessageDialog.deviceOpenFaild"));
         }
     }
-    
+
     @Override
     public void windowOpened(WindowEvent e) {
         HardwareWalletEvents.subscribe(this);
@@ -231,7 +247,7 @@ public class TestScreenDialog extends javax.swing.JDialog  implements WindowList
     @Override
     public void windowDeactivated(WindowEvent e) {
     }
-    
+
     /**
      * @param args the command line arguments
      */
@@ -262,7 +278,7 @@ public class TestScreenDialog extends javax.swing.JDialog  implements WindowList
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                TestScreenDialog dialog = new TestScreenDialog(new javax.swing.JFrame(), true, null, null);
+                TestScreenDialog dialog = new TestScreenDialog(new javax.swing.JFrame(), true, ResourceBundle.getBundle("com/bdx/bwallet/tools/ui/Bundle"), null, null);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {

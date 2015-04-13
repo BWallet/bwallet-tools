@@ -18,12 +18,14 @@ import com.google.common.eventbus.Subscribe;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.util.ResourceBundle;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JSlider;
 import javax.swing.JToolTip;
 import javax.swing.WindowConstants;
+import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import org.hid4java.HidDevice;
@@ -33,6 +35,8 @@ import org.hid4java.HidDevice;
  * @author Administrator
  */
 public class CreateWalletDialog extends javax.swing.JDialog implements WindowListener {
+
+    private ResourceBundle bundle;
 
     private MainController mainController;
 
@@ -48,7 +52,7 @@ public class CreateWalletDialog extends javax.swing.JDialog implements WindowLis
     /**
      * Creates new form CreateWalletDialog
      */
-    public CreateWalletDialog(java.awt.Frame parent, boolean modal, MainController mainController, Device device) {
+    public CreateWalletDialog(java.awt.Frame parent, boolean modal, ResourceBundle bundle, MainController mainController, Device device) {
         super(parent, modal);
         initComponents();
 
@@ -70,17 +74,7 @@ public class CreateWalletDialog extends javax.swing.JDialog implements WindowLis
                 System.out.println("windowClosing");
                 CreateWalletDialog.this.mainController.cancel();
             }
-        });
-
-        labelTextField.setToolTipText("This label will be shown on the display when you plug your in. This is useful if you have more than one device.");
-        languageComboBox.setToolTipText("The language be used that your device displaying text.");
-        lengthSlider.setToolTipText("Your recovery seed is a sequence of words. It will help you recover your wallet (your bitcoins and transaction history), into another device should your be lost or destoyed.");
-        pinCheckBox.setToolTipText("<html>Using PIN protection is highly recommended. The PIN prevents unauthorized persons from stealing your bitcoins if they ever get physical access to your device.<br/>"
-                + "You can reset or change your PIN at any time after the setup is complete. Be careful with your recovery card. If anyone finds out your recovery seed they can steal your bitcoins even without your PIN.</html>");
-        passphraseCheckBox.setToolTipText("<html>Using an encryption passphrase adds an additional level of security. You'll be asked for your passphrase every time you want to access your wallet.<br/>"
-                + "<h4>Passphrase encryption is for experts only. Proceed with caution!</h4>"
-                + "Passphrase works like a 25th word of the seed which is not stored in the BWallet. If you forget your passphrase, your wallet is lost for good. There is absolutely no way to recover your funds.<br/>"
-                + "If you mistype your passphrase, a different wallet is created, which will look as if you had 0 BTC on your account.</html>");
+        });     
 
         this.mainController = mainController;
         this.device = device;
@@ -88,6 +82,7 @@ public class CreateWalletDialog extends javax.swing.JDialog implements WindowLis
         this.addWindowListener(this);
         lengthSlider.addChangeListener(new ChangeListener() {
             private boolean isUserTrigger = true;
+
             @Override
             public void stateChanged(ChangeEvent e) {
                 JSlider source = (JSlider) e.getSource();
@@ -103,6 +98,35 @@ public class CreateWalletDialog extends javax.swing.JDialog implements WindowLis
                 }
             }
         });
+
+        this.bundle = bundle;
+        applyResourceBundle();
+    }
+
+    public void applyResourceBundle() {
+        setTitle(bundle.getString("CreateWalletDialog.title")); 
+        
+        ((TitledBorder)basicPanel.getBorder()).setTitle(bundle.getString("CreateWalletDialog.basicPanel.border.title"));
+        ((TitledBorder)advancedPanel.getBorder()).setTitle(bundle.getString("CreateWalletDialog.advancedPanel.border.title"));
+        
+        labelLabel.setText(bundle.getString("CreateWalletDialog.labelLabel.text")); 
+        languageLabel.setText(bundle.getString("CreateWalletDialog.languageLabel.text")); 
+        labelTextField.setText(bundle.getString("CreateWalletDialog.labelTextField.text")); 
+        continueButton.setText(bundle.getString("CreateWalletDialog.continueButton.text")); 
+        lengthLabel.setText(bundle.getString("CreateWalletDialog.lengthLabel.text")); 
+        len12Label.setText(bundle.getString("CreateWalletDialog.len12Label.text")); 
+        len18Label.setText(bundle.getString("CreateWalletDialog.len18Label.text")); 
+        len24Label.setText(bundle.getString("CreateWalletDialog.len24Label.text")); 
+        pinLabel.setText(bundle.getString("CreateWalletDialog.pinLabel.text")); 
+        passphraseLabel.setText(bundle.getString("CreateWalletDialog.passphraseLabel.text")); 
+        pinCheckBox.setText(bundle.getString("CreateWalletDialog.pinCheckBox.text")); 
+        passphraseCheckBox.setText(bundle.getString("CreateWalletDialog.passphraseCheckBox.text")); 
+        
+        labelTextField.setToolTipText(bundle.getString("CreateWalletDialog.labelTextField.toolTipText"));
+        languageComboBox.setToolTipText(bundle.getString("CreateWalletDialog.languageComboBox.toolTipText"));
+        lengthSlider.setToolTipText(bundle.getString("CreateWalletDialog.lengthSlider.toolTipText"));
+        pinCheckBox.setToolTipText(bundle.getString("CreateWalletDialog.pinCheckBox.toolTipText"));
+        passphraseCheckBox.setToolTipText(bundle.getString("CreateWalletDialog.passphraseCheckBox.toolTipText"));
     }
 
     /**
@@ -320,7 +344,7 @@ public class CreateWalletDialog extends javax.swing.JDialog implements WindowLis
 
             mainController.createWallet(device, language.getValue(), label, false, pinProtection, passphraseProtection, (seedLength / 6) * 64);
         } else {
-            JOptionPane.showMessageDialog(this, "Device detached");
+            JOptionPane.showMessageDialog(this, bundle.getString("MessageDialog.deviceDetached"));
         }
     }//GEN-LAST:event_continueButtonActionPerformed
 
@@ -382,7 +406,7 @@ public class CreateWalletDialog extends javax.swing.JDialog implements WindowLis
                 });
                 break;
             case SHOW_PIN_ENTRY:
-                PINEntryDialog pinEntryDialog = new PINEntryDialog(this, true);
+                PINEntryDialog pinEntryDialog = new PINEntryDialog(this, true, bundle);
                 pinEntryDialog.setLocationRelativeTo(null);
                 if (event.getMessage().isPresent()) {
                     BWalletMessage.PinMatrixRequest pinRequest = (BWalletMessage.PinMatrixRequest) event.getMessage().get();
@@ -436,10 +460,10 @@ public class CreateWalletDialog extends javax.swing.JDialog implements WindowLis
             if (hidDevice.getPath() != null && hidDevice.getPath().equals(device.getPath())) {
                 device = null;
                 messageDialog.setVisible(false);
-                JOptionPane.showMessageDialog(this, "Device detached");
+                JOptionPane.showMessageDialog(this, bundle.getString("MessageDialog.deviceDetached"));
             }
         } else if (event.getEventType() == MessageEventType.DEVICE_FAILED) {
-            JOptionPane.showMessageDialog(this, "Device could not be opened.\r\nMake sure you don't have running another client!");
+            JOptionPane.showMessageDialog(this, bundle.getString("MessageDialog.deviceOpenFaild"));
         }
     }
 
@@ -505,7 +529,7 @@ public class CreateWalletDialog extends javax.swing.JDialog implements WindowLis
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                CreateWalletDialog dialog = new CreateWalletDialog(new javax.swing.JFrame(), true, null, null);
+                CreateWalletDialog dialog = new CreateWalletDialog(new javax.swing.JFrame(), true, ResourceBundle.getBundle("com/bdx/bwallet/tools/ui/Bundle"), null, null);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {

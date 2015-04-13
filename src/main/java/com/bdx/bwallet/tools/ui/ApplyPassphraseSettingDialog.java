@@ -17,6 +17,7 @@ import com.google.common.eventbus.Subscribe;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.util.ResourceBundle;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.WindowConstants;
@@ -28,25 +29,27 @@ import org.hid4java.HidDevice;
  */
 public class ApplyPassphraseSettingDialog extends javax.swing.JDialog implements WindowListener {
 
+    private ResourceBundle bundle;
+
     private MainController mainController;
 
     private JDialog messageDialog;
 
     private Device device;
-    
+
     private boolean disable;
-        
+
     /**
      * Creates new form ApplySettingsDialog
      */
-    public ApplyPassphraseSettingDialog(java.awt.Frame parent, boolean modal, MainController mainController, Device device, boolean disable) {
+    public ApplyPassphraseSettingDialog(java.awt.Frame parent, boolean modal, ResourceBundle bundle, MainController mainController, Device device, boolean disable) {
         super(parent, modal);
         initComponents();
-                
+
         this.mainController = mainController;
         this.device = device;
         this.disable = disable;
-        
+
         JOptionPane messagePanel = new JOptionPane("Please confirm the action on your device.", JOptionPane.INFORMATION_MESSAGE,
                 JOptionPane.DEFAULT_OPTION, null,
                 new Object[]{}, null);
@@ -54,20 +57,30 @@ public class ApplyPassphraseSettingDialog extends javax.swing.JDialog implements
         messageDialog.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
         messageDialog.setSize(400, 150);
         messageDialog.setLocationRelativeTo(null);
-        messageDialog.addWindowListener(new WindowAdapter(){
+        messageDialog.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
                 System.out.println("windowClosing");
                 ApplyPassphraseSettingDialog.this.mainController.cancel();
             }
         });
-        
+
         if (disable) {
             messageTextArea.setText("If you disable the passphrase encryption, your current funds will not appear. You will have to enable the passphrase encryption again to see your current wallet.");
             applyButton.setText("Disable passphrase encryption");
         }
-        
+
         this.addWindowListener(this);
+
+        this.bundle = bundle;
+        applyResourceBundle();
+    }
+
+    public void applyResourceBundle() {
+        setTitle(bundle.getString("ApplyPassphraseSettingDialog.title")); 
+        applyButton.setText(bundle.getString("ApplyPassphraseSettingDialog.applyButton.text")); 
+        messageTextArea.setText(bundle.getString("ApplyPassphraseSettingDialog.messageTextArea.text")); 
+        confirmCheckBox.setLabel(bundle.getString("ApplyPassphraseSettingDialog.confirmCheckBox.label")); 
     }
 
     /**
@@ -142,12 +155,14 @@ public class ApplyPassphraseSettingDialog extends javax.swing.JDialog implements
 
     private void applyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_applyButtonActionPerformed
         if (device != null) {
-            if (disable)
+            if (disable) {
                 mainController.applySettings(device, false);
-            else
+            } else {
                 mainController.applySettings(device, true);
-        } else 
-            JOptionPane.showMessageDialog(this, "Device detached");
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, bundle.getString("MessageDialog.deviceDetached"));
+        }
     }//GEN-LAST:event_applyButtonActionPerformed
 
     private void confirmCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmCheckBoxActionPerformed
@@ -164,7 +179,7 @@ public class ApplyPassphraseSettingDialog extends javax.swing.JDialog implements
         String msg = "";
         switch (event.getEventType()) {
             case SHOW_PIN_ENTRY:
-                PINEntryDialog pinEntryDialog = new PINEntryDialog(this, true);
+                PINEntryDialog pinEntryDialog = new PINEntryDialog(this, true, bundle);
                 pinEntryDialog.setLocationRelativeTo(null);
                 if (event.getMessage().isPresent()) {
                     BWalletMessage.PinMatrixRequest pinRequest = (BWalletMessage.PinMatrixRequest) event.getMessage().get();
@@ -202,7 +217,7 @@ public class ApplyPassphraseSettingDialog extends javax.swing.JDialog implements
                 messageDialog.setVisible(false);
                 msg = "Apply Settings failed";
                 if (event.getMessage().isPresent()) {
-                    BWalletMessage.Failure failure = (BWalletMessage.Failure)event.getMessage().get();
+                    BWalletMessage.Failure failure = (BWalletMessage.Failure) event.getMessage().get();
                     msg = failure.getMessage();
                 }
                 JOptionPane.showMessageDialog(this, msg);
@@ -211,7 +226,7 @@ public class ApplyPassphraseSettingDialog extends javax.swing.JDialog implements
                 break;
         }
     }
-    
+
     @Subscribe
     public void onMessageEvent(MessageEvent event) {
         if (event.getEventType() == MessageEventType.DEVICE_DETACHED) {
@@ -219,11 +234,11 @@ public class ApplyPassphraseSettingDialog extends javax.swing.JDialog implements
             if (hidDevice.getPath() != null && hidDevice.getPath().equals(device.getPath())) {
                 device = null;
                 messageDialog.setVisible(false);
-                JOptionPane.showMessageDialog(this, "Device detached");
+                JOptionPane.showMessageDialog(this, bundle.getString("MessageDialog.deviceDetached"));
             }
         }
     }
-    
+
     @Override
     public void windowOpened(WindowEvent e) {
         HardwareWalletEvents.subscribe(this);
@@ -249,13 +264,13 @@ public class ApplyPassphraseSettingDialog extends javax.swing.JDialog implements
     }
 
     @Override
-    public void windowActivated(WindowEvent e) {        
+    public void windowActivated(WindowEvent e) {
     }
 
     @Override
     public void windowDeactivated(WindowEvent e) {
     }
-    
+
     /**
      * @param args the command line arguments
      */
@@ -289,7 +304,7 @@ public class ApplyPassphraseSettingDialog extends javax.swing.JDialog implements
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                ApplyPassphraseSettingDialog dialog = new ApplyPassphraseSettingDialog(new javax.swing.JFrame(), true, null, null, true);
+                ApplyPassphraseSettingDialog dialog = new ApplyPassphraseSettingDialog(new javax.swing.JFrame(), true, ResourceBundle.getBundle("com/bdx/bwallet/tools/ui/Bundle"), null, null, true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {

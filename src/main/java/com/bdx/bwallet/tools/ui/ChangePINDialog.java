@@ -17,6 +17,7 @@ import com.google.common.eventbus.Subscribe;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.util.ResourceBundle;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.WindowConstants;
@@ -30,22 +31,24 @@ public class ChangePINDialog extends javax.swing.JDialog implements WindowListen
 
     private static final int HARDENED_BIT = 0x80000000;
 
+    private ResourceBundle bundle;
+
     private MainController mainController;
 
     private JDialog messageDialog;
-    
+
     private Device device;
 
     /**
      * Creates new form GetPublicKeyDialog
      */
-    public ChangePINDialog(java.awt.Frame parent, boolean modal, MainController mainController, Device device) {
+    public ChangePINDialog(java.awt.Frame parent, boolean modal, ResourceBundle bundle, MainController mainController, Device device) {
         super(parent, modal);
         initComponents();
-        
+
         this.mainController = mainController;
         this.device = device;
-        
+
         JOptionPane messagePanel = new JOptionPane("Please confirm the action on your device.", JOptionPane.INFORMATION_MESSAGE,
                 JOptionPane.DEFAULT_OPTION, null,
                 new Object[]{}, null);
@@ -60,8 +63,18 @@ public class ChangePINDialog extends javax.swing.JDialog implements WindowListen
                 ChangePINDialog.this.mainController.cancel();
             }
         });
-        
+
         this.addWindowListener(this);
+
+        this.bundle = bundle;
+        applyResourceBundle();
+    }
+
+    public void applyResourceBundle() {
+        setTitle(bundle.getString("ChangePINDialog.title")); 
+        changeButton.setText(bundle.getString("ChangePINDialog.changeButton.text")); 
+        removeButton.setText(bundle.getString("ChangePINDialog.removeButton.text")); 
+        messageTextArea.setText(bundle.getString("ChangePINDialog.messageTextArea.text")); 
     }
 
     /**
@@ -139,15 +152,17 @@ public class ChangePINDialog extends javax.swing.JDialog implements WindowListen
     private void removeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeButtonActionPerformed
         if (device != null) {
             mainController.changePIN(device, true);
-        } else 
-            JOptionPane.showMessageDialog(this, "Device detached");
+        } else {
+            JOptionPane.showMessageDialog(this, bundle.getString("MessageDialog.deviceDetached"));
+        }
     }//GEN-LAST:event_removeButtonActionPerformed
 
     private void changeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changeButtonActionPerformed
         if (device != null) {
             mainController.changePIN(device, false);
-        } else 
-            JOptionPane.showMessageDialog(this, "Device detached");
+        } else {
+            JOptionPane.showMessageDialog(this, bundle.getString("MessageDialog.deviceDetached"));
+        }
     }//GEN-LAST:event_changeButtonActionPerformed
 
     @Subscribe
@@ -156,7 +171,7 @@ public class ChangePINDialog extends javax.swing.JDialog implements WindowListen
         String msg = "";
         switch (event.getEventType()) {
             case SHOW_PIN_ENTRY:
-                PINEntryDialog pinEntryDialog = new PINEntryDialog(this, true);
+                PINEntryDialog pinEntryDialog = new PINEntryDialog(this, true, bundle);
                 pinEntryDialog.setLocationRelativeTo(null);
                 if (event.getMessage().isPresent()) {
                     BWalletMessage.PinMatrixRequest pinRequest = (BWalletMessage.PinMatrixRequest) event.getMessage().get();
@@ -208,7 +223,7 @@ public class ChangePINDialog extends javax.swing.JDialog implements WindowListen
                 break;
         }
     }
-    
+
     @Subscribe
     public void onMessageEvent(MessageEvent event) {
         if (event.getEventType() == MessageEventType.DEVICE_DETACHED) {
@@ -216,10 +231,10 @@ public class ChangePINDialog extends javax.swing.JDialog implements WindowListen
             if (hidDevice.getPath() != null && hidDevice.getPath().equals(device.getPath())) {
                 device = null;
                 messageDialog.setVisible(false);
-                JOptionPane.showMessageDialog(this, "Device detached");
+                JOptionPane.showMessageDialog(this, bundle.getString("MessageDialog.deviceDetached"));
             }
         } else if (event.getEventType() == MessageEventType.DEVICE_FAILED) {
-            JOptionPane.showMessageDialog(this, "Device could not be opened.\r\nMake sure you don't have running another client!");
+            JOptionPane.showMessageDialog(this, bundle.getString("MessageDialog.deviceOpenFaild"));
         }
     }
 
@@ -286,7 +301,7 @@ public class ChangePINDialog extends javax.swing.JDialog implements WindowListen
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                ChangePINDialog dialog = new ChangePINDialog(new javax.swing.JFrame(), true, null, null);
+                ChangePINDialog dialog = new ChangePINDialog(new javax.swing.JFrame(), true, ResourceBundle.getBundle("com/bdx/bwallet/tools/ui/Bundle"), null, null);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {

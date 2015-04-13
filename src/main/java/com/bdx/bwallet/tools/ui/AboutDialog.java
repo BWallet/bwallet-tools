@@ -5,20 +5,32 @@
  */
 package com.bdx.bwallet.tools.ui;
 
+import java.util.ResourceBundle;
+
 /**
  *
  * @author Administrator
  */
-public class AboutDialog extends javax.swing.JDialog {
+public final class AboutDialog extends javax.swing.JDialog {
 
+    private ResourceBundle bundle;
+    
     /**
      * Creates new form AboutDialog
      */
-    public AboutDialog(java.awt.Frame parent, boolean modal) {
+    public AboutDialog(java.awt.Frame parent, boolean modal, ResourceBundle bundle) {
         super(parent, modal);
         initComponents();
+        this.bundle = bundle;
+        applyResourceBundle();
     }
 
+    public void applyResourceBundle() {
+        setTitle(bundle.getString("AboutDialog.title")); 
+        contentTextArea.setText(bundle.getString("AboutDialog.contentTextArea.text")); 
+        closeButton.setText(bundle.getString("AboutDialog.closeButton.text")); 
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -110,7 +122,7 @@ public class AboutDialog extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                AboutDialog dialog = new AboutDialog(new javax.swing.JFrame(), true);
+                AboutDialog dialog = new AboutDialog(new javax.swing.JFrame(), true, ResourceBundle.getBundle("com/bdx/bwallet/tools/ui/Bundle"));
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {

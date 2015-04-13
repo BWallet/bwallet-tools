@@ -21,6 +21,7 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 import javax.swing.JOptionPane;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -36,16 +37,18 @@ public class GetPublicKeyDialog extends javax.swing.JDialog implements WindowLis
 
     private static final int HARDENED_BIT = 0x80000000;
 
+    private ResourceBundle bundle;
+
     private MainController mainController;
 
     private Device device;
 
     private List<ChildNumber> childNumbers = null;
-    
+
     /**
      * Creates new form GetPublicKeyDialog
      */
-    public GetPublicKeyDialog(java.awt.Frame parent, boolean modal, MainController mainController, Device device) {
+    public GetPublicKeyDialog(java.awt.Frame parent, boolean modal, ResourceBundle bundle, MainController mainController, Device device) {
         super(parent, modal);
         initComponents();
 
@@ -75,6 +78,21 @@ public class GetPublicKeyDialog extends javax.swing.JDialog implements WindowLis
                 addressTextField.setText("");
             }
         });
+
+        this.bundle = bundle;
+        applyResourceBundle();
+    }
+
+    public void applyResourceBundle() {
+        setTitle(bundle.getString("GetPublicKeyDialog.title")); 
+        copyPublicKeyButton.setText(bundle.getString("GetPublicKeyDialog.copyPublicKeyButton.text")); 
+        closeButton.setText(bundle.getString("GetPublicKeyDialog.closeButton.text")); 
+        pathLabel.setText(bundle.getString("GetPublicKeyDialog.pathLabel.text")); 
+        getButton.setText(bundle.getString("GetPublicKeyDialog.getButton.text")); 
+        egLabel.setText(bundle.getString("GetPublicKeyDialog.egLabel.text")); 
+        publicKeyLabel.setText(bundle.getString("GetPublicKeyDialog.publicKeyLabel.text")); 
+        addressLabel.setText(bundle.getString("GetPublicKeyDialog.addressLabel.text")); 
+        copyAddressButton.setText(bundle.getString("GetPublicKeyDialog.copyAddressButton.text")); 
     }
 
     /**
@@ -238,7 +256,7 @@ public class GetPublicKeyDialog extends javax.swing.JDialog implements WindowLis
                 }
             }
         } else {
-            JOptionPane.showMessageDialog(this, "Device detached");
+            JOptionPane.showMessageDialog(this, bundle.getString("MessageDialog.deviceDetached"));
         }
     }//GEN-LAST:event_getButtonActionPerformed
 
@@ -265,8 +283,8 @@ public class GetPublicKeyDialog extends javax.swing.JDialog implements WindowLis
         System.out.println(event.getEventType());
         String msg = "";
         switch (event.getEventType()) {
-             case SHOW_PIN_ENTRY:
-                PINEntryDialog pinEntryDialog = new PINEntryDialog(this, true);
+            case SHOW_PIN_ENTRY:
+                PINEntryDialog pinEntryDialog = new PINEntryDialog(this, true, bundle);
                 pinEntryDialog.setLocationRelativeTo(null);
                 if (event.getMessage().isPresent()) {
                     BWalletMessage.PinMatrixRequest pinRequest = (BWalletMessage.PinMatrixRequest) event.getMessage().get();
@@ -300,7 +318,7 @@ public class GetPublicKeyDialog extends javax.swing.JDialog implements WindowLis
                 addressTextField.setText(address.getAddress());
                 break;
             case SHOW_PASSPHRASE_ENTRY:
-                PassphraseEntryDialog passphraseEntryDialog = new PassphraseEntryDialog(this, true);
+                PassphraseEntryDialog passphraseEntryDialog = new PassphraseEntryDialog(this, true, bundle);
                 passphraseEntryDialog.setLocationRelativeTo(null);
                 passphraseEntryDialog.setVisible(true);
                 if (passphraseEntryDialog.isCancel()) {
@@ -329,10 +347,10 @@ public class GetPublicKeyDialog extends javax.swing.JDialog implements WindowLis
             HidDevice hidDevice = event.getDevice().get();
             if (hidDevice.getPath() != null && hidDevice.getPath().equals(device.getPath())) {
                 device = null;
-                JOptionPane.showMessageDialog(this, "Device detached");
+                JOptionPane.showMessageDialog(this, bundle.getString("MessageDialog.deviceDetached"));
             }
         } else if (event.getEventType() == MessageEventType.DEVICE_FAILED) {
-            JOptionPane.showMessageDialog(this, "Device could not be opened.\r\nMake sure you don't have running another client!");
+            JOptionPane.showMessageDialog(this, bundle.getString("MessageDialog.deviceOpenFaild"));
         }
     }
 
@@ -416,7 +434,7 @@ public class GetPublicKeyDialog extends javax.swing.JDialog implements WindowLis
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                GetPublicKeyDialog dialog = new GetPublicKeyDialog(new javax.swing.JFrame(), true, null, null);
+                GetPublicKeyDialog dialog = new GetPublicKeyDialog(new javax.swing.JFrame(), true, ResourceBundle.getBundle("com/bdx/bwallet/tools/ui/Bundle"), null, null);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {

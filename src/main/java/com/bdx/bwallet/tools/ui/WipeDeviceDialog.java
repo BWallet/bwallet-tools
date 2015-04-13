@@ -17,6 +17,7 @@ import com.google.common.eventbus.Subscribe;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.util.ResourceBundle;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.WindowConstants;
@@ -28,41 +29,52 @@ import org.hid4java.HidDevice;
  */
 public class WipeDeviceDialog extends javax.swing.JDialog implements WindowListener {
 
+    private ResourceBundle bundle;
+
     private MainController mainController;
 
     private JDialog messageDialog;
 
     private Device device;
-    
+
     /**
      * Creates new form WipeDeviceDialog
      */
     @SuppressWarnings("LeakingThisInConstructor")
-    public WipeDeviceDialog(java.awt.Frame parent, boolean modal, MainController mainController, Device device) {
+    public WipeDeviceDialog(java.awt.Frame parent, boolean modal, ResourceBundle bundle, MainController mainController, Device device) {
         super(parent, modal);
         initComponents();
 
         this.mainController = mainController;
         this.device = device;
-        
-        JOptionPane messagePanel = new JOptionPane("All data on your device will be deleted.\r\nThis action cannot be undone. Please confirm on your device.\r\n"
-                + "Never do this action with BWallet holding coins unless you have your recovery seed at hand.", 
+
+        JOptionPane messagePanel = new JOptionPane(bundle.getString("WipeDeviceDialog.messagePanel.text"),
                 JOptionPane.INFORMATION_MESSAGE,
                 JOptionPane.DEFAULT_OPTION, null,
                 new Object[]{}, null);
-        messageDialog = messagePanel.createDialog(this, "Wipe Device");
+        messageDialog = messagePanel.createDialog(this, bundle.getString("WipeDeviceDialog.messagePanel.title"));
         messageDialog.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
         messageDialog.setSize(640, 150);
         messageDialog.setLocationRelativeTo(null);
-        messageDialog.addWindowListener(new WindowAdapter(){
+        messageDialog.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
                 System.out.println("windowClosing");
                 WipeDeviceDialog.this.mainController.cancel();
             }
         });
-        
+
         this.addWindowListener(this);
+
+        this.bundle = bundle;
+        applyResourceBundle();
+    }
+
+    public void applyResourceBundle() {
+        setTitle(bundle.getString("WipeDeviceDialog.title"));
+        cancelButton.setText(bundle.getString("WipeDeviceDialog.cancelButton.text"));
+        wipeButton.setText(bundle.getString("WipeDeviceDialog.wipeButton.text"));
+        jTextArea1.setText(bundle.getString("WipeDeviceDialog.jTextArea1.text"));
     }
 
     /**
@@ -136,10 +148,11 @@ public class WipeDeviceDialog extends javax.swing.JDialog implements WindowListe
     }// </editor-fold>//GEN-END:initComponents
 
     private void wipeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_wipeButtonActionPerformed
-        if (device != null)
+        if (device != null) {
             mainController.wipeDevice(device);
-        else 
-            JOptionPane.showMessageDialog(this, "Device detached");
+        } else {
+            JOptionPane.showMessageDialog(this, bundle.getString("MessageDialog.deviceDetached"));
+        }
     }//GEN-LAST:event_wipeButtonActionPerformed
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
@@ -166,8 +179,8 @@ public class WipeDeviceDialog extends javax.swing.JDialog implements WindowListe
                 messageDialog.setVisible(false);
                 String msg = "Wipe failed";
                 if (event.getMessage().isPresent()) {
-                    Failure failure = (Failure)event.getMessage().get();
-                    msg = msg + " : " + failure.getMessage();
+                    Failure failure = (Failure) event.getMessage().get();
+                    msg = failure.getMessage();
                 }
                 JOptionPane.showMessageDialog(this, msg);
                 break;
@@ -175,7 +188,7 @@ public class WipeDeviceDialog extends javax.swing.JDialog implements WindowListe
                 break;
         }
     }
-    
+
     @Subscribe
     public void onMessageEvent(MessageEvent event) {
         if (event.getEventType() == MessageEventType.DEVICE_DETACHED) {
@@ -183,13 +196,13 @@ public class WipeDeviceDialog extends javax.swing.JDialog implements WindowListe
             if (hidDevice.getPath() != null && hidDevice.getPath().equals(device.getPath())) {
                 device = null;
                 messageDialog.setVisible(false);
-                JOptionPane.showMessageDialog(this, "Device detached");
+                JOptionPane.showMessageDialog(this, bundle.getString("MessageDialog.deviceDetached"));
             }
         } else if (event.getEventType() == MessageEventType.DEVICE_FAILED) {
-            JOptionPane.showMessageDialog(this, "Device could not be opened.\r\nMake sure you don't have running another client!");
+            JOptionPane.showMessageDialog(this, bundle.getString("MessageDialog.deviceOpenFaild"));
         }
     }
-    
+
     @Override
     public void windowOpened(WindowEvent e) {
         HardwareWalletEvents.subscribe(this);
@@ -215,7 +228,7 @@ public class WipeDeviceDialog extends javax.swing.JDialog implements WindowListe
     }
 
     @Override
-    public void windowActivated(WindowEvent e) {        
+    public void windowActivated(WindowEvent e) {
     }
 
     @Override
@@ -252,7 +265,7 @@ public class WipeDeviceDialog extends javax.swing.JDialog implements WindowListe
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                WipeDeviceDialog dialog = new WipeDeviceDialog(new javax.swing.JFrame(), true, null, null);
+                WipeDeviceDialog dialog = new WipeDeviceDialog(new javax.swing.JFrame(), true, ResourceBundle.getBundle("com/bdx/bwallet/tools/ui/Bundle"), null, null);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {

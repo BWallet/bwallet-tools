@@ -24,6 +24,7 @@ import java.awt.event.ItemListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.util.ResourceBundle;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.ImageIcon;
@@ -41,6 +42,8 @@ import org.hid4java.HidDevice;
  */
 public class AccountLabelDialog extends javax.swing.JDialog implements WindowListener {
 
+    private ResourceBundle bundle;
+    
     private MainController mainController;
 
     private final JDialog messageDialog;
@@ -58,7 +61,7 @@ public class AccountLabelDialog extends javax.swing.JDialog implements WindowLis
      * @param mainController
      * @param device
      */
-    public AccountLabelDialog(java.awt.Frame parent, boolean modal, MainController mainController, Device device) {
+    public AccountLabelDialog(java.awt.Frame parent, boolean modal, ResourceBundle bundle, MainController mainController, Device device) {
         super(parent, modal);
         initComponents();
 
@@ -111,7 +114,7 @@ public class AccountLabelDialog extends javax.swing.JDialog implements WindowLis
                     int modelRow = Integer.valueOf(e.getActionCommand());
                     Integer index = (Integer) ((DefaultTableModel) table.getModel()).getValueAt(modelRow, 0);
                     String label = (String) ((DefaultTableModel) table.getModel()).getValueAt(modelRow, 1);
-                    AccountLabelEntryDialog entryDialog = new AccountLabelEntryDialog(AccountLabelDialog.this, true, true,
+                    AccountLabelEntryDialog entryDialog = new AccountLabelEntryDialog(AccountLabelDialog.this, true, AccountLabelDialog.this.bundle, true,
                             Optional.fromNullable(index), Optional.fromNullable(label));
                     entryDialog.setLocationRelativeTo(null);
                     entryDialog.setVisible(true);
@@ -146,8 +149,16 @@ public class AccountLabelDialog extends javax.swing.JDialog implements WindowLis
                 }
             }
         });
+        
+        this.bundle = bundle;
+        applyResourceBundle();
     }
 
+    public void applyResourceBundle() {
+        setTitle(bundle.getString("AccountLabelDialog.title")); 
+        settingButton.setText(bundle.getString("AccountLabelDialog.settingButton.text")); 
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -240,7 +251,7 @@ public class AccountLabelDialog extends javax.swing.JDialog implements WindowLis
                 JOptionPane.showMessageDialog(this, "The maximum amount of the Account Label cannot be more than 32.");
                 return ;
             }
-            AccountLabelEntryDialog entryDialog = new AccountLabelEntryDialog(this, true, false, Optional.<Integer>absent(), Optional.<String>absent());
+            AccountLabelEntryDialog entryDialog = new AccountLabelEntryDialog(this, true, bundle, false, Optional.<Integer>absent(), Optional.<String>absent());
             entryDialog.setLocationRelativeTo(null);
             entryDialog.setVisible(true);
             if (entryDialog.isCancel()) {
@@ -252,7 +263,7 @@ public class AccountLabelDialog extends javax.swing.JDialog implements WindowLis
                 mainController.setAccountLabel(device, coin, index, label);
             }
         } else {
-            JOptionPane.showMessageDialog(this, "Device detached");
+            JOptionPane.showMessageDialog(this, bundle.getString("MessageDialog.deviceDetached"));
         }
     }//GEN-LAST:event_settingButtonActionPerformed
 
@@ -262,7 +273,7 @@ public class AccountLabelDialog extends javax.swing.JDialog implements WindowLis
         String msg = "";
         switch (event.getEventType()) {
             case SHOW_PIN_ENTRY:
-                PINEntryDialog pinEntryDialog = new PINEntryDialog(this, true);
+                PINEntryDialog pinEntryDialog = new PINEntryDialog(this, true, bundle);
                 pinEntryDialog.setLocationRelativeTo(null);
                 if (event.getMessage().isPresent()) {
                     BWalletMessage.PinMatrixRequest pinRequest = (BWalletMessage.PinMatrixRequest) event.getMessage().get();
@@ -337,7 +348,7 @@ public class AccountLabelDialog extends javax.swing.JDialog implements WindowLis
             if (hidDevice.getPath() != null && hidDevice.getPath().equals(device.getPath())) {
                 device = null;
                 messageDialog.setVisible(false);
-                JOptionPane.showMessageDialog(this, "Device detached");
+                JOptionPane.showMessageDialog(this, bundle.getString("MessageDialog.deviceDetached"));
             }
         }
     }
@@ -413,7 +424,7 @@ public class AccountLabelDialog extends javax.swing.JDialog implements WindowLis
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                AccountLabelDialog dialog = new AccountLabelDialog(new javax.swing.JFrame(), true, null, null);
+                AccountLabelDialog dialog = new AccountLabelDialog(new javax.swing.JFrame(), true, ResourceBundle.getBundle("com/bdx/bwallet/tools/ui/Bundle"), null, null);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
