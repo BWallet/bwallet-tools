@@ -19,6 +19,7 @@ import com.bdx.bwallet.tools.ui.utils.IconUtils;
 import com.bdx.bwallet.tools.ui.utils.LabelUtils;
 import com.bdx.bwallet.tools.ui.utils.PINEntryUtils;
 import com.bdx.bwallet.tools.ui.utils.QRCodes;
+import com.bdx.bwallet.tools.ui.utils.TableUtils;
 import com.google.common.base.Optional;
 import com.google.common.eventbus.Subscribe;
 import java.awt.event.ActionEvent;
@@ -145,13 +146,18 @@ public final class AccountDetailsDialog extends javax.swing.JDialog implements W
     }
 
     public void applyResourceBundle() {
-        setTitle(bundle.getString("AccountDetailsDialog.title")); 
-        accountIndexLabel.setText(bundle.getString("AccountDetailsDialog.accountIndexLabel.text")); 
-        getButton.setText(bundle.getString("AccountDetailsDialog.getButton.text")); 
-        receivingAddressesLabel.setText(bundle.getString("AccountDetailsDialog.receivingAddressesLabel.text")); 
-        changeAddressesLabel.setText(bundle.getString("AccountDetailsDialog.changeAddressesLabel.text")); 
-    }
-
+        setTitle(bundle.getString("AccountDetailsDialog.title"));
+        accountIndexLabel.setText(bundle.getString("AccountDetailsDialog.accountIndexLabel.text"));
+        getButton.setText(bundle.getString("AccountDetailsDialog.getButton.text"));
+        receivingAddressesLabel.setText(bundle.getString("AccountDetailsDialog.receivingAddressesLabel.text"));
+        changeAddressesLabel.setText(bundle.getString("AccountDetailsDialog.changeAddressesLabel.text"));
+        
+        TableUtils.setHeader(rAddressTable, 0, bundle.getString("AccountDetailsDialog.rAddressTable.header.text.0"));
+        TableUtils.setHeader(rAddressTable, 1, bundle.getString("AccountDetailsDialog.rAddressTable.header.text.1"));
+        TableUtils.setHeader(cAddressTable, 0, bundle.getString("AccountDetailsDialog.cAddressTable.header.text.0"));
+        TableUtils.setHeader(cAddressTable, 1, bundle.getString("AccountDetailsDialog.cAddressTable.header.text.1"));
+    } 
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

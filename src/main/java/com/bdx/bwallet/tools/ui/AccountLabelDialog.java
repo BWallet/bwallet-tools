@@ -17,6 +17,7 @@ import com.bdx.bwallet.tools.model.Device;
 import com.bdx.bwallet.tools.ui.utils.ButtonColumn;
 import com.bdx.bwallet.tools.ui.utils.IconUtils;
 import com.bdx.bwallet.tools.ui.utils.PINEntryUtils;
+import com.bdx.bwallet.tools.ui.utils.TableUtils;
 import com.google.common.base.Optional;
 import com.google.common.eventbus.Subscribe;
 import java.awt.event.ActionEvent;
@@ -157,6 +158,9 @@ public class AccountLabelDialog extends javax.swing.JDialog implements WindowLis
     public void applyResourceBundle() {
         setTitle(bundle.getString("AccountLabelDialog.title")); 
         settingButton.setText(bundle.getString("AccountLabelDialog.settingButton.text")); 
+        
+        TableUtils.setHeader(labelTable, 0, bundle.getString("AccountLabelDialog.labelTable.header.text.0"));
+        TableUtils.setHeader(labelTable, 1, bundle.getString("AccountLabelDialog.labelTable.header.text.1"));
     }
     
     /**
