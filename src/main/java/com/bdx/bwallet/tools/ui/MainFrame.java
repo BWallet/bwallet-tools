@@ -104,6 +104,7 @@ public final class MainFrame extends javax.swing.JFrame {
         resetDeviceButton.setText(bundle.getString("MainFrame.resetDeviceButton.text")); 
         recoveryDeviceButton.setText(bundle.getString("MainFrame.recoveryDeviceButton.text")); 
         wipeDeviceButton.setText(bundle.getString("MainFrame.wipeDeviceButton.text")); 
+        deviceInfoButton.setText(bundle.getString("MainFrame.deviceInfoButton.text"));
         
         applySettingsButton.setText(bundle.getString("MainFrame.applySettingsButton.text")); 
         passphraseSettingButton.setText(bundle.getString("MainFrame.passphraseSettingButton.text")); 
@@ -179,6 +180,7 @@ public final class MainFrame extends javax.swing.JFrame {
         resetDeviceButton = new javax.swing.JButton();
         recoveryDeviceButton = new javax.swing.JButton();
         wipeDeviceButton = new javax.swing.JButton();
+        deviceInfoButton = new javax.swing.JButton();
         settingPanel = new javax.swing.JPanel();
         applySettingsButton = new javax.swing.JButton();
         changePinButton = new javax.swing.JButton();
@@ -272,6 +274,15 @@ public final class MainFrame extends javax.swing.JFrame {
             }
         });
         setupPanel.add(wipeDeviceButton);
+
+        deviceInfoButton.setText("Device Info");
+        deviceInfoButton.setPreferredSize(new java.awt.Dimension(160, 30));
+        deviceInfoButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deviceInfoButtonActionPerformed(evt);
+            }
+        });
+        setupPanel.add(deviceInfoButton);
 
         rightPanel.add(setupPanel);
 
@@ -815,6 +826,32 @@ public final class MainFrame extends javax.swing.JFrame {
         this.applyResourceBundle();
     }//GEN-LAST:event_chineseMenuItemActionPerformed
 
+    private void deviceInfoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deviceInfoButtonActionPerformed
+        Device device = getSelectDevice();
+        if (device != null) {
+            WalletContext context = mainController.getContext(device);
+            if (context != null) {
+                try {
+                    ListenableFuture<Optional<BWalletMessage.Features>> future = context.initialise();
+                    future.get(5, TimeUnit.SECONDS);
+                } catch (InterruptedException | ExecutionException | TimeoutException ex) {
+                    JOptionPane.showMessageDialog(this, bundle.getString("MessageDialog.deviceInitialiseFailed"));
+                    return;
+                }
+
+                Optional<BWalletMessage.Features> features = context.getFeatures();
+                DeviceInfoDialog deviceInfoDialog = new DeviceInfoDialog(this, true, bundle);
+                deviceInfoDialog.setLocationRelativeTo(null);
+                deviceInfoDialog.displayFeatures(features);
+                deviceInfoDialog.setVisible(true);
+            } else {
+                JOptionPane.showMessageDialog(this, bundle.getString("MessageDialog.deviceOpenFaild"));
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, bundle.getString("MessageDialog.noneDeviceSelected"));
+        }
+    }//GEN-LAST:event_deviceInfoButtonActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -876,6 +913,7 @@ public final class MainFrame extends javax.swing.JFrame {
     private javax.swing.JButton changePinButton;
     private javax.swing.JMenuItem chineseMenuItem;
     private javax.swing.JMenuItem contentsMenuItem;
+    private javax.swing.JButton deviceInfoButton;
     private javax.swing.JLabel devicesLabel;
     private javax.swing.JList devicesList;
     private javax.swing.JMenuItem englishMenuItem;
