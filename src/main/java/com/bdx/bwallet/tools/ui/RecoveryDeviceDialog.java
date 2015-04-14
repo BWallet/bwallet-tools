@@ -14,6 +14,7 @@ import com.bdx.bwallet.tools.core.events.MessageEventType;
 import com.bdx.bwallet.tools.core.events.MessageEvents;
 import com.bdx.bwallet.tools.model.Device;
 import com.bdx.bwallet.tools.model.Language;
+import com.bdx.bwallet.tools.ui.utils.PINEntryUtils;
 import com.google.common.eventbus.Subscribe;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
@@ -309,20 +310,7 @@ public class RecoveryDeviceDialog extends javax.swing.JDialog implements WindowL
         String msg = "";
         switch (event.getEventType()) {
             case SHOW_PIN_ENTRY:
-                PINEntryDialog pinEntryDialog = new PINEntryDialog(this, true, bundle);
-                pinEntryDialog.setLocationRelativeTo(null);
-                if (event.getMessage().isPresent()) {
-                    BWalletMessage.PinMatrixRequest pinRequest = (BWalletMessage.PinMatrixRequest) event.getMessage().get();
-                    msg = "Please enter PIN:";
-                    if ("PinMatrixRequestType_Current".equals(pinRequest.getType().name())) {
-                        msg = "Please enter current PIN:";
-                    } else if ("PinMatrixRequestType_NewFirst".equals(pinRequest.getType().name())) {
-                        msg = "Please enter new PIN:";
-                    } else if ("PinMatrixRequestType_NewSecond".equals(pinRequest.getType().name())) {
-                        msg = "Please re-enter new PIN:";
-                    }
-                    pinEntryDialog.setPinTitle(msg);
-                }
+                PINEntryDialog pinEntryDialog = PINEntryUtils.createDialog(this, bundle, event.getMessage());
                 pinEntryDialog.setVisible(true);
                 System.out.println("pin - " + pinEntryDialog.isCancel());
                 if (pinEntryDialog.isCancel()) {

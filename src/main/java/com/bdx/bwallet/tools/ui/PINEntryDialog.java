@@ -295,7 +295,7 @@ public class PINEntryDialog extends javax.swing.JDialog implements WindowListene
         pinPasswordField.setText(new String(pinPasswordField.getPassword()) + number);
         if (pinPasswordField.getPassword().length > 9) {
             enterButton.setEnabled(false);
-            verificationLabel.setText("Too Long");
+            verificationLabel.setText(bundle.getString("PINEntryDialog.verificationLabel.text"));
         }
     }
 

@@ -13,6 +13,7 @@ import com.bdx.bwallet.tools.core.events.MessageEvent;
 import com.bdx.bwallet.tools.core.events.MessageEventType;
 import com.bdx.bwallet.tools.core.events.MessageEvents;
 import com.bdx.bwallet.tools.model.Device;
+import com.bdx.bwallet.tools.ui.utils.PINEntryUtils;
 import com.google.common.eventbus.Subscribe;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -56,17 +57,16 @@ public class SignMessageDialog extends javax.swing.JDialog implements WindowList
         this.mainController = mainController;
         this.device = device;
 
-        JOptionPane messagePanel = new JOptionPane("Please confirm the action on your device.", JOptionPane.INFORMATION_MESSAGE,
+        JOptionPane messagePanel = new JOptionPane(bundle.getString("MessageDialog.confirmAction"), JOptionPane.INFORMATION_MESSAGE,
                 JOptionPane.DEFAULT_OPTION, null,
                 new Object[]{}, null);
-        messageDialog = messagePanel.createDialog(this, "Sign & Verify");
+        messageDialog = messagePanel.createDialog(this, bundle.getString("SignMessageDialog.title"));
         messageDialog.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
         messageDialog.setSize(400, 150);
         messageDialog.setLocationRelativeTo(null);
         messageDialog.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                System.out.println("windowClosing");
                 SignMessageDialog.this.mainController.cancel();
             }
         });
@@ -367,34 +367,34 @@ public class SignMessageDialog extends javax.swing.JDialog implements WindowList
         if (device != null) {
             String messageText = sMessageTextArea.getText().trim();
             if ("".equals(messageText)) {
-                JOptionPane.showMessageDialog(this, "Empty message");
+                JOptionPane.showMessageDialog(this, bundle.getString("SignMessageDialog.MessageDialog.emptyMessage"));
                 return;
             }
             byte[] message = messageText.getBytes();
 
             String accountText = accountTextField.getText().trim();
             if ("".equals(accountText)) {
-                JOptionPane.showMessageDialog(this, "Empty account");
+                JOptionPane.showMessageDialog(this, bundle.getString("SignMessageDialog.MessageDialog.emptyAccount"));
                 return;
             }
             int account;
             try {
                 account = Integer.parseInt(accountText);
             } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(this, "Invalid account");
+                JOptionPane.showMessageDialog(this, bundle.getString("SignMessageDialog.MessageDialog.invalidAccount"));
                 return;
             }
 
             String indexText = indexTextField.getText().trim();
             if ("".equals(indexText)) {
-                JOptionPane.showMessageDialog(this, "Empty index");
+                JOptionPane.showMessageDialog(this, bundle.getString("SignMessageDialog.MessageDialog.emptyIndex"));
                 return;
             }
             int index;
             try {
                 index = Integer.parseInt(indexText);
             } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(this, "Invalid index");
+                JOptionPane.showMessageDialog(this, bundle.getString("SignMessageDialog.MessageDialog.invalidIndex"));
                 return;
             }
 
@@ -416,34 +416,34 @@ public class SignMessageDialog extends javax.swing.JDialog implements WindowList
         if (device != null) {
             String messageText = vMessageTextArea.getText().trim();
             if ("".equals(messageText)) {
-                JOptionPane.showMessageDialog(this, "Empty message");
+                JOptionPane.showMessageDialog(this, bundle.getString("SignMessageDialog.MessageDialog.emptyMessage"));
                 return;
             }
             byte[] message = messageText.getBytes();
 
             String addressText = addressTextField.getText().trim();
             if ("".equals(addressText)) {
-                JOptionPane.showMessageDialog(this, "Empty address");
+                JOptionPane.showMessageDialog(this, bundle.getString("SignMessageDialog.MessageDialog.emptyAddress"));
                 return;
             }
             Address address = null;
             try {
                 address = new Address(MainNetParams.get(), addressText);
             } catch (AddressFormatException ex) {
-                JOptionPane.showMessageDialog(this, "Invalid address");
+                JOptionPane.showMessageDialog(this, bundle.getString("SignMessageDialog.MessageDialog.invalidAddress"));
                 return;
             }
 
             String signatureText = vSignatureTextArea.getText().trim();
             if ("".equals(signatureText)) {
-                JOptionPane.showMessageDialog(this, "Empty signature");
+                JOptionPane.showMessageDialog(this, bundle.getString("SignMessageDialog.MessageDialog.emptySignature"));
                 return;
             }
             byte[] signature;
             try {
                 signature = Base64.decode(signatureText);
             } catch (DecoderException e) {
-                JOptionPane.showMessageDialog(this, "Invalid signature");
+                JOptionPane.showMessageDialog(this, bundle.getString("SignMessageDialog.MessageDialog.invalidSignature"));
                 return;
             }
 
@@ -470,20 +470,7 @@ public class SignMessageDialog extends javax.swing.JDialog implements WindowList
                 }
                 break;
             case SHOW_PIN_ENTRY:
-                PINEntryDialog pinEntryDialog = new PINEntryDialog(this, true, bundle);
-                pinEntryDialog.setLocationRelativeTo(null);
-                if (event.getMessage().isPresent()) {
-                    BWalletMessage.PinMatrixRequest pinRequest = (BWalletMessage.PinMatrixRequest) event.getMessage().get();
-                    msg = "Please enter PIN:";
-                    if ("PinMatrixRequestType_Current".equals(pinRequest.getType().name())) {
-                        msg = "Please enter current PIN:";
-                    } else if ("PinMatrixRequestType_NewFirst".equals(pinRequest.getType().name())) {
-                        msg = "Please enter new PIN:";
-                    } else if ("PinMatrixRequestType_NewSecond".equals(pinRequest.getType().name())) {
-                        msg = "Please re-enter new PIN:";
-                    }
-                    pinEntryDialog.setPinTitle(msg);
-                }
+                PINEntryDialog pinEntryDialog = PINEntryUtils.createDialog(this, bundle, event.getMessage());
                 pinEntryDialog.setVisible(true);
                 if (pinEntryDialog.isCancel()) {
                     mainController.cancel();

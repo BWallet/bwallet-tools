@@ -14,6 +14,7 @@ import com.bdx.bwallet.tools.core.events.MessageEvents;
 import com.bdx.bwallet.tools.core.utils.FirmwareVersion;
 import com.bdx.bwallet.tools.model.Device;
 import com.bdx.bwallet.tools.ui.utils.BrowserUtils;
+import com.bdx.bwallet.tools.ui.utils.UrlUtils;
 import com.google.common.base.Optional;
 import com.google.common.eventbus.Subscribe;
 import com.google.common.util.concurrent.ListenableFuture;
@@ -127,6 +128,16 @@ public final class MainFrame extends javax.swing.JFrame {
         websiteMenuItem.setText(bundle.getString("MainFrame.websiteMenuItem.text")); 
         buyMenuItem.setText(bundle.getString("MainFrame.buyMenuItem.text")); 
         aboutMenuItem.setText(bundle.getString("MainFrame.aboutMenuItem.text")); 
+        languageMenu.setText(bundle.getString("MainFrame.languageMenu.text"));
+        
+        String language = Locale.getDefault().getLanguage();
+        if (language.equals("zh")) {
+            chineseMenuItem.setText(bundle.getString("MainFrame.chineseMenuItem.text.checked"));
+            englishMenuItem.setText(bundle.getString("MainFrame.englishMenuItem.text"));
+        } else {
+            chineseMenuItem.setText(bundle.getString("MainFrame.chineseMenuItem.text"));
+            englishMenuItem.setText(bundle.getString("MainFrame.englishMenuItem.text.checked"));
+        }
     }
     
     @Subscribe
@@ -170,10 +181,10 @@ public final class MainFrame extends javax.swing.JFrame {
         wipeDeviceButton = new javax.swing.JButton();
         settingPanel = new javax.swing.JPanel();
         applySettingsButton = new javax.swing.JButton();
-        passphraseSettingButton = new javax.swing.JButton();
-        homescreenSettingButton = new javax.swing.JButton();
-        accountLabelSettingButton = new javax.swing.JButton();
         changePinButton = new javax.swing.JButton();
+        passphraseSettingButton = new javax.swing.JButton();
+        accountLabelSettingButton = new javax.swing.JButton();
+        homescreenSettingButton = new javax.swing.JButton();
         accountPanel = new javax.swing.JPanel();
         accountDetailsButton = new javax.swing.JButton();
         signAndVerifyButton = new javax.swing.JButton();
@@ -185,6 +196,9 @@ public final class MainFrame extends javax.swing.JFrame {
         menuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
         exitMenuItem = new javax.swing.JMenuItem();
+        languageMenu = new javax.swing.JMenu();
+        englishMenuItem = new javax.swing.JMenuItem();
+        chineseMenuItem = new javax.swing.JMenuItem();
         helpMenu = new javax.swing.JMenu();
         contentsMenuItem = new javax.swing.JMenuItem();
         faqMenuItem = new javax.swing.JMenuItem();
@@ -273,6 +287,15 @@ public final class MainFrame extends javax.swing.JFrame {
         });
         settingPanel.add(applySettingsButton);
 
+        changePinButton.setText("PIN Setting");
+        changePinButton.setPreferredSize(new java.awt.Dimension(160, 30));
+        changePinButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                changePinButtonActionPerformed(evt);
+            }
+        });
+        settingPanel.add(changePinButton);
+
         passphraseSettingButton.setText("Passphrase Setting");
         passphraseSettingButton.setPreferredSize(new java.awt.Dimension(160, 30));
         passphraseSettingButton.addActionListener(new java.awt.event.ActionListener() {
@@ -281,15 +304,6 @@ public final class MainFrame extends javax.swing.JFrame {
             }
         });
         settingPanel.add(passphraseSettingButton);
-
-        homescreenSettingButton.setText("Homescreen Setting");
-        homescreenSettingButton.setPreferredSize(new java.awt.Dimension(160, 30));
-        homescreenSettingButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                homescreenSettingButtonActionPerformed(evt);
-            }
-        });
-        settingPanel.add(homescreenSettingButton);
 
         accountLabelSettingButton.setText("Account Label Setting");
         accountLabelSettingButton.setPreferredSize(new java.awt.Dimension(160, 30));
@@ -300,14 +314,14 @@ public final class MainFrame extends javax.swing.JFrame {
         });
         settingPanel.add(accountLabelSettingButton);
 
-        changePinButton.setText("Change/Remove PIN");
-        changePinButton.setPreferredSize(new java.awt.Dimension(160, 30));
-        changePinButton.addActionListener(new java.awt.event.ActionListener() {
+        homescreenSettingButton.setText("Homescreen Setting");
+        homescreenSettingButton.setPreferredSize(new java.awt.Dimension(160, 30));
+        homescreenSettingButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                changePinButtonActionPerformed(evt);
+                homescreenSettingButtonActionPerformed(evt);
             }
         });
-        settingPanel.add(changePinButton);
+        settingPanel.add(homescreenSettingButton);
 
         rightPanel.add(settingPanel);
 
@@ -389,6 +403,31 @@ public final class MainFrame extends javax.swing.JFrame {
         fileMenu.add(exitMenuItem);
 
         menuBar.add(fileMenu);
+
+        languageMenu.setText("Language");
+        languageMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                languageMenuActionPerformed(evt);
+            }
+        });
+
+        englishMenuItem.setText("English");
+        englishMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                englishMenuItemActionPerformed(evt);
+            }
+        });
+        languageMenu.add(englishMenuItem);
+
+        chineseMenuItem.setText("中文");
+        chineseMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chineseMenuItemActionPerformed(evt);
+            }
+        });
+        languageMenu.add(chineseMenuItem);
+
+        menuBar.add(languageMenu);
 
         helpMenu.setText("Help");
 
@@ -717,7 +756,7 @@ public final class MainFrame extends javax.swing.JFrame {
 
     private void contentsMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_contentsMenuItemActionPerformed
         try {
-            BrowserUtils.openWebpage(new URL(HELP_URL));
+            BrowserUtils.openWebpage(UrlUtils.getHelpUrl(Locale.getDefault()));
         } catch (MalformedURLException ex) {
             Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -725,7 +764,7 @@ public final class MainFrame extends javax.swing.JFrame {
 
     private void faqMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_faqMenuItemActionPerformed
         try {
-            BrowserUtils.openWebpage(new URL(FAQ_URL));
+            BrowserUtils.openWebpage(UrlUtils.getFaqUrl(Locale.getDefault()));
         } catch (MalformedURLException ex) {
             Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -733,7 +772,7 @@ public final class MainFrame extends javax.swing.JFrame {
 
     private void resourcesMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resourcesMenuItemActionPerformed
         try {
-            BrowserUtils.openWebpage(new URL(RESOURCES_URL));
+            BrowserUtils.openWebpage(UrlUtils.getResourcesUrl(Locale.getDefault()));
         } catch (MalformedURLException ex) {
             Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -741,7 +780,7 @@ public final class MainFrame extends javax.swing.JFrame {
 
     private void websiteMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_websiteMenuItemActionPerformed
         try {
-            BrowserUtils.openWebpage(new URL(SITE_URL));
+            BrowserUtils.openWebpage(UrlUtils.getSiteUrl(Locale.getDefault()));
         } catch (MalformedURLException ex) {
             Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -749,7 +788,7 @@ public final class MainFrame extends javax.swing.JFrame {
 
     private void buyMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buyMenuItemActionPerformed
         try {
-            BrowserUtils.openWebpage(new URL(BUY_URL));
+            BrowserUtils.openWebpage(UrlUtils.getBuyUrl(Locale.getDefault()));
         } catch (MalformedURLException ex) {
             Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -760,6 +799,21 @@ public final class MainFrame extends javax.swing.JFrame {
         aboutDialog.setLocationRelativeTo(null);
         aboutDialog.setVisible(true);
     }//GEN-LAST:event_aboutMenuItemActionPerformed
+
+    private void languageMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_languageMenuActionPerformed
+    }//GEN-LAST:event_languageMenuActionPerformed
+
+    private void englishMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_englishMenuItemActionPerformed
+        Locale.setDefault(new Locale("en","US"));
+        this.loadResourceBundle();
+        this.applyResourceBundle();
+    }//GEN-LAST:event_englishMenuItemActionPerformed
+
+    private void chineseMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chineseMenuItemActionPerformed
+        Locale.setDefault(new Locale("zh","CN"));
+        this.loadResourceBundle();
+        this.applyResourceBundle();
+    }//GEN-LAST:event_chineseMenuItemActionPerformed
 
     /**
      * @param args the command line arguments
@@ -802,8 +856,6 @@ public final class MainFrame extends javax.swing.JFrame {
             im.put(KeyStroke.getKeyStroke(KeyEvent.VK_X, KeyEvent.META_DOWN_MASK), DefaultEditorKit.cutAction);
         }
 
-        Locale.setDefault(new Locale("zh","CN"));
-        
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -822,9 +874,11 @@ public final class MainFrame extends javax.swing.JFrame {
     private javax.swing.JButton applySettingsButton;
     private javax.swing.JMenuItem buyMenuItem;
     private javax.swing.JButton changePinButton;
+    private javax.swing.JMenuItem chineseMenuItem;
     private javax.swing.JMenuItem contentsMenuItem;
     private javax.swing.JLabel devicesLabel;
     private javax.swing.JList devicesList;
+    private javax.swing.JMenuItem englishMenuItem;
     private javax.swing.JMenuItem exitMenuItem;
     private javax.swing.JMenuItem faqMenuItem;
     private javax.swing.JMenu fileMenu;
@@ -833,6 +887,7 @@ public final class MainFrame extends javax.swing.JFrame {
     private javax.swing.JMenu helpMenu;
     private javax.swing.JButton homescreenSettingButton;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JMenu languageMenu;
     private javax.swing.JPanel leftPanel;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JPanel miscPanel;

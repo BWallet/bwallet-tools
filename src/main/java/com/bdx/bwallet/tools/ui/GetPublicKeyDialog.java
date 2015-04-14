@@ -13,6 +13,7 @@ import com.bdx.bwallet.tools.core.events.MessageEvent;
 import com.bdx.bwallet.tools.core.events.MessageEventType;
 import com.bdx.bwallet.tools.core.events.MessageEvents;
 import com.bdx.bwallet.tools.model.Device;
+import com.bdx.bwallet.tools.ui.utils.PINEntryUtils;
 import com.google.common.eventbus.Subscribe;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
@@ -243,16 +244,16 @@ public class GetPublicKeyDialog extends javax.swing.JDialog implements WindowLis
         if (device != null) {
             String path = pathTextField.getText();
             if (StringUtils.isBlank(path)) {
-                JOptionPane.showMessageDialog(this, "Please enter the BIP32 Path");
+                JOptionPane.showMessageDialog(this, bundle.getString("GetPublicKeyDialog.MessageDialog.emptyPath"));
             } else if (!path.startsWith("m")) {
-                JOptionPane.showMessageDialog(this, "BIP32 Path must be start with 'm'");
+                JOptionPane.showMessageDialog(this, bundle.getString("GetPublicKeyDialog.MessageDialog.pathMustStartWithM"));
             } else {
                 try {
                     List<ChildNumber> childNumbers = this.pathToChildNumbers(path);
                     mainController.getDeterministicHierarchy(device, childNumbers);
                     this.childNumbers = childNumbers;
                 } catch (IllegalArgumentException e) {
-                    JOptionPane.showMessageDialog(this, "Invalid BIP32 Path");
+                    JOptionPane.showMessageDialog(this, bundle.getString("GetPublicKeyDialog.MessageDialog.invalidPath"));
                 }
             }
         } else {
@@ -284,20 +285,7 @@ public class GetPublicKeyDialog extends javax.swing.JDialog implements WindowLis
         String msg = "";
         switch (event.getEventType()) {
             case SHOW_PIN_ENTRY:
-                PINEntryDialog pinEntryDialog = new PINEntryDialog(this, true, bundle);
-                pinEntryDialog.setLocationRelativeTo(null);
-                if (event.getMessage().isPresent()) {
-                    BWalletMessage.PinMatrixRequest pinRequest = (BWalletMessage.PinMatrixRequest) event.getMessage().get();
-                    msg = "Please enter PIN:";
-                    if ("PinMatrixRequestType_Current".equals(pinRequest.getType().name())) {
-                        msg = "Please enter current PIN:";
-                    } else if ("PinMatrixRequestType_NewFirst".equals(pinRequest.getType().name())) {
-                        msg = "Please enter new PIN:";
-                    } else if ("PinMatrixRequestType_NewSecond".equals(pinRequest.getType().name())) {
-                        msg = "Please re-enter new PIN:";
-                    }
-                    pinEntryDialog.setPinTitle(msg);
-                }
+                PINEntryDialog pinEntryDialog = PINEntryUtils.createDialog(this, bundle, event.getMessage());
                 pinEntryDialog.setVisible(true);
                 if (pinEntryDialog.isCancel()) {
                     mainController.cancel();

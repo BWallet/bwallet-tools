@@ -128,24 +128,24 @@ public class AccountLabelEntryDialog extends javax.swing.JDialog implements Wind
     private void enterButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enterButtonActionPerformed
         String indexText = indexTextField.getText().trim();
         if ("".equals(indexText)) {
-            JOptionPane.showMessageDialog(this, "Empty index");
+            JOptionPane.showMessageDialog(this, bundle.getString("AccountLabelEntryDialog.MessageDialog.emptyIndex"));
             return;
         }
         int index;
         try {
             index = Integer.parseInt(indexText);
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Invalid index");
+            JOptionPane.showMessageDialog(this, bundle.getString("AccountLabelEntryDialog.MessageDialog.invalidIndex"));
             return;
         }
         if (index < 1) {
-            JOptionPane.showMessageDialog(this, "Index must be greater than or equal to 1");
+            JOptionPane.showMessageDialog(this, bundle.getString("AccountLabelEntryDialog.MessageDialog.indexMustGeOne"));
             return;
         }
 
         String labelText = labelTextField.getText().trim();
         if ("".equals(labelText)) {
-            JOptionPane.showMessageDialog(this, "Empty label");
+            JOptionPane.showMessageDialog(this, bundle.getString("AccountLabelEntryDialog.MessageDialog.emptyLabel"));
             return;
         }
         BWalletMessage.SetAccountLabel message = BWalletMessage.SetAccountLabel
@@ -155,7 +155,7 @@ public class AccountLabelEntryDialog extends javax.swing.JDialog implements Wind
                 .setLabel(labelText)
                 .build();
         if (message.getLabelBytes().size() > 18) {
-            JOptionPane.showMessageDialog(this, "Label is to long");
+            JOptionPane.showMessageDialog(this, bundle.getString("AccountLabelEntryDialog.MessageDialog.labelTooLong"));
             return;
         }
 

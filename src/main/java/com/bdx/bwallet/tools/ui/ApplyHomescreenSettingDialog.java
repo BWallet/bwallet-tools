@@ -13,11 +13,16 @@ import com.bdx.bwallet.tools.core.events.MessageEvent;
 import com.bdx.bwallet.tools.core.events.MessageEventType;
 import com.bdx.bwallet.tools.core.events.MessageEvents;
 import com.bdx.bwallet.tools.model.Device;
+import com.bdx.bwallet.tools.ui.utils.BrowserUtils;
+import com.bdx.bwallet.tools.ui.utils.PINEntryUtils;
+import com.bdx.bwallet.tools.ui.utils.UrlUtils;
 import com.google.common.eventbus.Subscribe;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.File;
+import java.net.URL;
+import java.util.Locale;
 import java.util.ResourceBundle;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
@@ -53,17 +58,16 @@ public class ApplyHomescreenSettingDialog extends javax.swing.JDialog implements
         this.mainController = mainController;
         this.device = device;
 
-        JOptionPane messagePanel = new JOptionPane("Please confirm the action on your device.", JOptionPane.INFORMATION_MESSAGE,
+        JOptionPane messagePanel = new JOptionPane(bundle.getString("MessageDialog.confirmAction"), JOptionPane.INFORMATION_MESSAGE,
                 JOptionPane.DEFAULT_OPTION, null,
                 new Object[]{}, null);
-        messageDialog = messagePanel.createDialog(this, "Homescreen Setting");
+        messageDialog = messagePanel.createDialog(this, bundle.getString("ApplyHomescreenSettingDialog.title"));
         messageDialog.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
         messageDialog.setSize(400, 150);
         messageDialog.setLocationRelativeTo(null);
         messageDialog.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                System.out.println("windowClosing");
                 ApplyHomescreenSettingDialog.this.mainController.cancel();
             }
         });
@@ -81,6 +85,7 @@ public class ApplyHomescreenSettingDialog extends javax.swing.JDialog implements
         fileLabel.setText(bundle.getString("ApplyHomescreenSettingDialog.fileLabel.text")); 
         fileButton.setText(bundle.getString("ApplyHomescreenSettingDialog.fileButton.text")); 
         tipLabel.setText(bundle.getString("ApplyHomescreenSettingDialog.tipLabel.text")); 
+        downloadButton.setText(bundle.getString("ApplyHomescreenSettingDialog.downloadButton.text")); 
     }
 
     /**
@@ -98,6 +103,7 @@ public class ApplyHomescreenSettingDialog extends javax.swing.JDialog implements
         fileTextField = new javax.swing.JTextField();
         fileButton = new javax.swing.JButton();
         tipLabel = new javax.swing.JLabel();
+        downloadButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Homescreen Setting");
@@ -130,11 +136,24 @@ public class ApplyHomescreenSettingDialog extends javax.swing.JDialog implements
 
         tipLabel.setText("(128*64)");
 
+        downloadButton.setText("Download");
+        downloadButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                downloadButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(188, 188, 188)
+                .addComponent(applyButton, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(50, 50, 50)
+                .addComponent(cancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(202, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(fileLabel)
                 .addGap(18, 18, 18)
@@ -142,25 +161,23 @@ public class ApplyHomescreenSettingDialog extends javax.swing.JDialog implements
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(tipLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(fileButton)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(downloadButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(fileButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addGap(188, 188, 188)
-                .addComponent(applyButton, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(50, 50, 50)
-                .addComponent(cancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(202, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(83, 83, 83)
+                .addGap(61, 61, 61)
+                .addComponent(downloadButton)
+                .addGap(27, 27, 27)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(fileLabel)
                     .addComponent(fileButton)
                     .addComponent(fileTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(tipLabel))
-                .addGap(48, 48, 48)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(applyButton)
                     .addComponent(cancelButton))
@@ -179,7 +196,7 @@ public class ApplyHomescreenSettingDialog extends javax.swing.JDialog implements
             if (file != null) {
                 mainController.applySettings(device, file);
             } else {
-                JOptionPane.showMessageDialog(this, "Please choose a bitmap file");
+                JOptionPane.showMessageDialog(this, bundle.getString("ApplyHomescreenSettingDialog.MessageDialog.emptyFile"));
             }
         } else {
             JOptionPane.showMessageDialog(this, bundle.getString("MessageDialog.deviceDetached"));
@@ -195,26 +212,21 @@ public class ApplyHomescreenSettingDialog extends javax.swing.JDialog implements
         }
     }//GEN-LAST:event_fileButtonActionPerformed
 
+    private void downloadButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_downloadButtonActionPerformed
+        try {
+            BrowserUtils.openWebpage(UrlUtils.getResourcesUrl(Locale.getDefault()));
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+    }//GEN-LAST:event_downloadButtonActionPerformed
+
     @Subscribe
     public void onHardwareWalletEvent(HardwareWalletEvent event) {
         System.out.println(event.getEventType());
         String msg = "";
         switch (event.getEventType()) {
             case SHOW_PIN_ENTRY:
-                PINEntryDialog pinEntryDialog = new PINEntryDialog(this, true, bundle);
-                pinEntryDialog.setLocationRelativeTo(null);
-                if (event.getMessage().isPresent()) {
-                    BWalletMessage.PinMatrixRequest pinRequest = (BWalletMessage.PinMatrixRequest) event.getMessage().get();
-                    msg = "Please enter PIN:";
-                    if ("PinMatrixRequestType_Current".equals(pinRequest.getType().name())) {
-                        msg = "Please enter current PIN:";
-                    } else if ("PinMatrixRequestType_NewFirst".equals(pinRequest.getType().name())) {
-                        msg = "Please enter new PIN:";
-                    } else if ("PinMatrixRequestType_NewSecond".equals(pinRequest.getType().name())) {
-                        msg = "Please re-enter new PIN:";
-                    }
-                    pinEntryDialog.setPinTitle(msg);
-                }
+                PINEntryDialog pinEntryDialog = PINEntryUtils.createDialog(this, bundle, event.getMessage());
                 pinEntryDialog.setVisible(true);
                 if (pinEntryDialog.isCancel()) {
                     mainController.cancel();
@@ -341,6 +353,7 @@ public class ApplyHomescreenSettingDialog extends javax.swing.JDialog implements
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton applyButton;
     private javax.swing.JButton cancelButton;
+    private javax.swing.JButton downloadButton;
     private javax.swing.JButton fileButton;
     private javax.swing.JLabel fileLabel;
     private javax.swing.JTextField fileTextField;

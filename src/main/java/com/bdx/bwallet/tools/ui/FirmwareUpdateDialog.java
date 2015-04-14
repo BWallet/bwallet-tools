@@ -14,6 +14,7 @@ import com.bdx.bwallet.tools.core.events.MessageEventType;
 import com.bdx.bwallet.tools.core.events.MessageEvents;
 import com.bdx.bwallet.tools.model.Device;
 import com.bdx.bwallet.tools.ui.utils.BrowserUtils;
+import com.bdx.bwallet.tools.ui.utils.UrlUtils;
 import com.google.common.base.Optional;
 import com.google.common.eventbus.Subscribe;
 import com.google.protobuf.Message;
@@ -21,6 +22,7 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.File;
 import java.net.URL;
+import java.util.Locale;
 import java.util.ResourceBundle;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
@@ -55,10 +57,10 @@ public class FirmwareUpdateDialog extends javax.swing.JDialog implements WindowL
         super(parent, modal);
         initComponents();
 
-        JOptionPane messagePanel = new JOptionPane("Please confirm on your device.", JOptionPane.INFORMATION_MESSAGE,
+        JOptionPane messagePanel = new JOptionPane(bundle.getString("MessageDialog.confirmAction"), JOptionPane.INFORMATION_MESSAGE,
                 JOptionPane.DEFAULT_OPTION, null,
                 new Object[]{}, null);
-        messageDialog = messagePanel.createDialog(this, "Uploading firmware...");
+        messageDialog = messagePanel.createDialog(this, bundle.getString("FirmwareUpdateDialog.messageDialog.title"));
         messageDialog.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         messageDialog.setSize(400, 150);
         messageDialog.setLocationRelativeTo(null);
@@ -207,12 +209,12 @@ public class FirmwareUpdateDialog extends javax.swing.JDialog implements WindowL
                 mainController.firmwareErase(device);
                 java.awt.EventQueue.invokeLater(new Runnable() {
                     public void run() {
-                        ((JOptionPane) messageDialog.getContentPane().getComponent(0)).setMessage("If asked, please confirm the update on your device.");
+                        ((JOptionPane) messageDialog.getContentPane().getComponent(0)).setMessage(bundle.getString("FirmwareUpdateDialog.messageDialog.text.confirmUpdate"));
                         messageDialog.setVisible(true);
                     }
                 });
             } else {
-                JOptionPane.showMessageDialog(this, "Please choose a firmware file");
+                JOptionPane.showMessageDialog(this, bundle.getString("FirmwareUpdateDialog.MessageDialog.emptyFirmware"));
             }
         } else {
             JOptionPane.showMessageDialog(this, bundle.getString("MessageDialog.deviceDetached"));
@@ -221,7 +223,7 @@ public class FirmwareUpdateDialog extends javax.swing.JDialog implements WindowL
 
     private void downloadButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_downloadButtonActionPerformed
         try {
-            BrowserUtils.openWebpage(new URL("http://mybwallet.com/resources"));
+            BrowserUtils.openWebpage(UrlUtils.getResourcesUrl(Locale.getDefault()));
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage());
         }
@@ -236,9 +238,8 @@ public class FirmwareUpdateDialog extends javax.swing.JDialog implements WindowL
                     public void run() {
                         String code = getButtonRequestCode(event.getMessage());
                         String msg = code;
-                        System.out.println(code);
                         if ("ButtonRequest_FirmwareCheck".equals(code)) {
-                            msg = "Please confirm the firmware fingerprint on your device.";
+                            msg = bundle.getString("FirmwareUpdateDialog.messageDialog.text.confirmFingerprint");
                         }
                         ((JOptionPane) messageDialog.getContentPane().getComponent(0)).setMessage(msg);
                         messageDialog.setVisible(true);

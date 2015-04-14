@@ -16,6 +16,7 @@ import com.bdx.bwallet.tools.core.events.MessageEvents;
 import com.bdx.bwallet.tools.model.Device;
 import com.bdx.bwallet.tools.ui.utils.ButtonColumn;
 import com.bdx.bwallet.tools.ui.utils.IconUtils;
+import com.bdx.bwallet.tools.ui.utils.PINEntryUtils;
 import com.google.common.base.Optional;
 import com.google.common.eventbus.Subscribe;
 import java.awt.event.ActionEvent;
@@ -68,17 +69,16 @@ public class AccountLabelDialog extends javax.swing.JDialog implements WindowLis
         this.mainController = mainController;
         this.device = device;
 
-        JOptionPane messagePanel = new JOptionPane("Please confirm the action on your device.", JOptionPane.INFORMATION_MESSAGE,
+        JOptionPane messagePanel = new JOptionPane(bundle.getString("MessageDialog.confirmAction"), JOptionPane.INFORMATION_MESSAGE,
                 JOptionPane.DEFAULT_OPTION, null,
                 new Object[]{}, null);
-        messageDialog = messagePanel.createDialog(this, "Account Label Setting");
+        messageDialog = messagePanel.createDialog(this, bundle.getString("AccountLabelDialog.title"));
         messageDialog.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
         messageDialog.setSize(400, 150);
         messageDialog.setLocationRelativeTo(null);
         messageDialog.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                System.out.println("windowClosing");
                 AccountLabelDialog.this.mainController.cancel();
             }
         });
@@ -100,7 +100,7 @@ public class AccountLabelDialog extends javax.swing.JDialog implements WindowLis
                     Integer index = (Integer) ((DefaultTableModel) table.getModel()).getValueAt(modelRow, 0);
                     mainController.removeAccountLabel(device, (String) coinComboBox.getSelectedItem(), index);
                 } else {
-                    JOptionPane.showMessageDialog(AccountLabelDialog.this, "Device detached");
+                    JOptionPane.showMessageDialog(AccountLabelDialog.this, AccountLabelDialog.this.bundle.getString("MessageDialog.deviceDetached"));
                 }
             }
         };
@@ -125,7 +125,7 @@ public class AccountLabelDialog extends javax.swing.JDialog implements WindowLis
                         mainController.setAccountLabel(device, (String) coinComboBox.getSelectedItem(), index, l);
                     }
                 } else {
-                    JOptionPane.showMessageDialog(AccountLabelDialog.this, "Device detached");
+                    JOptionPane.showMessageDialog(AccountLabelDialog.this, AccountLabelDialog.this.bundle.getString("MessageDialog.deviceDetached"));
                 }
             }
         };
@@ -143,7 +143,7 @@ public class AccountLabelDialog extends javax.swing.JDialog implements WindowLis
                     if (AccountLabelDialog.this.device != null) {
                         AccountLabelDialog.this.mainController.getAccountLabels(AccountLabelDialog.this.device, (String) e.getItem(), true, 1);
                     } else {
-                        JOptionPane.showMessageDialog(AccountLabelDialog.this, "Device detached");
+                        JOptionPane.showMessageDialog(AccountLabelDialog.this, AccountLabelDialog.this.bundle.getString("MessageDialog.deviceDetached"));
                     }
                 } else if (e.getStateChange() == ItemEvent.DESELECTED) {
                 }
@@ -248,7 +248,7 @@ public class AccountLabelDialog extends javax.swing.JDialog implements WindowLis
         if (device != null) {
             DefaultTableModel wordTableModel = (DefaultTableModel) labelTable.getModel();
             if (wordTableModel.getRowCount() >= 32) {
-                JOptionPane.showMessageDialog(this, "The maximum amount of the Account Label cannot be more than 32.");
+                JOptionPane.showMessageDialog(this, bundle.getString("AccountLabelDialog.MessageDialog.labelCannotMoreThan32"));
                 return ;
             }
             AccountLabelEntryDialog entryDialog = new AccountLabelEntryDialog(this, true, bundle, false, Optional.<Integer>absent(), Optional.<String>absent());
@@ -273,20 +273,7 @@ public class AccountLabelDialog extends javax.swing.JDialog implements WindowLis
         String msg = "";
         switch (event.getEventType()) {
             case SHOW_PIN_ENTRY:
-                PINEntryDialog pinEntryDialog = new PINEntryDialog(this, true, bundle);
-                pinEntryDialog.setLocationRelativeTo(null);
-                if (event.getMessage().isPresent()) {
-                    BWalletMessage.PinMatrixRequest pinRequest = (BWalletMessage.PinMatrixRequest) event.getMessage().get();
-                    msg = "Please enter PIN:";
-                    if ("PinMatrixRequestType_Current".equals(pinRequest.getType().name())) {
-                        msg = "Please enter current PIN:";
-                    } else if ("PinMatrixRequestType_NewFirst".equals(pinRequest.getType().name())) {
-                        msg = "Please enter new PIN:";
-                    } else if ("PinMatrixRequestType_NewSecond".equals(pinRequest.getType().name())) {
-                        msg = "Please re-enter new PIN:";
-                    }
-                    pinEntryDialog.setPinTitle(msg);
-                }
+                PINEntryDialog pinEntryDialog = PINEntryUtils.createDialog(this, bundle, event.getMessage());
                 pinEntryDialog.setVisible(true);
                 if (pinEntryDialog.isCancel()) {
                     mainController.cancel();
@@ -309,7 +296,6 @@ public class AccountLabelDialog extends javax.swing.JDialog implements WindowLis
                 for (int i = wordTableModel.getRowCount() - 1; i >= 0; i--) {
                     wordTableModel.removeRow(i);
                 }
-                System.out.println(accountLabels.getLabelsCount());
                 for (int i = 0; i < accountLabels.getLabelsCount(); i++) {
                     BWalletType.AccountLabelType accountLabel = accountLabels.getLabels(i);
                     Integer index = accountLabel.getIndex();

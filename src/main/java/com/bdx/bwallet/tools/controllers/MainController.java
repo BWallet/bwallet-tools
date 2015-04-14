@@ -278,6 +278,8 @@ public class MainController {
     }
 
     public WalletContext getContext(Device device) {
+        if (device == null)
+            return null;
         WalletContext context = contexts.get(device.getPath());
         if (context == null) {
             context = this.createContext(device);

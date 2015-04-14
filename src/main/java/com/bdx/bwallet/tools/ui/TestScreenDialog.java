@@ -47,17 +47,16 @@ public class TestScreenDialog extends javax.swing.JDialog implements WindowListe
         this.mainController = mainController;
         this.device = device;
 
-        JOptionPane messagePanel = new JOptionPane("Please check the screen of your device.", JOptionPane.INFORMATION_MESSAGE,
+        JOptionPane messagePanel = new JOptionPane(bundle.getString("TestScreenDialog.messageDialog.text"), JOptionPane.INFORMATION_MESSAGE,
                 JOptionPane.DEFAULT_OPTION, null,
                 new Object[]{}, null);
-        messageDialog = messagePanel.createDialog(this, "Test Screen");
+        messageDialog = messagePanel.createDialog(this, bundle.getString("TestScreenDialog.title"));
         messageDialog.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
         messageDialog.setSize(400, 150);
         messageDialog.setLocationRelativeTo(null);
         messageDialog.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                System.out.println("windowClosing");
             }
         });
 
@@ -144,14 +143,14 @@ public class TestScreenDialog extends javax.swing.JDialog implements WindowListe
         if (device != null) {
             String timeText = timeTextField.getText().trim();
             if ("".equals(timeText)) {
-                JOptionPane.showMessageDialog(this, "Empty delay time");
+                JOptionPane.showMessageDialog(this, bundle.getString("TestScreenDialog.MessageDialog.emptyTime"));
                 return;
             }
             int time;
             try {
                 time = Integer.parseInt(timeText);
             } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(this, "Invalid delay time");
+                JOptionPane.showMessageDialog(this, bundle.getString("TestScreenDialog.MessageDialog.invalidTime"));
                 return;
             }
             java.awt.EventQueue.invokeLater(new Runnable() {

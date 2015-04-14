@@ -59,7 +59,6 @@ public class WipeDeviceDialog extends javax.swing.JDialog implements WindowListe
         messageDialog.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                System.out.println("windowClosing");
                 WipeDeviceDialog.this.mainController.cancel();
             }
         });

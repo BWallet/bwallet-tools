@@ -14,20 +14,22 @@ import com.bdx.bwallet.tools.core.events.MessageEventType;
 import com.bdx.bwallet.tools.core.events.MessageEvents;
 import com.bdx.bwallet.tools.model.Device;
 import com.bdx.bwallet.tools.model.Language;
+import com.bdx.bwallet.tools.ui.utils.PINEntryUtils;
 import com.google.common.eventbus.Subscribe;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.text.MessageFormat;
 import java.util.ResourceBundle;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JSlider;
-import javax.swing.JToolTip;
 import javax.swing.WindowConstants;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import org.apache.commons.lang3.StringUtils;
 import org.hid4java.HidDevice;
 
 /**
@@ -61,17 +63,16 @@ public class CreateWalletDialog extends javax.swing.JDialog implements WindowLis
         languageComboBoxModel.addElement(new Language("english", "English"));
         languageComboBoxModel.addElement(new Language("chinese", "中文"));
 
-        JOptionPane messagePanel = new JOptionPane("Please confirm on your device.", JOptionPane.INFORMATION_MESSAGE,
+        JOptionPane messagePanel = new JOptionPane(bundle.getString("MessageDialog.confirmAction"), JOptionPane.INFORMATION_MESSAGE,
                 JOptionPane.DEFAULT_OPTION, null,
                 new Object[]{}, null);
-        messageDialog = messagePanel.createDialog(this, "Device Setup");
+        messageDialog = messagePanel.createDialog(this, bundle.getString("CreateWalletDialog.title"));
         messageDialog.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
         messageDialog.setSize(720, 150);
         messageDialog.setLocationRelativeTo(null);
         messageDialog.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                System.out.println("windowClosing");
                 CreateWalletDialog.this.mainController.cancel();
             }
         });     
@@ -88,7 +89,7 @@ public class CreateWalletDialog extends javax.swing.JDialog implements WindowLis
                 JSlider source = (JSlider) e.getSource();
                 if (!source.getValueIsAdjusting() && isUserTrigger) {
                     if (source.getValue() != 24) {
-                        int reply = JOptionPane.showConfirmDialog(CreateWalletDialog.this, "We strongly recommend that you use 24 words of Recovery seed.\r\nAre you sure want to change the Recovery seed length?", "", JOptionPane.YES_NO_OPTION);
+                        int reply = JOptionPane.showConfirmDialog(CreateWalletDialog.this, CreateWalletDialog.this.bundle.getString("CreateWalletDialog.MessageDialog.confirmChangeSeedLength"), "", JOptionPane.YES_NO_OPTION);
                         if (reply == JOptionPane.NO_OPTION) {
                             isUserTrigger = false;
                             source.setValue(24);
@@ -356,6 +357,30 @@ public class CreateWalletDialog extends javax.swing.JDialog implements WindowLis
         // TODO add your handling code here:
     }//GEN-LAST:event_passphraseCheckBoxActionPerformed
 
+    protected String processOrdinal(String input) {
+        if (StringUtils.isBlank(input))
+            return input;
+        String prefix = "ordinal(";
+        int start = input.indexOf(prefix);
+        int end = 0;
+        if (start > 0) {
+            char[] chars = input.toCharArray();
+            String numberStr = "";
+            for (int i = start + prefix.length(); i < chars.length; i++) {
+                if (chars[i] == ')') {
+                    end = i;
+                    break;
+                }
+                numberStr += chars[i];
+            }
+            String output = input.substring(0, start);
+            output += ordinal(Integer.parseInt(numberStr));
+            output += input.substring(end + 1, input.length());
+            return output;
+        } else 
+            return input;
+    }
+    
     protected String ordinal(int i) {
         String[] sufixes = new String[]{"th", "st", "nd", "rd", "th", "th", "th", "th", "th", "th"};
         switch (i % 100) {
@@ -377,27 +402,28 @@ public class CreateWalletDialog extends javax.swing.JDialog implements WindowLis
                 if (!recoveryStarted) {
                     // First write
                     recoveryStarted = true;
-                    msg = "We will now show you " + recoveryWords + " words that will allow you to recover your accounts in case you lose your device. \r\nPlease write down all these words carefully.\r\n\r\n";
-                    msg += "Please write down the " + ordinal(recoveryCurrentWord) + " word of your recovery seed.";
+                    msg = MessageFormat.format(bundle.getString("CreateWalletDialog.messageDialog.writeSeedFirst"), new Object[]{recoveryWords});
+                    msg += MessageFormat.format(bundle.getString("CreateWalletDialog.messageDialog.writeSeed"), new Object[]{recoveryCurrentWord});
                 } else {
                     recoveryWordsDone = recoveryWordsDone + 1;
                     recoveryCurrentWord = recoveryCurrentWord + 1;
                     if (recoveryWordsDone < recoveryWords) {
                         // Write
-                        msg = "Please write down the " + ordinal(recoveryCurrentWord) + " word of your recovery seed.";
+                        msg = MessageFormat.format(bundle.getString("CreateWalletDialog.messageDialog.writeSeed"), new Object[]{recoveryCurrentWord});
                     } else if (recoveryWordsDone == recoveryWords) {
                         // First check
                         recoveryCurrentWord = 1;
-                        msg = "We will now show you the " + recoveryWords + " words again. \r\nPlease check carefully that you wrote them down correctly.\r\n\r\n";
-                        msg += "Please check the " + ordinal(recoveryCurrentWord) + " word of your recovery seed.";
+                        msg = MessageFormat.format(bundle.getString("CreateWalletDialog.messageDialog.checkSeedFirst"), new Object[]{recoveryWords});
+                        msg += MessageFormat.format(bundle.getString("CreateWalletDialog.messageDialog.checkSeed"), new Object[]{recoveryCurrentWord});
                     } else if (recoveryWordsDone < 2 * recoveryWords - 1) {
                         // Check
-                        msg = "Please check the " + ordinal(recoveryCurrentWord) + " word of your recovery seed.";
+                        msg = MessageFormat.format(bundle.getString("CreateWalletDialog.messageDialog.checkSeed"), new Object[]{recoveryCurrentWord});
                     } else {
                         // Last check
-                        msg = "Please check the " + ordinal(recoveryCurrentWord) + " word of your recovery seed.";
+                        msg = MessageFormat.format(bundle.getString("CreateWalletDialog.messageDialog.checkSeed"), new Object[]{recoveryCurrentWord});
                     }
                 }
+                msg = processOrdinal(msg);
                 ((JOptionPane) messageDialog.getContentPane().getComponent(0)).setMessage(msg);
                 java.awt.EventQueue.invokeLater(new Runnable() {
                     public void run() {
@@ -406,20 +432,7 @@ public class CreateWalletDialog extends javax.swing.JDialog implements WindowLis
                 });
                 break;
             case SHOW_PIN_ENTRY:
-                PINEntryDialog pinEntryDialog = new PINEntryDialog(this, true, bundle);
-                pinEntryDialog.setLocationRelativeTo(null);
-                if (event.getMessage().isPresent()) {
-                    BWalletMessage.PinMatrixRequest pinRequest = (BWalletMessage.PinMatrixRequest) event.getMessage().get();
-                    msg = "Please enter PIN:";
-                    if ("PinMatrixRequestType_Current".equals(pinRequest.getType().name())) {
-                        msg = "Please enter current PIN:";
-                    } else if ("PinMatrixRequestType_NewFirst".equals(pinRequest.getType().name())) {
-                        msg = "Please enter new PIN:";
-                    } else if ("PinMatrixRequestType_NewSecond".equals(pinRequest.getType().name())) {
-                        msg = "Please re-enter new PIN:";
-                    }
-                    pinEntryDialog.setPinTitle(msg);
-                }
+                PINEntryDialog pinEntryDialog = PINEntryUtils.createDialog(this, bundle, event.getMessage());
                 pinEntryDialog.setVisible(true);
                 System.out.println("pin - " + pinEntryDialog.isCancel());
                 if (pinEntryDialog.isCancel()) {

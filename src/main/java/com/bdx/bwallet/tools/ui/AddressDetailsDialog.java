@@ -5,7 +5,6 @@
  */
 package com.bdx.bwallet.tools.ui;
 
-import com.bdx.bwallet.tools.core.utils.DeterministicKeyUtils;
 import com.bdx.bwallet.tools.ui.utils.BrowserUtils;
 import com.bdx.bwallet.tools.ui.utils.LabelUtils;
 import com.bdx.bwallet.tools.ui.utils.QRCodes;
