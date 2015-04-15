@@ -12,6 +12,7 @@ import com.bdx.bwallet.tools.core.events.HardwareWalletEvents;
 import com.bdx.bwallet.tools.core.events.MessageEvent;
 import com.bdx.bwallet.tools.core.events.MessageEventType;
 import com.bdx.bwallet.tools.core.events.MessageEvents;
+import com.bdx.bwallet.tools.core.utils.FailureMessageUtils;
 import com.bdx.bwallet.tools.model.Device;
 import com.google.common.eventbus.Subscribe;
 import java.awt.event.WindowAdapter;
@@ -176,12 +177,7 @@ public class WipeDeviceDialog extends javax.swing.JDialog implements WindowListe
                 break;
             case SHOW_OPERATION_FAILED:
                 messageDialog.setVisible(false);
-                String msg = "Wipe failed";
-                if (event.getMessage().isPresent()) {
-                    Failure failure = (Failure) event.getMessage().get();
-                    msg = failure.getMessage();
-                }
-                JOptionPane.showMessageDialog(this, msg);
+                JOptionPane.showMessageDialog(this, FailureMessageUtils.extract(event.getMessage()));
                 break;
             default:
                 break;

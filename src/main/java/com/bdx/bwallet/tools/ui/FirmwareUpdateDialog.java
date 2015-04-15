@@ -12,6 +12,7 @@ import com.bdx.bwallet.tools.core.events.HardwareWalletEvents;
 import com.bdx.bwallet.tools.core.events.MessageEvent;
 import com.bdx.bwallet.tools.core.events.MessageEventType;
 import com.bdx.bwallet.tools.core.events.MessageEvents;
+import com.bdx.bwallet.tools.core.utils.FailureMessageUtils;
 import com.bdx.bwallet.tools.model.Device;
 import com.bdx.bwallet.tools.ui.utils.BrowserUtils;
 import com.bdx.bwallet.tools.ui.utils.UrlUtils;
@@ -258,12 +259,7 @@ public class FirmwareUpdateDialog extends javax.swing.JDialog implements WindowL
                 }
                 break;
             case SHOW_OPERATION_FAILED:
-                String msg = "Update failed";
-                if (event.getMessage().isPresent()) {
-                    BWalletMessage.Failure failure = (BWalletMessage.Failure) event.getMessage().get();
-                    msg = msg + " : " + failure.getMessage();
-                }
-                JOptionPane.showMessageDialog(this, msg);
+                JOptionPane.showMessageDialog(this, bundle.getString("FirmwareUpdateDialog.MessageDialog.failed"));
                 messageDialog.setVisible(false);
                 break;
             default:

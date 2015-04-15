@@ -12,6 +12,7 @@ import com.bdx.bwallet.tools.core.events.HardwareWalletEvents;
 import com.bdx.bwallet.tools.core.events.MessageEvent;
 import com.bdx.bwallet.tools.core.events.MessageEventType;
 import com.bdx.bwallet.tools.core.events.MessageEvents;
+import com.bdx.bwallet.tools.core.utils.FailureMessageUtils;
 import com.bdx.bwallet.tools.model.Device;
 import com.bdx.bwallet.tools.ui.utils.PINEntryUtils;
 import com.google.common.eventbus.Subscribe;
@@ -282,7 +283,6 @@ public class GetPublicKeyDialog extends javax.swing.JDialog implements WindowLis
     @Subscribe
     public void onHardwareWalletEvent(HardwareWalletEvent event) {
         System.out.println(event.getEventType());
-        String msg = "";
         switch (event.getEventType()) {
             case SHOW_PIN_ENTRY:
                 PINEntryDialog pinEntryDialog = PINEntryUtils.createDialog(this, bundle, event.getMessage());
@@ -317,12 +317,7 @@ public class GetPublicKeyDialog extends javax.swing.JDialog implements WindowLis
                 }
                 break;
             case SHOW_OPERATION_FAILED:
-                msg = "Get failed";
-                if (event.getMessage().isPresent()) {
-                    BWalletMessage.Failure failure = (BWalletMessage.Failure) event.getMessage().get();
-                    msg = msg + " : " + failure.getMessage();
-                }
-                JOptionPane.showMessageDialog(this, msg);
+                JOptionPane.showMessageDialog(this, FailureMessageUtils.extract(event.getMessage()));
                 break;
             default:
                 break;

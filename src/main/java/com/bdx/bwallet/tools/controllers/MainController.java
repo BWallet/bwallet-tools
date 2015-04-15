@@ -167,6 +167,9 @@ public class MainController {
             walletService.setContext(context);
             try {
                 BufferedImage img = ImageIO.read(homescreen);
+                if (img == null) {
+                    throw new IllegalArgumentException("File is not a image");
+                }
                 int height = img.getHeight();
                 int width = img.getWidth();
                 if (height != 64 || width != 128) {

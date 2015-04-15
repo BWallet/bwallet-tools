@@ -13,6 +13,7 @@ import com.bdx.bwallet.tools.core.events.MessageEvent;
 import com.bdx.bwallet.tools.core.events.MessageEventType;
 import com.bdx.bwallet.tools.core.events.MessageEvents;
 import com.bdx.bwallet.tools.core.utils.DeterministicKeyUtils;
+import com.bdx.bwallet.tools.core.utils.FailureMessageUtils;
 import com.bdx.bwallet.tools.model.Device;
 import com.bdx.bwallet.tools.ui.utils.ButtonColumn;
 import com.bdx.bwallet.tools.ui.utils.IconUtils;
@@ -457,7 +458,6 @@ public final class AccountDetailsDialog extends javax.swing.JDialog implements W
     @Subscribe
     public void onHardwareWalletEvent(HardwareWalletEvent event) {
         System.out.println(event.getEventType());
-        String msg = "";
         switch (event.getEventType()) {
             case SHOW_PIN_ENTRY:
                 PINEntryDialog pinEntryDialog = PINEntryUtils.createDialog(this, bundle, event.getMessage());
@@ -510,12 +510,7 @@ public final class AccountDetailsDialog extends javax.swing.JDialog implements W
                 break;
             case SHOW_OPERATION_FAILED:
                 messageDialog.setVisible(false);
-                msg = "Get Account Details failed";
-                if (event.getMessage().isPresent()) {
-                    BWalletMessage.Failure failure = (BWalletMessage.Failure) event.getMessage().get();
-                    msg = failure.getMessage();
-                }
-                JOptionPane.showMessageDialog(this, msg);
+                JOptionPane.showMessageDialog(this, FailureMessageUtils.extract(event.getMessage()));
                 break;
             default:
                 break;

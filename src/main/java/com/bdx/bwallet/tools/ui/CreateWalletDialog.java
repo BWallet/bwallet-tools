@@ -12,6 +12,7 @@ import com.bdx.bwallet.tools.core.events.HardwareWalletEvents;
 import com.bdx.bwallet.tools.core.events.MessageEvent;
 import com.bdx.bwallet.tools.core.events.MessageEventType;
 import com.bdx.bwallet.tools.core.events.MessageEvents;
+import com.bdx.bwallet.tools.core.utils.FailureMessageUtils;
 import com.bdx.bwallet.tools.model.Device;
 import com.bdx.bwallet.tools.model.Language;
 import com.bdx.bwallet.tools.ui.utils.PINEntryUtils;
@@ -434,12 +435,10 @@ public class CreateWalletDialog extends javax.swing.JDialog implements WindowLis
             case SHOW_PIN_ENTRY:
                 PINEntryDialog pinEntryDialog = PINEntryUtils.createDialog(this, bundle, event.getMessage());
                 pinEntryDialog.setVisible(true);
-                System.out.println("pin - " + pinEntryDialog.isCancel());
                 if (pinEntryDialog.isCancel()) {
                     mainController.cancel();
                 } else {
                     String pin = pinEntryDialog.getPin();
-                    System.out.println("pin : " + pin);
                     mainController.providePin(pin);
                 }
                 break;
@@ -454,12 +453,7 @@ public class CreateWalletDialog extends javax.swing.JDialog implements WindowLis
                 break;
             case SHOW_OPERATION_FAILED:
                 messageDialog.setVisible(false);
-                msg = "Create failed";
-                if (event.getMessage().isPresent()) {
-                    BWalletMessage.Failure failure = (BWalletMessage.Failure) event.getMessage().get();
-                    msg = failure.getMessage();
-                }
-                JOptionPane.showMessageDialog(this, msg);
+                JOptionPane.showMessageDialog(this, FailureMessageUtils.extract(event.getMessage()));
                 break;
             default:
                 break;

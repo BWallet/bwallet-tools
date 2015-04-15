@@ -28,6 +28,7 @@ public class PassphraseEntryDialog extends javax.swing.JDialog implements Window
     public PassphraseEntryDialog(java.awt.Dialog parent, boolean modal, ResourceBundle bundle) {
         super(parent, modal);
         initComponents();
+        this.addWindowListener(this);
         this.bundle = bundle;
         applyResourceBundle();
     }
