@@ -139,6 +139,10 @@ public class WalletService implements HidServicesListener {
         context.beginGetAddressUseCase(childNumbers);
     }
     
+    public void getAddress(int account, KeyChain.KeyPurpose keyPurpose, int index) {
+        context.beginGetAddressUseCase(account, keyPurpose, index);
+    }
+    
     public void signMessage(int account, KeyChain.KeyPurpose keyPurpose, int index, byte[] message) {
         context.beginSignMessageUseCase(account, keyPurpose, index, message);
     }

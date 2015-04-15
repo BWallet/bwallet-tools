@@ -26,11 +26,11 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
               <Component id="signPanel" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="31" max="32767" attributes="0"/>
-              <Component id="verifyPanel" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Component id="verifyPanel" max="32767" attributes="0"/>
+              <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -39,10 +39,10 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="signPanel" max="32767" attributes="0"/>
+                  <Component id="signPanel" pref="422" max="32767" attributes="0"/>
                   <Component id="verifyPanel" max="32767" attributes="0"/>
               </Group>
-              <EmptySpace pref="20" max="32767" attributes="0"/>
+              <EmptySpace pref="18" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -55,40 +55,54 @@
             <TitledBorder title=" Sign message "/>
           </Border>
         </Property>
+        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+          <Dimension value="[430, 420]"/>
+        </Property>
       </Properties>
 
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" attributes="0">
-                  <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jScrollPane1" max="32767" attributes="0"/>
-                      <Component id="jScrollPane3" max="32767" attributes="0"/>
                       <Group type="102" attributes="0">
+                          <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="sMessageLabel" min="-2" max="-2" attributes="0"/>
-                              <Component id="sSignatureLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="sAddressLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="jScrollPane1" max="32767" attributes="0"/>
+                              <Component id="jScrollPane3" max="32767" attributes="0"/>
+                              <Group type="102" attributes="0">
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="sMessageLabel" min="-2" max="-2" attributes="0"/>
+                                      <Component id="sSignatureLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                              </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Component id="accountLabel" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
+                                  <Component id="accountTextField" min="-2" pref="60" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="purposeComboBox" pref="103" max="32767" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="indexLabel" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="indexTextField" min="-2" pref="60" max="-2" attributes="0"/>
+                              </Group>
                           </Group>
-                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
-                          <Component id="accountLabel" pref="47" max="32767" attributes="0"/>
-                          <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
-                          <Component id="accountTextField" min="-2" pref="60" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="sAddressLabel" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="purposeComboBox" min="-2" pref="95" max="-2" attributes="0"/>
+                          <Component id="addressContentLabel" max="32767" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Component id="indexLabel" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Component id="indexTextField" min="-2" pref="60" max="-2" attributes="0"/>
+                          <Component id="copyAddressButton" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
               <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace min="-2" pref="130" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="156" max="-2" attributes="0"/>
                   <Component id="signButton" min="-2" pref="80" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
@@ -101,8 +115,6 @@
                   <Component id="sMessageLabel" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jScrollPane1" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                  <Component id="sAddressLabel" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="accountLabel" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -111,7 +123,13 @@
                       <Component id="accountTextField" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
                       <Component id="purposeComboBox" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="10" max="32767" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="sAddressLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="copyAddressButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="addressContentLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="32767" attributes="0"/>
                   <Component id="sSignatureLabel" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jScrollPane3" min="-2" max="-2" attributes="0"/>
@@ -181,14 +199,14 @@
         </Component>
         <Component class="javax.swing.JLabel" name="accountLabel">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Account"/>
+            <Property name="text" type="java.lang.String" value="Account Index"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="accountTextField">
         </Component>
         <Component class="javax.swing.JLabel" name="indexLabel">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Index"/>
+            <Property name="text" type="java.lang.String" value="Address Index"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="indexTextField">
@@ -201,6 +219,19 @@
                 <StringItem index="1" value="Change"/>
               </StringArray>
             </Property>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JButton" name="copyAddressButton">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Copy"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="copyAddressButtonActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JLabel" name="addressContentLabel">
+          <Properties>
+            <Property name="text" type="java.lang.String" value=" "/>
           </Properties>
         </Component>
       </SubComponents>
@@ -234,10 +265,10 @@
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
-              <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace min="-2" pref="151" max="-2" attributes="0"/>
+              <Group type="102" alignment="1" attributes="0">
+                  <EmptySpace pref="180" max="32767" attributes="0"/>
                   <Component id="verifyButton" min="-2" pref="80" max="-2" attributes="0"/>
-                  <EmptySpace pref="145" max="32767" attributes="0"/>
+                  <EmptySpace min="-2" pref="168" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>

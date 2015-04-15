@@ -16,9 +16,13 @@ import com.bdx.bwallet.tools.core.utils.FailureMessageUtils;
 import com.bdx.bwallet.tools.model.Device;
 import com.bdx.bwallet.tools.ui.utils.PINEntryUtils;
 import com.google.common.eventbus.Subscribe;
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.util.Locale;
 import java.util.ResourceBundle;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
@@ -95,16 +99,19 @@ public class SignMessageDialog extends javax.swing.JDialog implements WindowList
             @Override
             public void insertUpdate(DocumentEvent e) {
                 sSignatureTextArea.setText("");
+                addressContentLabel.setText("");
             }
 
             @Override
             public void removeUpdate(DocumentEvent e) {
                 sSignatureTextArea.setText("");
+                addressContentLabel.setText("");
             }
 
             @Override
             public void changedUpdate(DocumentEvent e) {
                 sSignatureTextArea.setText("");
+                addressContentLabel.setText("");
             }
         });
 
@@ -112,39 +119,45 @@ public class SignMessageDialog extends javax.swing.JDialog implements WindowList
             @Override
             public void insertUpdate(DocumentEvent e) {
                 sSignatureTextArea.setText("");
+                addressContentLabel.setText("");
             }
 
             @Override
             public void removeUpdate(DocumentEvent e) {
                 sSignatureTextArea.setText("");
+                addressContentLabel.setText("");
             }
 
             @Override
             public void changedUpdate(DocumentEvent e) {
                 sSignatureTextArea.setText("");
+                addressContentLabel.setText("");
             }
         });
 
         this.bundle = bundle;
         applyResourceBundle();
+
+        addressContentLabel.setText("");
     }
 
     public void applyResourceBundle() {
-        setTitle(bundle.getString("SignMessageDialog.title")); 
-        
-        ((TitledBorder)signPanel.getBorder()).setTitle(bundle.getString("SignMessageDialog.signPanel.border.title"));
-        ((TitledBorder)verifyPanel.getBorder()).setTitle(bundle.getString("SignMessageDialog.verifyPanel.border.title"));
-        
-        sMessageLabel.setText(bundle.getString("SignMessageDialog.sMessageLabel.text")); 
-        sSignatureLabel.setText(bundle.getString("SignMessageDialog.sSignatureLabel.text")); 
-        sAddressLabel.setText(bundle.getString("SignMessageDialog.sAddressLabel.text")); 
-        signButton.setText(bundle.getString("SignMessageDialog.signButton.text")); 
-        accountLabel.setText(bundle.getString("SignMessageDialog.accountLabel.text")); 
-        indexLabel.setText(bundle.getString("SignMessageDialog.indexLabel.text")); 
-        vMessageLabel.setText(bundle.getString("SignMessageDialog.vMessageLabel.text")); 
-        vSignatureLabel.setText(bundle.getString("SignMessageDialog.vSignatureLabel.text")); 
-        vAddressLabel.setText(bundle.getString("SignMessageDialog.vAddressLabel.text")); 
-        verifyButton.setText(bundle.getString("SignMessageDialog.verifyButton.text")); 
+        setTitle(bundle.getString("SignMessageDialog.title"));
+
+        ((TitledBorder) signPanel.getBorder()).setTitle(bundle.getString("SignMessageDialog.signPanel.border.title"));
+        ((TitledBorder) verifyPanel.getBorder()).setTitle(bundle.getString("SignMessageDialog.verifyPanel.border.title"));
+
+        sMessageLabel.setText(bundle.getString("SignMessageDialog.sMessageLabel.text"));
+        sSignatureLabel.setText(bundle.getString("SignMessageDialog.sSignatureLabel.text"));
+        sAddressLabel.setText(bundle.getString("SignMessageDialog.sAddressLabel.text"));
+        signButton.setText(bundle.getString("SignMessageDialog.signButton.text"));
+        accountLabel.setText(bundle.getString("SignMessageDialog.accountLabel.text"));
+        indexLabel.setText(bundle.getString("SignMessageDialog.indexLabel.text"));
+        vMessageLabel.setText(bundle.getString("SignMessageDialog.vMessageLabel.text"));
+        vSignatureLabel.setText(bundle.getString("SignMessageDialog.vSignatureLabel.text"));
+        vAddressLabel.setText(bundle.getString("SignMessageDialog.vAddressLabel.text"));
+        verifyButton.setText(bundle.getString("SignMessageDialog.verifyButton.text"));
+        copyAddressButton.setText(bundle.getString("SignMessageDialog.copyAddressButton.text"));
     }
 
     /**
@@ -170,6 +183,8 @@ public class SignMessageDialog extends javax.swing.JDialog implements WindowList
         indexLabel = new javax.swing.JLabel();
         indexTextField = new javax.swing.JTextField();
         purposeComboBox = new javax.swing.JComboBox();
+        copyAddressButton = new javax.swing.JButton();
+        addressContentLabel = new javax.swing.JLabel();
         verifyPanel = new javax.swing.JPanel();
         vMessageLabel = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -186,6 +201,7 @@ public class SignMessageDialog extends javax.swing.JDialog implements WindowList
         setResizable(false);
 
         signPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(" Sign message "));
+        signPanel.setPreferredSize(new java.awt.Dimension(430, 420));
 
         sMessageLabel.setText("Message");
 
@@ -211,40 +227,57 @@ public class SignMessageDialog extends javax.swing.JDialog implements WindowList
             }
         });
 
-        accountLabel.setText("Account");
+        accountLabel.setText("Account Index");
 
-        indexLabel.setText("Index");
+        indexLabel.setText("Address Index");
 
         purposeComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Receive", "Change" }));
+
+        copyAddressButton.setText("Copy");
+        copyAddressButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                copyAddressButtonActionPerformed(evt);
+            }
+        });
+
+        addressContentLabel.setText(" ");
 
         javax.swing.GroupLayout signPanelLayout = new javax.swing.GroupLayout(signPanel);
         signPanel.setLayout(signPanelLayout);
         signPanelLayout.setHorizontalGroup(
             signPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(signPanelLayout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(signPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
-                    .addComponent(jScrollPane3)
                     .addGroup(signPanelLayout.createSequentialGroup()
+                        .addContainerGap()
                         .addGroup(signPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(sMessageLabel)
-                            .addComponent(sSignatureLabel)
-                            .addComponent(sAddressLabel))
-                        .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(jScrollPane1)
+                            .addComponent(jScrollPane3)
+                            .addGroup(signPanelLayout.createSequentialGroup()
+                                .addGroup(signPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(sMessageLabel)
+                                    .addComponent(sSignatureLabel))
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(signPanelLayout.createSequentialGroup()
+                                .addComponent(accountLabel)
+                                .addGap(5, 5, 5)
+                                .addComponent(accountTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(purposeComboBox, 0, 103, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(indexLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(indexTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(signPanelLayout.createSequentialGroup()
-                        .addComponent(accountLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 47, Short.MAX_VALUE)
-                        .addGap(2, 2, 2)
-                        .addComponent(accountTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap()
+                        .addComponent(sAddressLabel)
                         .addGap(18, 18, 18)
-                        .addComponent(purposeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(addressContentLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(indexLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(indexTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(copyAddressButton)))
                 .addContainerGap())
             .addGroup(signPanelLayout.createSequentialGroup()
-                .addGap(130, 130, 130)
+                .addGap(156, 156, 156)
                 .addComponent(signButton, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -255,8 +288,6 @@ public class SignMessageDialog extends javax.swing.JDialog implements WindowList
                 .addComponent(sMessageLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(sAddressLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(signPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(accountLabel)
@@ -264,7 +295,12 @@ public class SignMessageDialog extends javax.swing.JDialog implements WindowList
                     .addComponent(indexTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(accountTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(purposeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(signPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(sAddressLabel)
+                    .addComponent(copyAddressButton)
+                    .addComponent(addressContentLabel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(sSignatureLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -315,10 +351,10 @@ public class SignMessageDialog extends javax.swing.JDialog implements WindowList
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(addressTextField))
                 .addContainerGap())
-            .addGroup(verifyPanelLayout.createSequentialGroup()
-                .addGap(151, 151, 151)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, verifyPanelLayout.createSequentialGroup()
+                .addContainerGap(180, Short.MAX_VALUE)
                 .addComponent(verifyButton, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(145, Short.MAX_VALUE))
+                .addGap(168, 168, 168))
         );
         verifyPanelLayout.setVerticalGroup(
             verifyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -345,24 +381,63 @@ public class SignMessageDialog extends javax.swing.JDialog implements WindowList
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(19, 19, 19)
+                .addGap(20, 20, 20)
                 .addComponent(signPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
-                .addComponent(verifyPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(verifyPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(20, 20, 20))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(signPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(signPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 422, Short.MAX_VALUE)
                     .addComponent(verifyPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(20, Short.MAX_VALUE))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private int getAccountIndex() {
+        String accountText = accountTextField.getText().trim();
+        if ("".equals(accountText)) {
+            throw new IllegalArgumentException(bundle.getString("SignMessageDialog.MessageDialog.emptyAccount"));
+        }
+        int account;
+        try {
+            account = Integer.parseInt(accountText);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException(bundle.getString("SignMessageDialog.MessageDialog.invalidAccount"));
+        }
+        return account;
+    }
+
+    private int getAddressIndex() {
+        String indexText = indexTextField.getText().trim();
+        if ("".equals(indexText)) {
+            throw new IllegalArgumentException(bundle.getString("SignMessageDialog.MessageDialog.emptyIndex"));
+        }
+        int index;
+        try {
+            index = Integer.parseInt(indexText);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException(bundle.getString("SignMessageDialog.MessageDialog.invalidIndex"));
+        }
+        return index;
+    }
+
+    private KeyChain.KeyPurpose getKeyPurpose() {
+        String purposeText = (String) purposeComboBox.getSelectedItem();
+        KeyChain.KeyPurpose purpose;
+        if ("Receive".equals(purposeText)) {
+            purpose = KeyChain.KeyPurpose.RECEIVE_FUNDS;
+        } else {
+            purpose = KeyChain.KeyPurpose.CHANGE;
+        }
+        return purpose;
+    }
 
     private void signButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signButtonActionPerformed
         if (device != null) {
@@ -373,38 +448,16 @@ public class SignMessageDialog extends javax.swing.JDialog implements WindowList
             }
             byte[] message = messageText.getBytes();
 
-            String accountText = accountTextField.getText().trim();
-            if ("".equals(accountText)) {
-                JOptionPane.showMessageDialog(this, bundle.getString("SignMessageDialog.MessageDialog.emptyAccount"));
-                return;
-            }
             int account;
-            try {
-                account = Integer.parseInt(accountText);
-            } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(this, bundle.getString("SignMessageDialog.MessageDialog.invalidAccount"));
-                return;
-            }
-
-            String indexText = indexTextField.getText().trim();
-            if ("".equals(indexText)) {
-                JOptionPane.showMessageDialog(this, bundle.getString("SignMessageDialog.MessageDialog.emptyIndex"));
-                return;
-            }
             int index;
-            try {
-                index = Integer.parseInt(indexText);
-            } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(this, bundle.getString("SignMessageDialog.MessageDialog.invalidIndex"));
-                return;
-            }
-
-            String purposeText = (String) purposeComboBox.getSelectedItem();
             KeyChain.KeyPurpose purpose;
-            if ("Receive".equals(purposeText)) {
-                purpose = KeyChain.KeyPurpose.RECEIVE_FUNDS;
-            } else {
-                purpose = KeyChain.KeyPurpose.CHANGE;
+            try {
+                account = this.getAccountIndex();
+                index = this.getAddressIndex();
+                purpose = this.getKeyPurpose();
+            } catch (IllegalArgumentException ex) {
+                JOptionPane.showMessageDialog(this, ex.getMessage());
+                return;
             }
 
             mainController.signMessage(device, account, purpose, index, message);
@@ -454,6 +507,13 @@ public class SignMessageDialog extends javax.swing.JDialog implements WindowList
         }
     }//GEN-LAST:event_verifyButtonActionPerformed
 
+    private void copyAddressButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_copyAddressButtonActionPerformed
+        String text = addressContentLabel.getText();
+        StringSelection selection = new StringSelection(text);
+        Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+        clipboard.setContents(selection, selection);
+    }//GEN-LAST:event_copyAddressButtonActionPerformed
+
     @Subscribe
     public void onHardwareWalletEvent(HardwareWalletEvent event) {
         System.out.println(event.getEventType());
@@ -493,6 +553,13 @@ public class SignMessageDialog extends javax.swing.JDialog implements WindowList
                 String signature = Base64.toBase64String(bytes);
                 sSignatureTextArea.setText(signature);
                 messageDialog.setVisible(false);
+                if (device != null) {
+                    mainController.getAddress(device, this.getAccountIndex(), this.getKeyPurpose(), this.getAddressIndex());
+                }
+                break;
+            case ADDRESS:
+                BWalletMessage.Address address = (BWalletMessage.Address) event.getMessage().get();
+                addressContentLabel.setText(address.getAddress());
                 break;
             case SHOW_OPERATION_SUCCEEDED:
                 messageDialog.setVisible(false);
@@ -583,6 +650,7 @@ public class SignMessageDialog extends javax.swing.JDialog implements WindowList
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
+                //Locale.setDefault(Locale.ENGLISH);
                 SignMessageDialog dialog = new SignMessageDialog(new javax.swing.JFrame(), true, ResourceBundle.getBundle("com/bdx/bwallet/tools/ui/Bundle"), null, null);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
@@ -598,7 +666,9 @@ public class SignMessageDialog extends javax.swing.JDialog implements WindowList
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel accountLabel;
     private javax.swing.JTextField accountTextField;
+    private javax.swing.JLabel addressContentLabel;
     private javax.swing.JTextField addressTextField;
+    private javax.swing.JButton copyAddressButton;
     private javax.swing.JLabel indexLabel;
     private javax.swing.JTextField indexTextField;
     private javax.swing.JScrollPane jScrollPane1;

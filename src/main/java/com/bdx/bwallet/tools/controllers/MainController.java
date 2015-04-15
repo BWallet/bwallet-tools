@@ -224,6 +224,14 @@ public class MainController {
         }
     }
 
+    public void getAddress(Device device, int account, KeyChain.KeyPurpose keyPurpose, int index) {
+        final WalletContext context = this.getContext(device);
+        if (context != null) {
+            walletService.setContext(context);
+            walletService.getAddress(account, keyPurpose, index);
+        }
+    }
+    
     public void signMessage(Device device, int account, KeyChain.KeyPurpose keyPurpose, int index, byte[] message) {
         final WalletContext context = this.getContext(device);
         if (context != null) {

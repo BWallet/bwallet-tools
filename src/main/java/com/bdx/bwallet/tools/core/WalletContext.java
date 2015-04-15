@@ -303,4 +303,15 @@ public class WalletContext {
         // Issue starting message to elicit the event
         client.getAddress(childNumbers, false);
     }
+    
+    public void beginGetAddressUseCase(int account, KeyChain.KeyPurpose keyPurpose, int index) {
+        log.debug("Begin 'get address' use case");
+        // Track the use case
+        currentUseCase = ContextUseCase.REQUEST_ADDRESS;
+        // Store the overall context parameters
+        // Set the event receiving state
+        currentFlow = WalletFlows.newGetAddressFlow();
+        // Issue starting message to elicit the event
+        client.getAddress(account, keyPurpose, index, false);
+    }
 }
