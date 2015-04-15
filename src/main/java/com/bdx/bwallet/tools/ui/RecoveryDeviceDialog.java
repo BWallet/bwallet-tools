@@ -334,7 +334,7 @@ public class RecoveryDeviceDialog extends javax.swing.JDialog implements WindowL
                 break;
             case SHOW_OPERATION_SUCCEEDED:
                 wordEntryDialog.setVisible(false);
-                JOptionPane.showMessageDialog(this, "Recovery was successful");
+                JOptionPane.showMessageDialog(this, bundle.getString("RecoveryDeviceDialog.MessageDialog.success"));
                 this.dispose();
                 break;
             case SHOW_OPERATION_FAILED:
@@ -342,7 +342,7 @@ public class RecoveryDeviceDialog extends javax.swing.JDialog implements WindowL
                 msg = "Recovery failed";
                 if (event.getMessage().isPresent()) {
                     BWalletMessage.Failure failure = (BWalletMessage.Failure) event.getMessage().get();
-                    msg = msg + " : " + failure.getMessage();
+                    msg = failure.getMessage();
                 }
                 JOptionPane.showMessageDialog(this, msg);
                 break;

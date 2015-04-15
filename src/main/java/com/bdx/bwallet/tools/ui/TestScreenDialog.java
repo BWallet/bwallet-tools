@@ -172,13 +172,7 @@ public class TestScreenDialog extends javax.swing.JDialog implements WindowListe
         switch (event.getEventType()) {
             case SHOW_OPERATION_SUCCEEDED:
                 messageDialog.setVisible(false);
-                if (event.getMessage().isPresent()) {
-                    BWalletMessage.Success success = (BWalletMessage.Success) event.getMessage().get();
-                    msg = success.getMessage();
-                } else {
-                    msg = "Test finished";
-                }
-                JOptionPane.showMessageDialog(this, msg);
+                JOptionPane.showMessageDialog(this, bundle.getString("TestScreenDialog.MessageDialog.success"));
                 break;
             case SHOW_OPERATION_FAILED:
                 messageDialog.setVisible(false);

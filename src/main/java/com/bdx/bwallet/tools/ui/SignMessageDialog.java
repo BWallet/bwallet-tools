@@ -496,11 +496,7 @@ public class SignMessageDialog extends javax.swing.JDialog implements WindowList
                 break;
             case SHOW_OPERATION_SUCCEEDED:
                 messageDialog.setVisible(false);
-                if (event.getMessage().isPresent()) {
-                    BWalletMessage.Success success = (BWalletMessage.Success) event.getMessage().get();
-                    msg = success.getMessage();
-                }
-                JOptionPane.showMessageDialog(this, msg);
+                JOptionPane.showMessageDialog(this, bundle.getString("SignMessageDialog.MessageDialog.success"));
                 break;
             case SHOW_OPERATION_FAILED:
                 messageDialog.setVisible(false);

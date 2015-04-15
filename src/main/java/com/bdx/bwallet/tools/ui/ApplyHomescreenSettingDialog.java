@@ -244,7 +244,7 @@ public class ApplyHomescreenSettingDialog extends javax.swing.JDialog implements
                 break;
             case SHOW_OPERATION_SUCCEEDED:
                 messageDialog.setVisible(false);
-                JOptionPane.showMessageDialog(this, "Apply Settings was successful");
+                JOptionPane.showMessageDialog(this, bundle.getString("ApplyHomescreenSettingDialog.MessageDialog.success"));
                 this.dispose();
                 break;
             case SHOW_OPERATION_FAILED:

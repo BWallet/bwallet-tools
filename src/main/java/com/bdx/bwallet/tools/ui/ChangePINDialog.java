@@ -40,6 +40,8 @@ public class ChangePINDialog extends javax.swing.JDialog implements WindowListen
 
     private Device device;
 
+    private boolean remove = false;
+    
     /**
      * Creates new form GetPublicKeyDialog
      */
@@ -151,6 +153,7 @@ public class ChangePINDialog extends javax.swing.JDialog implements WindowListen
 
     private void removeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeButtonActionPerformed
         if (device != null) {
+            remove = true;
             mainController.changePIN(device, true);
         } else {
             JOptionPane.showMessageDialog(this, bundle.getString("MessageDialog.deviceDetached"));
@@ -159,6 +162,7 @@ public class ChangePINDialog extends javax.swing.JDialog implements WindowListen
 
     private void changeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changeButtonActionPerformed
         if (device != null) {
+            remove = false;
             mainController.changePIN(device, false);
         } else {
             JOptionPane.showMessageDialog(this, bundle.getString("MessageDialog.deviceDetached"));
@@ -192,11 +196,10 @@ public class ChangePINDialog extends javax.swing.JDialog implements WindowListen
                 break;
             case SHOW_OPERATION_SUCCEEDED:
                 messageDialog.setVisible(false);
-                if (event.getMessage().isPresent()) {
-                    BWalletMessage.Success success = (BWalletMessage.Success) event.getMessage().get();
-                    msg = success.getMessage();
-                }
-                JOptionPane.showMessageDialog(this, msg);
+                String successMsgKey = "ChangePINDialog.MessageDialog.success";
+                if (remove)
+                    successMsgKey += ".remove";
+                JOptionPane.showMessageDialog(this, bundle.getString(successMsgKey));
                 break;
             case SHOW_OPERATION_FAILED:
                 messageDialog.setVisible(false);

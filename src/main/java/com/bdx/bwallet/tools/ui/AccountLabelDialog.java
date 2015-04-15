@@ -309,12 +309,7 @@ public class AccountLabelDialog extends javax.swing.JDialog implements WindowLis
                 break;
             case SHOW_OPERATION_SUCCEEDED:
                 messageDialog.setVisible(false);
-                msg = "Account Label Setting was successful";
-                if (event.getMessage().isPresent()) {
-                    BWalletMessage.Success success = (BWalletMessage.Success) event.getMessage().get();
-                    msg = success.getMessage();
-                }
-                JOptionPane.showMessageDialog(this, msg);
+                JOptionPane.showMessageDialog(this, bundle.getString("AccountLabelDialog.MessageDialog.success"));
                 loadLables();
                 break;
             case SHOW_OPERATION_FAILED:

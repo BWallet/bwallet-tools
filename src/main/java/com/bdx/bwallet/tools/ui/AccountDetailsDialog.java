@@ -508,18 +508,9 @@ public final class AccountDetailsDialog extends javax.swing.JDialog implements W
                 updateAddressTable(HDKeyDerivation.deriveChildKey(xpub, 1), (DefaultTableModel) cAddressTable.getModel(), cCurrentPage);
 
                 break;
-            case SHOW_OPERATION_SUCCEEDED:
-                messageDialog.setVisible(false);
-                msg = "Account Label Setting was successful";
-                if (event.getMessage().isPresent()) {
-                    BWalletMessage.Success success = (BWalletMessage.Success) event.getMessage().get();
-                    msg = success.getMessage();
-                }
-                JOptionPane.showMessageDialog(this, msg);
-                break;
             case SHOW_OPERATION_FAILED:
                 messageDialog.setVisible(false);
-                msg = "Set Account Label failed";
+                msg = "Get Account Details failed";
                 if (event.getMessage().isPresent()) {
                     BWalletMessage.Failure failure = (BWalletMessage.Failure) event.getMessage().get();
                     msg = failure.getMessage();

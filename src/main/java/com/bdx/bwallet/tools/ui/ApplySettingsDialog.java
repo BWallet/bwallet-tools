@@ -242,7 +242,7 @@ public final class ApplySettingsDialog extends javax.swing.JDialog implements Wi
                 break;
             case SHOW_OPERATION_SUCCEEDED:
                 messageDialog.setVisible(false);
-                JOptionPane.showMessageDialog(this, "Apply Settings was successful");
+                JOptionPane.showMessageDialog(this, bundle.getString("ApplySettingsDialog.MessageDialog.success"));
                 this.dispose();
                 break;
             case SHOW_OPERATION_FAILED:

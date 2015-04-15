@@ -196,7 +196,10 @@ public class ApplyPassphraseSettingDialog extends javax.swing.JDialog implements
                 break;
             case SHOW_OPERATION_SUCCEEDED:
                 messageDialog.setVisible(false);
-                JOptionPane.showMessageDialog(this, "Apply Settings was successful");
+                String successMsgKey = "ApplyPassphraseSettingDialog.MessageDialog.success";
+                if (disable)
+                    successMsgKey += ".disable";
+                JOptionPane.showMessageDialog(this, bundle.getString(successMsgKey));
                 this.dispose();
                 break;
             case SHOW_OPERATION_FAILED:

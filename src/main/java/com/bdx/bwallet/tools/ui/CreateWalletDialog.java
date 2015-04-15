@@ -449,7 +449,7 @@ public class CreateWalletDialog extends javax.swing.JDialog implements WindowLis
                 break;
             case SHOW_OPERATION_SUCCEEDED:
                 messageDialog.setVisible(false);
-                JOptionPane.showMessageDialog(this, "Setup was successful");
+                JOptionPane.showMessageDialog(this, bundle.getString("CreateWalletDialog.MessageDialog.success"));
                 this.dispose();
                 break;
             case SHOW_OPERATION_FAILED:
@@ -457,7 +457,7 @@ public class CreateWalletDialog extends javax.swing.JDialog implements WindowLis
                 msg = "Create failed";
                 if (event.getMessage().isPresent()) {
                     BWalletMessage.Failure failure = (BWalletMessage.Failure) event.getMessage().get();
-                    msg = msg + " : " + failure.getMessage();
+                    msg = failure.getMessage();
                 }
                 JOptionPane.showMessageDialog(this, msg);
                 break;
