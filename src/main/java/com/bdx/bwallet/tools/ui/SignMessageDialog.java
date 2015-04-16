@@ -158,6 +158,10 @@ public class SignMessageDialog extends javax.swing.JDialog implements WindowList
         vAddressLabel.setText(bundle.getString("SignMessageDialog.vAddressLabel.text"));
         verifyButton.setText(bundle.getString("SignMessageDialog.verifyButton.text"));
         copyAddressButton.setText(bundle.getString("SignMessageDialog.copyAddressButton.text"));
+        
+        purposeComboBox.removeAllItems();
+        purposeComboBox.addItem(bundle.getString("SignMessageDialog.purposeComboBox.receive.text"));
+        purposeComboBox.addItem(bundle.getString("SignMessageDialog.purposeComboBox.change.text"));
     }
 
     /**
@@ -247,29 +251,26 @@ public class SignMessageDialog extends javax.swing.JDialog implements WindowList
         signPanelLayout.setHorizontalGroup(
             signPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(signPanelLayout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(signPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1)
+                    .addComponent(jScrollPane3)
                     .addGroup(signPanelLayout.createSequentialGroup()
-                        .addContainerGap()
                         .addGroup(signPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1)
-                            .addComponent(jScrollPane3)
-                            .addGroup(signPanelLayout.createSequentialGroup()
-                                .addGroup(signPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(sMessageLabel)
-                                    .addComponent(sSignatureLabel))
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(signPanelLayout.createSequentialGroup()
-                                .addComponent(accountLabel)
-                                .addGap(5, 5, 5)
-                                .addComponent(accountTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(purposeComboBox, 0, 103, Short.MAX_VALUE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(indexLabel)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(indexTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(sMessageLabel)
+                            .addComponent(sSignatureLabel))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(signPanelLayout.createSequentialGroup()
-                        .addContainerGap()
+                        .addComponent(accountLabel)
+                        .addGap(5, 5, 5)
+                        .addComponent(accountTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(purposeComboBox, 0, 103, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(indexLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(indexTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(signPanelLayout.createSequentialGroup()
                         .addComponent(sAddressLabel)
                         .addGap(18, 18, 18)
                         .addComponent(addressContentLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -433,9 +434,8 @@ public class SignMessageDialog extends javax.swing.JDialog implements WindowList
     }
 
     private KeyChain.KeyPurpose getKeyPurpose() {
-        String purposeText = (String) purposeComboBox.getSelectedItem();
         KeyChain.KeyPurpose purpose;
-        if ("Receive".equals(purposeText)) {
+        if (purposeComboBox.getSelectedIndex() == 0) {
             purpose = KeyChain.KeyPurpose.RECEIVE_FUNDS;
         } else {
             purpose = KeyChain.KeyPurpose.CHANGE;
