@@ -138,7 +138,7 @@ public class AccountLabelEntryDialog extends javax.swing.JDialog implements Wind
             JOptionPane.showMessageDialog(this, bundle.getString("AccountLabelEntryDialog.MessageDialog.invalidIndex"));
             return;
         }
-        if (index < 1) {
+        if (index < 0) {
             JOptionPane.showMessageDialog(this, bundle.getString("AccountLabelEntryDialog.MessageDialog.indexMustGeOne"));
             return;
         }
@@ -151,7 +151,7 @@ public class AccountLabelEntryDialog extends javax.swing.JDialog implements Wind
         BWalletMessage.SetAccountLabel message = BWalletMessage.SetAccountLabel
                 .newBuilder()
                 .setCoinName("Bitcoin")
-                .setIndex(index)
+                .setIndex(index + 1)
                 .setLabel(labelText)
                 .build();
         if (message.getLabelBytes().size() > 18) {

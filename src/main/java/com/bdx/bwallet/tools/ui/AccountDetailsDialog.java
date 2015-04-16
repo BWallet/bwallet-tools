@@ -426,14 +426,14 @@ public final class AccountDetailsDialog extends javax.swing.JDialog implements W
                 JOptionPane.showMessageDialog(this, bundle.getString("AccountDetailsDialog.MessageDialog.invalidAccount"));
                 return;
             }
-            if (index < 1) {
+            if (index < 0) {
                 JOptionPane.showMessageDialog(this, bundle.getString("AccountDetailsDialog.MessageDialog.accountMustGeOne"));
                 return;
             }
             List<ChildNumber> childNumbers = new ArrayList();
             childNumbers.add(new ChildNumber(44, true));
             childNumbers.add(new ChildNumber(0, true));
-            childNumbers.add(new ChildNumber(index - 1, true));
+            childNumbers.add(new ChildNumber(index, true));
             mainController.getDeterministicHierarchy(device, childNumbers);
         } else {
             JOptionPane.showMessageDialog(this, bundle.getString("MessageDialog.deviceDetached"));

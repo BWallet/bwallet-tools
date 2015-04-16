@@ -411,6 +411,8 @@ public class SignMessageDialog extends javax.swing.JDialog implements WindowList
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException(bundle.getString("SignMessageDialog.MessageDialog.invalidAccount"));
         }
+        if (account < 0)
+            throw new IllegalArgumentException(bundle.getString("SignMessageDialog.MessageDialog.accountMustGeZero"));
         return account;
     }
 
@@ -425,6 +427,8 @@ public class SignMessageDialog extends javax.swing.JDialog implements WindowList
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException(bundle.getString("SignMessageDialog.MessageDialog.invalidIndex"));
         }
+        if (index < 0)
+            throw new IllegalArgumentException(bundle.getString("SignMessageDialog.MessageDialog.indexMustGeZero"));
         return index;
     }
 
