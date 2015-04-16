@@ -6,8 +6,11 @@
 package com.bdx.bwallet.tools.ui;
 
 import com.bdx.bwallet.protobuf.BWalletMessage;
+import com.bdx.bwallet.protobuf.BWalletMessage.Features;
+import com.bdx.bwallet.protobuf.BWalletType.CoinType;
 import com.google.common.base.Optional;
 import java.util.ResourceBundle;
+import org.spongycastle.util.encoders.Hex;
 
 /**
  *
@@ -15,7 +18,7 @@ import java.util.ResourceBundle;
  */
 public final class DeviceInfoDialog extends javax.swing.JDialog {
 
-    private ResourceBundle bundle;
+    private final ResourceBundle bundle;
     
     /**
      * Creates new form DeviceInfoDialog
@@ -34,7 +37,48 @@ public final class DeviceInfoDialog extends javax.swing.JDialog {
     
     public void displayFeatures(Optional<BWalletMessage.Features> features) {
         if (features.isPresent()) {
-            infoTextArea.setText(features.get().toString());
+            String content = "";
+            Features message = features.get();
+            if (message.hasMajorVersion() && message.hasMinorVersion() && message.hasPatchVersion()) {
+                String key = "DeviceInfoDialog.Features.version.firmware";
+                if (message.hasBootloaderMode() && message.getBootloaderMode())
+                    key = "DeviceInfoDialog.Features.version.bootloader";
+                String version = message.getMajorVersion() + "." + message.getMinorVersion() + "." + message.getPatchVersion();
+                content += bundle.getString(key) + ": " + version + "\r\n";
+            }
+            if (message.hasDeviceId()) {
+                content += bundle.getString("DeviceInfoDialog.Features.deviceId") + ": " + message.getDeviceId() + "\r\n";
+            }
+            if (message.hasLanguage()) {
+                content += bundle.getString("DeviceInfoDialog.Features.language") + ": " + message.getLanguage() + "\r\n";
+            }
+            if (message.hasLabel()) {
+                content += bundle.getString("DeviceInfoDialog.Features.label") + ": " + message.getLabel() + "\r\n";
+            }
+            if (message.hasPinProtection()) {
+                content += bundle.getString("DeviceInfoDialog.Features.pinProtection") + ": " + bundle.getString("DeviceInfoDialog.Features." + (message.getPinProtection() ? "enabled" : "disabled")) + "\r\n";
+            }
+            if (message.hasPassphraseProtection()) {
+                content += bundle.getString("DeviceInfoDialog.Features.passphraseProtection") + ": " + bundle.getString("DeviceInfoDialog.Features." + (message.getPassphraseProtection() ? "enabled" : "disabled")) + "\r\n";
+            }
+            if (message.hasInitialized()) {
+                content += bundle.getString("DeviceInfoDialog.Features.initialized") + ": " + bundle.getString("DeviceInfoDialog.Features." + message.getInitialized()) + "\r\n";
+            }
+            if (message.hasImported()) {
+                content += bundle.getString("DeviceInfoDialog.Features.imported") + ": " + bundle.getString("DeviceInfoDialog.Features." + message.getImported()) + "\r\n";
+            }
+            if (message.hasBootloaderHash()) {
+                content += bundle.getString("DeviceInfoDialog.Features.bootloaderHash") + ": " + Hex.toHexString(message.getBootloaderHash().toByteArray()) + "\r\n";
+            }
+            if (message.getCoinsCount() > 0) {
+                for (CoinType coin : message.getCoinsList()) {
+                    String s = coin.getCoinName() + ": {coin_shortcut: " + coin.getCoinShortcut() 
+                            + ", address_type:" + coin.getAddressType() + ", maxfee_kb: " + coin.getMaxfeeKb() + ", address_type_p2sh: " + coin.getAddressTypeP2Sh() + "}\r\n";
+                    content += s;
+                }
+            }
+            
+            infoTextArea.setText(content);
         }
     }
     
@@ -75,21 +119,21 @@ public final class DeviceInfoDialog extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(30, 30, 30)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 540, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(20, 20, 20)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 590, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(260, 260, 260)
+                        .addGap(261, 261, 261)
                         .addComponent(closeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(30, Short.MAX_VALUE))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(30, 30, 30)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addContainerGap(20, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(closeButton)
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addGap(8, 8, 8))
         );
 
         pack();
