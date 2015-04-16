@@ -159,6 +159,9 @@ public class SignMessageDialog extends javax.swing.JDialog implements WindowList
         verifyButton.setText(bundle.getString("SignMessageDialog.verifyButton.text"));
         copyAddressButton.setText(bundle.getString("SignMessageDialog.copyAddressButton.text"));
         
+        accountTextField.setToolTipText(bundle.getString("SignMessageDialog.accountTextField.toolTipText"));
+        indexTextField.setToolTipText(bundle.getString("SignMessageDialog.indexTextField.toolTipText"));
+        
         purposeComboBox.removeAllItems();
         purposeComboBox.addItem(bundle.getString("SignMessageDialog.purposeComboBox.receive.text"));
         purposeComboBox.addItem(bundle.getString("SignMessageDialog.purposeComboBox.change.text"));
@@ -412,7 +415,7 @@ public class SignMessageDialog extends javax.swing.JDialog implements WindowList
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException(bundle.getString("SignMessageDialog.MessageDialog.invalidAccount"));
         }
-        if (account < 0)
+        if (account < 1)
             throw new IllegalArgumentException(bundle.getString("SignMessageDialog.MessageDialog.accountMustGeZero"));
         return account;
     }
@@ -464,7 +467,7 @@ public class SignMessageDialog extends javax.swing.JDialog implements WindowList
                 return;
             }
 
-            mainController.signMessage(device, account, purpose, index, message);
+            mainController.signMessage(device, account - 1, purpose, index, message);
         } else {
             JOptionPane.showMessageDialog(this, bundle.getString("MessageDialog.deviceDetached"));
         }
@@ -558,7 +561,7 @@ public class SignMessageDialog extends javax.swing.JDialog implements WindowList
                 sSignatureTextArea.setText(signature);
                 messageDialog.setVisible(false);
                 if (device != null) {
-                    mainController.getAddress(device, this.getAccountIndex(), this.getKeyPurpose(), this.getAddressIndex());
+                    mainController.getAddress(device, this.getAccountIndex() - 1, this.getKeyPurpose(), this.getAddressIndex());
                 }
                 break;
             case ADDRESS:

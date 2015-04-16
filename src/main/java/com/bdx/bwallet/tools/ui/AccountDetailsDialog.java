@@ -154,6 +154,7 @@ public final class AccountDetailsDialog extends javax.swing.JDialog implements W
         getButton.setText(bundle.getString("AccountDetailsDialog.getButton.text"));
         receivingAddressesLabel.setText(bundle.getString("AccountDetailsDialog.receivingAddressesLabel.text"));
         changeAddressesLabel.setText(bundle.getString("AccountDetailsDialog.changeAddressesLabel.text"));
+        accountIndexTextField.setToolTipText(bundle.getString("AccountDetailsDialog.accountIndexTextField.toolTipText"));
         
         TableUtils.setHeader(rAddressTable, 0, bundle.getString("AccountDetailsDialog.rAddressTable.header.text.0"));
         TableUtils.setHeader(rAddressTable, 1, bundle.getString("AccountDetailsDialog.rAddressTable.header.text.1"));
@@ -426,14 +427,14 @@ public final class AccountDetailsDialog extends javax.swing.JDialog implements W
                 JOptionPane.showMessageDialog(this, bundle.getString("AccountDetailsDialog.MessageDialog.invalidAccount"));
                 return;
             }
-            if (index < 0) {
+            if (index < 1) {
                 JOptionPane.showMessageDialog(this, bundle.getString("AccountDetailsDialog.MessageDialog.accountMustGeOne"));
                 return;
             }
             List<ChildNumber> childNumbers = new ArrayList();
             childNumbers.add(new ChildNumber(44, true));
             childNumbers.add(new ChildNumber(0, true));
-            childNumbers.add(new ChildNumber(index, true));
+            childNumbers.add(new ChildNumber(index - 1, true));
             mainController.getDeterministicHierarchy(device, childNumbers);
         } else {
             JOptionPane.showMessageDialog(this, bundle.getString("MessageDialog.deviceDetached"));

@@ -100,7 +100,7 @@ public class AccountLabelDialog extends javax.swing.JDialog implements WindowLis
                     JTable table = (JTable) e.getSource();
                     int modelRow = Integer.valueOf(e.getActionCommand());
                     Integer index = (Integer) ((DefaultTableModel) table.getModel()).getValueAt(modelRow, 0);
-                    mainController.removeAccountLabel(device, (String) coinComboBox.getSelectedItem(), index + 1);
+                    mainController.removeAccountLabel(device, (String) coinComboBox.getSelectedItem(), index);
                 } else {
                     JOptionPane.showMessageDialog(AccountLabelDialog.this, AccountLabelDialog.this.bundle.getString("MessageDialog.deviceDetached"));
                 }
@@ -124,7 +124,7 @@ public class AccountLabelDialog extends javax.swing.JDialog implements WindowLis
                         mainController.cancel();
                     } else {
                         String l = entryDialog.getLabel();
-                        mainController.setAccountLabel(device, (String) coinComboBox.getSelectedItem(), index + 1, l);
+                        mainController.setAccountLabel(device, (String) coinComboBox.getSelectedItem(), index, l);
                     }
                 } else {
                     JOptionPane.showMessageDialog(AccountLabelDialog.this, AccountLabelDialog.this.bundle.getString("MessageDialog.deviceDetached"));
@@ -265,7 +265,7 @@ public class AccountLabelDialog extends javax.swing.JDialog implements WindowLis
                 String coin = (String) coinComboBox.getSelectedItem();
                 Integer index = entryDialog.getIndex();
                 String label = entryDialog.getLabel();
-                mainController.setAccountLabel(device, coin, index + 1, label);
+                mainController.setAccountLabel(device, coin, index, label);
             }
         } else {
             JOptionPane.showMessageDialog(this, bundle.getString("MessageDialog.deviceDetached"));
@@ -304,7 +304,7 @@ public class AccountLabelDialog extends javax.swing.JDialog implements WindowLis
                     BWalletType.AccountLabelType accountLabel = accountLabels.getLabels(i);
                     Integer index = accountLabel.getIndex();
                     String label = accountLabel.getLabel();
-                    wordTableModel.addRow(new Object[]{index - 1, label, removeIcon, editIcon});
+                    wordTableModel.addRow(new Object[]{index, label, removeIcon, editIcon});
                 }
                 break;
             case SHOW_OPERATION_SUCCEEDED:
