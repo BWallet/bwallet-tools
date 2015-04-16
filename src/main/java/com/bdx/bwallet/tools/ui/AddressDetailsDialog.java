@@ -5,6 +5,7 @@
  */
 package com.bdx.bwallet.tools.ui;
 
+import com.bdx.bwallet.tools.ui.utils.BIP44PathUtils;
 import com.bdx.bwallet.tools.ui.utils.BrowserUtils;
 import com.bdx.bwallet.tools.ui.utils.LabelUtils;
 import com.bdx.bwallet.tools.ui.utils.QRCodes;
@@ -53,6 +54,7 @@ public class AddressDetailsDialog extends javax.swing.JDialog {
         copyXpubButton.setText(bundle.getString("AddressDetailsDialog.copyXpubButton.text")); 
         viewBlockchainButton.setText(bundle.getString("AddressDetailsDialog.viewBlockchainButton.text")); 
         viewBlockmetaButton.setText(bundle.getString("AddressDetailsDialog.viewBlockmetaButton.text")); 
+        closeButton.setText(bundle.getString("AddressDetailsDialog.closeButton.text"));
     }
 
     /**
@@ -76,6 +78,7 @@ public class AddressDetailsDialog extends javax.swing.JDialog {
         copyXpubButton = new javax.swing.JButton();
         viewBlockchainButton = new javax.swing.JButton();
         viewBlockmetaButton = new javax.swing.JButton();
+        closeButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Address Details");
@@ -109,6 +112,7 @@ public class AddressDetailsDialog extends javax.swing.JDialog {
         pathContentLabel.setText("m/44'/0'/0'/0/0");
 
         copyAddressButton.setText("Copy");
+        copyAddressButton.setPreferredSize(new java.awt.Dimension(75, 25));
         copyAddressButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 copyAddressButtonActionPerformed(evt);
@@ -136,6 +140,13 @@ public class AddressDetailsDialog extends javax.swing.JDialog {
             }
         });
 
+        closeButton.setText("Close");
+        closeButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                closeButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -147,26 +158,26 @@ public class AddressDetailsDialog extends javax.swing.JDialog {
                     .addComponent(qrCodePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(addressLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(addressTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(xpubLabel)
-                                    .addComponent(pathLabel))
-                                .addGap(46, 46, 46)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(pathContentLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(copyAddressButton)
-                            .addComponent(copyXpubButton)))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(addressLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(18, 18, 18)
+                            .addComponent(addressTextField))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(xpubLabel)
+                                .addComponent(pathLabel))
+                            .addGap(46, 46, 46)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 256, Short.MAX_VALUE)
+                                .addComponent(pathContentLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                     .addComponent(viewBlockmetaButton, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(20, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(closeButton, javax.swing.GroupLayout.DEFAULT_SIZE, 73, Short.MAX_VALUE)
+                    .addComponent(copyAddressButton, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
+                    .addComponent(copyXpubButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(20, 20, 20))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -178,7 +189,7 @@ public class AddressDetailsDialog extends javax.swing.JDialog {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(addressLabel)
                             .addComponent(addressTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(copyAddressButton))
+                            .addComponent(copyAddressButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(pathLabel)
@@ -194,7 +205,9 @@ public class AddressDetailsDialog extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(viewBlockchainButton)
-                    .addComponent(viewBlockmetaButton))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(viewBlockmetaButton)
+                        .addComponent(closeButton)))
                 .addContainerGap(20, Short.MAX_VALUE))
         );
 
@@ -231,19 +244,17 @@ public class AddressDetailsDialog extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_viewBlockmetaButtonActionPerformed
 
+    private void closeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closeButtonActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_closeButtonActionPerformed
+
     public void init(DeterministicKey deterministicKey) {
         address = deterministicKey.toAddress(MainNetParams.get()).toString();
 
         xpubTextArea.setText(deterministicKey.serializePubB58());
         addressTextField.setText(address);
 
-        String path = "m/44'/0'";
-        for (ChildNumber childNumber : deterministicKey.getPath()) {
-            path = path + "/" + childNumber.num();
-            if (childNumber.isHardened()) {
-                path = path + "'";
-            }
-        }
+        String path = BIP44PathUtils.getAccountPath(deterministicKey);        
         pathContentLabel.setText(path);
 
         Optional<BufferedImage> qrCodeImage = QRCodes.generateQRCode(address, 2);
@@ -299,6 +310,7 @@ public class AddressDetailsDialog extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel addressLabel;
     private javax.swing.JTextField addressTextField;
+    private javax.swing.JButton closeButton;
     private javax.swing.JButton copyAddressButton;
     private javax.swing.JButton copyXpubButton;
     private javax.swing.JScrollPane jScrollPane1;

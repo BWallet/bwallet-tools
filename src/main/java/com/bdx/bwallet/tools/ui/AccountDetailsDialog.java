@@ -15,6 +15,7 @@ import com.bdx.bwallet.tools.core.events.MessageEvents;
 import com.bdx.bwallet.tools.core.utils.DeterministicKeyUtils;
 import com.bdx.bwallet.tools.core.utils.FailureMessageUtils;
 import com.bdx.bwallet.tools.model.Device;
+import com.bdx.bwallet.tools.ui.utils.BIP44PathUtils;
 import com.bdx.bwallet.tools.ui.utils.ButtonColumn;
 import com.bdx.bwallet.tools.ui.utils.IconUtils;
 import com.bdx.bwallet.tools.ui.utils.LabelUtils;
@@ -30,6 +31,7 @@ import java.awt.event.WindowListener;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.ResourceBundle;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -185,6 +187,9 @@ public final class AccountDetailsDialog extends javax.swing.JDialog implements W
         changeAddressesLabel = new javax.swing.JLabel();
         pCButton = new javax.swing.JButton();
         nCButton = new javax.swing.JButton();
+        accountPathLabel = new javax.swing.JLabel();
+        receivingPathLabel = new javax.swing.JLabel();
+        changePathLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Get Account Details");
@@ -209,11 +214,11 @@ public final class AccountDetailsDialog extends javax.swing.JDialog implements W
         xpubPanel.setLayout(xpubPanelLayout);
         xpubPanelLayout.setHorizontalGroup(
             xpubPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 180, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
         xpubPanelLayout.setVerticalGroup(
             xpubPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 180, Short.MAX_VALUE)
         );
 
         rAddressTable.setModel(new javax.swing.table.DefaultTableModel(
@@ -307,6 +312,12 @@ public final class AccountDetailsDialog extends javax.swing.JDialog implements W
             }
         });
 
+        accountPathLabel.setText(" ");
+
+        receivingPathLabel.setText(" ");
+
+        changePathLabel.setText(" ");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -315,43 +326,49 @@ public final class AccountDetailsDialog extends javax.swing.JDialog implements W
                 .addGap(20, 20, 20)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 540, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
-                                .addComponent(xpubPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addComponent(accountIndexLabel)
-                                .addGap(18, 18, 18)
-                                .addComponent(accountIndexTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(getButton))
-                            .addComponent(separator, javax.swing.GroupLayout.Alignment.LEADING))
-                        .addContainerGap())
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 2, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                 .addGroup(layout.createSequentialGroup()
                                     .addComponent(pRButton)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                     .addComponent(nRButton))
                                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(receivingAddressesLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(receivingAddressesLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(receivingPathLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(changeAddressesLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(pCButton)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(nCButton)
+                                .addGap(22, 22, 22))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addComponent(pCButton)
+                                        .addComponent(changeAddressesLabel)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(nCButton)))
-                                .addGap(20, 20, 20))))))
+                                        .addComponent(changePathLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addComponent(accountIndexLabel)
+                                .addGap(18, 18, 18)
+                                .addComponent(accountIndexTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(getButton))
+                            .addComponent(separator, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 760, Short.MAX_VALUE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 550, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(xpubPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(accountPathLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE))))
+                        .addContainerGap(20, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -364,28 +381,32 @@ public final class AccountDetailsDialog extends javax.swing.JDialog implements W
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(separator, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(xpubPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(xpubPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
+                        .addComponent(accountPathLabel))
+                    .addComponent(jScrollPane1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(receivingAddressesLabel)
-                    .addComponent(changeAddressesLabel))
+                    .addComponent(changeAddressesLabel)
+                    .addComponent(receivingPathLabel)
+                    .addComponent(changePathLabel))
                 .addGap(3, 3, 3)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(nRButton)
                             .addComponent(pRButton)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(pCButton)
-                            .addComponent(nCButton))))
-                .addContainerGap(20, Short.MAX_VALUE))
+                            .addComponent(nCButton)))))
         );
 
         pack();
@@ -489,8 +510,9 @@ public final class AccountDetailsDialog extends javax.swing.JDialog implements W
                 break;
             case DETERMINISTIC_HIERARCHY:
                 BWalletMessage.PublicKey publicKey = (BWalletMessage.PublicKey) event.getMessage().get();
+                this.xpub = DeterministicKeyUtils.deserializeB58(publicKey.getXpub());
+                
                 xpubTextArea.setText(publicKey.getXpub());
-
                 Optional<BufferedImage> qrCodeImage = QRCodes.generateQRCode(publicKey.getXpub(), 2);
                 JLabel imageLabel = LabelUtils.newImageLabel(qrCodeImage);
                 imageLabel.setSize(180, 180);
@@ -498,10 +520,14 @@ public final class AccountDetailsDialog extends javax.swing.JDialog implements W
                 xpubPanel.add(imageLabel);
                 xpubPanel.repaint();
 
+                String accountPath = BIP44PathUtils.getAccountPath(this.xpub);   
+                accountPathLabel.setText(accountPath);
+                receivingPathLabel.setText(accountPath + "/0");
+                changePathLabel.setText(accountPath + "/1");
+                
                 pRButton.setEnabled(false);
                 pCButton.setEnabled(false);
-
-                this.xpub = DeterministicKeyUtils.deserializeB58(publicKey.getXpub());
+                
                 rCurrentPage = 0;
                 cCurrentPage = 0;
                 updateAddressTable(HDKeyDerivation.deriveChildKey(xpub, 0), (DefaultTableModel) rAddressTable.getModel(), rCurrentPage);
@@ -604,6 +630,7 @@ public final class AccountDetailsDialog extends javax.swing.JDialog implements W
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
+                //Locale.setDefault(Locale.ENGLISH);
                 AccountDetailsDialog dialog = new AccountDetailsDialog(new javax.swing.JFrame(), true, ResourceBundle.getBundle("com/bdx/bwallet/tools/ui/Bundle"), null, null);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
@@ -619,8 +646,10 @@ public final class AccountDetailsDialog extends javax.swing.JDialog implements W
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel accountIndexLabel;
     private javax.swing.JTextField accountIndexTextField;
+    private javax.swing.JLabel accountPathLabel;
     private javax.swing.JTable cAddressTable;
     private javax.swing.JLabel changeAddressesLabel;
+    private javax.swing.JLabel changePathLabel;
     private javax.swing.JButton getButton;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
@@ -631,6 +660,7 @@ public final class AccountDetailsDialog extends javax.swing.JDialog implements W
     private javax.swing.JButton pRButton;
     private javax.swing.JTable rAddressTable;
     private javax.swing.JLabel receivingAddressesLabel;
+    private javax.swing.JLabel receivingPathLabel;
     private javax.swing.JSeparator separator;
     private javax.swing.JPanel xpubPanel;
     private javax.swing.JTextArea xpubTextArea;
