@@ -14,17 +14,20 @@ import com.bdx.bwallet.tools.core.events.MessageEvents;
 import com.bdx.bwallet.tools.core.utils.FirmwareVersion;
 import com.bdx.bwallet.tools.model.Device;
 import com.bdx.bwallet.tools.ui.utils.BrowserUtils;
+import com.bdx.bwallet.tools.ui.utils.IconUtils;
 import com.bdx.bwallet.tools.ui.utils.UrlUtils;
 import com.google.common.base.Optional;
 import com.google.common.eventbus.Subscribe;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.protobuf.ByteString;
+import java.awt.Image;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.KeyEvent;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -897,6 +900,10 @@ public final class MainFrame extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 MainFrame ui = new MainFrame();
+                List<Image> icons = new ArrayList<Image>();
+                icons.add(IconUtils.createImageIcon("/icons/logo-16.png", "").getImage());
+                icons.add(IconUtils.createImageIcon("/icons/logo-32.png", "").getImage());
+                ui.setIconImages(icons);
                 ui.setLocationRelativeTo(null);
                 ui.setVisible(true);
             }

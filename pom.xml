@@ -38,7 +38,7 @@
                 <configuration>
                 	<archive>  
                         <manifest>  
-                            <mainClass>com.bdx.bwallet.tools.Main</mainClass>  
+                            <mainClass>com.bdx.bwallet.tools.ui.MainFrame</mainClass>  
                         </manifest>  
                     </archive>  
                     <descriptorRefs>
