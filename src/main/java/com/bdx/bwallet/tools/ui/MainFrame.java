@@ -58,6 +58,8 @@ public final class MainFrame extends javax.swing.JFrame {
     static final String RESOURCES_URL = SITE_URL + "/resources";
     static final String BUY_URL = "https://bidingxing.com/bwallet";
 
+    static final String VERSION = "0.1.0";
+    
     private final MainController mainController = new MainController();
 
     private ResourceBundle bundle;
@@ -133,6 +135,7 @@ public final class MainFrame extends javax.swing.JFrame {
         buyMenuItem.setText(bundle.getString("MainFrame.buyMenuItem.text")); 
         aboutMenuItem.setText(bundle.getString("MainFrame.aboutMenuItem.text")); 
         languageMenu.setText(bundle.getString("MainFrame.languageMenu.text"));
+        updateMenuItem.setText(bundle.getString("MainFrame.updateMenuItem.text"));
         
         String language = Locale.getDefault().getLanguage();
         if (language.equals("zh")) {
@@ -212,6 +215,7 @@ public final class MainFrame extends javax.swing.JFrame {
         websiteMenuItem = new javax.swing.JMenuItem();
         separator2 = new javax.swing.JPopupMenu.Separator();
         buyMenuItem = new javax.swing.JMenuItem();
+        updateMenuItem = new javax.swing.JMenuItem();
         aboutMenuItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -486,6 +490,14 @@ public final class MainFrame extends javax.swing.JFrame {
             }
         });
         helpMenu.add(buyMenuItem);
+
+        updateMenuItem.setText("Check for Updates ");
+        updateMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                updateMenuItemActionPerformed(evt);
+            }
+        });
+        helpMenu.add(updateMenuItem);
 
         aboutMenuItem.setText("About");
         aboutMenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -855,6 +867,16 @@ public final class MainFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_deviceInfoButtonActionPerformed
 
+    private void updateMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateMenuItemActionPerformed
+        try {
+            String url = UrlUtils.getResourcesUrl(Locale.getDefault()).toString();
+            url += "?v=" + VERSION + "#tools";
+            BrowserUtils.openWebpage(new URL(url));
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_updateMenuItemActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -949,6 +971,7 @@ public final class MainFrame extends javax.swing.JFrame {
     private javax.swing.JSplitPane splitPane;
     private javax.swing.JButton testScreenButton;
     private javax.swing.JButton updateFirmwareButton;
+    private javax.swing.JMenuItem updateMenuItem;
     private javax.swing.JMenuItem websiteMenuItem;
     private javax.swing.JButton wipeDeviceButton;
     // End of variables declaration//GEN-END:variables

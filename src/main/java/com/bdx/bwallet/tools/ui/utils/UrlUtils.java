@@ -42,7 +42,12 @@ public class UrlUtils {
     }
     
     public static URL getResourcesUrl(Locale locale) throws MalformedURLException {
+        String language = locale.getLanguage();
         String url = SITE_URL + "/resources";
+        if (language.equals("zh"))
+            url += "/zh";
+        else
+            url += "/en";
         return new URL(url);
     }
     
@@ -52,7 +57,7 @@ public class UrlUtils {
         if (language.equals("zh")) {
             url = "https://bidingxing.com/bwallet";
         } else {
-            url = "http://www.coincola.com/shops/54c1fc24963d3759182b2c7f";
+            url = "https://bidingxing.com/en/store";
         }
         return new URL(url);
     }

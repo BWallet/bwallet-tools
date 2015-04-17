@@ -5,6 +5,7 @@
  */
 package com.bdx.bwallet.tools.ui;
 
+import java.text.MessageFormat;
 import java.util.ResourceBundle;
 
 /**
@@ -27,7 +28,9 @@ public final class AboutDialog extends javax.swing.JDialog {
 
     public void applyResourceBundle() {
         setTitle(bundle.getString("AboutDialog.title")); 
-        contentTextArea.setText(bundle.getString("AboutDialog.contentTextArea.text")); 
+        String content = bundle.getString("AboutDialog.contentTextArea.text");
+        content = MessageFormat.format(content, new Object[]{MainFrame.VERSION});
+        contentTextArea.setText(content); 
         closeButton.setText(bundle.getString("AboutDialog.closeButton.text")); 
     }
     
