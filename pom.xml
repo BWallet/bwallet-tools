@@ -1,16 +1,46 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>com.bdx</groupId>
-  <artifactId>bwallet-tools</artifactId>
-  <version>0.1.0</version>
-  
-  <properties>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.bdx</groupId>
+	<artifactId>bwallet-tools</artifactId>
+	<version>0.1.0</version>
+
+	<properties>
+		<!-- Source encoding -->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+		<!-- Location of staging directory for creation of linux IzPack installer -->
+		<staging.linux.dir>${project.build.directory}/staging.linux
+		</staging.linux.dir>
+
+		<!-- Location of staging directory for creation of windows IzPack installer -->
+		<staging.windows.dir>${project.build.directory}/staging.windows
+		</staging.windows.dir>
 	</properties>
 
+	<repositories>
+		<!-- Define the MultiBit staging repository for releases and snapshots -->
+		<!-- Use https://rawgithub.com to provide a consistent result -->
+		<repository>
+			<id>mbhd-maven-release</id>
+			<url>https://rawgithub.com/bitcoin-solutions/mbhd-maven/master/releases</url>
+			<releases />
+		</repository>
+		<repository>
+			<id>mbhd-maven-snapshot</id>
+			<url>https://rawgithub.com/bitcoin-solutions/mbhd-maven/master/snapshots</url>
+			<!-- These artifacts change frequently during development iterations -->
+			<snapshots>
+				<updatePolicy>always</updatePolicy>
+			</snapshots>
+		</repository>
+
+	</repositories>
+
 	<build>
+		<finalName>bwallet-tools</finalName>
 		<plugins>
-			
+
 			<!-- compiler plug-in, setting JDK version and text encoding -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -22,7 +52,7 @@
 					<encoding>${project.build.sourceEncoding}</encoding>
 				</configuration>
 			</plugin>
-			
+
 			<!-- resource plug-in, setting text encoding -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -32,188 +62,517 @@
 					<encoding>${project.build.sourceEncoding}</encoding>
 				</configuration>
 			</plugin>
-			
+
 			<plugin>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <configuration>
-                	<archive>  
-                        <manifest>  
-                            <mainClass>com.bdx.bwallet.tools.ui.MainFrame</mainClass>  
-                        </manifest>  
-                    </archive>  
-                    <descriptorRefs>
-                        <descriptorRef>jar-with-dependencies</descriptorRef>
-                    </descriptorRefs>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>make-assembly</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-			
+				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+					<!-- Put izPack2app into linux staging dir for production of linux installer 
+						later -->
+					<execution>
+						<id>unpack-shared-resources-ipack2app-linux</id>
+						<goals>
+							<goal>unpack-dependencies</goal>
+						</goals>
+						<phase>install</phase>
+						<configuration>
+							<includeGroupIds>org.codehaus.izpack</includeGroupIds>
+							<includeArtifactIds>izpack-standalone-compiler
+							</includeArtifactIds>
+							<classifier>izpack2app</classifier>
+							<type>zip</type>
+							<excludeTransitive>true</excludeTransitive>
+							<outputDirectory>${staging.linux.dir}</outputDirectory>
+						</configuration>
+					</execution>
+
+					<!-- Put izPack2app into windows staging dir for production of windows 
+						installer later -->
+					<execution>
+						<id>unpack-shared-resources-ipack2app-windows</id>
+						<goals>
+							<goal>unpack-dependencies</goal>
+						</goals>
+						<phase>install</phase>
+						<configuration>
+							<includeGroupIds>org.codehaus.izpack</includeGroupIds>
+							<includeArtifactIds>izpack-standalone-compiler
+							</includeArtifactIds>
+							<classifier>izpack2app</classifier>
+							<type>zip</type>
+							<excludeTransitive>true</excludeTransitive>
+							<outputDirectory>${staging.windows.dir}</outputDirectory>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!-- Create main executable jar -->
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>2.2.1</version>
+				<configuration>
+					<descriptors>
+						<descriptor>src/assemble/exe.xml</descriptor>
+					</descriptors>
+					<archive>
+						<manifestFile>src/main/resources/META-INF/MANIFEST.MF
+						</manifestFile>
+					</archive>
+				</configuration>
+				<executions>
+					<execution>
+						<id>make-assembly</id>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!-- Produce staging directory with all resources used in creation of 
+				the linux IzPack installer and in creation of the Mac application bundle -->
+			<plugin>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>2.5</version>
+				<executions>
+					<execution>
+						<id>copy-resources-to-staging-linux</id>
+						<phase>install</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${staging.linux.dir}</outputDirectory>
+							<resources>
+								<resource>
+									<directory>src/main/izpack/linux</directory>
+									<filtering>true</filtering>
+									<includes>
+										<include>install.xml</include>
+										<include>readme.txt</include>
+										<include>Unix_shortcutSpec.xml</include>
+										<include>bwallet-tools-protocol-handler.sh</include>
+									</includes>
+								</resource>
+								<resource>
+									<directory>${basedir}/src/main/resources/images</directory>
+									<includes>
+										<!-- <include>installerLeft.png</include> -->
+										<include>bwallet-tools48.png</include>
+									</includes>
+								</resource>
+								<resource>
+									<directory>target</directory>
+									<includes>
+										<include>bwallet-tools-exe.jar</include>
+									</includes>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+
+					<!-- Produce staging directory with all resources used in creation of 
+						the windows IzPack installer -->
+					<execution>
+						<id>copy-resources-to-staging-windows</id>
+						<phase>install</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${staging.windows.dir}</outputDirectory>
+							<resources>
+								<resource>
+									<directory>src/main/izpack/windows</directory>
+									<filtering>true</filtering>
+									<includes>
+										<include>install.xml</include>
+										<include>readme.txt</include>
+										<include>shortcutSpec.xml</include>
+										<include>registrySpec.xml</include>
+									</includes>
+								</resource>
+								<resource>
+									<directory>${basedir}/src/main/resources/images</directory>
+									<includes>
+										<!-- <include>installerLeft.png</include> -->
+										<include>bwallet-tools.ico</include>
+									</includes>
+								</resource>
+
+								<resource>
+									<directory>target</directory>
+									<includes>
+										<include>bwallet-tools.exe</include>
+									</includes>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+
+					<!-- produce a Mac application bundle -->
+					<!-- this plugin copies a skeleton App and then copies in the resources 
+						from the linux staging directory -->
+					<!-- Note I have tried using http://mojo.codehaus.org/osxappbundle-maven-plugin/ 
+						but cannot get extra resources into my Java directory in the app -->
+					<execution>
+						<id>create-skeleton-Mac-application-bundle</id>
+						<phase>install</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${basedir}/target/BWalletTools.app
+							</outputDirectory>
+							<resources>
+								<resource>
+									<!-- skeleton app -->
+									<directory>src/app-resources/BWalletTools.app</directory>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+					<execution>
+						<id>add-Java-resources-into-application-bundle</id>
+						<phase>install</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${basedir}/target/BWalletTools.app/Contents/Resources/Java
+							</outputDirectory>
+							<resources>
+								<resource>
+									<directory>${basedir}/target/staging.linux</directory>
+									<includes>
+										<include>bwallet-tools-exe.jar</include>
+									</includes>
+								</resource>
+								<resource>
+									<directory>${basedir}/src/main/izpack/mac</directory>
+									<includes>
+										<include>readme.txt</include>
+									</includes>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!-- Produce linux IzPack installer from contents of linux staging directory -->
+			<plugin>
+				<groupId>org.codehaus.izpack</groupId>
+				<artifactId>izpack-maven-plugin</artifactId>
+				<version>1.0-alpha-5</version>
+				<executions>
+					<execution>
+						<id>create-linux-installer</id>
+						<phase>install</phase>
+						<goals>
+							<goal>izpack</goal>
+						</goals>
+						<configuration>
+							<izpackBasedir>${staging.linux.dir}</izpackBasedir>
+							<installerFile>target/${project.build.finalName}-${project.version}-linux.jar
+							</installerFile>
+						</configuration>
+					</execution>
+					<execution>
+						<id>create-windows-installer</id>
+						<phase>install</phase>
+						<goals>
+							<goal>izpack</goal>
+						</goals>
+						<configuration>
+							<izpackBasedir>${staging.windows.dir}</izpackBasedir>
+							<installerFile>target/${project.build.finalName}-windows.jar
+							</installerFile>
+						</configuration>
+					</execution>
+				</executions>
+				<dependencies>
+					<dependency>
+						<groupId>org.codehaus.izpack</groupId>
+						<artifactId>izpack-standalone-compiler</artifactId>
+						<version>4.3.4</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+
+			<!-- Build a Mac DMG -->
+			<plugin>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>create-mac-dmg</id>
+						<phase>install</phase>
+						<configuration>
+							<tasks>
+								<!-- Make the JavaApplicationStub in the Mac application bundle executable 
+									(it loses its 'x' permission after the copy) -->
+								<chmod
+									file="${basedir}/target/BWalletTools.app/Contents/MacOS/JavaApplicationStub"
+									perm="777" />
+
+								<mkdir dir="${basedir}/target/BWalletTools-mac/BWalletTools.app" />
+								<copy todir="${basedir}/target/BWalletTools-mac/BWalletTools.app">
+									<fileset dir="${basedir}/target/BWalletTools.app"
+										includes="**" />
+								</copy>
+								<copy file="${basedir}/src/main/izpack/mac/readme.txt"
+									todir="${basedir}/target/BWalletTools-mac" />
+
+
+								<!-- Create Applications Symbolic link -->
+								<!-- WARNING, do not remove this symbolic link by Java(ant) -->
+								<exec executable="ln" os="'Mac OS X'">
+									<arg
+										line="-s /Applications ${basedir}/target/BWalletTools-mac/Applications" />
+								</exec>
+
+								<!-- Make the JavaApplicationStub in the BWalletTools app (it loses 
+									its 'x' permission after the copy) -->
+								<chmod
+									file="${basedir}/target/BWalletTools-mac/BWalletTools.app/Contents/MacOS/JavaApplicationStub"
+									perm="777" />
+
+								<!-- Sign the Mac app -->
+								<exec executable="codesign" os="'Mac OS X'">
+									<arg
+										line="--sign 'Developer ID Application: Bidingxing' --force ${basedir}/target/BWalletTools-mac/BWalletTools.app" />
+								</exec>
+								<!-- Verify it is signed ok -->
+								<exec executable="codesign" os="'Mac OS X'">
+									<arg
+										line="--display --verbose=4 ${basedir}/target/BWalletTools-mac/BWalletTools.app" />
+								</exec>
+
+								<!-- create a DMG file -->
+								<exec executable="hdiutil" os="'Mac OS X'">
+									<arg value="create" />
+									<arg value="-srcfolder" />
+									<arg value="${basedir}/target/BWalletTools-mac" />
+									<arg path="${basedir}/target/bwallet-tools-${project.version}.dmg" />
+								</exec>
+
+								<!-- IMPORTANT! -->
+								<!-- Remove symbolic link before deleting tmp dir -->
+								<exec executable="rm" os="'Mac OS X'">
+									<arg line="-R ${basedir}/target/BWalletTools-mac/Applications" />
+								</exec>
+
+								<!-- get rid of temporary directory -->
+								<delete includeEmptyDirs="true">
+									<fileset dir="${basedir}/target/BWalletTools-mac" />
+								</delete>
+							</tasks>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+					<!-- Produce a Win32 exe from the bwallet-tools-exe.jar (no Maven plugin 
+						for JSmooth so drop down to ant) -->
+					<execution>
+						<id>jsmooth-installer2exe-exe</id>
+						<phase>package</phase>
+						<configuration>
+							<tasks>
+								<path id="jsmooth-classpathref">
+									<pathelement path="src/main/jsmooth/lib/jsmoothgen.jar" />
+									<pathelement path="src/main/jsmooth/lib/jsmoothgen-ant.jar" />
+								</path>
+								<taskdef name="jsmoothgen" classname="net.charabia.jsmoothgen.ant.JSmoothGen"
+									classpathref="jsmooth-classpathref" />
+								<jsmoothgen project="src/main/jsmooth/exe.jsmooth"
+									skeletonroot="src/main/jsmooth/skeletons" />
+							</tasks>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+
+					<!-- Produce a Win32 exe from the windows IzPack installer (no Maven 
+						plugin for JSmooth so drop down to ant) -->
+					<execution>
+						<id>jsmooth-installer2exe-installer</id>
+						<phase>install</phase>
+						<configuration>
+							<tasks>
+								<path id="jsmooth-classpathref">
+									<pathelement path="src/main/jsmooth/lib/jsmoothgen.jar" />
+									<pathelement path="src/main/jsmooth/lib/jsmoothgen-ant.jar" />
+								</path>
+								<taskdef name="jsmoothgen" classname="net.charabia.jsmoothgen.ant.JSmoothGen"
+									classpathref="jsmooth-classpathref" />
+								<jsmoothgen project="src/main/jsmooth/installer.jsmooth"
+									skeletonroot="src/main/jsmooth/skeletons" />
+								<move file="target/bwallet-tools-windows.exe"
+									tofile="target/bwallet-tools-${project.version}-windows.exe" />
+							</tasks>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
+				<dependencies>
+					<dependency>
+						<groupId>org.apache.ant</groupId>
+						<artifactId>ant-nodeps</artifactId>
+						<version>1.8.1</version>
+					</dependency>
+				</dependencies>
+			</plugin>
 		</plugins>
 	</build>
 
-	<!-- Ensure that you have correctly updated the protobuf submodule using
+	<!-- Ensure that you have correctly updated the protobuf submodule using 
+		$ cd <submodule directory> $ git checkout master $ git pull origin master 
+		$ cd <project directory> $ git add <submodule directory> $ git commit -m 
+		"Updating protobuf for '<submodule>'" $ git push Then use $ mvn -DupdateProtobuf=true 
+		clean compile to perform the actual update and make the necessary code changes -->
 
-		$ cd <submodule directory>
-		$ git checkout master
-		$ git pull origin master
-		$ cd <project directory>
-		$ git add <submodule directory>
-		$ git commit -m "Updating protobuf for '<submodule>'"
-		$ git push
+	<profiles>
+		<profile>
+			<id>update-protobuf</id>
+			<activation>
+				<property>
+					<name>updateProtobuf</name>
+					<value>true</value>
+				</property>
+			</activation>
+			<build>
+				<plugins>
+					<!-- Build the protobuf file -->
+					<plugin>
+						<artifactId>maven-antrun-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>compile-protoc</id>
+								<phase>generate-sources</phase>
+								<configuration>
+									<tasks>
+										<path id="proto.path">
+											<!-- Include BWallet Common files -->
+											<fileset dir="src/main/bwallet-common/protob">
+												<include name="**/*.proto" />
+											</fileset>
+										</path>
+										<pathconvert pathsep=" " property="proto.files"
+											refid="proto.path" />
+										<exec executable="protoc" failonerror="true">
+											<!-- TODO Determine if this can be ignored -->
+											<arg value="-I=${project.basedir}/src/main/bwallet-common/protob" />
+											<arg value="--java_out=${project.basedir}/src/main/java" />
+											<arg line="${proto.files}" />
+										</exec>
+									</tasks>
+								</configuration>
+								<goals>
+									<goal>run</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
 
-		Then use
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 
-		$ mvn -DupdateProtobuf=true clean compile
+	<dependencies>
 
-		to perform the actual update and make the necessary code changes
+		<dependency>
+			<groupId>org.hid4java</groupId>
+			<artifactId>hid4java</artifactId>
+			<version>0.3.1</version>
+		</dependency>
 
-    -->
+		<dependency>
+			<groupId>com.google.protobuf</groupId>
+			<artifactId>protobuf-java</artifactId>
+			<version>2.5.0</version>
+		</dependency>
 
-    <profiles>
-        <profile>
-            <id>update-protobuf</id>
-            <activation>
-                <property>
-                    <name>updateProtobuf</name>
-                    <value>true</value>
-                </property>
-            </activation>
-            <build>
-                <plugins>
-                    <!-- Build the protobuf file -->
-                    <plugin>
-                        <artifactId>maven-antrun-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>compile-protoc</id>
-                                <phase>generate-sources</phase>
-                                <configuration>
-                                    <tasks>
-                                        <path id="proto.path">
-                                            <!-- Include BWallet Common files -->
-                                            <fileset dir="src/main/bwallet-common/protob">
-                                                <include name="**/*.proto" />
-                                            </fileset>
-                                        </path>
-                                        <pathconvert pathsep=" " property="proto.files"
-                                                     refid="proto.path" />
-                                        <exec executable="protoc" failonerror="true">
-                                            <!-- TODO Determine if this can be ignored -->
-                                            <arg value="-I=${project.basedir}/src/main/bwallet-common/protob" />
-                                            <arg value="--java_out=${project.basedir}/src/main/java" />
-                                            <arg line="${proto.files}" />
-                                        </exec>
-                                    </tasks>
-                                </configuration>
-                                <goals>
-                                    <goal>run</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>1.4</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
 
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
+		<dependency>
+			<groupId>commons-cli</groupId>
+			<artifactId>commons-cli</artifactId>
+			<version>1.2</version>
+		</dependency>
 
-    <dependencies>
+		<dependency>
+			<groupId>commons-codec</groupId>
+			<artifactId>commons-codec</artifactId>
+			<version>1.4</version>
+		</dependency>
 
-        <dependency>
-            <groupId>org.hid4java</groupId>
-            <artifactId>hid4java</artifactId>
-            <version>0.3.1</version>
-        </dependency>
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>16.0.1</version>
+		</dependency>
 
-        <dependency>
-            <groupId>com.google.protobuf</groupId>
-            <artifactId>protobuf-java</artifactId>
-            <version>2.5.0</version>
-        </dependency>
+		<dependency>
+			<groupId>org.bitcoinj</groupId>
+			<artifactId>bitcoinj-core</artifactId>
+			<version>0.12.3</version>
+			<scope>compile</scope>
+		</dependency>
 
-        <dependency>
-            <groupId>commons-io</groupId>
-            <artifactId>commons-io</artifactId>
-            <version>1.4</version>
-            <type>jar</type>
-            <scope>compile</scope>
-        </dependency>
-		
-        <dependency>
-            <groupId>commons-cli</groupId>
-            <artifactId>commons-cli</artifactId>
-            <version>1.2</version>
-        </dependency>
-		
-        <dependency>
-            <groupId>commons-codec</groupId>
-            <artifactId>commons-codec</artifactId>
-            <version>1.4</version>
-        </dependency>
-                
-        <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-            <version>16.0.1</version>
-        </dependency>
-                
-        <dependency>
-            <groupId>org.bitcoinj</groupId>
-            <artifactId>bitcoinj-core</artifactId>
-            <version>0.12.3</version>
-            <scope>compile</scope>
-        </dependency>
-        
-        <dependency>
-            <groupId>com.google.code.findbugs</groupId>
-            <artifactId>annotations</artifactId>
-            <version>2.0.1</version>
-            <scope>compile</scope>
-        </dependency>
-        
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-            <version>3.1</version>
-            <scope>compile</scope>
-        </dependency>
-        
-        <dependency>
-            <groupId>org.swinglabs</groupId>
-            <artifactId>swingx</artifactId>
-            <version>1.6.1</version>
-        </dependency>
-        
-        <!-- ZXing for QR code generation -->
-        <dependency>
-            <groupId>com.google.zxing</groupId>
-            <artifactId>javase</artifactId>
-            <version>1.7</version>
-        </dependency>
-        
-        <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>httpclient</artifactId>
-            <version>4.3.3</version>
-        </dependency>
-        
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-core</artifactId>
-            <version>2.3.3</version>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-            <version>2.3.3</version>
-        </dependency>
-    </dependencies>
+		<dependency>
+			<groupId>com.google.code.findbugs</groupId>
+			<artifactId>annotations</artifactId>
+			<version>2.0.1</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.1</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.swinglabs</groupId>
+			<artifactId>swingx</artifactId>
+			<version>1.6.1</version>
+		</dependency>
+
+		<!-- ZXing for QR code generation -->
+		<dependency>
+			<groupId>com.google.zxing</groupId>
+			<artifactId>javase</artifactId>
+			<version>1.7</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>4.3.3</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+			<version>2.3.3</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.3.3</version>
+		</dependency>
+	</dependencies>
 </project>

@@ -901,8 +901,8 @@ public final class MainFrame extends javax.swing.JFrame {
             public void run() {
                 MainFrame ui = new MainFrame();
                 List<Image> icons = new ArrayList<Image>();
-                icons.add(IconUtils.createImageIcon("/icons/logo-16.png", "").getImage());
-                icons.add(IconUtils.createImageIcon("/icons/logo-32.png", "").getImage());
+                icons.add(IconUtils.createImageIcon("/images/bwallet-tools16.png", "").getImage());
+                icons.add(IconUtils.createImageIcon("/images/bwallet-tools32.png", "").getImage());
                 ui.setIconImages(icons);
                 ui.setLocationRelativeTo(null);
                 ui.setVisible(true);

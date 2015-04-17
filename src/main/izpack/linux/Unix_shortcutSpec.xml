@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+
+<shortcuts>
+
+  <programGroup defaultName="BWalletTools"
+  location="applications"/>
+
+   <shortcut
+     name="BWalletTools ${project.version}"
+     programGroup="yes"
+     desktop="yes"
+     applications="no"
+     startMenu="no"
+     startup="no"
+     target="/usr/bin/java"
+     commandLine="-jar $INSTALL_PATH/bwallet-tools-exe.jar"
+     initialState="normal"
+     iconFile="$INSTALL_PATH/bwallet-tools48.png"
+     workingDirectory="$INSTALL_PATH"
+     type="Application"
+     encoding="UTF-8"
+     description="BWalletTools ${project.version}">
+   </shortcut>
+   <shortcut
+     name="Uninstall BWalletTools ${project.version}"
+     programGroup="yes"
+     desktop="yes"
+     applications="no"
+     startMenu="no"
+     startup="no"
+     target="/usr/bin/java"
+     commandLine="-jar $INSTALL_PATH/Uninstaller/uninstaller.jar"
+     initialState="normal"
+     workingDirectory="$INSTALL_PATH"
+     type="Application"
+     encoding="UTF-8"
+     description="Uninstall BWalletTools ${project.version}">
+   </shortcut>
+</shortcuts>
+
