@@ -21,6 +21,8 @@ import com.google.common.eventbus.Subscribe;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.protobuf.ByteString;
 import java.awt.Image;
+import java.awt.KeyEventDispatcher;
+import java.awt.KeyboardFocusManager;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.KeyEvent;
@@ -90,6 +92,21 @@ public final class MainFrame extends javax.swing.JFrame {
 
         loadResourceBundle();
         applyResourceBundle();
+        
+        loadDeviceButton.setVisible(false);
+        
+        KeyboardFocusManager kfm = KeyboardFocusManager.getCurrentKeyboardFocusManager();
+        kfm.addKeyEventDispatcher(new KeyEventDispatcher(){
+            @Override
+            public boolean dispatchKeyEvent(KeyEvent e) {
+                if(e.getID() == KeyEvent.KEY_PRESSED){
+                    if(e.getKeyCode() == KeyEvent.VK_F12){
+                        loadDeviceButton.setVisible(true);
+                    }
+                }
+                return false;
+            }
+        });
     }
 
     public void loadResourceBundle() {
@@ -110,6 +127,7 @@ public final class MainFrame extends javax.swing.JFrame {
         recoveryDeviceButton.setText(bundle.getString("MainFrame.recoveryDeviceButton.text")); 
         wipeDeviceButton.setText(bundle.getString("MainFrame.wipeDeviceButton.text")); 
         deviceInfoButton.setText(bundle.getString("MainFrame.deviceInfoButton.text"));
+        loadDeviceButton.setText(bundle.getString("MainFrame.loadDeviceButton.text"));
         
         applySettingsButton.setText(bundle.getString("MainFrame.applySettingsButton.text")); 
         passphraseSettingButton.setText(bundle.getString("MainFrame.passphraseSettingButton.text")); 
@@ -187,6 +205,7 @@ public final class MainFrame extends javax.swing.JFrame {
         recoveryDeviceButton = new javax.swing.JButton();
         wipeDeviceButton = new javax.swing.JButton();
         deviceInfoButton = new javax.swing.JButton();
+        loadDeviceButton = new javax.swing.JButton();
         settingPanel = new javax.swing.JPanel();
         applySettingsButton = new javax.swing.JButton();
         changePinButton = new javax.swing.JButton();
@@ -290,6 +309,15 @@ public final class MainFrame extends javax.swing.JFrame {
             }
         });
         setupPanel.add(deviceInfoButton);
+
+        loadDeviceButton.setText("Load Device");
+        loadDeviceButton.setPreferredSize(new java.awt.Dimension(160, 30));
+        loadDeviceButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                loadDeviceButtonActionPerformed(evt);
+            }
+        });
+        setupPanel.add(loadDeviceButton);
 
         rightPanel.add(setupPanel);
 
@@ -877,6 +905,17 @@ public final class MainFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_updateMenuItemActionPerformed
 
+    private void loadDeviceButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadDeviceButtonActionPerformed
+        Device device = getSelectDevice();
+        if (device != null) {
+            LoadDeviceDialog loadDeviceDialog = new LoadDeviceDialog(this, true, bundle, mainController, device);
+            loadDeviceDialog.setLocationRelativeTo(null);
+            loadDeviceDialog.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(this, bundle.getString("MessageDialog.noneDeviceSelected"));
+        }
+    }//GEN-LAST:event_loadDeviceButtonActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -956,6 +995,7 @@ public final class MainFrame extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JMenu languageMenu;
     private javax.swing.JPanel leftPanel;
+    private javax.swing.JButton loadDeviceButton;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JPanel miscPanel;
     private javax.swing.JButton passphraseSettingButton;

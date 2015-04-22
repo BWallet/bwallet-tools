@@ -43,7 +43,9 @@ public interface WalletClient extends Connectable {
             String language,
             String label,
             String seedPhrase,
-            String pin
+            String pin,
+            boolean passphraseProtection,
+            boolean skipChecksum
     );
 
     Optional<MessageEvent> resetDevice(

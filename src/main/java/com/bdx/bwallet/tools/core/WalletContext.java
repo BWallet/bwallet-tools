@@ -314,4 +314,15 @@ public class WalletContext {
         // Issue starting message to elicit the event
         client.getAddress(account, keyPurpose, index, false);
     }
+    
+    public void beginLoadDeviceUseCase(String language, String label, String seedPhrase, String pin, boolean passphraseProtection, boolean skipChecksum) {
+        log.debug("Begin 'load device' use case");
+        // Track the use case
+        currentUseCase = ContextUseCase.LOAD_WALLET;
+        // Store the overall context parameters
+        // Set the event receiving state
+        currentFlow = WalletFlows.newLoadDeviceFlow();
+        // Issue starting message to elicit the event
+        client.loadDevice(language, label, seedPhrase, pin, passphraseProtection, skipChecksum);
+    }
 }

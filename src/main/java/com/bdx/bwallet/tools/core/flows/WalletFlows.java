@@ -90,4 +90,9 @@ public class WalletFlows {
         log.debug("Transitioning to 'get address' flow");
         return new GetAddressFlow();
     }
+    
+    public static LoadDeviceFlow newLoadDeviceFlow() {
+        log.debug("Transitioning to 'load device' flow");
+        return new LoadDeviceFlow();
+    }
 }

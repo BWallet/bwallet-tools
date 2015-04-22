@@ -171,6 +171,10 @@ public class WalletService implements HidServicesListener {
         context.beginRemoveAccountLabelUseCase(coinName, index);
     }
     
+    public void loadDevice(String language, String label, String seedPhrase, String pin, boolean passphraseProtection, boolean skipChecksum) {
+        context.beginLoadDeviceUseCase(language, label, seedPhrase, pin, passphraseProtection, skipChecksum);
+    }
+    
     /**
      * @return 32 bytes (256 bits) of entropy generated locally
      */

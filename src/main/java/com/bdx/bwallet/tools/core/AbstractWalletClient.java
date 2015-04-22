@@ -119,7 +119,9 @@ public abstract class AbstractWalletClient implements WalletClient {
             String language,
             String label,
             String seedPhrase,
-            String pin
+            String pin,
+            boolean passphraseProtection,
+            boolean skipChecksum
     ) {
 
         // A load normally takes about 10 seconds to complete
@@ -131,6 +133,8 @@ public abstract class AbstractWalletClient implements WalletClient {
                 .setMnemonic(seedPhrase)
                 //        .setNode(nodeType)
                 .setPin(pin)
+                .setPassphraseProtection(passphraseProtection)
+                .setSkipChecksum(skipChecksum)
                 .build()
         );
 

@@ -288,6 +288,14 @@ public class MainController {
         }
     }
 
+    public void loadDevice(Device device, String language, String label, String seedPhrase, String pin, boolean passphraseProtection, boolean skipChecksum) {
+        final WalletContext context = this.getContext(device);
+        if (context != null) {
+            walletService.setContext(context);
+            walletService.loadDevice(language, label, seedPhrase, pin, passphraseProtection, skipChecksum);
+        }
+    }
+    
     public WalletContext getContext(Device device) {
         if (device == null)
             return null;
