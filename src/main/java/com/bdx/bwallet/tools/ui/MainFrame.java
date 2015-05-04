@@ -30,19 +30,28 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
+import java.util.Set;
+import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.InputMap;
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
+import javax.swing.JProgressBar;
 import javax.swing.KeyStroke;
 import javax.swing.UIManager;
+import javax.swing.WindowConstants;
 import javax.swing.border.TitledBorder;
 import javax.swing.text.DefaultEditorKit;
 import org.hid4java.HidDevice;
@@ -61,10 +70,14 @@ public final class MainFrame extends javax.swing.JFrame {
     static final String BUY_URL = "https://bidingxing.com/bwallet";
 
     static final String VERSION = "0.1.0";
-    
-    private final MainController mainController = new MainController();
+
+    private MainController mainController;
 
     private ResourceBundle bundle;
+
+    private ExecutorService enumerateExecutor = Executors.newSingleThreadExecutor();
+
+    private JDialog messageDialog;
 
     /**
      * Creates new form MainUI3
@@ -80,33 +93,65 @@ public final class MainFrame extends javax.swing.JFrame {
             }
         });
 
-        DefaultListModel<Device> listModel = new DefaultListModel();
-        devicesList.setModel(listModel);
-        List<HidDevice> hidDevices = mainController.getDevices();
-        for (HidDevice hidDevice : hidDevices) {
-            Device device = new Device(hidDevice);
-            listModel.addElement(device);
-        }
-
         MessageEvents.subscribe(this);
 
         loadResourceBundle();
         applyResourceBundle();
-        
+
         loadDeviceButton.setVisible(false);
-        
+
         KeyboardFocusManager kfm = KeyboardFocusManager.getCurrentKeyboardFocusManager();
-        kfm.addKeyEventDispatcher(new KeyEventDispatcher(){
+        kfm.addKeyEventDispatcher(new KeyEventDispatcher() {
             @Override
             public boolean dispatchKeyEvent(KeyEvent e) {
-                if(e.getID() == KeyEvent.KEY_PRESSED){
-                    if(e.getKeyCode() == KeyEvent.VK_F12){
+                if (e.getID() == KeyEvent.KEY_PRESSED) {
+                    if (e.getKeyCode() == KeyEvent.VK_F12) {
                         loadDeviceButton.setVisible(true);
                     }
                 }
                 return false;
             }
         });
+
+        final DefaultListModel<Device> listModel = new DefaultListModel();
+        devicesList.setModel(listModel);
+
+        messageDialog = new JDialog(this, bundle.getString("MainFrame.messageDialog.title"), true);
+        messageDialog.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+        messageDialog.setSize(400, 60);
+        messageDialog.setLocationRelativeTo(null);
+        JProgressBar progressBar = new JProgressBar();
+        progressBar.setIndeterminate(true);
+        messageDialog.add(progressBar);
+        
+        Future<Boolean> future = enumerateExecutor.submit(new Callable() {
+            @Override
+            public Object call() throws Exception {
+                mainController = new MainController();
+                List<HidDevice> hidDevices = mainController.getDevices();
+                for (HidDevice hidDevice : hidDevices) {
+                    Device device = new Device(hidDevice);
+                    listModel.addElement(device);
+                }
+                java.awt.EventQueue.invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        messageDialog.setVisible(false);
+                    }
+                });
+                return true;
+            }
+        });
+        try {
+            future.get(500, TimeUnit.MILLISECONDS);
+        } catch (InterruptedException | ExecutionException | TimeoutException ex) {
+            java.awt.EventQueue.invokeLater(new Runnable() {
+                @Override
+                public void run() {
+                    messageDialog.setVisible(true);
+                }
+            });
+        }
     }
 
     public void loadResourceBundle() {
@@ -114,47 +159,47 @@ public final class MainFrame extends javax.swing.JFrame {
     }
 
     public void applyResourceBundle() {
-        setTitle(bundle.getString("MainFrame.title")); 
+        setTitle(bundle.getString("MainFrame.title"));
 
-        devicesLabel.setText(bundle.getString("MainFrame.devicesLabel.text")); 
+        devicesLabel.setText(bundle.getString("MainFrame.devicesLabel.text"));
 
-        ((TitledBorder)setupPanel.getBorder()).setTitle(bundle.getString("MainFrame.setupPanel.border.title"));
-        ((TitledBorder)settingPanel.getBorder()).setTitle(bundle.getString("MainFrame.settingPanel.border.title"));
-        ((TitledBorder)accountPanel.getBorder()).setTitle(bundle.getString("MainFrame.accountPanel.border.title"));
-        ((TitledBorder)miscPanel.getBorder()).setTitle(bundle.getString("MainFrame.miscPanel.border.title"));
-                
-        resetDeviceButton.setText(bundle.getString("MainFrame.resetDeviceButton.text")); 
-        recoveryDeviceButton.setText(bundle.getString("MainFrame.recoveryDeviceButton.text")); 
-        wipeDeviceButton.setText(bundle.getString("MainFrame.wipeDeviceButton.text")); 
+        ((TitledBorder) setupPanel.getBorder()).setTitle(bundle.getString("MainFrame.setupPanel.border.title"));
+        ((TitledBorder) settingPanel.getBorder()).setTitle(bundle.getString("MainFrame.settingPanel.border.title"));
+        ((TitledBorder) accountPanel.getBorder()).setTitle(bundle.getString("MainFrame.accountPanel.border.title"));
+        ((TitledBorder) miscPanel.getBorder()).setTitle(bundle.getString("MainFrame.miscPanel.border.title"));
+
+        resetDeviceButton.setText(bundle.getString("MainFrame.resetDeviceButton.text"));
+        recoveryDeviceButton.setText(bundle.getString("MainFrame.recoveryDeviceButton.text"));
+        wipeDeviceButton.setText(bundle.getString("MainFrame.wipeDeviceButton.text"));
         deviceInfoButton.setText(bundle.getString("MainFrame.deviceInfoButton.text"));
         loadDeviceButton.setText(bundle.getString("MainFrame.loadDeviceButton.text"));
-        
-        applySettingsButton.setText(bundle.getString("MainFrame.applySettingsButton.text")); 
-        passphraseSettingButton.setText(bundle.getString("MainFrame.passphraseSettingButton.text")); 
-        homescreenSettingButton.setText(bundle.getString("MainFrame.homescreenSettingButton.text")); 
-        accountLabelSettingButton.setText(bundle.getString("MainFrame.accountLabelSettingButton.text")); 
-        changePinButton.setText(bundle.getString("MainFrame.changePinButton.text")); 
-        
-        accountDetailsButton.setText(bundle.getString("MainFrame.accountDetailsButton.text")); 
-        signAndVerifyButton.setText(bundle.getString("MainFrame.signAndVerifyButton.text")); 
-        getPublicKeyButton.setText(bundle.getString("MainFrame.getPublicKeyButton.text")); 
-       
-        updateFirmwareButton.setText(bundle.getString("MainFrame.updateFirmwareButton.text")); 
-        getBlHashButton.setText(bundle.getString("MainFrame.getBlHashButton.text")); 
-        testScreenButton.setText(bundle.getString("MainFrame.testScreenButton.text")); 
-        
-        fileMenu.setText(bundle.getString("MainFrame.fileMenu.text")); 
-        exitMenuItem.setText(bundle.getString("MainFrame.exitMenuItem.text")); 
-        helpMenu.setText(bundle.getString("MainFrame.helpMenu.text")); 
-        contentsMenuItem.setText(bundle.getString("MainFrame.contentsMenuItem.text")); 
-        faqMenuItem.setText(bundle.getString("MainFrame.faqMenuItem.text")); 
-        resourcesMenuItem.setText(bundle.getString("MainFrame.resourcesMenuItem.text")); 
-        websiteMenuItem.setText(bundle.getString("MainFrame.websiteMenuItem.text")); 
-        buyMenuItem.setText(bundle.getString("MainFrame.buyMenuItem.text")); 
-        aboutMenuItem.setText(bundle.getString("MainFrame.aboutMenuItem.text")); 
+
+        applySettingsButton.setText(bundle.getString("MainFrame.applySettingsButton.text"));
+        passphraseSettingButton.setText(bundle.getString("MainFrame.passphraseSettingButton.text"));
+        homescreenSettingButton.setText(bundle.getString("MainFrame.homescreenSettingButton.text"));
+        accountLabelSettingButton.setText(bundle.getString("MainFrame.accountLabelSettingButton.text"));
+        changePinButton.setText(bundle.getString("MainFrame.changePinButton.text"));
+
+        accountDetailsButton.setText(bundle.getString("MainFrame.accountDetailsButton.text"));
+        signAndVerifyButton.setText(bundle.getString("MainFrame.signAndVerifyButton.text"));
+        getPublicKeyButton.setText(bundle.getString("MainFrame.getPublicKeyButton.text"));
+
+        updateFirmwareButton.setText(bundle.getString("MainFrame.updateFirmwareButton.text"));
+        getBlHashButton.setText(bundle.getString("MainFrame.getBlHashButton.text"));
+        testScreenButton.setText(bundle.getString("MainFrame.testScreenButton.text"));
+
+        fileMenu.setText(bundle.getString("MainFrame.fileMenu.text"));
+        exitMenuItem.setText(bundle.getString("MainFrame.exitMenuItem.text"));
+        helpMenu.setText(bundle.getString("MainFrame.helpMenu.text"));
+        contentsMenuItem.setText(bundle.getString("MainFrame.contentsMenuItem.text"));
+        faqMenuItem.setText(bundle.getString("MainFrame.faqMenuItem.text"));
+        resourcesMenuItem.setText(bundle.getString("MainFrame.resourcesMenuItem.text"));
+        websiteMenuItem.setText(bundle.getString("MainFrame.websiteMenuItem.text"));
+        buyMenuItem.setText(bundle.getString("MainFrame.buyMenuItem.text"));
+        aboutMenuItem.setText(bundle.getString("MainFrame.aboutMenuItem.text"));
         languageMenu.setText(bundle.getString("MainFrame.languageMenu.text"));
         updateMenuItem.setText(bundle.getString("MainFrame.updateMenuItem.text"));
-        
+
         String language = Locale.getDefault().getLanguage();
         if (language.equals("zh")) {
             chineseMenuItem.setText(bundle.getString("MainFrame.chineseMenuItem.text.checked"));
@@ -164,20 +209,36 @@ public final class MainFrame extends javax.swing.JFrame {
             englishMenuItem.setText(bundle.getString("MainFrame.englishMenuItem.text.checked"));
         }
     }
-    
+
     @Subscribe
     public void onMessageEvent(MessageEvent event) {
-        DefaultListModel<Device> listModel = (DefaultListModel) devicesList.getModel();
+        final DefaultListModel<Device> listModel = (DefaultListModel) devicesList.getModel();
         if (event.getEventType() == MessageEventType.DEVICE_ATTACHED) {
             System.out.println("MainUI onMessageEvent : " + event.getEventType());
             HidDevice hidDevice = event.getDevice().get();
             System.out.println("MainUI onMessageEvent : " + hidDevice.toString());
-            Device device = new Device(hidDevice);
-            listModel.addElement(device);
+            final Device device = new Device(hidDevice);
+            enumerateExecutor.submit(new Runnable() {
+                @Override
+                public void run() {
+                    Set<String> paths = new HashSet();
+                    for (int i = 0; i < listModel.getSize(); i++) {
+                        Device d = listModel.get(i);
+                        paths.add(d.getPath());
+                    }
+                    if (!paths.contains(device.getPath()))
+                        listModel.addElement(device);
+                }
+            });
         } else if (event.getEventType() == MessageEventType.DEVICE_DETACHED) {
             HidDevice hidDevice = event.getDevice().get();
-            Device device = new Device(hidDevice);
-            listModel.removeElement(device);
+            final Device device = new Device(hidDevice);
+            enumerateExecutor.submit(new Runnable() {
+                @Override
+                public void run() {
+                    listModel.removeElement(device);
+                }
+            });
         }
     }
 
@@ -858,13 +919,13 @@ public final class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_languageMenuActionPerformed
 
     private void englishMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_englishMenuItemActionPerformed
-        Locale.setDefault(new Locale("en","US"));
+        Locale.setDefault(new Locale("en", "US"));
         this.loadResourceBundle();
         this.applyResourceBundle();
     }//GEN-LAST:event_englishMenuItemActionPerformed
 
     private void chineseMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chineseMenuItemActionPerformed
-        Locale.setDefault(new Locale("zh","CN"));
+        Locale.setDefault(new Locale("zh", "CN"));
         this.loadResourceBundle();
         this.applyResourceBundle();
     }//GEN-LAST:event_chineseMenuItemActionPerformed
