@@ -561,7 +561,7 @@ public class SignMessageDialog extends javax.swing.JDialog implements WindowList
                 sSignatureTextArea.setText(signature);
                 messageDialog.setVisible(false);
                 if (device != null) {
-                    mainController.getAddress(device, this.getAccountIndex() - 1, this.getKeyPurpose(), this.getAddressIndex());
+                    mainController.getAddress(device, this.getAccountIndex() - 1, this.getKeyPurpose(), this.getAddressIndex(), false);
                 }
                 break;
             case ADDRESS:

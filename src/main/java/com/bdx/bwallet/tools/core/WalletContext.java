@@ -293,7 +293,7 @@ public class WalletContext {
         client.removeAccountLabel(coinName, index);
     }
     
-    public void beginGetAddressUseCase(List<ChildNumber> childNumbers) {
+    public void beginGetAddressUseCase(List<ChildNumber> childNumbers, boolean showDisplay) {
         log.debug("Begin 'get address' use case");
         // Track the use case
         currentUseCase = ContextUseCase.REQUEST_ADDRESS;
@@ -301,10 +301,10 @@ public class WalletContext {
         // Set the event receiving state
         currentFlow = WalletFlows.newGetAddressFlow();
         // Issue starting message to elicit the event
-        client.getAddress(childNumbers, false);
+        client.getAddress(childNumbers, showDisplay);
     }
     
-    public void beginGetAddressUseCase(int account, KeyChain.KeyPurpose keyPurpose, int index) {
+    public void beginGetAddressUseCase(int account, KeyChain.KeyPurpose keyPurpose, int index, boolean showDisplay) {
         log.debug("Begin 'get address' use case");
         // Track the use case
         currentUseCase = ContextUseCase.REQUEST_ADDRESS;
@@ -312,7 +312,7 @@ public class WalletContext {
         // Set the event receiving state
         currentFlow = WalletFlows.newGetAddressFlow();
         // Issue starting message to elicit the event
-        client.getAddress(account, keyPurpose, index, false);
+        client.getAddress(account, keyPurpose, index, showDisplay);
     }
     
     public void beginLoadDeviceUseCase(String language, String label, String seedPhrase, String pin, boolean passphraseProtection, boolean skipChecksum) {

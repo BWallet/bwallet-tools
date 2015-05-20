@@ -216,19 +216,19 @@ public class MainController {
         }
     }
 
-    public void getAddress(Device device, List<ChildNumber> childNumbers) {
+    public void getAddress(Device device, List<ChildNumber> childNumbers, boolean showDisplay) {
         final WalletContext context = this.getContext(device);
         if (context != null) {
             walletService.setContext(context);
-            walletService.getAddress(childNumbers);
+            walletService.getAddress(childNumbers, showDisplay);
         }
     }
 
-    public void getAddress(Device device, int account, KeyChain.KeyPurpose keyPurpose, int index) {
+    public void getAddress(Device device, int account, KeyChain.KeyPurpose keyPurpose, int index, boolean showDisplay) {
         final WalletContext context = this.getContext(device);
         if (context != null) {
             walletService.setContext(context);
-            walletService.getAddress(account, keyPurpose, index);
+            walletService.getAddress(account, keyPurpose, index, showDisplay);
         }
     }
     

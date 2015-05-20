@@ -298,7 +298,7 @@ public class GetPublicKeyDialog extends javax.swing.JDialog implements WindowLis
                 BWalletMessage.PublicKey publicKey = (BWalletMessage.PublicKey) event.getMessage().get();
                 contentTextArea.setText(publicKey.getXpub());
                 if (device != null && childNumbers != null) {
-                    mainController.getAddress(device, childNumbers);
+                    mainController.getAddress(device, childNumbers, false);
                 }
                 break;
             case ADDRESS:

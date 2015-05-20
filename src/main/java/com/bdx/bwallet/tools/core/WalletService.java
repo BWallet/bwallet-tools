@@ -135,12 +135,12 @@ public class WalletService implements HidServicesListener {
         context.beginGetDeterministicHierarchyUseCase(childNumbers);
     }
     
-    public void getAddress(List<ChildNumber> childNumbers) {
-        context.beginGetAddressUseCase(childNumbers);
+    public void getAddress(List<ChildNumber> childNumbers, boolean showDisplay) {
+        context.beginGetAddressUseCase(childNumbers, showDisplay);
     }
     
-    public void getAddress(int account, KeyChain.KeyPurpose keyPurpose, int index) {
-        context.beginGetAddressUseCase(account, keyPurpose, index);
+    public void getAddress(int account, KeyChain.KeyPurpose keyPurpose, int index, boolean showDisplay) {
+        context.beginGetAddressUseCase(account, keyPurpose, index, showDisplay);
     }
     
     public void signMessage(int account, KeyChain.KeyPurpose keyPurpose, int index, byte[] message) {

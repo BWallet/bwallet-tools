@@ -6,6 +6,8 @@
 package com.bdx.bwallet.tools.ui;
 
 import com.bdx.bwallet.protobuf.BWalletMessage;
+import com.bdx.bwallet.protobuf.BWalletMessage.ButtonRequest;
+import com.bdx.bwallet.protobuf.BWalletType.ButtonRequestType;
 import com.bdx.bwallet.tools.controllers.MainController;
 import com.bdx.bwallet.tools.core.events.HardwareWalletEvent;
 import com.bdx.bwallet.tools.core.events.HardwareWalletEvents;
@@ -46,6 +48,7 @@ import org.bitcoinj.crypto.ChildNumber;
 import org.bitcoinj.crypto.DeterministicKey;
 import org.bitcoinj.crypto.HDKeyDerivation;
 import org.bitcoinj.params.MainNetParams;
+import org.bitcoinj.wallet.KeyChain;
 import org.hid4java.HidDevice;
 
 /**
@@ -62,6 +65,8 @@ public final class AccountDetailsDialog extends javax.swing.JDialog implements W
 
     private final JDialog messageDialog;
 
+    private AccountDetailsEyeDialog accountDetailsEyeDialog;
+    
     private Device device;
 
     private DeterministicKey xpub = null;
@@ -72,10 +77,16 @@ public final class AccountDetailsDialog extends javax.swing.JDialog implements W
 
     private final ImageIcon viewIcon = IconUtils.createImageIcon("/icons/view.png", "View");
 
+    private final ImageIcon eyeIcon = IconUtils.createImageIcon("/icons/eye.png", "Eye");
+    
+    private final ImageIcon signIcon = IconUtils.createImageIcon("/icons/sign.png", "Sign");
+    
+    private DeterministicKey currentChildXPub;
+    
     /**
      * Creates new form AccountDetailsDialog
      */
-    public AccountDetailsDialog(java.awt.Frame parent, boolean modal, ResourceBundle bundle, MainController mainController, Device device) {
+    public AccountDetailsDialog(java.awt.Frame parent, boolean modal, ResourceBundle bundle, final MainController mainController, final Device device) {
         super(parent, modal);
         initComponents();
 
@@ -96,11 +107,17 @@ public final class AccountDetailsDialog extends javax.swing.JDialog implements W
             }
         });
 
+        accountDetailsEyeDialog = new AccountDetailsEyeDialog(this, true, bundle);
+        accountDetailsEyeDialog.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+        accountDetailsEyeDialog.setLocationRelativeTo(null);
+        
         rAddressTable.setRowHeight(30);
         rAddressTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         rAddressTable.getColumnModel().getColumn(0).setPreferredWidth(60);
-        rAddressTable.getColumnModel().getColumn(1).setPreferredWidth(255);
+        rAddressTable.getColumnModel().getColumn(1).setPreferredWidth(270);
         rAddressTable.getColumnModel().getColumn(2).setPreferredWidth(30);
+        rAddressTable.getColumnModel().getColumn(3).setPreferredWidth(30);
+        rAddressTable.getColumnModel().getColumn(4).setPreferredWidth(30);
         Action view1 = new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -117,13 +134,32 @@ public final class AccountDetailsDialog extends javax.swing.JDialog implements W
                 }
             }
         };
+        Action eye1 = new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JTable table = (JTable) e.getSource();
+                int modelRow = Integer.valueOf(e.getActionCommand());
+                Integer index = (Integer) ((DefaultTableModel) table.getModel()).getValueAt(modelRow, 0);
+                if (xpub != null) {
+                    DeterministicKey parentXpub = HDKeyDerivation.deriveChildKey(xpub, 0);
+                    currentChildXPub = HDKeyDerivation.deriveChildKey(parentXpub, index);
+                    mainController.getAddress(device, xpub.getChildNumber().num(), KeyChain.KeyPurpose.RECEIVE_FUNDS, index, true);
+                }
+            }
+        };
+        
+        
         ButtonColumn buttonColumn1 = new ButtonColumn(rAddressTable, view1, 2);
+        buttonColumn1 = new ButtonColumn(rAddressTable, eye1, 3);
+        buttonColumn1 = new ButtonColumn(rAddressTable, view1, 4);
 
         cAddressTable.setRowHeight(30);
         cAddressTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         cAddressTable.getColumnModel().getColumn(0).setPreferredWidth(60);
-        cAddressTable.getColumnModel().getColumn(1).setPreferredWidth(255);
+        cAddressTable.getColumnModel().getColumn(1).setPreferredWidth(270);
         cAddressTable.getColumnModel().getColumn(2).setPreferredWidth(30);
+        cAddressTable.getColumnModel().getColumn(3).setPreferredWidth(30);
+        cAddressTable.getColumnModel().getColumn(4).setPreferredWidth(30);
         Action view2 = new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -140,7 +176,22 @@ public final class AccountDetailsDialog extends javax.swing.JDialog implements W
                 }
             }
         };
+        Action eye2 = new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JTable table = (JTable) e.getSource();
+                int modelRow = Integer.valueOf(e.getActionCommand());
+                Integer index = (Integer) ((DefaultTableModel) table.getModel()).getValueAt(modelRow, 0);
+                if (xpub != null) {
+                    DeterministicKey parentXpub = HDKeyDerivation.deriveChildKey(xpub, 1);
+                    currentChildXPub = HDKeyDerivation.deriveChildKey(parentXpub, index);
+                    mainController.getAddress(device, xpub.getChildNumber().num(), KeyChain.KeyPurpose.CHANGE, index, true);
+                }
+            }
+        };
         ButtonColumn buttonColumn2 = new ButtonColumn(cAddressTable, view2, 2);
+        buttonColumn2 = new ButtonColumn(cAddressTable, eye2, 3);
+        buttonColumn2 = new ButtonColumn(cAddressTable, view2, 4);
 
         this.addWindowListener(this);
 
@@ -215,7 +266,7 @@ public final class AccountDetailsDialog extends javax.swing.JDialog implements W
         xpubPanel.setLayout(xpubPanelLayout);
         xpubPanelLayout.setHorizontalGroup(
             xpubPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 180, Short.MAX_VALUE)
         );
         xpubPanelLayout.setVerticalGroup(
             xpubPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -227,14 +278,14 @@ public final class AccountDetailsDialog extends javax.swing.JDialog implements W
 
             },
             new String [] {
-                "Index", "Address", " "
+                "Index", "Address", " ", " ", " "
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.Object.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, true
+                false, false, true, true, true
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -248,6 +299,8 @@ public final class AccountDetailsDialog extends javax.swing.JDialog implements W
         jScrollPane2.setViewportView(rAddressTable);
         if (rAddressTable.getColumnModel().getColumnCount() > 0) {
             rAddressTable.getColumnModel().getColumn(2).setResizable(false);
+            rAddressTable.getColumnModel().getColumn(3).setResizable(false);
+            rAddressTable.getColumnModel().getColumn(4).setResizable(false);
         }
 
         cAddressTable.setModel(new javax.swing.table.DefaultTableModel(
@@ -255,14 +308,14 @@ public final class AccountDetailsDialog extends javax.swing.JDialog implements W
 
             },
             new String [] {
-                "Index", "Address", " "
+                "Index", "Address", " ", " ", " "
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.Object.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, true
+                false, false, true, true, true
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -276,6 +329,8 @@ public final class AccountDetailsDialog extends javax.swing.JDialog implements W
         jScrollPane3.setViewportView(cAddressTable);
         if (cAddressTable.getColumnModel().getColumnCount() > 0) {
             cAddressTable.getColumnModel().getColumn(2).setResizable(false);
+            cAddressTable.getColumnModel().getColumn(3).setResizable(false);
+            cAddressTable.getColumnModel().getColumn(4).setResizable(false);
         }
 
         nRButton.setText(">>");
@@ -327,49 +382,49 @@ public final class AccountDetailsDialog extends javax.swing.JDialog implements W
                 .addGap(20, 20, 20)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(pRButton)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(nRButton))
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(receivingAddressesLabel)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(receivingPathLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(accountIndexLabel)
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(accountIndexTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(getButton)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(separator)
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(pCButton)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(nCButton)
-                                .addGap(22, 22, 22))
-                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 715, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(xpubPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(accountPathLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addComponent(changeAddressesLabel)
+                                        .addGap(346, 346, 346)
+                                        .addComponent(pRButton)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(changePathLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addComponent(nRButton))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(receivingAddressesLabel)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(receivingPathLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(18, 386, Short.MAX_VALUE)
+                                .addComponent(pCButton)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(nCButton))
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addComponent(accountIndexLabel)
-                                .addGap(18, 18, 18)
-                                .addComponent(accountIndexTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(getButton))
-                            .addComponent(separator, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 760, Short.MAX_VALUE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 550, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(xpubPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(accountPathLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE))))
-                        .addContainerGap(20, Short.MAX_VALUE))))
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 444, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
+                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 444, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addGap(488, 488, 488)
+                                .addComponent(changeAddressesLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(changePathLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(22, 22, 22))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -399,9 +454,9 @@ public final class AccountDetailsDialog extends javax.swing.JDialog implements W
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(nRButton)
-                            .addComponent(pRButton)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(pRButton)
+                            .addComponent(nRButton)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -415,21 +470,12 @@ public final class AccountDetailsDialog extends javax.swing.JDialog implements W
 
     private void getButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_getButtonActionPerformed
         if (device != null) {
-            String indexText = accountIndexTextField.getText();
-            if ("".equals(indexText)) {
-                JOptionPane.showMessageDialog(this, bundle.getString("AccountDetailsDialog.MessageDialog.emptyAccount"));
-                return;
-            }
             int index;
             try {
-                index = Integer.parseInt(indexText);
-            } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(this, bundle.getString("AccountDetailsDialog.MessageDialog.invalidAccount"));
-                return;
-            }
-            if (index < 1) {
-                JOptionPane.showMessageDialog(this, bundle.getString("AccountDetailsDialog.MessageDialog.accountMustGeOne"));
-                return;
+                index = this.getAccountIndex();
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, ex.getMessage());
+                return ;
             }
             List<ChildNumber> childNumbers = new ArrayList();
             childNumbers.add(new ChildNumber(44, true));
@@ -441,6 +487,23 @@ public final class AccountDetailsDialog extends javax.swing.JDialog implements W
         }
     }//GEN-LAST:event_getButtonActionPerformed
 
+    private int getAccountIndex() {
+        String indexText = accountIndexTextField.getText();
+        if ("".equals(indexText)) {
+            throw new RuntimeException(bundle.getString("AccountDetailsDialog.MessageDialog.emptyAccount"));
+        }
+        int index;
+        try {
+            index = Integer.parseInt(indexText);
+        } catch (NumberFormatException e) {
+            throw new RuntimeException(bundle.getString("AccountDetailsDialog.MessageDialog.invalidAccount"));
+        }
+        if (index < 1) {
+            throw new RuntimeException(bundle.getString("AccountDetailsDialog.MessageDialog.accountMustGeOne"));
+        }
+        return index;
+    }
+    
     private void pRButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pRButtonActionPerformed
         if (xpub != null) {
             rCurrentPage = rCurrentPage - 1;
@@ -503,11 +566,25 @@ public final class AccountDetailsDialog extends javax.swing.JDialog implements W
                 }
                 break;
             case SHOW_BUTTON_PRESS:
-                java.awt.EventQueue.invokeLater(new Runnable() {
-                    public void run() {
-                        messageDialog.setVisible(true);
+                ButtonRequest buttonRequest = (ButtonRequest)event.getMessage().get();
+                if (buttonRequest.getCode() == ButtonRequestType.ButtonRequest_Address) {
+                    if (currentChildXPub != null) {
+                        accountDetailsEyeDialog.init(currentChildXPub);
+                        java.awt.EventQueue.invokeLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                accountDetailsEyeDialog.setVisible(true);
+                            }
+                        });
                     }
-                });
+                } else {
+                    java.awt.EventQueue.invokeLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            messageDialog.setVisible(true);
+                        }
+                    });
+                }
                 break;
             case DETERMINISTIC_HIERARCHY:
                 BWalletMessage.PublicKey publicKey = (BWalletMessage.PublicKey) event.getMessage().get();
@@ -534,6 +611,15 @@ public final class AccountDetailsDialog extends javax.swing.JDialog implements W
                 updateAddressTable(HDKeyDerivation.deriveChildKey(xpub, 0), (DefaultTableModel) rAddressTable.getModel(), rCurrentPage);
                 updateAddressTable(HDKeyDerivation.deriveChildKey(xpub, 1), (DefaultTableModel) cAddressTable.getModel(), cCurrentPage);
 
+                break;
+            case ADDRESS:
+                BWalletMessage.Address address = (BWalletMessage.Address) event.getMessage().get();
+                accountDetailsEyeDialog.setVisible(false);
+                if (currentChildXPub != null) {
+                    String uiAddress = currentChildXPub.toAddress(MainNetParams.get()).toString();
+                    if (!uiAddress.equals(address.getAddress()))
+                        JOptionPane.showMessageDialog(this, "Address verification failed! Please contact BWallet support.");
+                }
                 break;
             case SHOW_OPERATION_FAILED:
                 messageDialog.setVisible(false);
@@ -565,7 +651,7 @@ public final class AccountDetailsDialog extends javax.swing.JDialog implements W
         for (int i = 0; i < PAGE_SIZE; i++) {
             Integer index = i + PAGE_SIZE * page;
             String address = HDKeyDerivation.deriveChildKey(parentXpub, index).toAddress(MainNetParams.get()).toString();
-            tableModel.addRow(new Object[]{index, address, viewIcon});
+            tableModel.addRow(new Object[]{index, address, viewIcon, eyeIcon, signIcon});
         }
     }
 
