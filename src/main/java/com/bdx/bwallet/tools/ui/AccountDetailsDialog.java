@@ -83,10 +83,12 @@ public final class AccountDetailsDialog extends javax.swing.JDialog implements W
     
     private DeterministicKey currentChildXPub;
     
+    private boolean listenWalletEvent = true;
+    
     /**
      * Creates new form AccountDetailsDialog
      */
-    public AccountDetailsDialog(java.awt.Frame parent, boolean modal, ResourceBundle bundle, final MainController mainController, final Device device) {
+    public AccountDetailsDialog(java.awt.Frame parent, boolean modal, final ResourceBundle bundle, final MainController mainController, final Device device) {
         super(parent, modal);
         initComponents();
 
@@ -147,11 +149,29 @@ public final class AccountDetailsDialog extends javax.swing.JDialog implements W
                 }
             }
         };
-        
+        Action sign1 = new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JTable table = (JTable) e.getSource();
+                int modelRow = Integer.valueOf(e.getActionCommand());
+                Integer index = (Integer) ((DefaultTableModel) table.getModel()).getValueAt(modelRow, 0);
+                if (xpub != null) {
+                    DeterministicKey parentXpub = HDKeyDerivation.deriveChildKey(xpub, 0);
+                    DeterministicKey childXPub = HDKeyDerivation.deriveChildKey(parentXpub, index);
+                    SignMessageDialog signMessageDialog = new SignMessageDialog(AccountDetailsDialog.this, true, bundle, mainController, device);
+                    signMessageDialog.setXPub(childXPub);
+                    signMessageDialog.setLocationRelativeTo(null);
+                    
+                    listenWalletEvent = false;
+                    signMessageDialog.setVisible(true);
+                    listenWalletEvent = true;
+                }
+            }
+        };
         
         ButtonColumn buttonColumn1 = new ButtonColumn(rAddressTable, view1, 2);
         buttonColumn1 = new ButtonColumn(rAddressTable, eye1, 3);
-        buttonColumn1 = new ButtonColumn(rAddressTable, view1, 4);
+        buttonColumn1 = new ButtonColumn(rAddressTable, sign1, 4);
 
         cAddressTable.setRowHeight(30);
         cAddressTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
@@ -189,9 +209,28 @@ public final class AccountDetailsDialog extends javax.swing.JDialog implements W
                 }
             }
         };
+        Action sign2 = new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JTable table = (JTable) e.getSource();
+                int modelRow = Integer.valueOf(e.getActionCommand());
+                Integer index = (Integer) ((DefaultTableModel) table.getModel()).getValueAt(modelRow, 0);
+                if (xpub != null) {
+                    DeterministicKey parentXpub = HDKeyDerivation.deriveChildKey(xpub, 1);
+                    DeterministicKey childXPub = HDKeyDerivation.deriveChildKey(parentXpub, index);
+                    SignMessageDialog signMessageDialog = new SignMessageDialog(AccountDetailsDialog.this, true, bundle, mainController, device);
+                    signMessageDialog.setXPub(childXPub);
+                    signMessageDialog.setLocationRelativeTo(null);
+                    
+                    listenWalletEvent = false;
+                    signMessageDialog.setVisible(true);
+                    listenWalletEvent = true;
+                }
+            }
+        };
         ButtonColumn buttonColumn2 = new ButtonColumn(cAddressTable, view2, 2);
         buttonColumn2 = new ButtonColumn(cAddressTable, eye2, 3);
-        buttonColumn2 = new ButtonColumn(cAddressTable, view2, 4);
+        buttonColumn2 = new ButtonColumn(cAddressTable, sign2, 4);
 
         this.addWindowListener(this);
 
@@ -543,6 +582,10 @@ public final class AccountDetailsDialog extends javax.swing.JDialog implements W
     @Subscribe
     public void onHardwareWalletEvent(HardwareWalletEvent event) {
         System.out.println(event.getEventType());
+        if (!listenWalletEvent) {
+            System.out.println("Ignore event: " + event.getEventType());
+            return ;
+        }
         switch (event.getEventType()) {
             case SHOW_PIN_ENTRY:
                 PINEntryDialog pinEntryDialog = PINEntryUtils.createDialog(this, bundle, event.getMessage());
@@ -632,6 +675,10 @@ public final class AccountDetailsDialog extends javax.swing.JDialog implements W
 
     @Subscribe
     public void onMessageEvent(MessageEvent event) {
+        if (!listenWalletEvent) {
+            System.out.println("Ignore event: " + event.getEventType());
+            return ;
+        }
         if (event.getEventType() == MessageEventType.DEVICE_DETACHED) {
             HidDevice hidDevice = event.getDevice().get();
             if (hidDevice.getPath() != null && hidDevice.getPath().equals(device.getPath())) {

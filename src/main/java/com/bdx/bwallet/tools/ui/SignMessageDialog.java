@@ -32,6 +32,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import org.bitcoinj.core.Address;
 import org.bitcoinj.core.AddressFormatException;
+import org.bitcoinj.crypto.DeterministicKey;
 import org.bitcoinj.params.MainNetParams;
 import org.bitcoinj.wallet.KeyChain;
 import org.hid4java.HidDevice;
@@ -61,7 +62,23 @@ public class SignMessageDialog extends javax.swing.JDialog implements WindowList
 
         this.mainController = mainController;
         this.device = device;
+        this.bundle = bundle;
+        
+        init();
+    }
 
+    public SignMessageDialog(java.awt.Dialog parent, boolean modal, ResourceBundle bundle, MainController mainController, Device device) {
+        super(parent, modal);
+        initComponents();
+
+        this.mainController = mainController;
+        this.device = device;
+        this.bundle = bundle;
+        
+        init();
+    }
+    
+    private void init() {
         JOptionPane messagePanel = new JOptionPane(bundle.getString("MessageDialog.confirmAction"), JOptionPane.INFORMATION_MESSAGE,
                 JOptionPane.DEFAULT_OPTION, null,
                 new Object[]{}, null);
@@ -135,12 +152,11 @@ public class SignMessageDialog extends javax.swing.JDialog implements WindowList
             }
         });
 
-        this.bundle = bundle;
         applyResourceBundle();
 
         addressContentLabel.setText("");
     }
-
+    
     public void applyResourceBundle() {
         setTitle(bundle.getString("SignMessageDialog.title"));
 
@@ -167,6 +183,23 @@ public class SignMessageDialog extends javax.swing.JDialog implements WindowList
         purposeComboBox.addItem(bundle.getString("SignMessageDialog.purposeComboBox.change.text"));
     }
 
+    public void setXPub(DeterministicKey xpub) {
+        int account = xpub.getParent().getParent().getChildNumber().num() + 1;
+        int purpose = xpub.getParent().getChildNumber().num();
+        int index = xpub.getChildNumber().num();
+        String address = xpub.toAddress(MainNetParams.get()).toString();
+        accountTextField.setText("" + account);
+        purposeComboBox.setSelectedIndex(purpose);
+        indexTextField.setText("" + index);
+        addressContentLabel.setText(address);
+        addressTextField.setText(address);
+        accountTextField.setEditable(false);
+        purposeComboBox.setEditable(false);
+        purposeComboBox.setEnabled(false);
+        indexTextField.setEditable(false);
+        addressTextField.setEditable(false);
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
