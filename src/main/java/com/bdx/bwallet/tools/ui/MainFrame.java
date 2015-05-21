@@ -824,9 +824,27 @@ public final class MainFrame extends javax.swing.JFrame {
     private void updateFirmwareButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateFirmwareButtonActionPerformed
         Device device = getSelectDevice();
         if (device != null) {
-            FirmwareUpdateDialog updateFirmwareDialog = new FirmwareUpdateDialog(this, true, bundle, mainController, device);
-            updateFirmwareDialog.setLocationRelativeTo(null);
-            updateFirmwareDialog.setVisible(true);
+            WalletContext context = mainController.getContext(device);
+            if (context != null) {
+                try {
+                    ListenableFuture<Optional<BWalletMessage.Features>> future = context.initialise();
+                    future.get(5, TimeUnit.SECONDS);
+                } catch (InterruptedException | ExecutionException | TimeoutException ex) {
+                    JOptionPane.showMessageDialog(this, bundle.getString("MessageDialog.deviceInitialiseFailed"));
+                    return;
+                }
+
+                BWalletMessage.Features features = context.getFeatures().get();
+                if (features.hasBootloaderMode() && features.getBootloaderMode()) {
+                    FirmwareUpdateDialog updateFirmwareDialog = new FirmwareUpdateDialog(this, true, bundle, mainController, device);
+                    updateFirmwareDialog.setLocationRelativeTo(null);
+                    updateFirmwareDialog.setVisible(true);
+                } else {
+                    JOptionPane.showMessageDialog(this, bundle.getString("MessageDialog.notInBootloaderMode"));
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, bundle.getString("MessageDialog.deviceOpenFaild"));
+            }
         } else {
             JOptionPane.showMessageDialog(this, bundle.getString("MessageDialog.noneDeviceSelected"));
         }
