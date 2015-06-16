@@ -21,12 +21,12 @@ public class GetDeterministicHierarchyFlow extends AbstractWalletFlow {
                 break;
             case PUBLIC_KEY:
                 HardwareWalletEvents.fireHardwareWalletEvent(HardwareWalletEventType.DETERMINISTIC_HIERARCHY, event.getMessage().get());
-                context.reset();
+                context.resetAllButFeatures();
                 break;
             case FAILURE:
                 // User has cancelled or operation failed
                 HardwareWalletEvents.fireHardwareWalletEvent(HardwareWalletEventType.SHOW_OPERATION_FAILED, event.getMessage().get());
-                context.reset();
+                context.resetAllButFeatures();
                 break;
             default:
                 handleUnexpectedMessageEvent(context, event);

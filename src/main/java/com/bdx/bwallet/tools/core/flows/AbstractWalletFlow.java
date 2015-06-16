@@ -15,7 +15,7 @@ public abstract class AbstractWalletFlow implements WalletFlow {
     protected void handleUnexpectedMessageEvent(WalletContext context, MessageEvent event) {
         log.warn("Unexpected message event '{}'", event.getEventType().name());
         HardwareWalletEvents.fireHardwareWalletEvent(HardwareWalletEventType.SHOW_OPERATION_FAILED, event.getMessage().get());
-        context.reset();
+        context.resetAllButFeatures();
     }
 
     @Override

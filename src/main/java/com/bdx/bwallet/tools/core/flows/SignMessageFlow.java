@@ -36,12 +36,12 @@ public class SignMessageFlow extends AbstractWalletFlow {
             case MESSAGE_SIGNATURE:
                 // Device has completed the operation and provided a signed message
                 HardwareWalletEvents.fireHardwareWalletEvent(HardwareWalletEventType.MESSAGE_SIGNATURE, event.getMessage().get());
-                context.reset();
+                context.resetAllButFeatures();
                 break;
             case FAILURE:
                 // User has cancelled or operation failed
                 HardwareWalletEvents.fireHardwareWalletEvent(HardwareWalletEventType.SHOW_OPERATION_FAILED, event.getMessage().get());
-                context.reset();
+                context.resetAllButFeatures();
                 break;
             default:
                 handleUnexpectedMessageEvent(context, event);

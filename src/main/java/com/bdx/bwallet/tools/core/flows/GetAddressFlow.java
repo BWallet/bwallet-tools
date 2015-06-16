@@ -36,12 +36,12 @@ public class GetAddressFlow extends AbstractWalletFlow {
             case ADDRESS:
                 // Device has completed the operation and provided an address
                 HardwareWalletEvents.fireHardwareWalletEvent(HardwareWalletEventType.ADDRESS, event.getMessage().get());
-                context.reset();
+                context.resetAllButFeatures();
                 break;
             case FAILURE:
                 // User has cancelled or operation failed
                 HardwareWalletEvents.fireHardwareWalletEvent(HardwareWalletEventType.SHOW_OPERATION_FAILED, event.getMessage().get());
-                context.reset();
+                context.resetAllButFeatures();
                 break;
             default:
                 handleUnexpectedMessageEvent(context, event);

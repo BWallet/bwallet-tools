@@ -17,8 +17,6 @@ import org.bitcoinj.core.ECKey;
 import org.bitcoinj.core.Utils;
 import org.bitcoinj.crypto.ChildNumber;
 import org.bitcoinj.crypto.DeterministicKey;
-import static org.bitcoinj.crypto.DeterministicKey.HEADER_PRIV;
-import static org.bitcoinj.crypto.DeterministicKey.HEADER_PUB;
 import org.bitcoinj.crypto.HDUtils;
 import org.spongycastle.math.ec.ECPoint;
 
@@ -26,8 +24,14 @@ import org.spongycastle.math.ec.ECPoint;
  *
  * @author Administrator
  */
+@Deprecated
 public class DeterministicKeyUtils {
 
+	/** The 4 byte header that serializes in base58 to "xpub" */
+    public static final int HEADER_PUB = 0x0488B21E;
+    /** The 4 byte header that serializes in base58 to "xprv" */
+    public static final int HEADER_PRIV = 0x0488ADE4;
+	
     static byte[] addChecksum(byte[] input) {
         int inputLength = input.length;
         byte[] checksummed = new byte[inputLength + 4];
@@ -90,9 +94,9 @@ public class DeterministicKeyUtils {
             if (Arrays.equals(parentFingerprint, longTo4ByteArray(0))) {
                 throw new IllegalArgumentException("Parent was provided but this key doesn't have one");
             }
-            if (!Arrays.equals(parent.getFingerprint(), parentFingerprint)) {
-                throw new IllegalArgumentException("Parent fingerprints don't match");
-            }
+//            if (!Arrays.equals(parent.getFingerprint(), parentFingerprint)) {
+//                throw new IllegalArgumentException("Parent fingerprints don't match");
+//            }
             path = HDUtils.append(parent.getPath(), childNumber);
             if (path.size() != depth) {
                 throw new IllegalArgumentException("Depth does not match");

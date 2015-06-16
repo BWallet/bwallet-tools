@@ -631,7 +631,8 @@ public final class AccountDetailsDialog extends javax.swing.JDialog implements W
                 break;
             case DETERMINISTIC_HIERARCHY:
                 BWalletMessage.PublicKey publicKey = (BWalletMessage.PublicKey) event.getMessage().get();
-                this.xpub = DeterministicKeyUtils.deserializeB58(publicKey.getXpub());
+                //this.xpub = DeterministicKeyUtils.deserializeB58(publicKey.getXpub());
+                this.xpub = DeterministicKey.deserializeB58(publicKey.getXpub(), MainNetParams.get());
                 
                 xpubTextArea.setText(publicKey.getXpub());
                 Optional<BufferedImage> qrCodeImage = QRCodes.generateQRCode(publicKey.getXpub(), 2);

@@ -5,19 +5,16 @@
  */
 package com.bdx.bwallet.tools.core;
 
-import com.bdx.bwallet.tools.core.events.MessageEvent;
-import com.bdx.bwallet.tools.core.events.MessageEventType;
-import com.bdx.bwallet.tools.core.events.MessageEvents;
-import com.bdx.bwallet.tools.core.wallets.HidWallet;
-import com.google.common.base.Optional;
-import com.google.common.base.Preconditions;
-import com.google.protobuf.Message;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+
 import org.bitcoinj.core.Address;
+import org.bitcoinj.core.Transaction;
 import org.bitcoinj.crypto.ChildNumber;
+import org.bitcoinj.crypto.DeterministicKey;
 import org.bitcoinj.wallet.KeyChain;
 import org.hid4java.HidDevice;
 import org.hid4java.HidException;
@@ -27,6 +24,15 @@ import org.hid4java.HidServicesListener;
 import org.hid4java.event.HidServicesEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.bdx.bwallet.tools.core.events.MessageEvent;
+import com.bdx.bwallet.tools.core.events.MessageEventType;
+import com.bdx.bwallet.tools.core.events.MessageEvents;
+import com.bdx.bwallet.tools.core.wallets.HidWallet;
+import com.google.common.base.Optional;
+import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableList;
+import com.google.protobuf.Message;
 
 /**
  *
@@ -66,6 +72,21 @@ public class WalletService implements HidServicesListener {
     public void stop() {
         hidServices.stop();
     }
+    
+	/**
+	 * @return True if the hardware wallet has been initialised with a seed
+	 *         phrase (<code>Features.isInitialised()</code>)
+	 * 
+	 * @throws IllegalStateException
+	 *             If called when the device is not ready (see
+	 *             <code>isDeviceReady()</code>)
+	 */
+	public boolean isWalletPresent() {
+		if (!context.getFeatures().isPresent()) {
+			throw new IllegalStateException("Device is not ready. Check the hardware wallet events.");
+		}
+		return context.getFeatures().get().isInitialized();
+	}
     
     public void requestCancel() {
         // Let the state changes occur as a result of the internal messages
@@ -173,6 +194,24 @@ public class WalletService implements HidServicesListener {
     
     public void loadDevice(String language, String label, String seedPhrase, String pin, boolean passphraseProtection, boolean skipChecksum) {
         context.beginLoadDeviceUseCase(language, label, seedPhrase, pin, passphraseProtection, skipChecksum);
+    }
+    
+    /**
+     * <p>Request that the device signs the given transaction (unlimited number of inputs/outputs).</p>
+     *
+     * @param transaction             The transaction containing all the inputs and outputs
+     * @param receivingAddressPathMap The paths to the receiving addresses for this transaction keyed by input index
+     * @param changeAddressPathMap    The paths to the change address for this transaction keyed by Address
+     */
+    public void signTx(Transaction transaction, Map<Integer, ImmutableList<ChildNumber>> receivingAddressPathMap, Map<Address, ImmutableList<ChildNumber>> changeAddressPathMap) {
+    	// Set the FSM context
+    	context.beginSignTxUseCase(transaction, receivingAddressPathMap, changeAddressPathMap);
+    }
+    
+    public void multiSignTx(Transaction transaction, Map<Integer, ImmutableList<ChildNumber>> receivingAddressPathMap, Map<Address, ImmutableList<ChildNumber>> changeAddressPathMap, 
+    		List<DeterministicKey> multisigPubkeys, ImmutableList<ChildNumber> multisigBasePath, int multisigM, Map<Integer, Map<Integer, byte[]>> multisigSignatures) {
+    	// Set the FSM context
+    	context.beginMultiSignTxUseCase(transaction, receivingAddressPathMap, changeAddressPathMap, multisigPubkeys, multisigBasePath, multisigM, multisigSignatures);
     }
     
     /**

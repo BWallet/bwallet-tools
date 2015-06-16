@@ -5,6 +5,29 @@
  */
 package com.bdx.bwallet.tools.controllers;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
+import java.util.logging.Level;
+
+import javax.imageio.ImageIO;
+
+import org.apache.commons.codec.DecoderException;
+import org.apache.commons.codec.binary.Hex;
+import org.apache.commons.io.FileUtils;
+import org.bitcoinj.core.Address;
+import org.bitcoinj.core.Transaction;
+import org.bitcoinj.crypto.ChildNumber;
+import org.bitcoinj.crypto.DeterministicKey;
+import org.bitcoinj.wallet.KeyChain;
+import org.hid4java.HidDevice;
+
 import com.bdx.bwallet.protobuf.BWalletMessage;
 import com.bdx.bwallet.tools.core.HidWalletClient;
 import com.bdx.bwallet.tools.core.WalletContext;
@@ -18,36 +41,15 @@ import com.bdx.bwallet.tools.core.events.MessageEvents;
 import com.bdx.bwallet.tools.core.wallets.HidWallet;
 import com.bdx.bwallet.tools.model.Device;
 import com.google.common.base.Optional;
+import com.google.common.collect.ImmutableList;
 import com.google.common.eventbus.Subscribe;
 import com.google.common.util.concurrent.ListenableFuture;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
-import java.util.logging.Level;
-import javax.imageio.ImageIO;
-import org.apache.commons.codec.DecoderException;
-import org.apache.commons.codec.binary.Hex;
-import org.apache.commons.io.FileUtils;
-import org.bitcoinj.core.Address;
-import org.bitcoinj.crypto.ChildNumber;
-import org.bitcoinj.wallet.KeyChain;
-import org.hid4java.HidDevice;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  *
  * @author Dean Liu
  */
 public class MainController {
-
-    private static final Logger log = LoggerFactory.getLogger(MainController.class);
 
     private final WalletService walletService = new WalletService();
 
@@ -293,6 +295,23 @@ public class MainController {
         if (context != null) {
             walletService.setContext(context);
             walletService.loadDevice(language, label, seedPhrase, pin, passphraseProtection, skipChecksum);
+        }
+    }
+    
+    public void signTx(Device device, Transaction transaction, Map<Integer, ImmutableList<ChildNumber>> receivingAddressPathMap, Map<Address, ImmutableList<ChildNumber>> changeAddressPathMap) {
+    	final WalletContext context = this.getContext(device);
+        if (context != null) {
+            walletService.setContext(context);
+            walletService.signTx(transaction, receivingAddressPathMap, changeAddressPathMap);
+        }
+    }
+    
+    public void multiSignTx(Device device, Transaction transaction, Map<Integer, ImmutableList<ChildNumber>> receivingAddressPathMap, Map<Address, ImmutableList<ChildNumber>> changeAddressPathMap, 
+    		List<DeterministicKey> multisigPubkeys, ImmutableList<ChildNumber> multisigBasePath, int multisigM, Map<Integer, Map<Integer, byte[]>> multisigSignatures) {
+    	final WalletContext context = this.getContext(device);
+        if (context != null) {
+            walletService.setContext(context);
+            walletService.multiSignTx(transaction, receivingAddressPathMap, changeAddressPathMap, multisigPubkeys, multisigBasePath, multisigM, multisigSignatures);
         }
     }
     

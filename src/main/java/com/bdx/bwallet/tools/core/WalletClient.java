@@ -5,17 +5,20 @@
  */
 package com.bdx.bwallet.tools.core;
 
+import java.util.List;
+import java.util.Map;
+
+import org.bitcoinj.core.Address;
+import org.bitcoinj.core.Transaction;
+import org.bitcoinj.crypto.ChildNumber;
+import org.bitcoinj.crypto.DeterministicKey;
+import org.bitcoinj.wallet.KeyChain;
+
 import com.bdx.bwallet.protobuf.BWalletMessage.TxRequest;
 import com.bdx.bwallet.tools.core.events.MessageEvent;
 import com.bdx.bwallet.tools.core.wallets.Connectable;
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
-import java.util.List;
-import java.util.Map;
-import org.bitcoinj.core.Address;
-import org.bitcoinj.core.Transaction;
-import org.bitcoinj.crypto.ChildNumber;
-import org.bitcoinj.wallet.KeyChain;
 
 /**
  *
@@ -74,6 +77,8 @@ public interface WalletClient extends Connectable {
 
     Optional<MessageEvent> txAck(TxRequest txRequest, Transaction tx, Map<Integer, ImmutableList<ChildNumber>> receivingAddressPathMap, Map<Address, ImmutableList<ChildNumber>> changeAddressPathMap);
 
+    Optional<MessageEvent> multiTxAck(TxRequest txRequest, Transaction tx, Map<Integer, ImmutableList<ChildNumber>> receivingAddressPathMap, Map<Address, ImmutableList<ChildNumber>> changeAddressPathMap, List<DeterministicKey> pubkeys, ImmutableList<ChildNumber> multisigBasePath, int multisigM, Map<Integer, Map<Integer, byte[]>> multisigSignatures);
+    
     Optional<MessageEvent> pinMatrixAck(String pin);
 
     Optional<MessageEvent> cancel();

@@ -251,7 +251,7 @@ public class AddressDetailsDialog extends javax.swing.JDialog {
     public void init(DeterministicKey deterministicKey) {
         address = deterministicKey.toAddress(MainNetParams.get()).toString();
 
-        xpubTextArea.setText(deterministicKey.serializePubB58());
+        xpubTextArea.setText(deterministicKey.serializePubB58(MainNetParams.get()));
         addressTextField.setText(address);
 
         String path = BIP44PathUtils.getAccountPath(deterministicKey);        

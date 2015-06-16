@@ -9,9 +9,13 @@ import com.bdx.bwallet.tools.core.events.MessageEvent;
 import com.bdx.bwallet.tools.core.utils.MessageUtils;
 import com.google.common.base.Optional;
 import com.google.protobuf.Message;
+import com.googlecode.protobuf.format.JsonFormat;
+
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 import java.nio.ByteBuffer;
 import java.util.concurrent.TimeUnit;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,6 +27,8 @@ public abstract class AbstractWallet implements Wallet {
 
     private static final Logger log = LoggerFactory.getLogger(AbstractWallet.class);
 
+    private JsonFormat jsonFormat = new JsonFormat();
+    
     @Override
     public void disconnect() {
         // A disconnect has the same behaviour as a soft detach
@@ -31,12 +37,19 @@ public abstract class AbstractWallet implements Wallet {
 
     @Override
     public Optional<MessageEvent> readMessage(int duration, TimeUnit timeUnit) {
-        return readFromDevice(duration, timeUnit);
+    	Optional<MessageEvent> messageEvent = readFromDevice(duration, timeUnit);
+    	if (messageEvent.isPresent() && messageEvent.get().getMessage().isPresent()) {
+    		Message message = messageEvent.get().getMessage().get();
+    		log.info("read message: " + jsonFormat.printToString(message));
+    	}
+        return messageEvent;
     }
 
     @Override
     @SuppressFBWarnings(value = {"SBSC_USE_STRINGBUFFER_CONCATENATION"}, justification = "Only occurs at trace")
     public void writeMessage(Message message) {
+    	log.info("write message: " + jsonFormat.printToString(message));
+    	
         ByteBuffer messageBuffer = MessageUtils.formatAsHIDPackets(message);
 
         int packets = messageBuffer.position() / 63;

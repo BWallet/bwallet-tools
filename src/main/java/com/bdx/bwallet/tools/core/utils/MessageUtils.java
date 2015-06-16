@@ -1,8 +1,36 @@
 package com.bdx.bwallet.tools.core.utils;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.codec.DecoderException;
+import org.apache.commons.codec.binary.Hex;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.bitcoinj.core.Address;
+import org.bitcoinj.core.Transaction;
+import org.bitcoinj.core.TransactionInput;
+import org.bitcoinj.core.TransactionOutput;
+import org.bitcoinj.crypto.ChildNumber;
+import org.bitcoinj.crypto.DeterministicKey;
+import org.bitcoinj.params.MainNetParams;
+import org.bitcoinj.wallet.KeyChain;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.bdx.bwallet.protobuf.BWalletMessage;
 import com.bdx.bwallet.protobuf.BWalletMessage.TxRequest;
 import com.bdx.bwallet.protobuf.BWalletType;
+import com.bdx.bwallet.protobuf.BWalletType.HDNodePathType;
+import com.bdx.bwallet.protobuf.BWalletType.HDNodeType;
+import com.bdx.bwallet.protobuf.BWalletType.InputScriptType;
+import com.bdx.bwallet.protobuf.BWalletType.MultisigRedeemScriptType;
+import com.bdx.bwallet.protobuf.BWalletType.OutputScriptType;
 import com.bdx.bwallet.tools.core.events.MessageEvent;
 import com.bdx.bwallet.tools.core.events.MessageEventType;
 import com.google.common.base.Optional;
@@ -12,25 +40,8 @@ import com.google.common.collect.Lists;
 import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.google.protobuf.Message;
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import org.bitcoinj.core.Address;
-import org.bitcoinj.core.Transaction;
-import org.bitcoinj.core.TransactionInput;
-import org.bitcoinj.core.TransactionOutput;
-import org.bitcoinj.crypto.ChildNumber;
-import org.bitcoinj.params.MainNetParams;
-import org.bitcoinj.wallet.KeyChain;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.nio.ByteBuffer;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import org.apache.commons.lang3.builder.ToStringBuilder;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * <p>
@@ -576,6 +587,116 @@ public final class MessageUtils {
 
     }
 
+    public static BWalletType.TransactionType buildTxInputResponseForMultisig(
+            TxRequest txRequest,
+            Optional<Transaction> requestedTx,
+            boolean binOutputType,
+            Map<Integer, ImmutableList<ChildNumber>> receivingAddressPathMap, 
+            List<DeterministicKey> pubkeys, 
+            ImmutableList<ChildNumber> basePath, 
+            int m, Map<Integer, Map<Integer, byte[]>> signatures
+    ) {
+
+        final Optional<Integer> requestIndex = Optional.fromNullable(txRequest.getDetails().getRequestIndex());
+        if (!requestIndex.isPresent()) {
+            log.warn("Request index is not present for TxInput");
+            return null;
+        }
+
+        // Get the transaction input indicated by the request index
+        TransactionInput input = requestedTx.get().getInput(requestIndex.get());
+
+        List<Integer> addressN = Lists.newArrayList();
+        // No multisig support in MBHD yet
+        BWalletType.InputScriptType inputScriptType = BWalletType.InputScriptType.SPENDADDRESS;
+        
+        int prevIndex = (int) input.getOutpoint().getIndex();
+        byte[] prevHash = input.getOutpoint().getHash().getBytes();
+        
+        BWalletType.TxInputType txInputType = null;
+        
+        
+        if (!binOutputType) {
+            // We are the current transaction so look up the path of the receiving address
+            ImmutableList<ChildNumber> receivingAddressPath = receivingAddressPathMap.get(requestIndex.get());
+            Preconditions.checkNotNull(receivingAddressPath, "The receiving address path has no entry for index " + requestIndex.get() + ". Signing will fail.");
+            addressN = MessageUtils.buildAddressN(receivingAddressPath);
+            
+            List<HDNodePathType> nodePaths = pubkeysToNodePaths(pubkeys, addressN);
+            
+            List<ChildNumber> path = Lists.newArrayList(basePath);
+            path.addAll(receivingAddressPath);
+            addressN = MessageUtils.buildAddressN(path);
+            
+            MultisigRedeemScriptType.Builder multisigRedeemScriptBuilder = MultisigRedeemScriptType.newBuilder()
+            		.addAllPubkeys(nodePaths)
+            		.setM(m);
+            Map<Integer, byte[]> partySignatures = signatures.get(requestIndex.get());
+            for (int i = 0; i < pubkeys.size(); i++) {
+            	if (partySignatures != null && partySignatures.get(i) != null) {
+            		multisigRedeemScriptBuilder.addSignatures(ByteString.copyFrom(partySignatures.get(i)));
+                } else {
+                	multisigRedeemScriptBuilder.addSignatures(ByteString.copyFrom(new byte[0]));
+                }
+            }
+            MultisigRedeemScriptType multisigRedeemScript = multisigRedeemScriptBuilder.build();
+            inputScriptType = InputScriptType.SPENDMULTISIG;
+            txInputType = BWalletType.TxInputType
+                    .newBuilder()
+                    .addAllAddressN(addressN)
+                    .setSequence((int) input.getSequenceNumber())
+                    .setScriptSig(ByteString.copyFrom(input.getScriptSig().getProgram()))
+                    .setScriptType(inputScriptType)
+                    .setPrevIndex(prevIndex)
+                    .setPrevHash(ByteString.copyFrom(prevHash))
+                    .setMultisig(multisigRedeemScript)
+                    .build();
+        } else {
+        	txInputType = BWalletType.TxInputType
+                    .newBuilder()
+                    .addAllAddressN(addressN)
+                    .setSequence((int) input.getSequenceNumber())
+                    .setScriptSig(ByteString.copyFrom(input.getScriptSig().getProgram()))
+                    .setScriptType(inputScriptType)
+                    .setPrevIndex(prevIndex)
+                    .setPrevHash(ByteString.copyFrom(prevHash))
+                    .build();
+        }
+
+        // Must be OK to be here
+        // Build a TxInputType message
+
+        return BWalletType.TransactionType
+                .newBuilder()
+                .addInputs(txInputType)
+                .build();
+
+    }
+    
+    public static List<HDNodePathType> pubkeysToNodePaths(List<DeterministicKey> pubkeys, List<Integer> addressN) {
+    	List<HDNodePathType> nodePaths = new ArrayList<HDNodePathType>();
+    	for (int i = 0; i < pubkeys.size(); i++) {
+    		DeterministicKey key = pubkeys.get(i);
+    		String hex = Hex.encodeHexString(key.serializePublic(MainNetParams.get()));
+    		byte[] bytes = null;
+    		try {
+				bytes = Hex.decodeHex(hex.substring(10, 18).toCharArray());
+			} catch (DecoderException e) {
+				throw new IllegalStateException(e);
+			}
+    		HDNodeType node = HDNodeType.newBuilder().setChainCode(ByteString.copyFrom(key.getChainCode()))
+					.setChildNum(key.getChildNumber().getI())
+					.setDepth(key.getPath().size())
+					//.setFingerprint(key.getFingerprint())
+					.setFingerprint(ByteBuffer.wrap(bytes).getInt())
+					.setPublicKey(ByteString.copyFrom(key.getPubKey())).build();
+			HDNodePathType nodePath = HDNodePathType.newBuilder()
+					.setNode(node).addAllAddressN(addressN).build();
+			nodePaths.add(nodePath);
+    	}
+    	return nodePaths;
+    }
+    
     /**
      * @param txRequest The BWallet request
      * @param requestedTx The requested tx (either current or a previous one
@@ -624,6 +745,13 @@ public final class MessageUtils {
     // Build a TxOutputType representing the current transaction
         // Address
         Address address = output.getAddressFromP2PKHScript(MainNetParams.get());
+        
+        // TODO xxx
+        if (address == null) {
+        	System.out.println("getAddressFromP2PKHScript is null, try getAddressFromP2SH");
+        	address = output.getAddressFromP2SH(MainNetParams.get());
+        }
+        
         if (address == null) {
             throw new IllegalArgumentException("TxOutput " + requestIndex + " has no address.");
         }
@@ -670,6 +798,116 @@ public final class MessageUtils {
 
     }
 
+    public static BWalletType.TransactionType buildTxOutputResponseForMultisig(
+            TxRequest txRequest,
+            Optional<Transaction> requestedTx,
+            boolean binOutputType,
+            Map<Address, ImmutableList<ChildNumber>> changeAddressPathMap, 
+            List<DeterministicKey> pubkeys, 
+            ImmutableList<ChildNumber> basePath, 
+            int m, Map<Integer, Map<Integer, byte[]>> signatures) {
+
+        Preconditions.checkNotNull(changeAddressPathMap, "'changeAddressPathMap' must be present");
+
+        final Optional<Integer> requestIndex = Optional.fromNullable(txRequest.getDetails().getRequestIndex());
+        if (!requestIndex.isPresent()) {
+            log.warn("Request index is not present for TxOutput");
+            return null;
+        }
+
+        // Get the transaction output indicated by the request index
+        TransactionOutput output = requestedTx.get().getOutput(requestIndex.get());
+
+        if (binOutputType) {
+        	// Build a TxOutputBinType representing a previous transaction
+            // Require the output script program
+            byte[] scriptPubKey = output.getScriptPubKey().getProgram();
+            BWalletType.TxOutputBinType txOutputBinType = BWalletType.TxOutputBinType
+                    .newBuilder()
+                    .setAmount(output.getValue().value)
+                    .setScriptPubkey(ByteString.copyFrom(scriptPubKey))
+                    .build();
+            return BWalletType.TransactionType
+                    .newBuilder()
+                    .addBinOutputs(txOutputBinType)
+                    .build();
+        }
+
+        // Build a TxOutputType representing the current transaction
+        // Address
+        Address address = output.getAddressFromP2PKHScript(MainNetParams.get());
+        
+        if (address == null) {
+        	log.warn("Output is not pay-to-address (P2PKH)");
+        	address = output.getAddressFromP2SH(MainNetParams.get());
+        }
+        
+        if (address == null) {
+        	log.warn("Output is not pay-to-script-hash (P2SH).");
+            throw new IllegalArgumentException("TxOutput " + requestIndex + " has no address.");
+        }
+
+        // Is it pay-to-script-hash (P2SH) or pay-to-address (P2PKH)?
+        BWalletType.OutputScriptType outputScriptType;
+        if (address.isP2SHAddress()) {
+            outputScriptType = BWalletType.OutputScriptType.PAYTOSCRIPTHASH;
+        } else {
+            outputScriptType = BWalletType.OutputScriptType.PAYTOADDRESS;
+        }
+
+        final BWalletType.TxOutputType txOutputType;
+
+        // Check for change addresses
+        if (changeAddressPathMap.containsKey(address)) {
+        	ImmutableList<ChildNumber> changeAddressPath = changeAddressPathMap.get(address);
+            List<Integer> addressN = buildAddressN(changeAddressPath);
+            
+            List<HDNodePathType> nodePaths = pubkeysToNodePaths(pubkeys, addressN);
+            
+            List<ChildNumber> path = Lists.newArrayList(basePath);
+            path.addAll(changeAddressPath);
+            addressN = MessageUtils.buildAddressN(path);
+            
+            MultisigRedeemScriptType.Builder multisigRedeemScriptBuilder = MultisigRedeemScriptType.newBuilder()
+            		.addAllPubkeys(nodePaths)
+            		.setM(m);
+            // TODO add signature ?
+            /*
+            Map<Integer, byte[]> partySignatures = signatures.get(requestIndex.get());
+            for (int i = 0; i < pubkeys.size(); i++) {
+            	if (partySignatures != null && partySignatures.get(i) != null) {
+            		multisigRedeemScriptBuilder.addSignatures(ByteString.copyFrom(partySignatures.get(i)));
+                } else {
+                	multisigRedeemScriptBuilder.addSignatures(ByteString.copyFrom(new byte[0]));
+                }
+            }
+            */
+            MultisigRedeemScriptType multisigRedeemScript = multisigRedeemScriptBuilder.build();
+            outputScriptType = OutputScriptType.PAYTOMULTISIG;
+            txOutputType = BWalletType.TxOutputType
+                    .newBuilder()
+                    .addAllAddressN(addressN)
+                    .setAmount(output.getValue().value)
+                    .setScriptType(outputScriptType)
+                    .setMultisig(multisigRedeemScript)
+                    .build();
+
+        } else {
+            // Unknown address so can expect a sign confirmation
+            txOutputType = BWalletType.TxOutputType
+                    .newBuilder()
+                    .setAddress(String.valueOf(address))
+                    .setAmount(output.getValue().value)
+                    .setScriptType(outputScriptType)
+                    .build();
+        }
+
+        return BWalletType.TransactionType
+                .newBuilder()
+                .addOutputs(txOutputType)
+                .build();
+    }
+    
     /**
      * <p>
      * Build an AddressN chain code structure</p>
@@ -713,7 +951,7 @@ public final class MessageUtils {
      * @return The list representing the chain code (only a simple chain is
      * currently supported)
      */
-    public static List<Integer> buildAddressN(ImmutableList<ChildNumber> receivingAddressPath) {
+    public static List<Integer> buildAddressN(List<ChildNumber> receivingAddressPath) {
 
         List<Integer> addressN = Lists.newArrayList();
 

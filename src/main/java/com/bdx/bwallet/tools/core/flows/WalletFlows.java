@@ -95,4 +95,14 @@ public class WalletFlows {
         log.debug("Transitioning to 'load device' flow");
         return new LoadDeviceFlow();
     }
+    
+    public static SignTxFlow newSignTxFlow() {
+        log.debug("Transitioning to 'sign transaction' flow");
+        return new SignTxFlow();
+    }
+    
+    public static MultiSignTxFlow newMultiSignTxFlow() {
+        log.debug("Transitioning to 'multi-sign transaction' flow");
+        return new MultiSignTxFlow();
+    }
 }

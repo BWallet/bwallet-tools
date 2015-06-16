@@ -31921,6 +31921,10 @@ public final class BWalletMessage {
       Builder builder = new Builder(parent);
       return builder;
     }
+
+        public int getTxRequestType() {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
     /**
      * Protobuf type {@code TxRequest}
      *

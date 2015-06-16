@@ -5,30 +5,34 @@
  */
 package com.bdx.bwallet.tools.core;
 
-import com.bdx.bwallet.protobuf.BWalletMessage;
-import com.bdx.bwallet.protobuf.BWalletMessage.TxRequest;
-import com.bdx.bwallet.protobuf.BWalletType;
-import com.bdx.bwallet.tools.core.events.MessageEvent;
-import com.bdx.bwallet.tools.core.utils.TransactionUtils;
-import com.bdx.bwallet.tools.core.utils.MessageUtils;
-import com.google.common.base.Optional;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Lists;
-import com.google.protobuf.ByteString;
-import com.google.protobuf.Message;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+
+import org.apache.commons.codec.binary.Hex;
 import org.bitcoinj.core.Address;
 import org.bitcoinj.core.Transaction;
 import org.bitcoinj.core.TransactionInput;
 import org.bitcoinj.core.TransactionOutput;
 import org.bitcoinj.core.Utils;
 import org.bitcoinj.crypto.ChildNumber;
+import org.bitcoinj.crypto.DeterministicKey;
 import org.bitcoinj.params.MainNetParams;
 import org.bitcoinj.wallet.KeyChain;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.bdx.bwallet.protobuf.BWalletMessage;
+import com.bdx.bwallet.protobuf.BWalletMessage.TxRequest;
+import com.bdx.bwallet.protobuf.BWalletType;
+import com.bdx.bwallet.tools.core.events.MessageEvent;
+import com.bdx.bwallet.tools.core.utils.MessageUtils;
+import com.bdx.bwallet.tools.core.utils.TransactionUtils;
+import com.google.common.base.Optional;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
+import com.google.protobuf.ByteString;
+import com.google.protobuf.Message;
 
 /**
  *
@@ -330,9 +334,9 @@ public abstract class AbstractWalletClient implements WalletClient {
 
         // Assume we're working with the current (child) transaction to start with
         Optional<Transaction> requestedTx = Optional.of(tx);
-
+        
         // Check if the requested transaction is different to the current
-        boolean binOutputType = txHash.isPresent();
+        boolean binOutputType = txHash.isPresent() && txHash.get().length > 0;
         if (binOutputType) {
             // Need to look up a transaction by hash
             requestedTx = TransactionUtils.getTransactionByHash(tx, txHash.get());
@@ -380,6 +384,75 @@ public abstract class AbstractWalletClient implements WalletClient {
 
     }
 
+    @Override
+    public Optional<MessageEvent> multiTxAck(
+            TxRequest txRequest,
+            Transaction tx,
+            Map<Integer, ImmutableList<ChildNumber>> receivingAddressPathMap,
+            Map<Address, ImmutableList<ChildNumber>> changeAddressPathMap, 
+            List<DeterministicKey> multisigPubkeys, 
+            ImmutableList<ChildNumber> multisigBasePath, 
+            int multisigM, Map<Integer, Map<Integer, byte[]>> multisigSignatures) {
+
+        BWalletType.TransactionType txType = null;
+
+        // Get the transaction hash (if present)
+        Optional<byte[]> txHash = Optional.of(txRequest.getDetails().getTxHash().toByteArray());
+        
+        // Assume we're working with the current (child) transaction to start with
+        Optional<Transaction> requestedTx = Optional.of(tx);
+        
+        // Check if the requested transaction is different to the current
+        boolean binOutputType = txHash.isPresent() && txHash.get().length > 0;
+        if (binOutputType) {
+            // Need to look up a transaction by hash
+            requestedTx = TransactionUtils.getTransactionByHash(tx, txHash.get());
+
+            System.out.println("txHash " + Hex.encodeHexString(txHash.get()));
+            
+            // Check if the transaction was found
+            if (!requestedTx.isPresent()) {
+                log.error("Device requested unknown hash: {}", Utils.HEX.encode(txHash.get()));
+                throw new IllegalArgumentException("Device requested unknown hash.");
+            }
+
+        }
+
+        // Have the required transaction at this point
+        switch (txRequest.getRequestType()) {
+            case TXMETA:
+                txType = MessageUtils.buildTxMetaResponse(requestedTx);
+                break;
+            case TXINPUT:
+                txType = MessageUtils.buildTxInputResponseForMultisig(txRequest, requestedTx, binOutputType, receivingAddressPathMap, multisigPubkeys, multisigBasePath, multisigM, multisigSignatures);
+                break;
+            case TXOUTPUT:
+                txType = MessageUtils.buildTxOutputResponseForMultisig(txRequest, requestedTx, binOutputType, changeAddressPathMap, multisigPubkeys, multisigBasePath, multisigM, multisigSignatures);
+                break;
+            case TXFINISHED:
+                log.info("TxSign workflow complete.");
+                break;
+            default:
+                log.error("Unknown TxReturnType: {}", txRequest.getRequestType().name());
+                return Optional.absent();
+        }
+
+        // Must have fully processed the message to be here
+        if (txType != null) {
+            return sendMessage(
+                    BWalletMessage.TxAck
+                    .newBuilder()
+                    .setTx(txType)
+                    .build()
+            );
+        }
+
+        log.info("No TxAck required.");
+
+        return Optional.absent();
+
+    }
+    
     @Override
     public Optional<MessageEvent> pinMatrixAck(String pin) {
         return sendMessage(

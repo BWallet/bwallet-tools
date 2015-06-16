@@ -26,12 +26,12 @@ public class ApplySettingsFlow extends AbstractWalletFlow {
                 // No wallet creation required so we're done
                 HardwareWalletEvents.fireHardwareWalletEvent(HardwareWalletEventType.SHOW_OPERATION_SUCCEEDED, event.getMessage().get());
                 // Ensure the Features are updated
-                context.reset();
+                context.resetAllButFeatures();
                 break;
             case FAILURE:
                 // User has cancelled or operation failed
                 HardwareWalletEvents.fireHardwareWalletEvent(HardwareWalletEventType.SHOW_OPERATION_FAILED, event.getMessage().get());
-                context.reset();
+                context.resetAllButFeatures();
                 break;
             default:
                 handleUnexpectedMessageEvent(context, event);

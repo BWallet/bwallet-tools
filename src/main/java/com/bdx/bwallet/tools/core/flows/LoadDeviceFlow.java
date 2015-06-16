@@ -23,14 +23,14 @@ public class LoadDeviceFlow extends AbstractWalletFlow {
                 HardwareWalletEvents.fireHardwareWalletEvent(
                         HardwareWalletEventType.SHOW_OPERATION_SUCCEEDED, event
                         .getMessage().get());
-                context.reset();
+                context.resetAllButFeatures();
                 break;
             case FAILURE:
                 // User has cancelled or operation failed
                 HardwareWalletEvents.fireHardwareWalletEvent(
                         HardwareWalletEventType.SHOW_OPERATION_FAILED, event
                         .getMessage().get());
-                context.reset();
+                context.resetAllButFeatures();
                 break;
             default:
                 handleUnexpectedMessageEvent(context, event);

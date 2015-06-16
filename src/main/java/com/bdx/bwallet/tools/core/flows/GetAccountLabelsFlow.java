@@ -22,12 +22,12 @@ public class GetAccountLabelsFlow extends AbstractWalletFlow {
         switch (event.getEventType()) {
             case ACCOUNT_LABELS:
                 HardwareWalletEvents.fireHardwareWalletEvent(HardwareWalletEventType.ACCOUNT_LABELS, event.getMessage().get());
-                context.reset();
+                context.resetAllButFeatures();
                 break;
             case FAILURE:
                 // User has cancelled or operation failed
                 HardwareWalletEvents.fireHardwareWalletEvent(HardwareWalletEventType.SHOW_OPERATION_FAILED, event.getMessage().get());
-                context.reset();
+                context.resetAllButFeatures();
                 break;
             default:
                 handleUnexpectedMessageEvent(context, event);
