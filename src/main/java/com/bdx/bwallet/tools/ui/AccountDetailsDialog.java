@@ -31,6 +31,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.awt.image.BufferedImage;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -245,6 +246,8 @@ public final class AccountDetailsDialog extends javax.swing.JDialog implements W
         receivingAddressesLabel.setText(bundle.getString("AccountDetailsDialog.receivingAddressesLabel.text"));
         changeAddressesLabel.setText(bundle.getString("AccountDetailsDialog.changeAddressesLabel.text"));
         accountIndexTextField.setToolTipText(bundle.getString("AccountDetailsDialog.accountIndexTextField.toolTipText"));
+        findRButton.setText(bundle.getString("AccountDetailsDialog.findButton.text"));
+        findCButton.setText(bundle.getString("AccountDetailsDialog.findButton.text"));
         
         TableUtils.setHeader(rAddressTable, 0, bundle.getString("AccountDetailsDialog.rAddressTable.header.text.0"));
         TableUtils.setHeader(rAddressTable, 1, bundle.getString("AccountDetailsDialog.rAddressTable.header.text.1"));
@@ -281,6 +284,8 @@ public final class AccountDetailsDialog extends javax.swing.JDialog implements W
         accountPathLabel = new javax.swing.JLabel();
         receivingPathLabel = new javax.swing.JLabel();
         changePathLabel = new javax.swing.JLabel();
+        findRButton = new javax.swing.JButton();
+        findCButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Get Account Details");
@@ -413,6 +418,20 @@ public final class AccountDetailsDialog extends javax.swing.JDialog implements W
 
         changePathLabel.setText(" ");
 
+        findRButton.setText("Find");
+        findRButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                findRButtonActionPerformed(evt);
+            }
+        });
+
+        findCButton.setText("Find");
+        findCButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                findCButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -439,7 +458,7 @@ public final class AccountDetailsDialog extends javax.swing.JDialog implements W
                                     .addComponent(xpubPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(accountPathLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addGroup(layout.createSequentialGroup()
                                         .addGap(346, 346, 346)
                                         .addComponent(pRButton)
@@ -448,7 +467,10 @@ public final class AccountDetailsDialog extends javax.swing.JDialog implements W
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(receivingAddressesLabel)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(receivingPathLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addComponent(receivingPathLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(findRButton)
+                                        .addGap(2, 2, 2)))
                                 .addGap(18, 386, Short.MAX_VALUE)
                                 .addComponent(pCButton)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -461,8 +483,9 @@ public final class AccountDetailsDialog extends javax.swing.JDialog implements W
                                 .addGap(488, 488, 488)
                                 .addComponent(changeAddressesLabel)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(changePathLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE)))
+                                .addComponent(changePathLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(findCButton)))
                         .addGap(22, 22, 22))))
         );
         layout.setVerticalGroup(
@@ -479,7 +502,7 @@ public final class AccountDetailsDialog extends javax.swing.JDialog implements W
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(xpubPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(accountPathLabel))
                     .addComponent(jScrollPane1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -487,7 +510,9 @@ public final class AccountDetailsDialog extends javax.swing.JDialog implements W
                     .addComponent(receivingAddressesLabel)
                     .addComponent(changeAddressesLabel)
                     .addComponent(receivingPathLabel)
-                    .addComponent(changePathLabel))
+                    .addComponent(changePathLabel)
+                    .addComponent(findRButton)
+                    .addComponent(findCButton))
                 .addGap(3, 3, 3)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -579,6 +604,63 @@ public final class AccountDetailsDialog extends javax.swing.JDialog implements W
         }
     }//GEN-LAST:event_nCButtonActionPerformed
 
+    private void findCButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_findCButtonActionPerformed
+        this.findAddress(1, cAddressTable, pCButton);
+    }//GEN-LAST:event_findCButtonActionPerformed
+
+    private void findRButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_findRButtonActionPerformed
+        this.findAddress(0, rAddressTable, pRButton);
+    }//GEN-LAST:event_findRButtonActionPerformed
+
+    private void findAddress(int purpose, javax.swing.JTable addressTable, javax.swing.JButton pButton) {
+        if (xpub != null) {
+            AccountDetailsFindDialog findDialog = new AccountDetailsFindDialog(this, true, bundle);
+            findDialog.setLocationRelativeTo(null);
+            findDialog.setVisible(true);
+            if (!findDialog.isCancel()) {
+                String address = findDialog.getAddress();
+                DeterministicKey parentKey = HDKeyDerivation.deriveChildKey(xpub, purpose);
+                int findIndex = -1;
+                for (int i = 0; i <= Integer.MAX_VALUE; i++) {
+                    DeterministicKey key = HDKeyDerivation.deriveChildKey(parentKey, i);
+                    if (key.toAddress(MainNetParams.get()).toString().equals(address)) {
+                        findIndex = i;
+                        break;
+                    }
+                    if (i > 0 && i % 10000 == 0) {
+                        int reply = JOptionPane.showConfirmDialog(this, MessageFormat.format(bundle.getString("AccountDetailsDialog.MessageDialog.continueFind"), new Object[]{i}), "", JOptionPane.YES_NO_OPTION);
+                        if (reply != JOptionPane.YES_OPTION) { 
+                            break;
+                        }
+                    }
+                }
+                if (findIndex > -1) {
+                    this.setCurrentPage(purpose, findIndex / PAGE_SIZE);
+                    if (this.getCurrentPage(purpose) < 1) 
+                        pButton.setEnabled(false);
+                     else
+                        pButton.setEnabled(true);
+                    updateAddressTable(HDKeyDerivation.deriveChildKey(xpub, purpose), (DefaultTableModel) addressTable.getModel(), this.getCurrentPage(purpose));
+                    addressTable.setRowSelectionInterval(findIndex % PAGE_SIZE, findIndex % PAGE_SIZE);
+                }
+            }
+        }
+    }
+    
+    private void setCurrentPage(int purpose, int currentPage) {
+        if (purpose == 0)
+            rCurrentPage = currentPage;
+        else
+            cCurrentPage = currentPage;
+    }
+    
+    private int getCurrentPage(int purpose) {
+        if (purpose == 0)
+            return rCurrentPage;
+        else
+            return cCurrentPage;
+    }
+    
     @Subscribe
     public void onHardwareWalletEvent(HardwareWalletEvent event) {
         System.out.println(event.getEventType());
@@ -785,6 +867,8 @@ public final class AccountDetailsDialog extends javax.swing.JDialog implements W
     private javax.swing.JTable cAddressTable;
     private javax.swing.JLabel changeAddressesLabel;
     private javax.swing.JLabel changePathLabel;
+    private javax.swing.JButton findCButton;
+    private javax.swing.JButton findRButton;
     private javax.swing.JButton getButton;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;

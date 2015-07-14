@@ -51,7 +51,7 @@
                               </Group>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
-                              <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                   <Group type="102" alignment="0" attributes="0">
                                       <EmptySpace min="-2" pref="346" max="-2" attributes="0"/>
                                       <Component id="pRButton" min="-2" max="-2" attributes="0"/>
@@ -61,7 +61,10 @@
                                   <Group type="102" alignment="0" attributes="0">
                                       <Component id="receivingAddressesLabel" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="receivingPathLabel" min="-2" pref="250" max="-2" attributes="0"/>
+                                      <Component id="receivingPathLabel" min="-2" pref="235" max="-2" attributes="0"/>
+                                      <EmptySpace max="32767" attributes="0"/>
+                                      <Component id="findRButton" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                               <EmptySpace type="separate" pref="386" max="32767" attributes="0"/>
@@ -78,8 +81,9 @@
                               <EmptySpace min="-2" pref="488" max="-2" attributes="0"/>
                               <Component id="changeAddressesLabel" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="changePathLabel" min="-2" pref="268" max="-2" attributes="0"/>
-                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                              <Component id="changePathLabel" min="-2" pref="235" max="-2" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
+                              <Component id="findCButton" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
@@ -103,7 +107,7 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
                       <Component id="xpubPanel" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="13" max="32767" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                       <Component id="accountPathLabel" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Component id="jScrollPane1" max="32767" attributes="0"/>
@@ -114,6 +118,8 @@
                   <Component id="changeAddressesLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="receivingPathLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="changePathLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="findRButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="findCButton" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="3" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
@@ -355,6 +361,22 @@
       <Properties>
         <Property name="text" type="java.lang.String" value=" "/>
       </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="findRButton">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Find"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="findRButtonActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="findCButton">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Find"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="findCButtonActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>
